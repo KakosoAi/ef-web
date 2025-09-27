@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
 import { Button } from '@/shared/ui/button';
-// Test comment for pre-commit hook
 import {
   Truck,
   Settings,
