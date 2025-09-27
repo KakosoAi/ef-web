@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { Search, Menu, X, MapPin, Phone, User, Heart, ChevronDown, Settings } from 'lucide-react';
+import { Search, Menu, X, MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
 
 const Header = memo(() => {
@@ -53,21 +54,21 @@ const Header = memo(() => {
       {/* Top Bar */}
       <div className='border-b border-border bg-muted/50'>
         <div className='container mx-auto px-4'>
-          <div className='flex items-center justify-between h-10 text-sm'>
-            <div className='flex items-center space-x-6 text-muted-foreground'>
+          <div className='flex items-center justify-between h-8 text-xs'>
+            <div className='flex items-center space-x-4 text-muted-foreground'>
               <div className='flex items-center space-x-1'>
-                <MapPin className='h-3 w-3' />
+                <MapPin className='h-2.5 w-2.5' />
                 <span>{contactInfo.locations.join(', ')}</span>
               </div>
               <div className='flex items-center space-x-1'>
-                <Phone className='h-3 w-3' />
+                <Phone className='h-2.5 w-2.5' />
                 <span>{contactInfo.phone}</span>
               </div>
             </div>
-            <div className='flex items-center space-x-4 text-muted-foreground'>
-              <span>العربية</span>
-              <span>|</span>
-              <span>English</span>
+            {/* Language Selector */}
+            <div className='flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-md px-2 py-1 hover:bg-primary/15 transition-colors cursor-pointer'>
+              <span className='text-xs font-medium text-primary'>EN</span>
+              <ChevronDown className='h-2.5 w-2.5 text-primary' />
             </div>
           </div>
         </div>
@@ -75,12 +76,16 @@ const Header = memo(() => {
 
       {/* Main Header */}
       <div className='container mx-auto px-4'>
-        <div className='flex items-center justify-between h-20'>
+        <div className='flex items-center justify-between h-16'>
           {/* Logo */}
           <div className='flex items-center space-x-3'>
-            <div className='w-10 h-10 bg-primary rounded-lg flex items-center justify-center'>
-              <Settings className='h-6 w-6 text-primary-foreground' />
-            </div>
+            <Image
+              src='/assets/ef-logo.svg'
+              alt='EF Logo'
+              width={40}
+              height={40}
+              className='w-10 h-10'
+            />
             <div className='text-2xl font-display font-bold'>{siteConfig.name}</div>
           </div>
 
@@ -200,20 +205,7 @@ const Header = memo(() => {
             </Button>
           </nav>
 
-          {/* Quick Search */}
-          <div className='hidden md:flex items-center space-x-2 bg-muted/50 border border-border rounded-xl px-4 py-3 min-w-[300px]'>
-            <Search
-              className='h-4 w-4 text-muted-foreground cursor-pointer'
-              onClick={handleQuickSearch}
-            />
-            <Input
-              placeholder='Search equipment, brands, locations...'
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && handleQuickSearch()}
-              className='border-0 bg-transparent focus-visible:ring-0 h-auto p-0 text-foreground placeholder:text-muted-foreground'
-            />
-          </div>
+
 
           {/* User Actions */}
           <div className='flex items-center space-x-2'>
