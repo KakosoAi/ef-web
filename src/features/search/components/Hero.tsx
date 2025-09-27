@@ -21,42 +21,29 @@ const Hero = memo(() => {
 
   const equipmentTypes = useMemo(() => equipmentCategories, []);
 
-  const quickStats = useMemo(
-    () => [
-      { id: 'equipment', value: '5,000+', label: 'Equipment Listed' },
-      { id: 'dealers', value: '850+', label: 'Verified Dealers' },
-      { id: 'emirates', value: '6', label: 'Emirates Covered' },
-      { id: 'types', value: '15+', label: 'Equipment Types' },
-    ],
-    []
-  );
-
   return (
-    <section className='relative min-h-[80vh] flex items-center justify-center overflow-hidden'>
-      {/* Background Image with Overlay */}
+    <section className='relative min-h-[60vh] flex items-center justify-center overflow-hidden'>
+      {/* Background Image with Blur */}
       <div
-        className='absolute inset-0 bg-cover bg-center bg-no-repeat'
+        className='absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm scale-110'
         style={{ backgroundImage: `url(/assets/hero-equipment.jpg)` }}
       >
-        <div className='absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent' />
       </div>
 
       {/* Content */}
       <div className='relative z-10 container mx-auto px-4 py-20'>
-        <div className='max-w-4xl mx-auto text-center text-white'>
+        <div className='max-w-3xl mx-auto text-center text-white'>
           {/* Hero Heading */}
           <div className='animate-fade-in-up'>
             <h1 className='text-4xl md:text-6xl font-display font-bold mb-6 leading-tight'>
               Find <span className='text-primary'>Heavy Equipment</span>
               <span className='block text-white/90'>Across Middle East</span>
             </h1>
-            <p className='text-lg md:text-xl mb-8 text-white/80 max-w-xl mx-auto leading-relaxed'>
-              Connect with verified dealers. Buy, rent, or sell with confidence.
-            </p>
+
           </div>
 
           {/* Search Section */}
-          <div className='search-hero max-w-4xl mx-auto animate-scale-in'>
+          <div className='search-hero max-w-2xl mx-auto animate-scale-in'>
             <div className='flex flex-col lg:flex-row gap-4 mb-6'>
               {/* Search Input */}
               <div className='flex-1 relative'>
@@ -129,40 +116,11 @@ const Hero = memo(() => {
               </Button>
             </div>
           </div>
-
-          {/* Quick Stats */}
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 animate-slide-in-right'>
-            {quickStats.map(stat => (
-              <div key={stat.id} className='text-center'>
-                <div className='text-3xl md:text-4xl font-bold text-secondary mb-2'>
-                  {stat.value}
-                </div>
-                <div className='text-white/80'>{stat.label}</div>
-              </div>
-            ))}
-          </div>
+ 
         </div>
       </div>
 
-      {/* Popular Searches */}
-      <div className='absolute bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border/20'>
-        <div className='container mx-auto px-4 py-4'>
-          <div className='flex flex-wrap items-center justify-center gap-2 text-sm'>
-            <span className='text-muted-foreground font-medium'>Popular:</span>
-            {equipmentTypes.slice(0, 6).map(type => (
-              <Button
-                key={type}
-                variant='ghost'
-                size='sm'
-                className='text-muted-foreground hover:text-secondary'
-                onClick={() => router.push(`/search?category=${encodeURIComponent(type)}`)}
-              >
-                {type}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
+ 
     </section>
   );
 });
