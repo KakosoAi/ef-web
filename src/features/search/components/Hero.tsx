@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -10,7 +10,27 @@ import { equipmentCategories } from '@/shared/constants';
 const Hero = memo(() => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('buy'); // 'buy' or 'rent'
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const router = useRouter();
+
+  // Equipment images for carousel
+  const equipmentImages = [
+    '/assets/equipment/cat-320d-excavator-1.jpg',
+    '/assets/equipment/liebherr-crane.jpg',
+    '/assets/equipment/cat-wheel-loader.jpg',
+    '/assets/equipment/dump-truck.jpg',
+    '/assets/equipment/cat-bulldozer.jpg',
+    '/assets/equipment/scissor-lift.jpg',
+  ];
+
+  // Auto-rotate images every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(prevIndex => (prevIndex + 1) % equipmentImages.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [equipmentImages.length]);
 
   const handleSearch = useCallback(() => {
     const params = new URLSearchParams();
@@ -22,16 +42,27 @@ const Hero = memo(() => {
   const equipmentTypes = useMemo(() => equipmentCategories, []);
 
   return (
-    <section className='relative min-h-[50vh] flex items-center justify-center overflow-hidden'>
-      {/* Background Image with Blur */}
-      <div
-        className='absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm scale-110'
-        style={{ backgroundImage: `url(/assets/hero-equipment.jpg)` }}
-      >
+    <section className='relative min-h-[60vh] flex items-center justify-center overflow-hidden'>
+      {/* Animated Background Carousel */}
+      <div className='absolute inset-0'>
+        {equipmentImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm scale-125 transition-all duration-1000 ease-in-out ${
+              index === currentImageIndex
+                ? 'opacity-100 translate-x-0'
+                : index ===
+                    (currentImageIndex - 1 + equipmentImages.length) % equipmentImages.length
+                  ? 'opacity-0 -translate-x-full'
+                  : 'opacity-0 translate-x-full'
+            }`}
+            style={{ backgroundImage: `url(${image})` }}
+          />
+        ))}
       </div>
-      
+
       {/* Gradient Overlay */}
-      <div className='absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50'></div>
+      <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60'></div>
 
       {/* Content */}
       <div className='relative z-10 container mx-auto px-4 py-12'>
@@ -78,32 +109,27 @@ const Hero = memo(() => {
             <div className='flex gap-3 mb-6'>
               {/* Search Input */}
               <div className='flex-1 relative'>
-                <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500' />
+                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500' />
                 <Input
                   placeholder='Search for equipment, brand, or model...'
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className='pl-10 h-12 text-base border-gray-300 bg-white/95 backdrop-blur-sm text-gray-900 placeholder:text-gray-500 shadow-lg focus:shadow-xl transition-all duration-300'
+                  className='pl-12 h-16 text-lg border-gray-300 bg-white/95 backdrop-blur-sm text-gray-900 placeholder:text-gray-500 shadow-lg focus:shadow-xl transition-all duration-300'
                 />
               </div>
 
               {/* Search Button */}
               <Button
                 onClick={handleSearch}
-                className='h-12 px-6 text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg'
+                className='h-16 px-8 text-lg font-semibold bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg'
               >
-                <Search className='h-4 w-4 mr-2' />
+                <Search className='h-5 w-5 mr-2' />
                 Search
               </Button>
             </div>
-
-
           </div>
- 
         </div>
       </div>
-
- 
     </section>
   );
 });
