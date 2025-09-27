@@ -96,6 +96,44 @@ bun dev
 - `npm run clean` - Clean build artifacts
 - `npm run preview` - Build and preview production build
 
+## 🎯 Pre-commit Hooks
+
+This project uses **Husky** and **lint-staged** to ensure code quality before commits:
+
+### What Runs on Pre-commit
+
+1. **Lint-staged**: Runs ESLint and Prettier on staged files
+2. **TypeScript Check**: Validates TypeScript types across the entire project
+
+### Configuration
+
+- **Husky**: Manages Git hooks in `.husky/pre-commit`
+- **lint-staged**: Configured in `package.json` to run:
+  - `eslint --fix` on JavaScript/TypeScript files
+  - `prettier --write` on supported files (JS, TS, JSON, CSS, MD)
+
+### Benefits
+
+- ✅ Catches linting errors before commit
+- ✅ Automatically formats code
+- ✅ Ensures type safety
+- ✅ Prevents broken code from entering the repository
+
+### Manual Testing
+
+You can test the hooks manually:
+
+```bash
+# Test linting
+npm run lint
+
+# Test type checking
+npm run type-check
+
+# Test both (like pre-commit)
+npm run lint && npm run type-check
+```
+
 ## 🔧 Development Guidelines
 
 ### Code Quality
