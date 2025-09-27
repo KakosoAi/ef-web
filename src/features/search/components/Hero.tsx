@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, memo, useEffect } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -10,27 +10,7 @@ import { equipmentCategories } from '@/shared/constants';
 const Hero = memo(() => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('buy'); // 'buy' or 'rent'
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const router = useRouter();
-
-  // Equipment images for carousel
-  const equipmentImages = [
-    '/assets/equipment/cat-320d-excavator-1.jpg',
-    '/assets/equipment/liebherr-crane.jpg',
-    '/assets/equipment/cat-wheel-loader.jpg',
-    '/assets/equipment/dump-truck.jpg',
-    '/assets/equipment/cat-bulldozer.jpg',
-    '/assets/equipment/scissor-lift.jpg',
-  ];
-
-  // Auto-rotate images every 4 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex(prevIndex => (prevIndex + 1) % equipmentImages.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [equipmentImages.length]);
 
   const handleSearch = useCallback(() => {
     const params = new URLSearchParams();
@@ -43,23 +23,11 @@ const Hero = memo(() => {
 
   return (
     <section className='relative min-h-[60vh] flex items-center justify-center overflow-hidden'>
-      {/* Animated Background Carousel */}
-      <div className='absolute inset-0'>
-        {equipmentImages.map((image, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm scale-125 transition-all duration-1000 ease-in-out ${
-              index === currentImageIndex
-                ? 'opacity-100 translate-x-0'
-                : index ===
-                    (currentImageIndex - 1 + equipmentImages.length) % equipmentImages.length
-                  ? 'opacity-0 -translate-x-full'
-                  : 'opacity-0 translate-x-full'
-            }`}
-            style={{ backgroundImage: `url(${image})` }}
-          />
-        ))}
-      </div>
+      {/* Static Background */}
+      <div
+        className='absolute inset-0 bg-cover bg-center bg-no-repeat'
+        style={{ backgroundImage: 'url(/assets/hero-equipment.jpg)' }}
+      />
 
       {/* Gradient Overlay */}
       <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60'></div>
