@@ -39,7 +39,7 @@ const Hero = memo(() => {
           {/* Hero Heading */}
           <div className='animate-fade-in-up'>
             <h1 className='text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white drop-shadow-lg'>
-              Middle East's <span className='text-yellow-400'>#1</span>
+              Middle East&apos;s <span className='text-yellow-400'>#1</span>
               <span className='block text-white'>Equipment Marketplace</span>
             </h1>
             <p className='text-base md:text-lg text-gray-200 mb-6 max-w-xl mx-auto drop-shadow-md'>
