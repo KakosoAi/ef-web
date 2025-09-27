@@ -1,7 +1,1 @@
-export { 
-  siteConfig, 
-  contactInfo, 
-  routes, 
-  equipmentCategories, 
-  equipmentConditions 
-} from './site';
+export { siteConfig, contactInfo, routes, equipmentCategories, equipmentConditions } from './site';

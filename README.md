@@ -51,18 +51,20 @@ A modern Next.js application for buying, selling, and renting heavy machinery an
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm, yarn, or bun
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd machinery-vision
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -72,6 +74,7 @@ bun install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 # or
@@ -113,6 +116,7 @@ bun dev
 ## 🎨 UI Components
 
 This project uses a combination of:
+
 - **Radix UI**: Accessible, unstyled components
 - **Tailwind CSS**: Utility-first CSS framework
 - **Custom Components**: Built on top of Radix UI primitives
@@ -120,6 +124,7 @@ This project uses a combination of:
 ## 📱 Responsive Design
 
 The application is fully responsive and optimized for:
+
 - Desktop (1024px+)
 - Tablet (768px - 1023px)
 - Mobile (320px - 767px)
@@ -135,6 +140,7 @@ The application is fully responsive and optimized for:
 ## 🚀 Deployment
 
 The application can be deployed on:
+
 - **Vercel** (recommended for Next.js)
 - **Netlify**
 - **AWS Amplify**

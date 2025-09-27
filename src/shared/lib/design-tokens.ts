@@ -242,7 +242,7 @@ export const commonStyles = {
   },
 } as const;
 
-export default {
+const designTokens = {
   colors,
   typography,
   spacing,
@@ -258,3 +258,5 @@ export default {
   getShadow,
   commonStyles,
 };
+
+export default designTokens;

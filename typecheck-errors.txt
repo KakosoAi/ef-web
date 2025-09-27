@@ -1,0 +1,43 @@
+﻿
+> ef-web@0.0.0 type-check
+> tsc --noEmit
+
+app/page.tsx(6,8): error TS1192: Module '"D:/Projects/TeamKakoso/ef-web/src/features/categories/components/Categories"' has no default export.
+src/features/equipment/components/FeaturedEquipment.tsx(115,9): error TS6133: 'handleToggleFavorite' is declared but its value is never read.
+src/features/equipment/components/FeaturedEquipment.tsx(115,45): error TS6133: 'id' is declared but its value is never read.
+src/features/layout/components/Header.tsx(27,9): error TS6133: 'handleSearchInputChange' is declared but its value is never read.
+src/features/layout/components/Header.tsx(31,9): error TS6133: 'handleSearchKeyPress' is declared but its value is never read.
+src/features/layout/components/Header.tsx(40,9): error TS6133: 'toggleBuyDropdown' is declared but its value is never read.
+src/features/layout/components/Header.tsx(45,9): error TS6133: 'toggleRentDropdown' is declared but its value is never read.
+src/features/search/components/Hero.tsx(8,1): error TS6133: 'SearchFormData' is declared but its value is never read.
+src/features/search/components/Hero.tsx(25,9): error TS6133: 'popularLocations' is declared but its value is never read.
+src/shared/services/equipment.ts(5,29): error TS6133: 'id' is declared but its value is never read.
+src/shared/services/equipment.ts(11,37): error TS6133: 'limit' is declared but its value is never read.
+src/shared/services/equipment.ts(17,32): error TS6133: 'params' is declared but its value is never read.
+src/shared/services/equipment.ts(30,39): error TS6133: 'category' is declared but its value is never read.
+src/shared/services/equipment.ts(30,57): error TS6133: 'limit' is declared but its value is never read.
+src/shared/types/search.ts(25,14): error TS2304: Cannot find name 'Equipment'.
+src/shared/ui/calendar.tsx(13,9): error TS6133: 'theme' is declared but its value is never read.
+src/shared/ui/calendar.tsx(79,12): error TS2552: Cannot find name 'classNames'. Did you mean 'className'?
+src/shared/ui/calendar.tsx(96,42): error TS2312: An interface can only extend an object type or intersection of object types with statically known members.
+src/shared/ui/calendar.tsx(110,3): error TS2339: Property 'className' does not exist on type 'DatePickerProps'.
+src/shared/ui/carousel.tsx(5,33): error TS6133: 'Circle' is declared but its value is never read.
+src/shared/ui/carousel.tsx(5,41): error TS6133: 'Dot' is declared but its value is never read.
+src/shared/ui/carousel.tsx(71,11): error TS6133: 'theme' is declared but its value is never read.
+src/shared/ui/carousel.tsx(110,11): error TS6133: 'scrollTo' is declared but its value is never read.
+src/shared/ui/chart.tsx(159,78): error TS2345: Argument of type 'ReactNode' is not assignable to parameter of type 'string | number'.
+  Type 'undefined' is not assignable to type 'string | number'.
+src/shared/ui/chart.tsx(186,31): error TS6133: 'index' is declared but its value is never read.
+src/shared/ui/chart.tsx(189,45): error TS18048: 'item.payload' is possibly 'undefined'.
+src/shared/ui/command.tsx(4,25): error TS6133: 'ChevronRight' is declared but its value is never read.
+src/shared/ui/command.tsx(9,10): error TS2614: Module '"@/shared/lib/design-tokens"' has no exported member 'designTokens'. Did you mean to use 'import designTokens from "@/shared/lib/design-tokens"' instead?
+src/shared/ui/command.tsx(341,78): error TS2552: Cannot find name 'className'. Did you mean '_className'?
+src/shared/ui/context-menu.tsx(164,78): error TS2552: Cannot find name 'className'. Did you mean '_className'?
+src/shared/ui/drawer.tsx(87,9): error TS6133: 'theme' is declared but its value is never read.
+src/shared/ui/dropdown-menu.tsx(164,71): error TS2552: Cannot find name 'className'. Did you mean '_className'?
+src/shared/ui/input-otp.tsx(8,10): error TS2614: Module '"@/shared/lib/design-tokens"' has no exported member 'designTokens'. Did you mean to use 'import designTokens from "@/shared/lib/design-tokens"' instead?
+src/shared/ui/input-otp.tsx(101,11): error TS2312: An interface can only extend an object type or intersection of object types with statically known members.
+src/shared/ui/input-otp.tsx(110,6): error TS2339: Property 'className' does not exist on type 'InputOTPProps'.
+src/shared/ui/input-otp.tsx(114,8): error TS2322: Type '{ ref: ForwardedRef<HTMLInputElement>; containerClassName: string; className: string; disabled: boolean | undefined; style: { fontFamily: any; }; }' is not assignable to type 'IntrinsicAttributes & (OTPInputProps & RefAttributes<HTMLInputElement>)'.
+  Property 'maxLength' is missing in type '{ ref: ForwardedRef<HTMLInputElement>; containerClassName: string; className: string; disabled: boolean | undefined; style: { fontFamily: any; }; }' but required in type '{ value?: string | undefined; onChange?: ((newValue: string) => unknown) | undefined; maxLength: number; textAlign?: "center" | "left" | "right" | undefined; onComplete?: ((...args: any[]) => unknown) | undefined; pushPasswordManagerStrategy?: "increase-width" | ... 1 more ... | undefined; pasteTransformer?: ((paste...'.
+src/shared/ui/input-otp.tsx(319,38): error TS2339: Property 'success' does not exist on type '{ background: any; foreground: any; muted: any; mutedForeground: any; border: any; input: any; ring: any; destructive: any; }'.

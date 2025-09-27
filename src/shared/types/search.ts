@@ -1,3 +1,6 @@
+// Import Equipment type first
+import type { Equipment } from '@/shared/types/equipment';
+
 export interface SearchParams {
   q?: string;
   location?: string;
@@ -34,6 +37,3 @@ export interface SearchFormData {
   location: string;
   category?: string;
 }
-
-// Re-export Equipment type for convenience
-export type { Equipment } from './equipment';

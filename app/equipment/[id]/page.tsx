@@ -1,71 +1,64 @@
-'use client'
+'use client';
 
-import { useParams, useRouter } from 'next/navigation'
-import EquipmentDetail from '@/features/equipment/components/EquipmentDetail'
-import Header from '@/features/layout/components/Header'
-import Footer from '@/features/layout/components/Footer'
+import { useParams, useRouter } from 'next/navigation';
+import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
+import Header from '@/features/layout/components/Header';
+import Footer from '@/features/layout/components/Footer';
 
-// Mock data - in a real app this would come from an API
+// Mock data for now - replace with actual data fetching
 const mockEquipment = {
   id: 1,
   title: 'CAT 320D Excavator',
   year: 2019,
-  hours: '2,500 hrs',
+  hours: '2,400',
   price: 'AED 185,000',
-  priceType: 'Fixed Price',
-  location: 'Dubai, UAE',
-  dealer: 'Heavy Equipment Dubai',
+  priceType: 'For Sale' as const,
+  location: 'Dubai',
+  dealer: 'Heavy Equipment UAE',
   verified: true,
   rating: 4.8,
-  images: [
-    '/assets/equipment/cat-320d-excavator-1.jpg',
-    '/assets/equipment/cat-320d-excavator-2.jpg',
-    '/assets/equipment/cat-320d-excavator-3.jpg',
-  ],
-  features: [
-    'Air Conditioning',
-    'GPS Tracking',
-    'Hydraulic Thumb',
-    'Quick Coupler',
-    'LED Work Lights',
-    'Backup Camera'
-  ],
+  image: '/assets/equipment/cat-320d-excavator-1.jpg',
+  images: ['/assets/equipment/cat-320d-excavator-1.jpg'],
+  features: ['GPS Tracking', 'Climate Control', 'Low Hours'],
   condition: 'Excellent',
   category: 'Excavators',
-  description: 'Well-maintained CAT 320D excavator in excellent condition. Perfect for construction and excavation projects. Regular maintenance performed by authorized Caterpillar service center.',
+  description: 'Excellent condition CAT 320D excavator with low operating hours. Perfect for construction projects.',
   specifications: {
     make: 'Caterpillar',
     model: '320D',
-    serialNumber: 'CAT320D12345',
-    enginePower: '122 kW (163 HP)',
+    serialNumber: 'CAT320D2019001',
+    enginePower: '140 HP',
     fuelType: 'Diesel',
-    weight: '20,000 kg'
+    operatingWeight: '20,000 kg',
+    bucketCapacity: '0.9 m³',
+    maxDigDepth: '6.5 m',
+    maxReach: '9.8 m',
+    travelSpeed: '5.5 km/h',
+    hydraulicFlow: '280 L/min',
+    groundPressure: '0.45 kg/cm²'
   }
-}
+};
 
 export default function EquipmentDetailPage() {
-  const params = useParams()
-  const router = useRouter()
-  const { id } = params
+  const params = useParams();
+  const router = useRouter();
+  const { id } = params;
 
   const handleBack = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   // In a real app, you would fetch the equipment data based on the ID
   // For now, we'll use the mock data
-  const equipment = mockEquipment
+  const equipment = { ...mockEquipment, id: Number(id) };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Header />
       <main>
-        <EquipmentDetail 
-          equipment={equipment} 
-          onBack={handleBack}
-        />
+        <EquipmentDetail equipment={equipment} onClose={handleBack} />
       </main>
       <Footer />
     </div>
-  )
+  );
 }

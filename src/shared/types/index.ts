@@ -4,23 +4,14 @@ export type {
   EquipmentSpecifications,
   EquipmentCard,
   EquipmentDetailProps,
-  EquipmentFilters
+  EquipmentFilters,
 } from './equipment';
 
 // Search types
-export type {
-  SearchParams,
-  SearchFilters,
-  SearchResult,
-  SearchFormData
-} from './search';
+export type { SearchParams, SearchFilters, SearchResult, SearchFormData } from './search';
 
 // Category types
-export type {
-  Category,
-  CategoryGrid,
-  CategoryStats
-} from './categories';
+export type { Category, CategoryGrid, CategoryStats } from './categories';
 
 // Common UI types
 export interface NavItem {
