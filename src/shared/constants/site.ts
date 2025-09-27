@@ -1,7 +1,7 @@
 import { SiteConfig } from '@/shared/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'Equipment Finder',
+  name: 'Equipment Finders',
   description:
     "UAE's premier marketplace for heavy equipment and machinery. Buy, sell, and rent construction equipment with confidence.",
   url: 'https://equipment-finder.com',
