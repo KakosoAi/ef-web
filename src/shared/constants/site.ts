@@ -1,22 +1,22 @@
 import { SiteConfig } from '@/shared/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'Machinery Vision',
+  name: 'Equipment Finder',
   description:
     "UAE's premier marketplace for heavy equipment and machinery. Buy, sell, and rent construction equipment with confidence.",
-  url: 'https://machinery-vision.com',
-  ogImage: 'https://machinery-vision.com/og.jpg',
+  url: 'https://equipment-finder.com',
+  ogImage: 'https://equipment-finder.com/og.jpg',
   links: {
-    twitter: 'https://twitter.com/machineryvision',
-    github: 'https://github.com/machineryvision',
+    twitter: 'https://twitter.com/equipmentfinder',
+    github: 'https://github.com/equipmentfinder',
   },
 };
 
 export const contactInfo = {
-  phone: '+971 XXX XXXX',
-  email: 'info@machinery-vision.com',
+  phone: '+971 4 567 8900',
+  email: 'info@equipment-finder.com',
   address: 'Dubai, United Arab Emirates',
-  locations: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah'],
+  locations: ['UAE Emirates'],
 };
 
 export const routes = {
