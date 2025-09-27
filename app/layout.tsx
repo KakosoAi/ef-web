@@ -4,7 +4,7 @@ import './globals.css';
 import { Toaster } from '@/shared/ui/sonner';
 import { TooltipProvider } from '@/shared/ui/tooltip';
 // Removed unused import - QueryClientProvider is used in providers.tsx
-import { ReactQueryProvider } from './providers';
+import { AppProviders } from './providers';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en' className={`${inter.variable} ${poppins.variable}`}>
+    <html lang='en' className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
       <body className={inter.className}>
-        <ReactQueryProvider>
+        <AppProviders>
           <TooltipProvider>
             {children}
             <Toaster />
           </TooltipProvider>
-        </ReactQueryProvider>
+        </AppProviders>
       </body>
     </html>
   );

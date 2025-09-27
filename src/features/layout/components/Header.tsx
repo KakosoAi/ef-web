@@ -8,6 +8,7 @@ import { Input } from '@/shared/ui/input';
 import { Search, Menu, X, MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
+import { ToggleTheme } from '@/shared/ui/toggle-theme';
 
 const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +34,7 @@ const Header = memo(() => {
   // const handleSearchKeyPress = useCallback(
   //   (e: React.KeyboardEvent<HTMLInputElement>) => {
   //     if (e.key === 'Enter') {
- //       handleQuickSearch();
+  //       handleQuickSearch();
   //     }
   //   },
   //   [handleQuickSearch]
@@ -65,10 +66,14 @@ const Header = memo(() => {
                 <span>{contactInfo.phone}</span>
               </div>
             </div>
-            {/* Language Selector */}
-            <div className='flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-md px-2 py-1 hover:bg-primary/15 transition-colors cursor-pointer'>
-              <span className='text-xs font-medium text-primary'>EN</span>
-              <ChevronDown className='h-2.5 w-2.5 text-primary' />
+            <div className='flex items-center space-x-3'>
+              {/* Theme Toggle */}
+              <ToggleTheme />
+              {/* Language Selector */}
+              <div className='flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-md px-2 py-1 hover:bg-primary/15 transition-colors cursor-pointer'>
+                <span className='text-xs font-medium text-primary'>EN</span>
+                <ChevronDown className='h-2.5 w-2.5 text-primary' />
+              </div>
             </div>
           </div>
         </div>
@@ -204,8 +209,6 @@ const Header = memo(() => {
               About
             </Button>
           </nav>
-
-
 
           {/* User Actions */}
           <div className='flex items-center space-x-2'>
