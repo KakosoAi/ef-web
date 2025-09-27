@@ -1,0 +1,13 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Business Questions & Stakeholder Support
+    url: https://github.com/your-username/your-repo/discussions
+    about: Have business questions or need stakeholder support? Start a discussion here.
+  
+  - name: 📚 Business Documentation & Wiki
+    url: https://github.com/your-username/your-repo/wiki
+    about: Access business documentation, user guides, and technical specifications.
+  
+  - name: 🚨 Emergency Support
+    url: mailto:support@yourcompany.com
+    about: For critical production issues affecting business operations, contact emergency support.
