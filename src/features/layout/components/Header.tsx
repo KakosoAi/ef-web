@@ -6,6 +6,7 @@ import { MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
 import { ToggleTheme } from '@/shared/ui/toggle-theme';
+import { ToggleLanguage } from '@/shared/ui/toggle-language';
 import { NavigationMenuDemo } from './NavigationMenuDemo';
 
 const Header = memo(() => {
@@ -28,11 +29,8 @@ const Header = memo(() => {
             <div className='flex items-center space-x-3'>
               {/* Theme Toggle */}
               <ToggleTheme />
-              {/* Language Selector */}
-              <div className='flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-md px-2 py-1 hover:bg-primary/15 transition-colors cursor-pointer'>
-                <span className='text-xs font-medium text-primary'>EN</span>
-                <ChevronDown className='h-2.5 w-2.5 text-primary' />
-              </div>
+              {/* Language Toggle */}
+              <ToggleLanguage />
             </div>
           </div>
         </div>
