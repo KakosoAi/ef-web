@@ -1,67 +1,64 @@
 import { memo, useMemo } from 'react';
-import { Button } from '@/shared/ui/button';
-import {
-  Truck,
-  Settings,
-  Building2,
-  Zap,
-  Wrench,
-  Package,
-  Mountain,
-  ArrowRight,
-} from 'lucide-react';
+import Image from 'next/image';
 import { Category } from '@/shared/types';
 
+interface CategoryWithImage {
+  name: string;
+  image: string;
+  count: string;
+  description: string;
+}
+
 const Categories = memo(() => {
-  const categories: Category[] = useMemo(
+  const categories: CategoryWithImage[] = useMemo(
     () => [
       {
-        name: 'Excavators',
-        icon: Settings,
+        name: 'PLANT & FACILITY EQUIPMENT',
+        image: '/assets/categories/plant-facility.svg',
         count: '1,245',
-        description: 'Heavy-duty excavators for construction and mining',
+        description: 'Plant and facility equipment',
       },
       {
-        name: 'Cranes',
-        icon: Building2,
+        name: 'INDUSTRIAL PARTS',
+        image: '/assets/categories/industrial-parts.svg',
         count: '887',
-        description: 'Mobile and tower cranes for lifting operations',
+        description: 'Industrial parts and components',
       },
       {
-        name: 'Loaders',
-        icon: Package,
+        name: 'PROCESS EQUIPMENT',
+        image: '/assets/categories/process-equipment.svg',
         count: '672',
-        description: 'Wheel and track loaders for material handling',
+        description: 'Process equipment and systems',
       },
       {
-        name: 'Trucks',
-        icon: Truck,
+        name: 'INDUSTRIAL ROBOTS',
+        image: '/assets/categories/industrial-robots.svg',
         count: '1,156',
-        description: 'Dump trucks and commercial vehicles',
+        description: 'Industrial robots and automation',
       },
       {
-        name: 'Bulldozers',
-        icon: Mountain,
+        name: 'CONSTRUCTION EQUIPMENT',
+        image: '/assets/categories/construction-equipment.svg',
         count: '423',
-        description: 'Track-type tractors for earthmoving',
+        description: 'Construction equipment and machinery',
       },
       {
-        name: 'Aerial Platforms',
-        icon: Zap,
+        name: 'MATERIAL HANDLING EQUIPMENT',
+        image: '/assets/categories/material-handling.svg',
         count: '534',
-        description: 'Scissor lifts and boom lifts',
+        description: 'Material handling equipment',
       },
       {
-        name: 'Generators',
-        icon: Zap,
+        name: 'MACHINING EQUIPMENT',
+        image: '/assets/categories/machining-equipment.svg',
         count: '298',
-        description: 'Portable and stationary power generators',
+        description: 'Machining equipment and tools',
       },
       {
-        name: 'Compactors',
-        icon: Wrench,
+        name: 'COMMERCIAL TRUCKS',
+        image: '/assets/categories/commercial-trucks.svg',
         count: '187',
-        description: 'Soil and asphalt compaction equipment',
+        description: 'Commercial trucks and vehicles',
       },
     ],
     []
@@ -70,28 +67,26 @@ const Categories = memo(() => {
   return (
     <section className='py-12 bg-white'>
       <div className='container mx-auto px-4'>
-        {/* Categories Grid - Only show first 4 */}
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto'>
-          {categories.slice(0, 4).map(category => (
+        {/* Categories Grid - Show all 8 categories in horizontal layout */}
+        <div className='grid grid-cols-4 lg:grid-cols-8 gap-6 max-w-7xl mx-auto'>
+          {categories.map(category => (
             <div key={category.name} className='group cursor-pointer'>
-              <div className='bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1'>
-                <div className='flex flex-col items-center text-center space-y-4'>
-                  <div className='relative'>
-                    <div className='p-4 bg-gray-100 rounded-2xl group-hover:bg-gray-200 transition-all duration-300'>
-                      <category.icon className='h-8 w-8 text-black' />
-                    </div>
-                    <div className='absolute -top-1 -right-1 w-6 h-6 bg-black rounded-full flex items-center justify-center'>
-                      <span className='text-xs font-bold text-white'>
-                        {category.count.toString().slice(-1)}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className='font-semibold text-black mb-1 group-hover:text-gray-700 transition-colors'>
-                      {category.name}
-                    </h3>
-                    <p className='text-sm text-gray-600'>{category.count}+ Available</p>
-                  </div>
+              <div className='flex flex-col items-center text-center space-y-3'>
+                {/* Circular image background */}
+                <div className='w-20 h-20 rounded-full flex items-center justify-center group-hover:scale-105 transition-all duration-300 overflow-hidden'>
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    width={80}
+                    height={80}
+                    className='w-full h-full object-cover'
+                  />
+                </div>
+                {/* Category name */}
+                <div>
+                  <h3 className='text-xs font-medium text-gray-800 leading-tight'>
+                    {category.name}
+                  </h3>
                 </div>
               </div>
             </div>
