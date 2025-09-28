@@ -53,7 +53,8 @@ const TopEquipmentForSale = memo(() => {
         dealer: 'Cat Gulf Equipment',
         verified: true,
         rating: 4.7,
-        image: '/assets/equipment/john-deere-loader.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1748414599947-liebherr-crane-50-ton&w=1080&q=75',
         features: ['4.5m³ Bucket', 'Quick Coupler', 'Rear Camera'],
         condition: 'Excellent',
         category: 'Loaders',
@@ -69,7 +70,8 @@ const TopEquipmentForSale = memo(() => {
         dealer: 'German Truck Solutions',
         verified: false,
         rating: 4.5,
-        image: '/assets/equipment/volvo-truck.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1758022254351-hk215c&w=1080&q=75',
         features: ['41 Ton GVW', 'Automatic', 'Air Suspension'],
         condition: 'Good',
         category: 'Trucks',

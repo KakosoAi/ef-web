@@ -51,7 +51,8 @@ const FeaturedEquipment = memo(() => {
         dealer: 'Construction Equipment Co.',
         verified: true,
         rating: 4.7,
-        image: '/assets/equipment/john-deere-loader.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1748414599947-liebherr-crane-50-ton&w=1080&q=75',
         features: ['4WD', 'Quick Attach', 'Fuel Efficient'],
         condition: 'Excellent',
         category: 'Loaders',
@@ -67,7 +68,8 @@ const FeaturedEquipment = memo(() => {
         dealer: 'Nordic Heavy Machinery',
         verified: false,
         rating: 4.6,
-        image: '/assets/equipment/volvo-truck.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1758022254351-hk215c&w=1080&q=75',
         features: ['40 Ton Capacity', 'All Weather', 'Maintenance Records'],
         condition: 'Good',
         category: 'Trucks',
