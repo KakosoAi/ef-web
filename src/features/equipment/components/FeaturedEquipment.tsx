@@ -72,47 +72,9 @@ const FeaturedEquipment = memo(() => {
         condition: 'Good',
         category: 'Trucks',
       },
-      {
-        id: 5,
-        title: 'Komatsu D65PX Bulldozer',
-        year: 2020,
-        hours: '1,650',
-        price: 'AED 15,000/month',
-        priceType: 'For Rent',
-        location: 'Ras Al Khaimah, UAE',
-        dealer: 'Desert Equipment Rental',
-        verified: true,
-        rating: 4.8,
-        image: '/assets/equipment/komatsu-bulldozer.jpg',
-        features: ['GPS Grade Control', 'ROPS/FOPS', 'Low Ground Pressure'],
-        condition: 'Excellent',
-        category: 'Bulldozers',
-      },
-      {
-        id: 6,
-        title: 'Manitou MRT 2150 Telehandler',
-        year: 2022,
-        hours: '450',
-        price: 'AED 6,800/month',
-        priceType: 'For Rent',
-        location: 'Fujairah, UAE',
-        dealer: 'Lift Solutions UAE',
-        verified: true,
-        rating: 4.9,
-        image: '/assets/equipment/manitou-telehandler.jpg',
-        features: ['21m Reach', '5 Ton Capacity', 'Stabilizers'],
-        condition: 'Like New',
-        category: 'Aerial Platforms',
-      },
     ],
     []
   );
-
-
-
-
-
-
 
   return (
     <section className='py-20 bg-muted/30'>
