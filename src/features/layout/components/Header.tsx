@@ -2,6 +2,7 @@
 
 import { memo } from 'react';
 import { Button } from '@/shared/ui/button';
+import { RainbowButton } from '@/shared/ui/rainbow-borders-button';
 import { MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
@@ -72,12 +73,7 @@ const Header = memo(() => {
               <User className='h-4 w-4 mr-2' />
               Login
             </Button>
-            <Button
-              size='sm'
-              className='bg-primary hover:bg-primary-hover text-primary-foreground font-semibold px-6'
-            >
-              Post Ad
-            </Button>
+            <RainbowButton>Post Now</RainbowButton>
           </div>
         </div>
       </div>

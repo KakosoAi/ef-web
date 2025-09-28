@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Search, MapPin } from 'lucide-react';
 import { equipmentCategories } from '@/shared/constants';
+import SearchWithCategory from '@/shared/ui/search-with-category';
 
 const Hero = memo(() => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,54 +48,53 @@ const Hero = memo(() => {
           </div>
 
           {/* Search Section */}
-          <div className='search-hero max-w-3xl mx-auto animate-scale-in'>
+          <div className='search-hero max-w-4xl mx-auto animate-scale-in'>
             {/* Buy/Rent Toggle */}
-            <div className='flex justify-center mb-4'>
-              <div className='bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-xl border border-gray-200'>
-                <button
-                  onClick={() => setSearchType('buy')}
-                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    searchType === 'buy'
-                      ? 'bg-gray-900 text-white shadow-lg'
-                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+            <div className='flex justify-center mb-6'>
+              <div className='relative bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-xl border border-gray-200'>
+                {/* Sliding Background */}
+                <div
+                  className={`absolute top-1 bottom-1 w-[calc(50%-2px)] bg-gray-900 rounded-full shadow-lg transition-all duration-500 ease-out ${
+                    searchType === 'buy' ? 'left-1' : 'left-[calc(50%+1px)]'
                   }`}
-                >
-                  Buy Equipment
-                </button>
-                <button
-                  onClick={() => setSearchType('rent')}
-                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    searchType === 'rent'
-                      ? 'bg-gray-900 text-white shadow-lg'
-                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-                >
-                  Rent Equipment
-                </button>
-              </div>
-            </div>
-
-            <div className='flex gap-3 mb-6'>
-              {/* Search Input */}
-              <div className='flex-1 relative'>
-                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500' />
-                <Input
-                  placeholder='Search for equipment, brand, or model...'
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className='pl-12 h-16 text-lg border-gray-300 bg-white/95 backdrop-blur-sm text-gray-900 placeholder:text-gray-500 shadow-lg focus:shadow-xl transition-all duration-300'
                 />
-              </div>
 
-              {/* Search Button */}
-              <Button
-                onClick={handleSearch}
-                className='h-16 px-8 text-lg font-semibold bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg'
-              >
-                <Search className='h-5 w-5 mr-2' />
-                Search
-              </Button>
+                {/* Buttons */}
+                <div className='relative flex'>
+                  <button
+                    onClick={() => setSearchType('buy')}
+                    className={`relative z-10 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                      searchType === 'buy'
+                        ? 'text-white transform scale-105'
+                        : 'text-gray-700 hover:text-gray-900 hover:scale-102'
+                    }`}
+                  >
+                    <span
+                      className={`transition-all duration-300 ${searchType === 'buy' ? 'drop-shadow-sm' : ''}`}
+                    >
+                      Buy Equipment
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setSearchType('rent')}
+                    className={`relative z-10 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                      searchType === 'rent'
+                        ? 'text-white transform scale-105'
+                        : 'text-gray-700 hover:text-gray-900 hover:scale-102'
+                    }`}
+                  >
+                    <span
+                      className={`transition-all duration-300 ${searchType === 'rent' ? 'drop-shadow-sm' : ''}`}
+                    >
+                      Rent Equipment
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
+
+            {/* New Vertical Search Component */}
+            <SearchWithCategory />
           </div>
         </div>
       </div>
