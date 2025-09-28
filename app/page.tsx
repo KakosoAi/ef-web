@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Categories from '@/features/categories/components/Categories';
+import BrowseListingsBanner from '@/features/equipment/components/BrowseListingsBanner';
+import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
+import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment';
+import TopEquipmentForSale from '@/features/equipment/components/TopEquipmentForSale';
+import Footer from '@/features/layout/components/Footer';
 import Header from '@/features/layout/components/Header';
 import Hero from '@/features/search/components/Hero';
-import Categories from '@/features/categories/components/Categories';
-import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment';
-import BrowseListingsBanner from '@/features/equipment/components/BrowseListingsBanner';
-import Footer from '@/features/layout/components/Footer';
-import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
 import { Equipment } from '@/shared/types';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
@@ -62,6 +63,7 @@ export default function HomePage() {
         <Categories />
         <FeaturedEquipment />
         <BrowseListingsBanner />
+        <TopEquipmentForSale />
       </main>
       <Footer />
     </div>
