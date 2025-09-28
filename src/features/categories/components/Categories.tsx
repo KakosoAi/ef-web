@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Category } from '@/shared/types';
 
@@ -10,9 +10,11 @@ interface CategoryWithImage {
 }
 
 const Categories = memo(() => {
-  const categories: CategoryWithImage[] = useMemo(
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const allCategories: CategoryWithImage[] = useMemo(
     () => [
-      // Row 1 - Original categories
+      // Row 1 - Original categories (always visible)
       {
         name: 'PLANT & FACILITY EQUIPMENT',
         image: '/assets/categories/plant-facility.svg',
@@ -61,7 +63,7 @@ const Categories = memo(() => {
         count: '187',
         description: 'Commercial trucks and vehicles',
       },
-      // Row 2 - Additional categories
+      // Row 2 - Additional categories (collapsible)
       {
         name: 'MINING EQUIPMENT',
         image: '/assets/categories/plant-facility.svg',
@@ -110,7 +112,7 @@ const Categories = memo(() => {
         count: '278',
         description: 'Marine and offshore equipment',
       },
-      // Row 3 - More specialized categories
+      // Row 3 - More specialized categories (collapsible)
       {
         name: 'CONCRETE EQUIPMENT',
         image: '/assets/categories/plant-facility.svg',
@@ -163,6 +165,10 @@ const Categories = memo(() => {
     []
   );
 
+  // Split categories into visible and collapsible sections
+  const visibleCategories = allCategories.slice(0, 8); // First row (always visible)
+  const collapsibleCategories = allCategories.slice(8); // Rows 2 & 3 (collapsible)
+
   return (
     <section className='py-12 bg-white'>
       <div className='container mx-auto px-4'>
@@ -173,9 +179,9 @@ const Categories = memo(() => {
           </p>
         </div>
 
-        {/* Categories Grid - Show all 24 categories in 3 rows */}
+        {/* Categories Grid - First row (always visible) */}
         <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-7xl mx-auto'>
-          {categories.map((category, index) => (
+          {visibleCategories.map((category, index) => (
             <div key={`${category.name}-${index}`} className='group cursor-pointer'>
               <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
                 {/* Circular image background */}
@@ -201,12 +207,63 @@ const Categories = memo(() => {
           ))}
         </div>
 
-        {/* View All Categories Button */}
+        {/* Collapsible section for remaining categories */}
+        <div
+          className={`grid transition-all duration-500 ease-in-out overflow-hidden ${
+            isExpanded ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+          }`}
+        >
+          <div className='min-h-0'>
+            <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-7xl mx-auto'>
+              {collapsibleCategories.map((category, index) => (
+                <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
+                  <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
+                    {/* Circular image background */}
+                    <div className='w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center group-hover:scale-105 transition-all duration-300 overflow-hidden bg-gray-100'>
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        width={80}
+                        height={80}
+                        className='w-full h-full object-cover'
+                      />
+                    </div>
+                    {/* Category name */}
+                    <div className='min-h-[2.5rem] flex items-center'>
+                      <h3 className='text-xs font-medium text-gray-800 leading-tight line-clamp-2'>
+                        {category.name}
+                      </h3>
+                    </div>
+                    {/* Equipment count */}
+                    <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* View More / View Less Button */}
         <div className='text-center mt-8'>
-          <button className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200'>
-            View All Categories
-            <svg className='ml-2 w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-200'
+          >
+            {isExpanded ? 'View Less' : 'View More'}
+            <svg
+              className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M19 9l-7 7-7-7'
+              />
             </svg>
           </button>
         </div>
