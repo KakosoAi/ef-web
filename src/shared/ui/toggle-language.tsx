@@ -34,6 +34,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     setIsMounted(true);
+    if (typeof window === 'undefined') return;
+
     // Load language from localStorage
     const savedLanguage = localStorage.getItem('language') || 'en';
     setLanguageState(savedLanguage);
@@ -44,6 +46,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const setLanguage = React.useCallback((newLanguage: string) => {
     setLanguageState(newLanguage);
+    if (typeof window === 'undefined') return;
+
     localStorage.setItem('language', newLanguage);
 
     // Update lang attribute only (no direction change)
