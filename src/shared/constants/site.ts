@@ -1,22 +1,21 @@
 import { SiteConfig } from '@/shared/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'Equipment Finders',
-  description:
-    "UAE's premier marketplace for heavy equipment and machinery. Buy, sell, and rent construction equipment with confidence.",
-  url: 'https://equipment-finder.com',
-  ogImage: 'https://equipment-finder.com/og.jpg',
+  name: 'Equipment Finder',
+  description: 'One of the Largest Marketplace of Heavy Equipment in Middle East.',
+  url: 'https://equipmentsfinder.com',
+  ogImage: 'https://equipmentsfinder.com/og.jpg',
   links: {
-    twitter: 'https://twitter.com/equipmentfinder',
-    github: 'https://github.com/equipmentfinder',
+    twitter: 'https://twitter.com/equipmentsfinder',
+    github: 'https://github.com/equipmentsfinder',
   },
 };
 
 export const contactInfo = {
-  phone: '+971 4 567 8900',
-  email: 'info@equipment-finder.com',
+  phone: '+971585839080',
+  email: 'Support@equipmentsfinder.com',
   address: 'Dubai, United Arab Emirates',
-  locations: ['UAE Emirates'],
+  locations: ['United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Oman', 'Bahrain'],
 };
 
 export const routes = {
