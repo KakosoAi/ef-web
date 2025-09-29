@@ -169,6 +169,66 @@
     opacity: 0.2;
   }
 
+  /* AI Glow Effect */
+  .ai-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    padding: 2px;
+    background: linear-gradient(
+      45deg,
+      #ea580c,
+      #f97316,
+      #fb923c,
+      #fdba74,
+      #fed7aa,
+      #fdba74,
+      #fb923c,
+      #f97316,
+      #ea580c
+    );
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -1;
+    animation: ai-glow 3s ease-in-out infinite;
+    opacity: 0.6;
+  }
+
+  .ai-glow::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    padding: 2px;
+    background: linear-gradient(
+      45deg,
+      #ea580c,
+      #f97316,
+      #fb923c,
+      #fdba74,
+      #fed7aa,
+      #fdba74,
+      #fb923c,
+      #f97316,
+      #ea580c
+    );
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -2;
+    animation: ai-glow 3s ease-in-out infinite;
+    filter: blur(15px);
+    opacity: 0.3;
+  }
+
+  @keyframes ai-glow {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
   /* Custom scale animations for toggle buttons */
   .scale-102 {
     transform: scale(1.02);
