@@ -8,6 +8,7 @@ import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment
 import TopEquipmentForSale from '@/features/equipment/components/TopEquipmentForSale';
 import Footer from '@/features/layout/components/Footer';
 import Header from '@/features/layout/components/Header';
+import { BannerIraqConstruct } from '@/features/layout/components/BannerIraqConstruct';
 import Hero from '@/features/search/components/Hero';
 import { Equipment } from '@/shared/types';
 import { useEffect, useState } from 'react';
@@ -68,6 +69,7 @@ export default function HomePage() {
         <TopEquipmentForSale />
         <PopularBrands />
       </main>
+      <BannerIraqConstruct />
       <Footer />
     </div>
   );
