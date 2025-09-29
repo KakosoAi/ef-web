@@ -1,5 +1,6 @@
 'use client';
 
+import { PopularBrands } from '@/features/brands';
 import Categories from '@/features/categories/components/Categories';
 import BrowseListingsBanner from '@/features/equipment/components/BrowseListingsBanner';
 import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
@@ -61,9 +62,11 @@ export default function HomePage() {
       <main>
         <Hero />
         <Categories />
+
         <FeaturedEquipment />
         <BrowseListingsBanner />
         <TopEquipmentForSale />
+        <PopularBrands />
       </main>
       <Footer />
     </div>
