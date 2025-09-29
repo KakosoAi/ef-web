@@ -214,11 +214,13 @@ const FeaturedEquipment = memo(() => {
                 {/* Action Button */}
                 <Button
                   className='w-full bg-primary hover:bg-primary-hover text-primary-foreground'
-                  onClick={() =>
-                    window.dispatchEvent(
-                      new CustomEvent('showEquipmentDetail', { detail: equipment })
-                    )
-                  }
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('showEquipmentDetail', { detail: equipment })
+                      );
+                    }
+                  }}
                 >
                   View Details
                   <ArrowRight className='h-4 w-4 ml-2' />

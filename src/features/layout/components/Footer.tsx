@@ -157,11 +157,15 @@ const Footer = memo(() => {
                   size='sm'
                   variant='ghost'
                   className='p-2 hover:bg-gray-800 text-gray-300 hover:text-orange-500'
-                  onClick={() =>
-                    window.open('https://www.instagram.com/equipmentsfinder', '_blank')
-                  }
+                  asChild
                 >
-                  <Instagram className='h-4 w-4' />
+                  <a
+                    href='https://www.instagram.com/equipmentsfinder'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    <Instagram className='h-4 w-4' />
+                  </a>
                 </Button>
               </div>
             </div>
