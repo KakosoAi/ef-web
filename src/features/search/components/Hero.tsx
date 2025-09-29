@@ -38,11 +38,14 @@ const Hero = memo(() => {
         <div className='max-w-2xl mx-auto text-center'>
           {/* Hero Heading */}
           <div className='animate-fade-in-up'>
-            <h1 className='text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white drop-shadow-lg'>
-              Middle East&apos;s <span className='text-yellow-400'>#1</span>
-              <span className='block text-white'>Equipment Marketplace</span>
+            <h1 className='text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white drop-shadow-2xl'>
+              <span className='drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>Middle East&apos;s</span>{' '}
+              <span className='text-yellow-400 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>#1</span>
+              <span className='block text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>
+                Equipment Marketplace
+              </span>
             </h1>
-            <p className='text-base md:text-lg text-gray-200 mb-6 max-w-xl mx-auto drop-shadow-md'>
+            <p className='text-base md:text-lg text-gray-100 mb-6 max-w-xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-medium'>
               Premium construction equipment marketplace
             </p>
           </div>
