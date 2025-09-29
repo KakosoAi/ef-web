@@ -170,7 +170,7 @@ const Categories = memo(() => {
   const collapsibleCategories = allCategories.slice(12); // Remaining categories (collapsible)
 
   return (
-    <section className='py-12 bg-white'>
+    <section className='py-4 bg-white'>
       <div className='container mx-auto px-4'>
         {/* Categories Grid - First 2 rows (always visible) */}
         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
