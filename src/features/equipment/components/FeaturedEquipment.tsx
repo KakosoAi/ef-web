@@ -229,33 +229,61 @@ const FeaturedEquipment = memo(() => {
         </div>
 
         {/* Call to Actions */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <div className='bg-gradient-primary rounded-xl p-8 text-white text-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
             <h3 className='text-2xl font-display font-bold mb-4'>Sell Your Equipment</h3>
-            <p className='text-white/90 mb-6'>
+            <p className='text-gray-300 mb-6'>
               Reach thousands of verified buyers across the Middle East
             </p>
             <Button
               variant='secondary'
               size='lg'
-              className='bg-white text-primary hover:bg-white/90'
+              className='bg-orange-500 text-white hover:bg-orange-600'
             >
               List Your Equipment
               <ArrowRight className='h-5 w-5 ml-2' />
             </Button>
           </div>
 
-          <div className='bg-gradient-secondary rounded-xl p-8 text-white text-center'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Need Custom Equipment?</h3>
-            <p className='text-white/90 mb-6'>
-              Our experts will help you find the perfect equipment for your needs
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Valuation</h3>
+            <p className='text-gray-300 mb-6'>
+              Get accurate market value for your equipment instantly
             </p>
             <Button
-              variant='outline'
+              variant='secondary'
               size='lg'
-              className='border-white text-white hover:bg-white hover:text-secondary'
+              className='bg-orange-500 text-white hover:bg-orange-600'
             >
-              Request Quote
+              Get Valuation
+              <ArrowRight className='h-5 w-5 ml-2' />
+            </Button>
+          </div>
+
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Financing</h3>
+            <p className='text-gray-300 mb-6'>
+              Flexible financing options for your equipment purchase
+            </p>
+            <Button
+              variant='secondary'
+              size='lg'
+              className='bg-orange-500 text-white hover:bg-orange-600'
+            >
+              Apply Now
+              <ArrowRight className='h-5 w-5 ml-2' />
+            </Button>
+          </div>
+
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Insurance</h3>
+            <p className='text-gray-300 mb-6'>Comprehensive coverage for your valuable equipment</p>
+            <Button
+              variant='secondary'
+              size='lg'
+              className='bg-orange-500 text-white hover:bg-orange-600'
+            >
+              Get Quote
               <ArrowRight className='h-5 w-5 ml-2' />
             </Button>
           </div>
