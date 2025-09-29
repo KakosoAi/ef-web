@@ -53,15 +53,15 @@ const Header = memo(() => {
       <div className='container mx-auto px-4'>
         <div className='flex items-center justify-between h-16'>
           {/* Logo */}
-          <div className='flex items-center space-x-3'>
+          <div className='flex items-center'>
             <Image
               src='/assets/ef-logo.svg'
               alt='EF Logo'
-              width={40}
+              width={120}
               height={40}
-              className='w-10 h-10'
+              className='w-auto h-10'
+              priority
             />
-            <div className='text-2xl font-display font-bold'>{siteConfig.name}</div>
           </div>
 
           {/* Desktop Navigation */}
