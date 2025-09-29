@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Header from '@/features/layout/components/Header';
-import Hero from '@/features/search/components/Hero';
+import { PopularBrands } from '@/features/brands';
 import Categories from '@/features/categories/components/Categories';
-import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment';
-import Footer from '@/features/layout/components/Footer';
+import BrowseListingsBanner from '@/features/equipment/components/BrowseListingsBanner';
 import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
+import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment';
+import TopEquipmentForSale from '@/features/equipment/components/TopEquipmentForSale';
+import Footer from '@/features/layout/components/Footer';
+import Header from '@/features/layout/components/Header';
+import { BannerIraqConstruct } from '@/features/layout/components/BannerIraqConstruct';
+import Hero from '@/features/search/components/Hero';
 import { Equipment } from '@/shared/types';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
@@ -59,8 +63,13 @@ export default function HomePage() {
       <main>
         <Hero />
         <Categories />
+
         <FeaturedEquipment />
+        <BrowseListingsBanner />
+        <TopEquipmentForSale />
+        <PopularBrands />
       </main>
+      <BannerIraqConstruct />
       <Footer />
     </div>
   );

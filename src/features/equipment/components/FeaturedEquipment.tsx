@@ -51,7 +51,8 @@ const FeaturedEquipment = memo(() => {
         dealer: 'Construction Equipment Co.',
         verified: true,
         rating: 4.7,
-        image: '/assets/equipment/john-deere-loader.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1748414599947-liebherr-crane-50-ton&w=1080&q=75',
         features: ['4WD', 'Quick Attach', 'Fuel Efficient'],
         condition: 'Excellent',
         category: 'Loaders',
@@ -67,52 +68,15 @@ const FeaturedEquipment = memo(() => {
         dealer: 'Nordic Heavy Machinery',
         verified: false,
         rating: 4.6,
-        image: '/assets/equipment/volvo-truck.jpg',
+        image:
+          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1758022254351-hk215c&w=1080&q=75',
         features: ['40 Ton Capacity', 'All Weather', 'Maintenance Records'],
         condition: 'Good',
         category: 'Trucks',
       },
-      {
-        id: 5,
-        title: 'Komatsu D65PX Bulldozer',
-        year: 2020,
-        hours: '1,650',
-        price: 'AED 15,000/month',
-        priceType: 'For Rent',
-        location: 'Ras Al Khaimah, UAE',
-        dealer: 'Desert Equipment Rental',
-        verified: true,
-        rating: 4.8,
-        image: '/assets/equipment/komatsu-bulldozer.jpg',
-        features: ['GPS Grade Control', 'ROPS/FOPS', 'Low Ground Pressure'],
-        condition: 'Excellent',
-        category: 'Bulldozers',
-      },
-      {
-        id: 6,
-        title: 'Manitou MRT 2150 Telehandler',
-        year: 2022,
-        hours: '450',
-        price: 'AED 6,800/month',
-        priceType: 'For Rent',
-        location: 'Fujairah, UAE',
-        dealer: 'Lift Solutions UAE',
-        verified: true,
-        rating: 4.9,
-        image: '/assets/equipment/manitou-telehandler.jpg',
-        features: ['21m Reach', '5 Ton Capacity', 'Stabilizers'],
-        condition: 'Like New',
-        category: 'Aerial Platforms',
-      },
     ],
     []
   );
-
-
-
-
-
-
 
   return (
     <section className='py-20 bg-muted/30'>
@@ -250,11 +214,13 @@ const FeaturedEquipment = memo(() => {
                 {/* Action Button */}
                 <Button
                   className='w-full bg-primary hover:bg-primary-hover text-primary-foreground'
-                  onClick={() =>
-                    window.dispatchEvent(
-                      new CustomEvent('showEquipmentDetail', { detail: equipment })
-                    )
-                  }
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('showEquipmentDetail', { detail: equipment })
+                      );
+                    }
+                  }}
                 >
                   View Details
                   <ArrowRight className='h-4 w-4 ml-2' />
@@ -265,33 +231,61 @@ const FeaturedEquipment = memo(() => {
         </div>
 
         {/* Call to Actions */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <div className='bg-gradient-primary rounded-xl p-8 text-white text-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
             <h3 className='text-2xl font-display font-bold mb-4'>Sell Your Equipment</h3>
-            <p className='text-white/90 mb-6'>
+            <p className='text-gray-300 mb-6'>
               Reach thousands of verified buyers across the Middle East
             </p>
             <Button
               variant='secondary'
               size='lg'
-              className='bg-white text-primary hover:bg-white/90'
+              className='bg-orange-500 text-white hover:bg-orange-600'
             >
               List Your Equipment
               <ArrowRight className='h-5 w-5 ml-2' />
             </Button>
           </div>
 
-          <div className='bg-gradient-secondary rounded-xl p-8 text-white text-center'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Need Custom Equipment?</h3>
-            <p className='text-white/90 mb-6'>
-              Our experts will help you find the perfect equipment for your needs
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Valuation</h3>
+            <p className='text-gray-300 mb-6'>
+              Get accurate market value for your equipment instantly
             </p>
             <Button
-              variant='outline'
+              variant='secondary'
               size='lg'
-              className='border-white text-white hover:bg-white hover:text-secondary'
+              className='bg-orange-500 text-white hover:bg-orange-600'
             >
-              Request Quote
+              Get Valuation
+              <ArrowRight className='h-5 w-5 ml-2' />
+            </Button>
+          </div>
+
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Financing</h3>
+            <p className='text-gray-300 mb-6'>
+              Flexible financing options for your equipment purchase
+            </p>
+            <Button
+              variant='secondary'
+              size='lg'
+              className='bg-orange-500 text-white hover:bg-orange-600'
+            >
+              Apply Now
+              <ArrowRight className='h-5 w-5 ml-2' />
+            </Button>
+          </div>
+
+          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
+            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Insurance</h3>
+            <p className='text-gray-300 mb-6'>Comprehensive coverage for your valuable equipment</p>
+            <Button
+              variant='secondary'
+              size='lg'
+              className='bg-orange-500 text-white hover:bg-orange-600'
+            >
+              Get Quote
               <ArrowRight className='h-5 w-5 ml-2' />
             </Button>
           </div>

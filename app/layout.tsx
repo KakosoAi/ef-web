@@ -21,12 +21,9 @@ export const metadata: Metadata = {
   title: 'Equipment Finders - Heavy Equipment Marketplace',
   description: 'Find and explore heavy machinery and equipment with Equipment Finders',
   icons: {
-    icon: [
-      { url: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
-    ],
-    apple: [{ url: '/favicon.svg', sizes: '180x180', type: 'image/svg+xml' }],
-    shortcut: '/favicon.svg',
+    icon: [{ url: '/favicon.ico?v=2', sizes: '32x32', type: 'image/x-icon' }],
+    apple: [{ url: '/favicon.ico?v=2', sizes: '180x180', type: 'image/x-icon' }],
+    shortcut: '/favicon.ico?v=2',
   },
 };
 

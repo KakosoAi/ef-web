@@ -1,6 +1,7 @@
 'use client';
 
 import { memo } from 'react';
+import Link from 'next/link';
 import { Button } from '@/shared/ui/button';
 import { RainbowButton } from '@/shared/ui/rainbow-borders-button';
 import { MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
@@ -32,6 +33,17 @@ const Header = memo(() => {
               <ToggleTheme />
               {/* Language Toggle */}
               <ToggleLanguage />
+              {/* Favorites Button */}
+              <Button
+                variant='ghost'
+                size='sm'
+                className='text-muted-foreground hover:text-foreground h-6 px-2'
+                asChild
+              >
+                <Link href='/favorites'>
+                  <Heart className='h-3 w-3' />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -41,15 +53,15 @@ const Header = memo(() => {
       <div className='container mx-auto px-4'>
         <div className='flex items-center justify-between h-16'>
           {/* Logo */}
-          <div className='flex items-center space-x-3'>
+          <div className='flex items-center'>
             <Image
               src='/assets/ef-logo.svg'
               alt='EF Logo'
-              width={40}
+              width={120}
               height={40}
-              className='w-10 h-10'
+              className='w-auto h-10'
+              priority
             />
-            <div className='text-2xl font-display font-bold'>{siteConfig.name}</div>
           </div>
 
           {/* Desktop Navigation */}
@@ -57,14 +69,6 @@ const Header = memo(() => {
 
           {/* User Actions */}
           <div className='flex items-center space-x-2'>
-            <Button
-              variant='ghost'
-              size='sm'
-              className='hidden md:flex text-foreground hover:text-primary'
-            >
-              <Heart className='h-4 w-4 mr-2' />
-              Favorites
-            </Button>
             <Button
               variant='outline'
               size='sm'
