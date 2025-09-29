@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
@@ -8,7 +8,9 @@ import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified, TrendingUp } fro
 import { EquipmentCard } from '@/shared/types';
 
 const TopEquipmentForSale = memo(() => {
-  const equipmentData: EquipmentCard[] = useMemo(
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const allEquipmentData: EquipmentCard[] = useMemo(
     () => [
       {
         id: 5,
@@ -53,8 +55,7 @@ const TopEquipmentForSale = memo(() => {
         dealer: 'Cat Gulf Equipment',
         verified: true,
         rating: 4.7,
-        image:
-          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1748414599947-liebherr-crane-50-ton&w=1080&q=75',
+        image: '/assets/equipment/cat-wheel-loader.jpg',
         features: ['4.5m³ Bucket', 'Quick Coupler', 'Rear Camera'],
         condition: 'Excellent',
         category: 'Loaders',
@@ -70,15 +71,83 @@ const TopEquipmentForSale = memo(() => {
         dealer: 'German Truck Solutions',
         verified: false,
         rating: 4.5,
-        image:
-          'https://www.equipmentsfinder.com/_next/image?url=https%3A%2F%2Fimages.equipmentsfinder.com%2Fpublic%2Fuploads%2Fads%2F1758022254351-hk215c&w=1080&q=75',
+        image: '/assets/equipment/dump-truck.jpg',
         features: ['41 Ton GVW', 'Automatic', 'Air Suspension'],
         condition: 'Good',
         category: 'Trucks',
       },
+      // Additional equipment for Show More functionality
+      {
+        id: 9,
+        title: 'Hyundai R220LC-9S Excavator',
+        year: 2021,
+        hours: '1,450',
+        price: 'AED 295,000',
+        priceType: 'For Sale',
+        location: 'Dubai, UAE',
+        dealer: 'Hyundai Construction Equipment',
+        verified: true,
+        rating: 4.8,
+        image: '/assets/equipment/cat-320d-excavator-1.jpg',
+        features: ['22 Ton Class', 'Fuel Efficient', 'Advanced Hydraulics'],
+        condition: 'Excellent',
+        category: 'Excavators',
+      },
+      {
+        id: 10,
+        title: 'Genie Z-45/25J Boom Lift',
+        year: 2022,
+        hours: '320',
+        price: 'AED 165,000',
+        priceType: 'For Sale',
+        location: 'Abu Dhabi, UAE',
+        dealer: 'Genie Middle East',
+        verified: true,
+        rating: 4.9,
+        image: '/assets/equipment/scissor-lift.jpg',
+        features: ['45ft Working Height', 'Bi-Energy', 'Zero Tail Swing'],
+        condition: 'Like New',
+        category: 'Aerial Platforms',
+      },
+      {
+        id: 11,
+        title: 'Bobcat S770 Skid Steer',
+        year: 2020,
+        hours: '2,100',
+        price: 'AED 125,000',
+        priceType: 'For Sale',
+        location: 'Sharjah, UAE',
+        dealer: 'Bobcat of the Middle East',
+        verified: false,
+        rating: 4.6,
+        image: '/assets/equipment/cat-bulldozer.jpg',
+        features: ['3,325 lb Operating Capacity', 'Vertical Lift Path', 'Cab Suspension'],
+        condition: 'Good',
+        category: 'Skid Steers',
+      },
+      {
+        id: 12,
+        title: 'Ingersoll Rand P185WJD Compressor',
+        year: 2019,
+        hours: '3,200',
+        price: 'AED 45,000',
+        priceType: 'For Sale',
+        location: 'Ajman, UAE',
+        dealer: 'Ingersoll Rand UAE',
+        verified: true,
+        rating: 4.7,
+        image: '/assets/equipment/cat-320d-excavator-2.jpg',
+        features: ['185 CFM', 'Tier 4 Final', 'Aftercooler'],
+        condition: 'Good',
+        category: 'Compressors',
+      },
     ],
     []
   );
+
+  // Split equipment into visible and collapsible sections
+  const visibleEquipment = allEquipmentData.slice(0, 5); // First row only (always visible)
+  const collapsibleEquipment = allEquipmentData.slice(5); // Remaining equipment (collapsible)
 
   return (
     <section className='py-20 bg-gradient-to-br from-gray-50 to-white'>
@@ -88,29 +157,29 @@ const TopEquipmentForSale = memo(() => {
           <div className='inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4'>
             <TrendingUp className='w-8 h-8 text-primary' />
           </div>
-          <h2 className='text-4xl md:text-5xl font-display font-bold text-foreground mb-4'>
+          <h2 className='text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4'>
             Top Equipment <span className='text-primary'>For Sale</span>
           </h2>
-          <p className='text-xl text-muted-foreground max-w-2xl mx-auto'>
+          <p className='text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto'>
             Premium equipment available for immediate purchase from verified dealers
           </p>
         </div>
 
-        {/* Equipment Grid - Consistent card widths with Featured Equipment */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12'>
-          {equipmentData.map((equipment, index) => (
+        {/* Equipment Grid - First row only (always visible) */}
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center mb-8'>
+          {visibleEquipment.map((equipment, index) => (
             <div
               key={equipment.id}
               className='group relative overflow-hidden rounded-2xl border border-border bg-white shadow-lg hover:shadow-xl transition-all duration-500'
             >
-              {/* Image Container - Standard aspect ratio */}
+              {/* Image Container - More Vertical */}
               <div className='relative aspect-[4/3] bg-muted overflow-hidden'>
                 <Image
                   src={equipment.image}
                   alt={equipment.title}
                   className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-700'
-                  width={400}
-                  height={300}
+                  width={300}
+                  height={225}
                 />
 
                 {/* Overlay Controls - Different Positioning */}
@@ -161,70 +230,46 @@ const TopEquipmentForSale = memo(() => {
                 </div>
               </div>
 
-              {/* Content - Standardized padding */}
-              <div className='p-6'>
-                {/* Category Tag - Standardized Style */}
-                <div className='mb-4'>
-                  <Badge variant='outline' className='text-xs mb-2'>
-                    {equipment.category}
-                  </Badge>
-                  <h3 className='text-lg font-semibold text-foreground line-clamp-2 mb-2'>
+              {/* Content - Reduced padding */}
+              <div className='p-3'>
+                {/* Header - Simplified */}
+                <div className='mb-3'>
+                  <h3 className='text-sm font-medium text-gray-900 dark:text-white line-clamp-2 mb-2'>
                     {equipment.title}
                   </h3>
-                  <div className='text-2xl font-bold text-secondary mb-1'>{equipment.price}</div>
+                  <div className='text-lg font-bold text-primary mb-1'>{equipment.price}</div>
                 </div>
 
-                {/* Details - Standardized Layout */}
-                <div className='space-y-2 mb-4 text-sm text-muted-foreground'>
-                  <div className='flex items-center justify-between'>
-                    <span>Year:</span>
-                    <span className='font-medium'>{equipment.year}</span>
+                {/* Key Details - Simplified */}
+                <div className='flex items-center justify-between mb-3 text-xs text-gray-600 dark:text-gray-400'>
+                  <span className='font-medium'>{equipment.year}</span>
+                  <span className='font-medium'>{equipment.hours}</span>
+                  <div className='flex items-center space-x-1'>
+                    <MapPin className='h-2 w-2' />
+                    <span className='text-xs'>{equipment.location.split(',')[0]}</span>
                   </div>
-                  <div className='flex items-center justify-between'>
-                    <span>Hours:</span>
-                    <span className='font-medium'>{equipment.hours}</span>
+                </div>
+
+                {/* Dealer Info - Simplified */}
+                <div className='flex items-center justify-between mb-3 pt-2 border-t border-gray-200 dark:border-gray-700'>
+                  <div className='flex items-center space-x-1'>
+                    <span className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+                      {equipment.dealer}
+                    </span>
+                    {equipment.verified && <Verified className='h-3 w-3 text-green-500' />}
                   </div>
                   <div className='flex items-center space-x-1'>
-                    <MapPin className='h-3 w-3' />
-                    <span className='text-xs'>{equipment.location}</span>
-                  </div>
-                </div>
-
-                {/* Features - Standardized Display */}
-                <div className='mb-4'>
-                  <div className='flex flex-wrap gap-1'>
-                    {equipment.features.slice(0, 2).map(feature => (
-                      <Badge key={feature} variant='outline' className='text-xs bg-muted/50'>
-                        {feature}
-                      </Badge>
-                    ))}
-                    {equipment.features.length > 2 && (
-                      <Badge variant='outline' className='text-xs bg-muted/50'>
-                        +{equipment.features.length - 2} more
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-
-                {/* Dealer Info - Standardized */}
-                <div className='flex items-center justify-between mb-4 pt-4 border-t border-border'>
-                  <div className='flex items-center space-x-2'>
-                    <div className='text-sm'>
-                      <div className='flex items-center space-x-1'>
-                        <span className='font-medium text-foreground'>{equipment.dealer}</span>
-                        {equipment.verified && <Verified className='h-3 w-3 text-success' />}
-                      </div>
-                      <div className='flex items-center space-x-1 text-xs text-muted-foreground'>
-                        <Star className='h-3 w-3 text-warning fill-current' />
-                        <span>{equipment.rating}</span>
-                      </div>
-                    </div>
+                    <Star className='h-2 w-2 text-yellow-500 fill-current' />
+                    <span className='text-xs font-medium text-gray-600 dark:text-gray-400'>
+                      {equipment.rating}
+                    </span>
                   </div>
                 </div>
 
                 {/* Action Button - Standardized Style */}
                 <Button
-                  className='w-full'
+                  size='sm'
+                  className='w-full text-xs'
                   onClick={() => {
                     if (typeof window !== 'undefined') {
                       window.dispatchEvent(
@@ -234,12 +279,146 @@ const TopEquipmentForSale = memo(() => {
                   }}
                 >
                   View Details
-                  <ArrowRight className='ml-2 h-4 w-4' />
+                  <ArrowRight className='ml-1 h-3 w-3' />
                 </Button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Collapsible section for additional equipment */}
+        <div
+          className={`grid transition-all duration-500 ease-in-out overflow-hidden ${
+            isExpanded ? 'grid-rows-[1fr] opacity-100 mb-8' : 'grid-rows-[0fr] opacity-0'
+          }`}
+        >
+          <div className='min-h-0'>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center'>
+              {collapsibleEquipment.map((equipment, index) => (
+                <div
+                  key={equipment.id}
+                  className='group relative overflow-hidden rounded-2xl border border-border bg-white shadow-lg hover:shadow-xl transition-all duration-500'
+                >
+                  {/* Image Container - More Vertical */}
+                  <div className='relative aspect-[4/3] bg-muted overflow-hidden'>
+                    <Image
+                      src={equipment.image}
+                      alt={equipment.title}
+                      className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-700'
+                      width={300}
+                      height={225}
+                    />
+
+                    {/* Overlay Controls - Different Positioning */}
+                    <div className='absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                      <Button
+                        size='sm'
+                        variant='secondary'
+                        className='bg-white/90 text-primary hover:bg-white shadow-md'
+                      >
+                        <Eye className='h-4 w-4' />
+                      </Button>
+                      <Button
+                        size='sm'
+                        variant='secondary'
+                        className='bg-white/90 text-primary hover:bg-white shadow-md'
+                      >
+                        <Heart className='h-4 w-4' />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Card Content - Compact Layout */}
+                  <div className='p-3 space-y-2'>
+                    {/* Title and Price */}
+                    <div className='space-y-1'>
+                      <h3 className='text-sm font-medium text-gray-900 dark:text-white line-clamp-2 leading-tight'>
+                        {equipment.title}
+                      </h3>
+                      <div className='flex items-center justify-between'>
+                        <span className='text-lg font-bold text-primary'>{equipment.price}</span>
+                        <Badge variant='secondary' className='text-xs px-2 py-1'>
+                          {equipment.priceType}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Details - Compact */}
+                    <div className='space-y-1'>
+                      <div className='flex items-center justify-between text-xs text-gray-600 dark:text-gray-400'>
+                        <span>{equipment.year}</span>
+                        <span>{equipment.hours} hrs</span>
+                      </div>
+                      <div className='flex items-center text-xs text-gray-600 dark:text-gray-400'>
+                        <MapPin className='h-3 w-3 mr-1 flex-shrink-0' />
+                        <span className='truncate'>{equipment.location}</span>
+                      </div>
+                    </div>
+
+                    {/* Dealer Info - Simplified */}
+                    <div className='flex items-center justify-between mb-3 pt-2 border-t border-gray-200 dark:border-gray-700'>
+                      <div className='flex items-center space-x-1'>
+                        <span className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+                          {equipment.dealer}
+                        </span>
+                        {equipment.verified && <Verified className='h-3 w-3 text-green-500' />}
+                      </div>
+                      <div className='flex items-center space-x-1'>
+                        <Star className='h-2 w-2 text-yellow-500 fill-current' />
+                        <span className='text-xs font-medium text-gray-600 dark:text-gray-400'>
+                          {equipment.rating}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Button - Standardized Style */}
+                    <Button
+                      size='sm'
+                      className='w-full text-xs'
+                      onClick={() => {
+                        if (typeof window !== 'undefined') {
+                          window.dispatchEvent(
+                            new CustomEvent('showEquipmentDetail', { detail: equipment })
+                          );
+                        }
+                      }}
+                    >
+                      View Details
+                      <ArrowRight className='ml-1 h-3 w-3' />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Show More / Show Less Button */}
+        {collapsibleEquipment.length > 0 && (
+          <div className='text-center mb-8'>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-200'
+            >
+              {isExpanded ? 'Show Less' : 'Show More'}
+              <svg
+                className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                  isExpanded ? 'rotate-180' : ''
+                }`}
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M19 9l-7 7-7-7'
+                />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* View All Button */}
         <div className='text-center'>
