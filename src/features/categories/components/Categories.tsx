@@ -1,6 +1,5 @@
-import { memo, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { Category } from '@/shared/types';
+import { memo, useMemo, useState } from 'react';
 
 interface CategoryWithImage {
   name: string;
@@ -16,192 +15,185 @@ const Categories = memo(() => {
     () => [
       // Row 1 - Original categories (always visible)
       {
-        name: 'PLANT & FACILITY EQUIPMENT',
-        image: '/assets/categories/plant-facility.svg',
+        name: 'Ariel Platforms',
+        image: '/assets/categories/ariel-platforms.png',
         count: '1,245',
-        description: 'Plant and facility equipment',
+        description: 'Aerial work platforms and lifts',
       },
       {
-        name: 'INDUSTRIAL PARTS',
-        image: '/assets/categories/industrial-parts.svg',
+        name: 'Attachments',
+        image: '/assets/categories/attachments.png',
         count: '887',
-        description: 'Industrial parts and components',
+        description: 'Equipment attachments and accessories',
       },
       {
-        name: 'PROCESS EQUIPMENT',
-        image: '/assets/categories/process-equipment.svg',
+        name: 'Backhoe Loaders',
+        image: '/assets/categories/backhoe-loaders.png',
         count: '672',
-        description: 'Process equipment and systems',
+        description: 'Backhoe loaders and excavators',
       },
       {
-        name: 'INDUSTRIAL ROBOTS',
-        image: '/assets/categories/industrial-robots.svg',
+        name: 'Boom Loaders',
+        image: '/assets/categories/boom-loader.png',
         count: '1,156',
-        description: 'Industrial robots and automation',
+        description: 'Boom loaders and telehandlers',
       },
       {
-        name: 'CONSTRUCTION EQUIPMENT',
-        image: '/assets/categories/construction-equipment.svg',
+        name: 'Compactors',
+        image: '/assets/categories/compactors.png',
         count: '423',
-        description: 'Construction equipment and machinery',
+        description: 'Compaction equipment and rollers',
       },
       {
-        name: 'MATERIAL HANDLING EQUIPMENT',
-        image: '/assets/categories/material-handling.svg',
+        name: 'Compressors',
+        image: '/assets/categories/compressors.png',
         count: '534',
-        description: 'Material handling equipment',
+        description: 'Air compressors and pneumatic systems',
       },
       {
-        name: 'MACHINING EQUIPMENT',
-        image: '/assets/categories/machining-equipment.svg',
+        name: 'Container Stackers',
+        image: '/assets/categories/container-stackers.png',
         count: '298',
-        description: 'Machining equipment and tools',
+        description: 'Container handling equipment',
       },
       {
-        name: 'COMMERCIAL TRUCKS',
-        image: '/assets/categories/commercial-trucks.svg',
+        name: 'Cranes',
+        image: '/assets/categories/cranes.png',
         count: '187',
-        description: 'Commercial trucks and vehicles',
+        description: 'Mobile and tower cranes',
       },
       // Row 2 - Additional categories (collapsible)
       {
-        name: 'MINING EQUIPMENT',
-        image: '/assets/categories/plant-facility.svg',
+        name: 'Crushers',
+        image: '/assets/categories/crushers.png',
         count: '892',
-        description: 'Mining and quarrying equipment',
+        description: 'Crushing and screening equipment',
       },
       {
-        name: 'AGRICULTURAL EQUIPMENT',
-        image: '/assets/categories/industrial-parts.svg',
+        name: 'Dozers',
+        image: '/assets/categories/dozers.png',
         count: '1,134',
-        description: 'Farm and agricultural machinery',
+        description: 'Bulldozers and crawler tractors',
       },
       {
-        name: 'FORESTRY EQUIPMENT',
-        image: '/assets/categories/process-equipment.svg',
+        name: 'Excavators',
+        image: '/assets/categories/excavators.png',
         count: '456',
-        description: 'Forestry and logging equipment',
+        description: 'Hydraulic excavators and diggers',
       },
       {
-        name: 'WELDING EQUIPMENT',
-        image: '/assets/categories/industrial-robots.svg',
+        name: 'Forklifts',
+        image: '/assets/categories/forklifts.png',
         count: '789',
-        description: 'Welding and cutting equipment',
+        description: 'Forklifts and material handling',
       },
       {
-        name: 'POWER GENERATION',
-        image: '/assets/categories/construction-equipment.svg',
+        name: 'Generators',
+        image: '/assets/categories/generators.png',
         count: '623',
-        description: 'Generators and power systems',
+        description: 'Power generators and diesel sets',
       },
       {
-        name: 'COMPRESSORS & PUMPS',
-        image: '/assets/categories/material-handling.svg',
+        name: 'Motor Graders',
+        image: '/assets/categories/motor-graders.png',
         count: '967',
-        description: 'Air compressors and industrial pumps',
+        description: 'Motor graders and road equipment',
       },
       {
-        name: 'OIL & GAS EQUIPMENT',
-        image: '/assets/categories/machining-equipment.svg',
+        name: 'Other Equipment',
+        image: '/assets/categories/other-equipments.png',
         count: '334',
-        description: 'Oil field and gas equipment',
+        description: 'Specialized equipment and tools',
       },
       {
-        name: 'MARINE EQUIPMENT',
-        image: '/assets/categories/commercial-trucks.svg',
+        name: 'Skid Steers',
+        image: '/assets/categories/skid-steers.png',
         count: '278',
-        description: 'Marine and offshore equipment',
+        description: 'Skid steer loaders and attachments',
       },
       // Row 3 - More specialized categories (collapsible)
       {
-        name: 'CONCRETE EQUIPMENT',
-        image: '/assets/categories/plant-facility.svg',
+        name: 'Trailers',
+        image: '/assets/categories/trailers.png',
         count: '512',
+        description: 'Equipment trailers and haulers',
+      },
+      {
+        name: 'Trucks',
+        image: '/assets/categories/trucks.png',
+        count: '389',
+        description: 'Commercial trucks and vehicles',
+      },
+      {
+        name: 'Vehicle Buses',
+        image: '/assets/categories/vehicle-buses.png',
+        count: '445',
+        description: 'Passenger buses and transport',
+      },
+      {
+        name: 'Wheel Loaders',
+        image: '/assets/categories/wheel-loaders.png',
+        count: '267',
+        description: 'Wheel loaders and front loaders',
+      },
+      // Additional categories to fill up to 20
+      {
+        name: 'Concrete Equipment',
+        image: '/assets/categories/other-equipments.png',
+        count: '198',
         description: 'Concrete mixers and pumps',
       },
       {
-        name: 'ASPHALT EQUIPMENT',
-        image: '/assets/categories/industrial-parts.svg',
-        count: '389',
+        name: 'Asphalt Equipment',
+        image: '/assets/categories/other-equipments.png',
+        count: '156',
         description: 'Asphalt pavers and equipment',
       },
       {
-        name: 'DRILLING EQUIPMENT',
-        image: '/assets/categories/process-equipment.svg',
-        count: '445',
+        name: 'Drilling Equipment',
+        image: '/assets/categories/other-equipments.png',
+        count: '234',
         description: 'Drilling rigs and equipment',
       },
       {
-        name: 'CRUSHING EQUIPMENT',
-        image: '/assets/categories/industrial-robots.svg',
-        count: '267',
-        description: 'Crushers and screening equipment',
-      },
-      {
-        name: 'TUNNELING EQUIPMENT',
-        image: '/assets/categories/construction-equipment.svg',
-        count: '198',
-        description: 'Tunnel boring and equipment',
-      },
-      {
-        name: 'RAILWAY EQUIPMENT',
-        image: '/assets/categories/material-handling.svg',
-        count: '156',
-        description: 'Railway maintenance equipment',
-      },
-      {
-        name: 'BRIDGE EQUIPMENT',
-        image: '/assets/categories/machining-equipment.svg',
-        count: '234',
-        description: 'Bridge construction equipment',
-      },
-      {
-        name: 'DEMOLITION EQUIPMENT',
-        image: '/assets/categories/commercial-trucks.svg',
+        name: 'Tunneling Equipment',
+        image: '/assets/categories/other-equipments.png',
         count: '345',
-        description: 'Demolition and recycling equipment',
+        description: 'Tunnel boring and equipment',
       },
     ],
     []
   );
 
   // Split categories into visible and collapsible sections
-  const visibleCategories = allCategories.slice(0, 8); // First row (always visible)
-  const collapsibleCategories = allCategories.slice(8); // Rows 2 & 3 (collapsible)
+  const visibleCategories = allCategories.slice(0, 12); // First 2 rows (always visible)
+  const collapsibleCategories = allCategories.slice(12); // Remaining categories (collapsible)
 
   return (
     <section className='py-12 bg-white'>
       <div className='container mx-auto px-4'>
-        <div className='text-center mb-8'>
-          <h2 className='text-3xl font-bold text-gray-900 mb-2'>Equipment Categories</h2>
-          <p className='text-gray-600 max-w-2xl mx-auto'>
-            Browse our extensive selection of industrial equipment across multiple categories
-          </p>
-        </div>
-
-        {/* Categories Grid - First row (always visible) */}
-        <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-7xl mx-auto'>
+        {/* Categories Grid - First 2 rows (always visible) */}
+        <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
           {visibleCategories.map((category, index) => (
             <div key={`${category.name}-${index}`} className='group cursor-pointer'>
               <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
-                {/* Circular image background */}
-                <div className='w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center group-hover:scale-105 transition-all duration-300 overflow-hidden bg-gray-100'>
+                {/* Square image - 50% larger size */}
+                <div className='w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center group-hover:scale-105 transition-all duration-300'>
                   <Image
                     src={category.image}
                     alt={category.name}
-                    width={80}
-                    height={80}
-                    className='w-full h-full object-cover'
+                    width={144}
+                    height={144}
+                    className='w-full h-full object-contain'
                   />
                 </div>
-                {/* Category name */}
-                <div className='min-h-[2.5rem] flex items-center'>
-                  <h3 className='text-xs font-medium text-gray-800 leading-tight line-clamp-2'>
+                {/* Category name and count - No gap */}
+                <div className='min-h-[2rem] flex flex-col items-center justify-center'>
+                  <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
                     {category.name}
                   </h3>
+                  <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
                 </div>
-                {/* Equipment count */}
-                <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
               </div>
             </div>
           ))}
@@ -214,28 +206,27 @@ const Categories = memo(() => {
           }`}
         >
           <div className='min-h-0'>
-            <div className='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-7xl mx-auto'>
+            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
               {collapsibleCategories.map((category, index) => (
                 <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
                   <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
-                    {/* Circular image background */}
-                    <div className='w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center group-hover:scale-105 transition-all duration-300 overflow-hidden bg-gray-100'>
+                    {/* Square image - 50% larger size */}
+                    <div className='w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center group-hover:scale-105 transition-all duration-300'>
                       <Image
                         src={category.image}
                         alt={category.name}
-                        width={80}
-                        height={80}
-                        className='w-full h-full object-cover'
+                        width={144}
+                        height={144}
+                        className='w-full h-full object-contain'
                       />
                     </div>
-                    {/* Category name */}
-                    <div className='min-h-[2.5rem] flex items-center'>
-                      <h3 className='text-xs font-medium text-gray-800 leading-tight line-clamp-2'>
+                    {/* Category name and count - No gap */}
+                    <div className='min-h-[2rem] flex flex-col items-center justify-center'>
+                      <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
                         {category.name}
                       </h3>
+                      <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
                     </div>
-                    {/* Equipment count */}
-                    <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
                   </div>
                 </div>
               ))}
