@@ -25,7 +25,7 @@ export interface EquipmentAd {
   };
 }
 
-export const mockEquipmentData: EquipmentAd[] = [
+export const equipmentData: EquipmentAd[] = [
   {
     id: '1',
     title: 'CAT 320D Excavator',
