@@ -7,7 +7,18 @@ import EquipmentList from './EquipmentList';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Badge } from '@/shared/ui/badge';
-import { Bot, Sparkles, Search, MapPin, Filter, Maximize2, Minimize2, Menu, X } from 'lucide-react';
+import {
+  Bot,
+  Sparkles,
+  Search,
+  MapPin,
+  Filter,
+  Maximize2,
+  Minimize2,
+  Menu,
+  X,
+  Clock,
+} from 'lucide-react';
 
 // Dynamically import the map component to avoid SSR issues
 const EquipmentMap = dynamic(() => import('./EquipmentMap'), {
@@ -62,22 +73,20 @@ export default function AIMapSearchPage() {
   return (
     <div className='h-screen flex flex-col bg-gray-50'>
       {/* Header */}
-      <div className='bg-white border-b shadow-sm z-10'>
-        <div className='px-4 py-3'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-3'>
-              <div className='flex items-center space-x-2'>
-                <Bot className='w-6 h-6 text-blue-600' />
-                <Sparkles className='w-5 h-5 text-orange-500' />
-              </div>
-              <div>
-                <h1 className='text-xl font-bold text-gray-900'>AI Map Search</h1>
-                <p className='text-sm text-gray-600'>
-                  Find equipment with intelligent location mapping
-                </p>
-              </div>
+      <div className='bg-white border-b border-gray-200 text-black p-3 md:p-4'>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center space-x-2 md:space-x-3'>
+            <div className='bg-orange-500 p-1.5 md:p-2 rounded-lg'>
+              <Search className='w-4 h-4 md:w-5 md:h-5 text-white' />
             </div>
-
+            <div>
+              <h1 className='text-lg md:text-xl font-bold text-black'>AI Equipment Search</h1>
+              <p className='text-xs md:text-sm text-gray-600 hidden sm:block'>
+                Find equipment with AI-powered mapping
+              </p>
+            </div>
+          </div>
+          <div className='flex items-center space-x-2'>
             {/* Mobile menu toggle */}
             <Button
               variant='ghost'
@@ -106,44 +115,49 @@ export default function AIMapSearchPage() {
           </div>
 
           {/* AI Search Bar */}
-          <div className='mt-3'>
+          <div className='mt-3 sm:mt-4'>
             <div className='relative max-w-2xl'>
-              <div className='absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1'>
-                <Bot className='w-4 h-4 text-blue-600' />
-                <Sparkles className='w-3 h-3 text-orange-500' />
+              <div className='absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 flex items-center space-x-1 z-10'>
+                <div className='flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-gray-600 rounded-lg'>
+                  <Bot className='w-2.5 h-2.5 sm:w-3 sm:h-3 text-white' />
+                </div>
+                <Sparkles className='w-3 h-3 sm:w-4 sm:h-4 text-gray-500' />
               </div>
               <Input
-                placeholder="Ask AI: 'Find excavators near construction sites' or 'Show wheel loaders under $100k'"
+                placeholder="🎯 Ask AI: 'excavators near me'"
                 value={aiSearchQuery}
                 onChange={e => setAiSearchQuery(e.target.value)}
-                className='pl-12 pr-20 py-2 text-sm'
+                className='pl-12 sm:pl-16 pr-16 sm:pr-24 py-2.5 sm:py-3 text-sm bg-white/80 backdrop-blur-sm border-2 border-gray-300 rounded-xl shadow-lg focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all duration-200'
                 onKeyPress={e => e.key === 'Enter' && handleAiSearch()}
               />
               <Button
                 size='sm'
-                className='absolute right-1 top-1/2 transform -translate-y-1/2'
+                className='absolute right-1.5 sm:right-2 top-1/2 transform -translate-y-1/2 bg-gray-600 hover:bg-gray-700 text-white border-0 rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 shadow-md transition-all duration-200'
                 onClick={handleAiSearch}
               >
-                <Search className='w-4 h-4 mr-1' />
-                Search
+                <Search className='w-3 h-3 sm:w-4 sm:h-4 sm:mr-1' />
+                <span className='hidden sm:inline'>Ask AI</span>
               </Button>
             </div>
           </div>
 
           {/* Stats */}
-          <div className='mt-3 flex items-center space-x-4 text-sm text-gray-600'>
-            <div className='flex items-center'>
-              <MapPin className='w-4 h-4 mr-1' />
-              {filteredEquipment.length} locations
+          <div className='bg-gray-50 border-b border-gray-200 px-3 md:px-4 py-2'>
+            <div className='flex items-center justify-between text-xs md:text-sm'>
+              <div className='flex items-center space-x-3 md:space-x-4'>
+                <div className='flex items-center space-x-1'>
+                  <div className='w-2 h-2 bg-orange-500 rounded-full'></div>
+                  <span className='font-medium text-gray-700'>Live</span>
+                </div>
+                <span className='text-gray-600 hidden sm:inline'>
+                  {mockEquipmentData.length} results
+                </span>
+              </div>
+              <div className='flex items-center space-x-2 md:space-x-3 text-gray-600'>
+                <span className='hidden md:inline'>Updated 2m ago</span>
+                <Clock className='w-3 h-3 md:w-4 md:h-4' />
+              </div>
             </div>
-            <Badge variant='secondary' className='text-xs'>
-              NYC Metro Area
-            </Badge>
-            {selectedEquipment && (
-              <Badge variant='default' className='text-xs'>
-                Selected: {selectedEquipment.title}
-              </Badge>
-            )}
           </div>
         </div>
       </div>
@@ -218,7 +232,7 @@ export default function AIMapSearchPage() {
                 <div className='flex items-start justify-between'>
                   <div className='flex-1'>
                     <h3 className='font-semibold text-sm'>{selectedEquipment.title}</h3>
-                    <div className='text-lg font-bold text-blue-600 mt-1'>
+                    <div className='text-lg font-bold text-orange-600 mt-1'>
                       {selectedEquipment.price}
                     </div>
                     <div className='text-xs text-gray-600 mt-1'>
