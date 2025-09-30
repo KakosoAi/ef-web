@@ -10,13 +10,20 @@ import SearchWithCategory from '@/shared/ui/search-with-category';
 
 const Hero = memo(() => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState('buy'); // 'buy' or 'rent'
+  const [searchType, setSearchType] = useState('buy'); // 'buy', 'rent', or 'tools'
   const router = useRouter();
 
   const handleSearch = useCallback(() => {
     const params = new URLSearchParams();
     if (searchQuery) params.set('q', searchQuery);
-    params.set('type', searchType === 'buy' ? 'sale' : 'rent');
+    if (searchType === 'buy') {
+      params.set('type', 'sale');
+    } else if (searchType === 'rent') {
+      params.set('type', 'rent');
+    } else if (searchType === 'tools') {
+      params.set('type', 'tools');
+      params.set('category', 'tools');
+    }
     router.push(`/search?${params.toString()}`);
   }, [searchQuery, searchType, router]);
 
@@ -52,13 +59,17 @@ const Hero = memo(() => {
 
           {/* Search Section */}
           <div className='search-hero max-w-4xl mx-auto animate-scale-in'>
-            {/* Buy/Rent Toggle */}
+            {/* Buy/Rent/Tools Toggle */}
             <div className='flex justify-center mb-6'>
               <div className='relative bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-xl border border-gray-200'>
                 {/* Sliding Background */}
                 <div
-                  className={`absolute top-1 bottom-1 w-[calc(50%-2px)] bg-gray-900 rounded-full shadow-lg transition-all duration-500 ease-out ${
-                    searchType === 'buy' ? 'left-1' : 'left-[calc(50%+1px)]'
+                  className={`absolute top-1 bottom-1 w-[calc(33.333%-2px)] bg-gray-900 rounded-full shadow-lg transition-all duration-500 ease-out ${
+                    searchType === 'buy'
+                      ? 'left-1'
+                      : searchType === 'rent'
+                        ? 'left-[calc(33.333%+1px)]'
+                        : 'left-[calc(66.666%+1px)]'
                   }`}
                 />
 
@@ -66,7 +77,7 @@ const Hero = memo(() => {
                 <div className='relative flex'>
                   <button
                     onClick={() => setSearchType('buy')}
-                    className={`relative z-10 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
                       searchType === 'buy'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -80,7 +91,7 @@ const Hero = memo(() => {
                   </button>
                   <button
                     onClick={() => setSearchType('rent')}
-                    className={`relative z-10 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
                       searchType === 'rent'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -90,6 +101,20 @@ const Hero = memo(() => {
                       className={`transition-all duration-300 ${searchType === 'rent' ? 'drop-shadow-sm' : ''}`}
                     >
                       Rent Equipment
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setSearchType('tools')}
+                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                      searchType === 'tools'
+                        ? 'text-white transform scale-105'
+                        : 'text-gray-700 hover:text-gray-900 hover:scale-102'
+                    }`}
+                  >
+                    <span
+                      className={`transition-all duration-300 ${searchType === 'tools' ? 'drop-shadow-sm' : ''}`}
+                    >
+                      Rent Tools
                     </span>
                   </button>
                 </div>
