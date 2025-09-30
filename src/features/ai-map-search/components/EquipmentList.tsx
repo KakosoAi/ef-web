@@ -160,10 +160,10 @@ export default function EquipmentList({
               onClick={() => onEquipmentClick(item)}
             >
               <CardContent className='p-0'>
-                <div className='flex h-20'>
+                <div className='flex h-16'>
                   {/* Compact Equipment Image */}
-                  <div className='w-20 h-20 bg-gray-100 flex items-center justify-center relative'>
-                    <div className='text-2xl'>
+                  <div className='w-16 h-16 bg-gray-100 flex items-center justify-center relative'>
+                    <div className='text-xl'>
                       {item.category === 'Excavators' && '🚜'}
                       {item.category === 'Bulldozers' && '🚛'}
                       {item.category === 'Cranes' && '🏗️'}
@@ -243,10 +243,10 @@ export default function EquipmentList({
               onClick={() => onEquipmentClick(item)}
             >
               <CardContent className='p-0'>
-                <div className='flex h-20'>
+                <div className='flex h-16'>
                   {/* Compact Equipment Image */}
-                  <div className='w-20 h-20 bg-gray-100 flex items-center justify-center relative'>
-                    <div className='text-2xl'>
+                  <div className='w-16 h-16 bg-gray-100 flex items-center justify-center relative'>
+                    <div className='text-xl'>
                       {item.category === 'Excavators' && '🚜'}
                       {item.category === 'Bulldozers' && '🚛'}
                       {item.category === 'Cranes' && '🏗️'}
