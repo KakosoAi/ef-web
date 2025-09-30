@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 interface Brand {
   name: string;
@@ -10,6 +9,7 @@ interface Brand {
   imageUrl: string;
 }
 
+// Brands matching the navigation dropdown in the same order
 const allBrands: Brand[] = [
   {
     name: 'Caterpillar',
@@ -27,12 +27,6 @@ const allBrands: Brand[] = [
     imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/volvo.jpg',
   },
   {
-    name: 'Other',
-    slug: 'other',
-    imageUrl:
-      'https://images.equipmentsfinder.com/public/uploads/brands/2024409214818131_other.jpg',
-  },
-  {
     name: 'Komatsu',
     slug: 'komatsu',
     imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/komatsu.jpg',
@@ -41,6 +35,16 @@ const allBrands: Brand[] = [
     name: 'Liebherr',
     slug: 'liebherr',
     imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/liebherr.jpg',
+  },
+  {
+    name: 'John Deere',
+    slug: 'john-deere',
+    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/john-deere.jpg',
+  },
+  {
+    name: 'Bobcat',
+    slug: 'bobcat',
+    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/bobcat.jpg',
   },
   {
     name: 'JLG',
@@ -53,94 +57,13 @@ const allBrands: Brand[] = [
     imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/hyundai.jpg',
   },
   {
-    name: 'Bobcat',
-    slug: 'bobcat',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/bobcat.jpg',
-  },
-  {
-    name: 'John Deere',
-    slug: 'john-deere',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/john-deere.jpg',
-  },
-  {
     name: 'Case',
     slug: 'case',
     imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/case.jpg',
   },
-  {
-    name: 'New Holland',
-    slug: 'new-holland',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/new-holland.jpg',
-  },
-  {
-    name: 'Genie',
-    slug: 'genie',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/genie.jpg',
-  },
-  {
-    name: 'Haulotte',
-    slug: 'haulotte',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/haulotte.jpg',
-  },
-  {
-    name: 'Manitou',
-    slug: 'manitou',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/manitou.jpg',
-  },
-  {
-    name: 'Merlo',
-    slug: 'merlo',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/merlo.jpg',
-  },
-  {
-    name: 'Skyjack',
-    slug: 'skyjack',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/skyjack.jpg',
-  },
-  {
-    name: 'Snorkel',
-    slug: 'snorkel',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/snorkel.jpg',
-  },
-  {
-    name: 'Terex',
-    slug: 'terex',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/terex.jpg',
-  },
-  {
-    name: 'XCMG',
-    slug: 'xcmg',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/xcmg.jpg',
-  },
-  {
-    name: 'Sany',
-    slug: 'sany',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/sany.jpg',
-  },
-  {
-    name: 'Zoomlion',
-    slug: 'zoomlion',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/zoomlion.jpg',
-  },
-  {
-    name: 'Doosan',
-    slug: 'doosan',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/doosan.jpg',
-  },
-  {
-    name: 'Takeuchi',
-    slug: 'takeuchi',
-    imageUrl: 'https://images.equipmentsfinder.com/public/uploads/brands/takeuchi.jpg',
-  },
 ];
 
 export default function PopularBrands() {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Show first 12 brands initially (2 rows of 6 on desktop)
-  const visibleBrands = allBrands.slice(0, 12);
-  const collapsibleBrands = allBrands.slice(12);
-
   return (
     <section className='w-full py-12 bg-background'>
       <div className='container mx-auto px-4'>
@@ -153,8 +76,8 @@ export default function PopularBrands() {
           </p>
         </div>
 
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6'>
-          {visibleBrands.map(brand => (
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
+          {allBrands.map(brand => (
             <Link key={brand.slug} href={`/equipments/rent/${brand.slug}`} className='group block'>
               <div className='bg-card rounded-lg border border-border p-4 hover:border-primary hover:shadow-lg transition-all duration-200 group-hover:scale-105'>
                 <div className='relative w-full h-16'>
@@ -163,57 +86,12 @@ export default function PopularBrands() {
                     alt={`${brand.name} logo`}
                     fill
                     className='object-contain'
-                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 16vw'
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw'
                   />
                 </div>
               </div>
             </Link>
           ))}
-        </div>
-
-        {isExpanded && (
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6'>
-            {collapsibleBrands.map(brand => (
-              <Link
-                key={brand.slug}
-                href={`/equipments/rent/${brand.slug}`}
-                className='group block'
-              >
-                <div className='bg-card rounded-lg border border-border p-4 hover:border-primary hover:shadow-lg transition-all duration-200 group-hover:scale-105'>
-                  <div className='relative w-full h-16'>
-                    <Image
-                      src={brand.imageUrl}
-                      alt={`${brand.name} logo`}
-                      fill
-                      className='object-contain'
-                      sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 16vw'
-                    />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {/* View More / View Less Button */}
-        <div className='text-center mt-8'>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
-          >
-            {isExpanded ? 'View Less' : `View More (${collapsibleBrands.length} more brands)`}
-            <svg
-              className={`ml-2 w-4 h-4 transition-transform duration-200 ${
-                isExpanded ? 'rotate-180' : ''
-              }`}
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              strokeWidth={2}
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
-            </svg>
-          </button>
         </div>
       </div>
     </section>
