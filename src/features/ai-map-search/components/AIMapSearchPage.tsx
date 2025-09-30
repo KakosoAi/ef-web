@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { EquipmentAd, mockEquipmentData } from '@/shared/data/mockEquipmentData';
+import { EquipmentAd, equipmentData } from '@/shared/data/equipmentData';
 import EquipmentList from './EquipmentList';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -35,7 +35,7 @@ const EquipmentMap = dynamic(() => import('./EquipmentMap'), {
 
 export default function AIMapSearchPage() {
   const [selectedEquipment, setSelectedEquipment] = useState<EquipmentAd | null>(null);
-  const [filteredEquipment, setFilteredEquipment] = useState<EquipmentAd[]>(mockEquipmentData);
+  const [filteredEquipment, setFilteredEquipment] = useState<EquipmentAd[]>(equipmentData);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [aiSearchQuery, setAiSearchQuery] = useState('');
@@ -150,7 +150,7 @@ export default function AIMapSearchPage() {
                   <span className='font-medium text-gray-700'>Live</span>
                 </div>
                 <span className='text-gray-600 hidden sm:inline'>
-                  {mockEquipmentData.length} results
+                  {equipmentData.length} results
                 </span>
               </div>
               <div className='flex items-center space-x-2 md:space-x-3 text-gray-600'>
@@ -176,7 +176,7 @@ export default function AIMapSearchPage() {
         `}
         >
           <EquipmentList
-            equipment={mockEquipmentData}
+            equipment={equipmentData}
             selectedEquipment={selectedEquipment}
             onEquipmentClick={handleEquipmentClick}
             onFilterChange={handleFilterChange}

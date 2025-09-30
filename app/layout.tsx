@@ -5,7 +5,7 @@ import { Toaster } from '@/shared/ui/sonner';
 import { TooltipProvider } from '@/shared/ui/tooltip';
 // Removed unused import - QueryClientProvider is used in providers.tsx
 import { AppProviders } from './providers';
-import { ExpandableChatDemo } from '@/shared/ui/expandable-chat-demo';
+import { ChatWidget } from '@/shared/ui/chat-widget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TooltipProvider>
             {children}
             <Toaster />
-            <ExpandableChatDemo />
+            <ChatWidget />
           </TooltipProvider>
         </AppProviders>
       </body>

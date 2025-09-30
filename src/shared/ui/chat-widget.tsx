@@ -14,7 +14,7 @@ import {
 import { ChatMessageList } from '@/shared/ui/chat-message-list';
 import { MachineryIcon } from '@/shared/ui/machinery-icon';
 
-export function ExpandableChatDemo() {
+export function ChatWidget() {
   const [messages, setMessages] = useState([
     {
       id: 1,
