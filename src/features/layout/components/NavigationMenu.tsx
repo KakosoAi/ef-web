@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 import {
-  NavigationMenu,
+  NavigationMenu as NavigationMenuPrimitive,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -95,49 +95,67 @@ const brandLinks: NavItemType[] = [
   {
     title: 'Caterpillar',
     href: '/equipments/rent/caterpillar',
-    description: 'Heavy machinery and construction equipment',
+    description: 'Heavy machinery',
     icon: Star,
   },
   {
     title: 'JCB',
     href: '/equipments/rent/jcb',
-    description: 'Excavators, loaders, and construction equipment',
+    description: 'Excavators & loaders',
     icon: Star,
   },
   {
     title: 'Volvo',
     href: '/equipments/rent/volvo',
-    description: 'Premium construction and mining equipment',
+    description: 'Premium equipment',
     icon: Star,
   },
   {
     title: 'Komatsu',
     href: '/equipments/rent/komatsu',
-    description: 'Earthmoving and mining equipment',
+    description: 'Earthmoving equipment',
     icon: Star,
   },
   {
     title: 'Liebherr',
     href: '/equipments/rent/liebherr',
-    description: 'Cranes, excavators, and heavy equipment',
+    description: 'Cranes & excavators',
     icon: Star,
   },
   {
     title: 'John Deere',
     href: '/equipments/rent/john-deere',
-    description: 'Agricultural and construction machinery',
+    description: 'Agricultural machinery',
     icon: Star,
   },
   {
     title: 'Bobcat',
     href: '/equipments/rent/bobcat',
-    description: 'Compact equipment and skid steers',
+    description: 'Compact equipment',
+    icon: Star,
+  },
+  {
+    title: 'JLG',
+    href: '/equipments/rent/jlg',
+    description: 'Aerial work platforms',
+    icon: Star,
+  },
+  {
+    title: 'Hyundai',
+    href: '/equipments/rent/hyundai',
+    description: 'Construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Case',
+    href: '/equipments/rent/case',
+    description: 'Construction machinery',
     icon: Star,
   },
   {
     title: 'All Brands',
     href: '/brands',
-    description: 'Browse all available equipment brands',
+    description: 'Browse all brands',
     icon: Building2,
   },
 ];
@@ -172,7 +190,7 @@ const companyLinks: NavItemType[] = [
 
 function DesktopMenu() {
   return (
-    <NavigationMenu className='hidden lg:flex'>
+    <NavigationMenuPrimitive className='hidden lg:flex'>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
@@ -188,7 +206,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
               {equipmentLinks.map(link => (
                 <NavGridCard key={link.href} link={link} />
               ))}
@@ -199,7 +217,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
               {rentalLinks.map(link => (
                 <NavGridCard key={link.href} link={link} />
               ))}
@@ -210,7 +228,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+            <div className='grid w-[640px] grid-cols-4 gap-2 p-3'>
               {brandLinks.map(link => (
                 <NavGridCard key={link.href} link={link} />
               ))}
@@ -218,7 +236,7 @@ function DesktopMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
-    </NavigationMenu>
+    </NavigationMenuPrimitive>
   );
 }
 
@@ -277,7 +295,7 @@ function MobileNav() {
   );
 }
 
-export function NavigationMenuDemo() {
+export function NavigationMenu() {
   return (
     <div className='flex items-center gap-2'>
       <DesktopMenu />

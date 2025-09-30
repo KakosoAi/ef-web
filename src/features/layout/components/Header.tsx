@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
 import { ToggleTheme } from '@/shared/ui/toggle-theme';
 import { ToggleLanguage } from '@/shared/ui/toggle-language';
-import { NavigationMenuDemo } from './NavigationMenuDemo';
+import { NavigationMenu } from './NavigationMenu';
 
 const Header = memo(() => {
   return (
@@ -65,7 +65,7 @@ const Header = memo(() => {
           </div>
 
           {/* Desktop Navigation */}
-          <NavigationMenuDemo />
+          <NavigationMenu />
 
           {/* User Actions */}
           <div className='flex items-center space-x-2'>
