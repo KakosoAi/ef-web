@@ -74,10 +74,10 @@ export function ExpandableChatDemo() {
   };
 
   return (
-    <ExpandableChat size='lg' position='bottom-right' icon={<MachineryIcon className='h-6 w-6' />}>
+    <ExpandableChat size='md' position='bottom-right' icon={<MachineryIcon className='h-6 w-6' />}>
       <ExpandableChatHeader className='flex-col text-center justify-center'>
-        <h1 className='text-xl font-semibold'>Equipment Chat ✨</h1>
-        <p className='text-sm text-muted-foreground'>Ask me anything about our equipment</p>
+        <h1 className='text-lg font-semibold'>Equipment Chat ✨</h1>
+        <p className='text-xs text-muted-foreground'>Ask me anything about our equipment</p>
       </ExpandableChatHeader>
 
       <ExpandableChatBody>
