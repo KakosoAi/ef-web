@@ -86,159 +86,235 @@ export default function EquipmentList({
 
   return (
     <div className={`flex flex-col h-full ${className}`}>
-      {/* Search and Filters Header */}
-      <div className='p-4 border-b bg-white'>
-        <div className='space-y-3'>
+      {/* Search and Filters */}
+      <div className='p-3 border-b border-gray-200 bg-white'>
+        <div className='space-y-2'>
           {/* Search Input */}
           <div className='relative'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4' />
+            <Search className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4' />
             <Input
-              placeholder='Search equipment, location, or description...'
+              placeholder='Search equipment...'
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className='pl-10'
+              className='pl-8 h-8 text-sm border-gray-300 focus:border-orange-400 focus:ring-orange-200'
             />
           </div>
 
           {/* Filter Dropdowns */}
-          <div className='flex gap-2'>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='outline' size='sm' className='flex-1'>
-                  <Filter className='w-4 h-4 mr-2' />
-                  {selectedCategory}
-                  <ChevronDown className='w-4 h-4 ml-auto' />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='start' className='w-48'>
-                {equipmentCategories.map(category => (
-                  <DropdownMenuItem
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={selectedCategory === category ? 'bg-blue-50' : ''}
-                  >
-                    {category}
-                  </DropdownMenuItem>
+          <div className='flex gap-1.5'>
+            <select
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+              className='flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-md bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-100'
+            >
+              <option value='All Categories'>All</option>
+              {equipmentCategories
+                .filter(cat => cat !== 'All Categories')
+                .map(category => (
+                  <option key={category} value={category}>
+                    🚜 {category}
+                  </option>
                 ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            </select>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='outline' size='sm' className='flex-1'>
-                  {selectedPriceRange}
-                  <ChevronDown className='w-4 h-4 ml-auto' />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='end' className='w-48'>
-                {priceRanges.map(range => (
-                  <DropdownMenuItem
-                    key={range}
-                    onClick={() => setSelectedPriceRange(range)}
-                    className={selectedPriceRange === range ? 'bg-blue-50' : ''}
-                  >
+            <select
+              value={selectedPriceRange}
+              onChange={e => setSelectedPriceRange(e.target.value)}
+              className='flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-md bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-100'
+            >
+              <option value='All Prices'>Price</option>
+              {priceRanges
+                .filter(range => range !== 'All Prices')
+                .map(range => (
+                  <option key={range} value={range}>
                     {range}
-                  </DropdownMenuItem>
+                  </option>
                 ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            </select>
           </div>
 
           {/* Results Count */}
-          <div className='text-sm text-gray-600'>{filteredEquipment.length} equipment found</div>
+          <div className='text-xs text-gray-500 font-medium'>{filteredEquipment.length} found</div>
         </div>
       </div>
 
       {/* Equipment List */}
       <div className='flex-1 overflow-y-auto'>
-        <div className='p-4 space-y-4'>
-          {filteredEquipment.map(item => (
+        <div className='p-3 space-y-2'>
+          {/* Ad Space - Top */}
+          <div className='relative w-full h-16 mb-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300'>
+            <div className='flex items-center justify-center h-full px-4'>
+              <div className='text-center'>
+                <div className='text-sm font-semibold text-gray-800'>🚜 Equipment Finance</div>
+                <div className='text-xs text-gray-600'>Get approved in 24hrs</div>
+              </div>
+            </div>
+          </div>
+
+          {filteredEquipment.slice(0, 1).map(item => (
             <Card
               key={item.id}
               className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
-                selectedEquipment?.id === item.id
-                  ? 'ring-2 ring-blue-500 shadow-md'
-                  : 'hover:shadow-sm'
-              }`}
+                selectedEquipment?.id === item.id ? 'ring-1 ring-blue-400 shadow-md' : ''
+              } overflow-hidden bg-white mb-1`}
               onClick={() => onEquipmentClick(item)}
             >
-              <CardContent className='p-4'>
-                <div className='space-y-3'>
-                  {/* Header */}
-                  <div className='flex items-start justify-between'>
-                    <div className='flex-1'>
-                      <h3 className='font-semibold text-gray-900 leading-tight'>{item.title}</h3>
-                      <div className='flex items-center gap-2 mt-1'>
-                        <Badge variant='secondary' className='text-xs'>
-                          {item.category}
-                        </Badge>
-                        <Badge
-                          variant={item.condition === 'New' ? 'default' : 'outline'}
-                          className='text-xs'
-                        >
-                          {item.condition}
-                        </Badge>
+              <CardContent className='p-0'>
+                <div className='flex h-20'>
+                  {/* Compact Equipment Image */}
+                  <div className='w-20 h-20 bg-gray-100 flex items-center justify-center relative'>
+                    <div className='text-2xl'>
+                      {item.category === 'Excavators' && '🚜'}
+                      {item.category === 'Bulldozers' && '🚛'}
+                      {item.category === 'Cranes' && '🏗️'}
+                      {item.category === 'Loaders' && '🚚'}
+                      {!['Excavators', 'Bulldozers', 'Cranes', 'Loaders'].includes(item.category) &&
+                        '⚙️'}
+                    </div>
+                    {/* Condition Badge */}
+                    <div className='absolute top-1 left-1'>
+                      <Badge
+                        variant={item.condition === 'New' ? 'default' : 'secondary'}
+                        className='text-xs px-1 py-0 h-4'
+                      >
+                        {item.condition}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  {/* Compact Content */}
+                  <div className='flex-1 p-2 flex flex-col justify-between'>
+                    {/* Title and Price Row */}
+                    <div className='flex items-start justify-between'>
+                      <div className='flex-1 min-w-0'>
+                        <h3 className='font-semibold text-sm leading-tight truncate text-gray-900'>
+                          {item.title}
+                        </h3>
+                        <div className='flex items-center gap-1 mt-0.5'>
+                          <MapPin className='w-3 h-3 text-gray-400' />
+                          <span className='text-xs text-gray-500 truncate'>
+                            {item.location.city}
+                          </span>
+                        </div>
+                      </div>
+                      <div className='text-right ml-2'>
+                        <div className='text-sm font-bold text-primary'>{item.price}</div>
                       </div>
                     </div>
-                    <div className='flex items-center gap-1 ml-2'>
-                      <Button variant='ghost' size='sm' className='h-8 w-8 p-0'>
-                        <Heart className='w-4 h-4' />
+
+                    {/* Bottom Row - Rating and Contact */}
+                    <div className='flex items-center justify-between mt-1'>
+                      <div className='flex items-center gap-1'>
+                        <Star className='w-3 h-3 text-yellow-500 fill-current' />
+                        <span className='text-xs font-medium'>{item.seller.rating}</span>
+                        {item.seller.verified && <Shield className='w-3 h-3 text-green-500 ml-1' />}
+                      </div>
+                      <Button
+                        size='sm'
+                        className='h-6 px-2 bg-black hover:bg-gray-800 text-white text-xs'
+                        onClick={e => e.stopPropagation()}
+                      >
+                        📞
                       </Button>
-                      <Button variant='ghost' size='sm' className='h-8 w-8 p-0'>
-                        <Share2 className='w-4 h-4' />
-                      </Button>
                     </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className='text-2xl font-bold text-blue-600'>{item.price}</div>
-
-                  {/* Location */}
-                  <div className='flex items-center text-sm text-gray-600'>
-                    <MapPin className='w-4 h-4 mr-1 flex-shrink-0' />
-                    <span className='truncate'>
-                      {item.location.address}, {item.location.city}
-                    </span>
-                  </div>
-
-                  {/* Seller Info */}
-                  <div className='flex items-center justify-between text-sm'>
-                    <div className='flex items-center'>
-                      <Star className='w-4 h-4 mr-1 text-yellow-400 fill-current' />
-                      <span className='font-medium'>{item.seller.rating}</span>
-                      <span className='text-gray-500 ml-1'>• {item.seller.name}</span>
-                      {item.seller.verified && <Shield className='w-4 h-4 ml-1 text-green-500' />}
-                    </div>
-                  </div>
-
-                  {/* Specifications */}
-                  {item.specifications.year && (
-                    <div className='flex items-center text-sm text-gray-600'>
-                      <Clock className='w-4 h-4 mr-1' />
-                      <span>
-                        {item.specifications.year} {item.specifications.brand}{' '}
-                        {item.specifications.model}
-                        {item.specifications.hours && ` • ${item.specifications.hours} hours`}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Description */}
-                  <p className='text-sm text-gray-700 line-clamp-2'>{item.description}</p>
-
-                  {/* Action Buttons */}
-                  <div className='flex gap-2 pt-2'>
-                    <Button size='sm' className='flex-1'>
-                      View Details
-                    </Button>
-                    <Button variant='outline' size='sm' className='flex-1'>
-                      Contact Seller
-                    </Button>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
+
+          {/* Ad Space - Middle */}
+          <div className='relative w-full h-16 my-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-orange-100 to-orange-200 border border-orange-300'>
+            <div className='flex items-center justify-center h-full px-4'>
+              <div className='text-center'>
+                <div className='text-sm font-semibold text-gray-800'>⚙️ Parts & Service</div>
+                <div className='text-xs text-gray-600'>Genuine parts available</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Show one more equipment item */}
+          {filteredEquipment.slice(1, 2).map(item => (
+            <Card
+              key={item.id}
+              className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+                selectedEquipment?.id === item.id ? 'ring-1 ring-orange-400 shadow-md' : ''
+              } overflow-hidden bg-white mb-1`}
+              onClick={() => onEquipmentClick(item)}
+            >
+              <CardContent className='p-0'>
+                <div className='flex h-20'>
+                  {/* Compact Equipment Image */}
+                  <div className='w-20 h-20 bg-gray-100 flex items-center justify-center relative'>
+                    <div className='text-2xl'>
+                      {item.category === 'Excavators' && '🚜'}
+                      {item.category === 'Bulldozers' && '🚛'}
+                      {item.category === 'Cranes' && '🏗️'}
+                      {item.category === 'Loaders' && '🚚'}
+                      {!['Excavators', 'Bulldozers', 'Cranes', 'Loaders'].includes(item.category) &&
+                        '⚙️'}
+                    </div>
+                    {/* Condition Badge */}
+                    <div className='absolute top-1 left-1'>
+                      <Badge
+                        variant={item.condition === 'New' ? 'default' : 'secondary'}
+                        className='text-xs px-1 py-0 h-4'
+                      >
+                        {item.condition}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  {/* Compact Content */}
+                  <div className='flex-1 p-2 flex flex-col justify-between'>
+                    {/* Title and Price Row */}
+                    <div className='flex items-start justify-between'>
+                      <div className='flex-1 min-w-0'>
+                        <h3 className='font-semibold text-sm leading-tight truncate text-gray-900'>
+                          {item.title}
+                        </h3>
+                        <div className='flex items-center gap-1 mt-0.5'>
+                          <MapPin className='w-3 h-3 text-gray-400' />
+                          <span className='text-xs text-gray-500 truncate'>
+                            {item.location.city}
+                          </span>
+                        </div>
+                      </div>
+                      <div className='text-right ml-2'>
+                        <div className='text-sm font-bold text-primary'>{item.price}</div>
+                      </div>
+                    </div>
+
+                    {/* Bottom Row - Rating and Contact */}
+                    <div className='flex items-center justify-between mt-1'>
+                      <div className='flex items-center gap-1'>
+                        <Star className='w-3 h-3 text-yellow-500 fill-current' />
+                        <span className='text-xs font-medium'>{item.seller.rating}</span>
+                        {item.seller.verified && <Shield className='w-3 h-3 text-green-500 ml-1' />}
+                      </div>
+                      <Button
+                        size='sm'
+                        className='h-6 px-2 bg-black hover:bg-gray-800 text-white text-xs'
+                        onClick={e => e.stopPropagation()}
+                      >
+                        📞
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+
+          {/* Ad Space - Bottom */}
+          <div className='relative w-full h-16 mt-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-black to-gray-800 border border-gray-600'>
+            <div className='flex items-center justify-center h-full px-4'>
+              <div className='text-center'>
+                <div className='text-sm font-semibold text-white'>🏗️ Equipment Insurance</div>
+                <div className='text-xs text-gray-300'>Protect your investment</div>
+              </div>
+            </div>
+          </div>
 
           {filteredEquipment.length === 0 && (
             <div className='text-center py-8'>
@@ -246,6 +322,9 @@ export default function EquipmentList({
               <div className='text-sm text-gray-400'>Try adjusting your search or filters</div>
             </div>
           )}
+
+          {/* Extra padding to ensure bottom ad is fully visible */}
+          <div className='h-4'></div>
         </div>
       </div>
     </div>
