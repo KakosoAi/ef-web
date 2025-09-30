@@ -238,9 +238,9 @@ const Categories = memo(() => {
         <div className='text-center mt-8'>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-200'
+            className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
           >
-            {isExpanded ? 'View Less' : 'View More'}
+            {isExpanded ? 'View Less' : `View More (${collapsibleCategories.length} more)`}
             <svg
               className={`ml-2 w-4 h-4 transition-transform duration-200 ${
                 isExpanded ? 'rotate-180' : ''
@@ -248,13 +248,9 @@ const Categories = memo(() => {
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
+              strokeWidth={2}
             >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M19 9l-7 7-7-7'
-              />
+              <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
             </svg>
           </button>
         </div>

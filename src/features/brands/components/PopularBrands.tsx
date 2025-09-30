@@ -144,9 +144,13 @@ export default function PopularBrands() {
   return (
     <section className='w-full py-12 bg-background'>
       <div className='container mx-auto px-4'>
-        <div className='text-center mb-8'>
-          <h2 className='text-3xl font-bold text-foreground mb-2'>Popular Brands</h2>
-          <p className='text-muted-foreground'>Browse equipment from top manufacturers</p>
+        <div className='text-center mb-12'>
+          <h2 className='text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4'>
+            Popular <span className='text-primary'>Brands</span>
+          </h2>
+          <p className='text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'>
+            Browse equipment from top manufacturers
+          </p>
         </div>
 
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6'>
@@ -191,12 +195,24 @@ export default function PopularBrands() {
           </div>
         )}
 
-        <div className='text-center'>
+        {/* View More / View Less Button */}
+        <div className='text-center mt-8'>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className='inline-flex items-center px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary-hover transition-colors'
+            className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
           >
             {isExpanded ? 'View Less' : `View More (${collapsibleBrands.length} more brands)`}
+            <svg
+              className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              strokeWidth={2}
+            >
+              <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
+            </svg>
           </button>
         </div>
       </div>

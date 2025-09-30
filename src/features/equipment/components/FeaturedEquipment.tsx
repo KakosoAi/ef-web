@@ -152,10 +152,10 @@ const FeaturedEquipment = memo(() => {
       <div className='container mx-auto px-4'>
         {/* Section Header */}
         <div className='text-center mb-16'>
-          <h2 className='text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4'>
+          <h2 className='text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4'>
             Featured <span className='text-primary'>Equipment</span>
           </h2>
-          <p className='text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto'>
+          <p className='text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'>
             Handpicked premium equipment from verified dealers across the Middle East
           </p>
         </div>
@@ -381,10 +381,10 @@ const FeaturedEquipment = memo(() => {
 
         {/* Show More / Show Less Button */}
         {collapsibleEquipment.length > 0 && (
-          <div className='text-center mb-12'>
+          <div className='text-center mb-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-200'
+              className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
             >
               {isExpanded ? 'Show Less' : 'Show More'}
               <svg
@@ -394,13 +394,9 @@ const FeaturedEquipment = memo(() => {
                 fill='none'
                 stroke='currentColor'
                 viewBox='0 0 24 24'
+                strokeWidth={2}
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M19 9l-7 7-7-7'
-                />
+                <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
               </svg>
             </button>
           </div>

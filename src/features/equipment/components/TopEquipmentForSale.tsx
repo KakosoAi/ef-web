@@ -157,10 +157,10 @@ const TopEquipmentForSale = memo(() => {
           <div className='inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4'>
             <TrendingUp className='w-8 h-8 text-primary' />
           </div>
-          <h2 className='text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4'>
+          <h2 className='text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4'>
             Top Equipment <span className='text-primary'>For Sale</span>
           </h2>
-          <p className='text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto'>
+          <p className='text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'>
             Premium equipment available for immediate purchase from verified dealers
           </p>
         </div>
@@ -395,10 +395,10 @@ const TopEquipmentForSale = memo(() => {
 
         {/* Show More / Show Less Button */}
         {collapsibleEquipment.length > 0 && (
-          <div className='text-center mb-8'>
+          <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-200'
+              className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
             >
               {isExpanded ? 'Show Less' : 'Show More'}
               <svg
@@ -408,29 +408,13 @@ const TopEquipmentForSale = memo(() => {
                 fill='none'
                 stroke='currentColor'
                 viewBox='0 0 24 24'
+                strokeWidth={2}
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M19 9l-7 7-7-7'
-                />
+                <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
               </svg>
             </button>
           </div>
         )}
-
-        {/* View All Button */}
-        <div className='text-center'>
-          <Button
-            size='lg'
-            variant='outline'
-            className='border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-          >
-            View All Equipment for Sale
-            <ArrowRight className='ml-2 h-5 w-5' />
-          </Button>
-        </div>
       </div>
     </section>
   );
