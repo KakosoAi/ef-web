@@ -15,6 +15,7 @@ import {
   X,
   Construction,
   Hammer,
+  Star,
 } from 'lucide-react';
 
 import {
@@ -89,6 +90,58 @@ const rentalLinks: NavItemType[] = [
   },
 ];
 
+// Brand links for Brands dropdown
+const brandLinks: NavItemType[] = [
+  {
+    title: 'Caterpillar',
+    href: '/equipments/rent/caterpillar',
+    description: 'Heavy machinery and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'JCB',
+    href: '/equipments/rent/jcb',
+    description: 'Excavators, loaders, and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Volvo',
+    href: '/equipments/rent/volvo',
+    description: 'Premium construction and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Komatsu',
+    href: '/equipments/rent/komatsu',
+    description: 'Earthmoving and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Liebherr',
+    href: '/equipments/rent/liebherr',
+    description: 'Cranes, excavators, and heavy equipment',
+    icon: Star,
+  },
+  {
+    title: 'John Deere',
+    href: '/equipments/rent/john-deere',
+    description: 'Agricultural and construction machinery',
+    icon: Star,
+  },
+  {
+    title: 'Bobcat',
+    href: '/equipments/rent/bobcat',
+    description: 'Compact equipment and skid steers',
+    icon: Star,
+  },
+  {
+    title: 'All Brands',
+    href: '/brands',
+    description: 'Browse all available equipment brands',
+    icon: Building2,
+  },
+];
+
 // Company/About links
 const companyLinks: NavItemType[] = [
   {
@@ -153,6 +206,17 @@ function DesktopMenu() {
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+              {brandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} />
+              ))}
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -165,6 +229,7 @@ function MobileNav() {
     { title: 'Home', href: '/', icon: Building2 },
     ...equipmentLinks,
     ...rentalLinks,
+    ...brandLinks,
   ];
 
   return (
