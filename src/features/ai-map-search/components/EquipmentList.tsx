@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { EquipmentAd, equipmentCategories, priceRanges } from '@/shared/data/mockEquipmentData';
+import { EquipmentAd, equipmentCategories, priceRanges } from '@/shared/data/equipmentData';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Badge } from '@/shared/ui/badge';
