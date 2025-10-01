@@ -10,6 +10,6 @@ export async function GET() {
     return NextResponse.json({ categories });
   } catch (e) {
     console.error('Categories API error:', e);
-    return NextResponse.json({ categories: [] }, { status: 200 });
+    return NextResponse.json({ error: 'Categories data is not available' }, { status: 500 });
   }
 }
