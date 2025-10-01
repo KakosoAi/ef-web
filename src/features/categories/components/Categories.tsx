@@ -1,173 +1,198 @@
 import Image from 'next/image';
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 
 interface CategoryWithImage {
   name: string;
   image: string;
-  count: string;
-  description: string;
+  count?: string;
+  description?: string;
 }
 
 const Categories = memo(() => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [dbCategories, setDbCategories] = useState<CategoryWithImage[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/categories', { cache: 'force-cache' });
+        const json = await res.json();
+        const categories: CategoryWithImage[] = json?.categories ?? [];
+        if (mounted && Array.isArray(categories) && categories.length > 0) {
+          // Normalize to include optional fields
+          setDbCategories(categories.map(c => ({ ...c, count: '', description: '' })));
+        }
+      } catch (err) {
+        console.error('Failed to load categories', err);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const allCategories: CategoryWithImage[] = useMemo(
-    () => [
-      // Row 1 - Original categories (always visible)
-      {
-        name: 'Ariel Platforms',
-        image: '/assets/categories/ariel-platforms.png',
-        count: '1,245',
-        description: 'Aerial work platforms and lifts',
-      },
-      {
-        name: 'Attachments',
-        image: '/assets/categories/attachments.png',
-        count: '887',
-        description: 'Equipment attachments and accessories',
-      },
-      {
-        name: 'Backhoe Loaders',
-        image: '/assets/categories/backhoe-loaders.png',
-        count: '672',
-        description: 'Backhoe loaders and excavators',
-      },
-      {
-        name: 'Boom Loaders',
-        image: '/assets/categories/boom-loader.png',
-        count: '1,156',
-        description: 'Boom loaders and telehandlers',
-      },
-      {
-        name: 'Compactors',
-        image: '/assets/categories/compactors.png',
-        count: '423',
-        description: 'Compaction equipment and rollers',
-      },
-      {
-        name: 'Compressors',
-        image: '/assets/categories/compressors.png',
-        count: '534',
-        description: 'Air compressors and pneumatic systems',
-      },
-      {
-        name: 'Container Stackers',
-        image: '/assets/categories/container-stackers.png',
-        count: '298',
-        description: 'Container handling equipment',
-      },
-      {
-        name: 'Cranes',
-        image: '/assets/categories/cranes.png',
-        count: '187',
-        description: 'Mobile and tower cranes',
-      },
-      // Row 2 - Additional categories (collapsible)
-      {
-        name: 'Crushers',
-        image: '/assets/categories/crushers.png',
-        count: '892',
-        description: 'Crushing and screening equipment',
-      },
-      {
-        name: 'Dozers',
-        image: '/assets/categories/dozers.png',
-        count: '1,134',
-        description: 'Bulldozers and crawler tractors',
-      },
-      {
-        name: 'Excavators',
-        image: '/assets/categories/excavators.png',
-        count: '456',
-        description: 'Hydraulic excavators and diggers',
-      },
-      {
-        name: 'Forklifts',
-        image: '/assets/categories/forklifts.png',
-        count: '789',
-        description: 'Forklifts and material handling',
-      },
-      {
-        name: 'Generators',
-        image: '/assets/categories/generators.png',
-        count: '623',
-        description: 'Power generators and diesel sets',
-      },
-      {
-        name: 'Motor Graders',
-        image: '/assets/categories/motor-graders.png',
-        count: '967',
-        description: 'Motor graders and road equipment',
-      },
-      {
-        name: 'Other Equipment',
-        image: '/assets/categories/other-equipments.png',
-        count: '334',
-        description: 'Specialized equipment and tools',
-      },
-      {
-        name: 'Skid Steers',
-        image: '/assets/categories/skid-steers.png',
-        count: '278',
-        description: 'Skid steer loaders and attachments',
-      },
-      // Row 3 - More specialized categories (collapsible)
-      {
-        name: 'Trailers',
-        image: '/assets/categories/trailers.png',
-        count: '512',
-        description: 'Equipment trailers and haulers',
-      },
-      {
-        name: 'Trucks',
-        image: '/assets/categories/trucks.png',
-        count: '389',
-        description: 'Commercial trucks and vehicles',
-      },
-      {
-        name: 'Vehicle Buses',
-        image: '/assets/categories/vehicle-buses.png',
-        count: '445',
-        description: 'Passenger buses and transport',
-      },
-      {
-        name: 'Wheel Loaders',
-        image: '/assets/categories/wheel-loaders.png',
-        count: '267',
-        description: 'Wheel loaders and front loaders',
-      },
-      // Additional categories to fill up to 20
-      {
-        name: 'Concrete Equipment',
-        image: '/assets/categories/other-equipments.png',
-        count: '198',
-        description: 'Concrete mixers and pumps',
-      },
-      {
-        name: 'Asphalt Equipment',
-        image: '/assets/categories/other-equipments.png',
-        count: '156',
-        description: 'Asphalt pavers and equipment',
-      },
-      {
-        name: 'Drilling Equipment',
-        image: '/assets/categories/other-equipments.png',
-        count: '234',
-        description: 'Drilling rigs and equipment',
-      },
-      {
-        name: 'Tunneling Equipment',
-        image: '/assets/categories/other-equipments.png',
-        count: '345',
-        description: 'Tunnel boring and equipment',
-      },
-    ],
-    []
+    () =>
+      dbCategories.length > 0
+        ? dbCategories
+        : [
+            // Row 1 - Original categories (always visible)
+            {
+              name: 'Ariel Platforms',
+              image: '/assets/categories/ariel-platforms.png',
+              count: '1,245',
+              description: 'Aerial work platforms and lifts',
+            },
+            {
+              name: 'Attachments',
+              image: '/assets/categories/attachments.png',
+              count: '887',
+              description: 'Equipment attachments and accessories',
+            },
+            {
+              name: 'Backhoe Loaders',
+              image: '/assets/categories/backhoe-loaders.png',
+              count: '672',
+              description: 'Backhoe loaders and excavators',
+            },
+            {
+              name: 'Boom Loaders',
+              image: '/assets/categories/boom-loader.png',
+              count: '1,156',
+              description: 'Boom loaders and telehandlers',
+            },
+            {
+              name: 'Compactors',
+              image: '/assets/categories/compactors.png',
+              count: '423',
+              description: 'Compaction equipment and rollers',
+            },
+            {
+              name: 'Compressors',
+              image: '/assets/categories/compressors.png',
+              count: '534',
+              description: 'Air compressors and pneumatic systems',
+            },
+            {
+              name: 'Container Stackers',
+              image: '/assets/categories/container-stackers.png',
+              count: '298',
+              description: 'Container handling equipment',
+            },
+            {
+              name: 'Cranes',
+              image: '/assets/categories/cranes.png',
+              count: '187',
+              description: 'Mobile and tower cranes',
+            },
+            // Row 2 - Additional categories (collapsible)
+            {
+              name: 'Crushers',
+              image: '/assets/categories/crushers.png',
+              count: '892',
+              description: 'Crushing and screening equipment',
+            },
+            {
+              name: 'Dozers',
+              image: '/assets/categories/dozers.png',
+              count: '1,134',
+              description: 'Bulldozers and crawler tractors',
+            },
+            {
+              name: 'Excavators',
+              image: '/assets/categories/excavators.png',
+              count: '456',
+              description: 'Hydraulic excavators and diggers',
+            },
+            {
+              name: 'Forklifts',
+              image: '/assets/categories/forklifts.png',
+              count: '789',
+              description: 'Forklifts and material handling',
+            },
+            {
+              name: 'Generators',
+              image: '/assets/categories/generators.png',
+              count: '623',
+              description: 'Power generators and diesel sets',
+            },
+            {
+              name: 'Motor Graders',
+              image: '/assets/categories/motor-graders.png',
+              count: '967',
+              description: 'Motor graders and road equipment',
+            },
+            {
+              name: 'Other Equipment',
+              image: '/assets/categories/other-equipments.png',
+              count: '334',
+              description: 'Specialized equipment and tools',
+            },
+            {
+              name: 'Skid Steers',
+              image: '/assets/categories/skid-steers.png',
+              count: '278',
+              description: 'Skid steer loaders and attachments',
+            },
+            // Row 3 - More specialized categories (collapsible)
+            {
+              name: 'Trailers',
+              image: '/assets/categories/trailers.png',
+              count: '512',
+              description: 'Equipment trailers and haulers',
+            },
+            {
+              name: 'Trucks',
+              image: '/assets/categories/trucks.png',
+              count: '389',
+              description: 'Commercial trucks and vehicles',
+            },
+            {
+              name: 'Vehicle Buses',
+              image: '/assets/categories/vehicle-buses.png',
+              count: '445',
+              description: 'Passenger buses and transport',
+            },
+            {
+              name: 'Wheel Loaders',
+              image: '/assets/categories/wheel-loaders.png',
+              count: '267',
+              description: 'Wheel loaders and front loaders',
+            },
+            // Additional categories to fill up to 20
+            {
+              name: 'Concrete Equipment',
+              image: '/assets/categories/other-equipments.png',
+              count: '198',
+              description: 'Concrete mixers and pumps',
+            },
+            {
+              name: 'Asphalt Equipment',
+              image: '/assets/categories/other-equipments.png',
+              count: '156',
+              description: 'Asphalt pavers and equipment',
+            },
+            {
+              name: 'Drilling Equipment',
+              image: '/assets/categories/other-equipments.png',
+              count: '234',
+              description: 'Drilling rigs and equipment',
+            },
+            {
+              name: 'Tunneling Equipment',
+              image: '/assets/categories/other-equipments.png',
+              count: '345',
+              description: 'Tunnel boring and equipment',
+            },
+          ],
+    [dbCategories]
   );
 
   // Split categories into visible and collapsible sections
   const visibleCategories = allCategories.slice(0, 12); // First 2 rows (always visible)
   const collapsibleCategories = allCategories.slice(12); // Remaining categories (collapsible)
+  const moreCount = Math.max(0, allCategories.length - 12);
 
   return (
     <section className='py-4 bg-white'>
@@ -192,7 +217,9 @@ const Categories = memo(() => {
                   <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
                     {category.name}
                   </h3>
-                  <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                  {category.count && (
+                    <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -225,7 +252,9 @@ const Categories = memo(() => {
                       <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
                         {category.name}
                       </h3>
-                      <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                      {category.count && (
+                        <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -235,25 +264,27 @@ const Categories = memo(() => {
         </div>
 
         {/* View More / View Less Button */}
-        <div className='text-center mt-8'>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
-          >
-            {isExpanded ? 'View Less' : `View More (${collapsibleCategories.length} more)`}
-            <svg
-              className={`ml-2 w-4 h-4 transition-transform duration-200 ${
-                isExpanded ? 'rotate-180' : ''
-              }`}
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              strokeWidth={2}
+        {moreCount > 0 && (
+          <div className='text-center mt-8'>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
             >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
-            </svg>
-          </button>
-        </div>
+              {isExpanded ? 'View Less' : `View More (${moreCount} more)`}
+              <svg
+                className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                  isExpanded ? 'rotate-180' : ''
+                }`}
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                strokeWidth={2}
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
