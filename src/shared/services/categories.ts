@@ -4,6 +4,7 @@ export interface CategoryRecord {
   id: number;
   name: string;
   icon: string; // png file name located under public/assets/categories
+  visible: boolean; // whether the category should be displayed
 }
 
 export interface CategoryWithImage {
@@ -19,7 +20,8 @@ export async function getCategories(): Promise<CategoryWithImage[]> {
   const supabase = getSupabaseServerClient();
   const { data, error } = await supabase
     .from('categories')
-    .select('id, name, icon')
+    .select('id, name, icon, visible')
+    .eq('visible', true)
     .order('name', { ascending: true });
 
   if (error) {
