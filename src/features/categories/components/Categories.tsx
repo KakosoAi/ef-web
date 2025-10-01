@@ -60,24 +60,24 @@ const Categories = memo(() => {
           <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
             {visibleCategories.map((category, index) => (
               <div key={`${category.name}-${index}`} className='group cursor-pointer'>
-                <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
-                  {/* Square image - 50% larger size */}
-                  <div className='w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center group-hover:scale-105 transition-all duration-300'>
+                <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
+                  {/* Smaller, more professional icon container */}
+                  <div className='w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
                     <Image
                       src={category.image}
                       alt={category.name}
-                      width={144}
-                      height={144}
-                      className='w-full h-full object-contain'
+                      width={80}
+                      height={80}
+                      className='w-16 h-16 sm:w-20 sm:h-20 object-contain'
                     />
                   </div>
-                  {/* Category name and count - No gap */}
-                  <div className='min-h-[2rem] flex flex-col items-center justify-center'>
-                    <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
+                  {/* Category name and count */}
+                  <div className='min-h-[2.5rem] flex flex-col items-center justify-center'>
+                    <h3 className='text-sm font-semibold text-gray-900 leading-tight break-words text-center px-1'>
                       {category.name}
                     </h3>
                     {category.count && (
-                      <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                      <div className='text-xs text-gray-600 font-medium mt-1'>{category.count}</div>
                     )}
                   </div>
                 </div>
@@ -97,24 +97,26 @@ const Categories = memo(() => {
               <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
                 {collapsibleCategories.map((category, index) => (
                   <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
-                    <div className='flex flex-col items-center text-center space-y-2 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300'>
-                      {/* Square image - 50% larger size */}
-                      <div className='w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center group-hover:scale-105 transition-all duration-300'>
+                    <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
+                      {/* Smaller, more professional icon container */}
+                      <div className='w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
                         <Image
                           src={category.image}
                           alt={category.name}
-                          width={144}
-                          height={144}
-                          className='w-full h-full object-contain'
+                          width={80}
+                          height={80}
+                          className='w-16 h-16 sm:w-20 sm:h-20 object-contain'
                         />
                       </div>
-                      {/* Category name and count - No gap */}
-                      <div className='min-h-[2rem] flex flex-col items-center justify-center'>
-                        <h3 className='text-sm font-medium text-gray-800 leading-tight line-clamp-2'>
+                      {/* Category name and count */}
+                      <div className='min-h-[2.5rem] flex flex-col items-center justify-center'>
+                        <h3 className='text-sm font-semibold text-gray-900 leading-tight break-words text-center px-1'>
                           {category.name}
                         </h3>
                         {category.count && (
-                          <div className='text-xs text-gray-500 font-medium'>{category.count}</div>
+                          <div className='text-xs text-gray-600 font-medium mt-1'>
+                            {category.count}
+                          </div>
                         )}
                       </div>
                     </div>
