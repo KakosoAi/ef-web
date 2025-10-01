@@ -83,6 +83,49 @@ yarn dev
 bun dev
 ```
 
+## 🔐 Supabase + Vercel Integration
+
+This project uses Supabase for data. Categories are fetched server-side and exposed via a secure API route, following best practices to avoid leaking secrets.
+
+### Environment Variables
+
+- Create `.env.local` (not committed) and set:
+
+```
+SUPABASE_URL="https://YOUR_PROJECT_ID.supabase.co"
+SUPABASE_ANON_KEY="YOUR_ANON_KEY"
+```
+
+- In Vercel → Project Settings → Environment Variables, add the same keys for Development, Preview, and Production.
+- Do not expose `SUPABASE_SERVICE_ROLE_KEY` to the browser. If you need admin operations, only use it server-side (e.g., in background jobs or server actions).
+
+### Security Best Practices
+
+- Enable Row Level Security (RLS) on your `categories` table and allow read access for anonymous users if the data is public:
+
+```sql
+-- In Supabase SQL editor
+alter table public.categories enable row level security;
+create policy "Public read for categories" on public.categories
+  for select using (true);
+```
+
+- Never commit real keys; use `.env.local` for dev and Vercel env vars for deployment.
+- Avoid creating Supabase clients in client-side (browser) code for sensitive data. This project queries categories on the server via `app/api/categories/route.ts`.
+- Cache safe responses: the categories API is configured with `revalidate = 300` (5 minutes) to reduce load. Client-side fetch uses `cache: 'force-cache'`.
+
+### Project Files
+
+- `src/shared/lib/supabaseServer.ts`: Server-only Supabase client using `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+- `src/shared/services/categories.ts`: Server service that fetches `id, name, icon` and maps icons to `/assets/categories/<icon>`.
+- `app/api/categories/route.ts`: API route returning `{ categories }` as JSON.
+- `src/features/categories/components/Categories.tsx`: Client component that fetches `/api/categories` and renders names/icons, falling back to static content when unavailable.
+
+### Icon Naming
+
+- Store the PNG file name (e.g., `excavators.png`) in `categories.icon`.
+- Place matching images under `public/assets/categories/`.
+
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📜 Available Scripts
