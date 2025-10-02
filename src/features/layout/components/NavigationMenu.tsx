@@ -15,10 +15,11 @@ import {
   X,
   Construction,
   Hammer,
+  Star,
 } from 'lucide-react';
 
 import {
-  NavigationMenu,
+  NavigationMenu as NavigationMenuPrimitive,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -89,6 +90,76 @@ const rentalLinks: NavItemType[] = [
   },
 ];
 
+// Brand links for Brands dropdown
+const brandLinks: NavItemType[] = [
+  {
+    title: 'Caterpillar',
+    href: '/equipments/rent/caterpillar',
+    description: 'Heavy machinery',
+    icon: Star,
+  },
+  {
+    title: 'JCB',
+    href: '/equipments/rent/jcb',
+    description: 'Excavators & loaders',
+    icon: Star,
+  },
+  {
+    title: 'Volvo',
+    href: '/equipments/rent/volvo',
+    description: 'Premium equipment',
+    icon: Star,
+  },
+  {
+    title: 'Komatsu',
+    href: '/equipments/rent/komatsu',
+    description: 'Earthmoving equipment',
+    icon: Star,
+  },
+  {
+    title: 'Liebherr',
+    href: '/equipments/rent/liebherr',
+    description: 'Cranes & excavators',
+    icon: Star,
+  },
+  {
+    title: 'John Deere',
+    href: '/equipments/rent/john-deere',
+    description: 'Agricultural machinery',
+    icon: Star,
+  },
+  {
+    title: 'Bobcat',
+    href: '/equipments/rent/bobcat',
+    description: 'Compact equipment',
+    icon: Star,
+  },
+  {
+    title: 'JLG',
+    href: '/equipments/rent/jlg',
+    description: 'Aerial work platforms',
+    icon: Star,
+  },
+  {
+    title: 'Hyundai',
+    href: '/equipments/rent/hyundai',
+    description: 'Construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Case',
+    href: '/equipments/rent/case',
+    description: 'Construction machinery',
+    icon: Star,
+  },
+  {
+    title: 'All Brands',
+    href: '/brands',
+    description: 'Browse all brands',
+    icon: Building2,
+  },
+];
+
 // Company/About links
 const companyLinks: NavItemType[] = [
   {
@@ -119,7 +190,7 @@ const companyLinks: NavItemType[] = [
 
 function DesktopMenu() {
   return (
-    <NavigationMenu className='hidden lg:flex'>
+    <NavigationMenuPrimitive className='hidden lg:flex'>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
@@ -135,7 +206,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
               {equipmentLinks.map(link => (
                 <NavGridCard key={link.href} link={link} />
               ))}
@@ -146,7 +217,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[600px] grid-cols-2 gap-3 p-4'>
+            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
               {rentalLinks.map(link => (
                 <NavGridCard key={link.href} link={link} />
               ))}
@@ -155,30 +226,17 @@ function DesktopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='w-[400px] p-4'>
-              <div className='grid gap-3'>
-                {companyLinks.map(link => (
-                  <NavSmallItem key={link.href} item={link} />
-                ))}
-              </div>
+            <div className='grid w-[640px] grid-cols-4 gap-2 p-3'>
+              {brandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} />
+              ))}
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link
-              href='/categories'
-              className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50'
-            >
-              Categories
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
       </NavigationMenuList>
-    </NavigationMenu>
+    </NavigationMenuPrimitive>
   );
 }
 
@@ -189,8 +247,7 @@ function MobileNav() {
     { title: 'Home', href: '/', icon: Building2 },
     ...equipmentLinks,
     ...rentalLinks,
-    ...companyLinks,
-    { title: 'Categories', href: '/categories', icon: Wrench },
+    ...brandLinks,
   ];
 
   return (
@@ -238,7 +295,7 @@ function MobileNav() {
   );
 }
 
-export function NavigationMenuDemo() {
+export function NavigationMenu() {
   return (
     <div className='flex items-center gap-2'>
       <DesktopMenu />
