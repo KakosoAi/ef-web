@@ -235,6 +235,17 @@ function DesktopMenu() {
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              href='/inquiry-board'
+              className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50'
+            >
+              Inquiry Board
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenuPrimitive>
   );
@@ -245,6 +256,12 @@ function MobileNav() {
 
   const allLinks = [
     { title: 'Home', href: '/', icon: Building2 },
+    {
+      title: 'Inquiry Board',
+      href: '/inquiry-board',
+      icon: Users,
+      description: 'Browse equipment inquiries and requests',
+    },
     ...equipmentLinks,
     ...rentalLinks,
     ...brandLinks,
