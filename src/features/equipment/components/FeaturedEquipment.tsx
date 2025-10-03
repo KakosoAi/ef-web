@@ -7,17 +7,9 @@ import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified } from 'lucide-react';
 import { EquipmentCard } from '@/shared/types';
-import { getActiveAds } from '@/shared/data/ads';
-
 const FeaturedEquipment = memo(() => {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
-  const activeAds = getActiveAds();
-
-  // Handle ad click navigation
-  const handleAdClick = (adId: string) => {
-    router.push(`/ads/${adId}`);
-  };
 
   const allEquipmentData: EquipmentCard[] = useMemo(
     () => [
@@ -365,37 +357,6 @@ const FeaturedEquipment = memo(() => {
             </button>
           </div>
         )}
-
-        {/* Featured Ads Section */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-          {activeAds.slice(0, 4).map(ad => (
-            <div
-              key={ad.id}
-              className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700 cursor-pointer hover:bg-gray-800 hover:shadow-lg hover:scale-105 transition-all duration-300'
-              onClick={() => handleAdClick(ad.id)}
-            >
-              <div className='text-4xl mb-4'>{ad.icon}</div>
-              <h3 className='text-2xl font-display font-bold mb-4'>{ad.title}</h3>
-              <p className='text-gray-300 mb-6'>
-                {ad.description.length > 80
-                  ? `${ad.description.substring(0, 80)}...`
-                  : ad.description}
-              </p>
-              <Button
-                variant='secondary'
-                size='lg'
-                className='bg-orange-500 text-white hover:bg-orange-600'
-                onClick={e => {
-                  e.stopPropagation();
-                  handleAdClick(ad.id);
-                }}
-              >
-                View Details
-                <ArrowRight className='h-5 w-5 ml-2' />
-              </Button>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

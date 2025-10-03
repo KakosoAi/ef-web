@@ -38,7 +38,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '123 Construction Ave',
       city: 'New York, NY',
     },
-    images: ['/assets/equipment/excavator-1.jpg'],
+    images: [
+      '/assets/equipment/cat-320d-excavator-1.jpg',
+      '/assets/equipment/cat-320d-excavator-2.jpg',
+      '/assets/equipment/cat-320d-excavator-3.jpg',
+      '/assets/equipment/cat-bulldozer.jpg',
+      '/assets/equipment/liebherr-crane.jpg',
+    ],
     description:
       'Well-maintained CAT 320D excavator with low hours. Perfect for medium to large construction projects.',
     seller: {
@@ -65,7 +71,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '456 Industrial Blvd',
       city: 'New York, NY',
     },
-    images: ['/assets/equipment/loader-1.jpg'],
+    images: [
+      '/assets/equipment/cat-wheel-loader.jpg',
+      '/assets/equipment/cat-320d-excavator-1.jpg',
+      '/assets/equipment/dump-truck.jpg',
+      '/assets/equipment/scissor-lift.jpg',
+      '/assets/equipment/cat-bulldozer.jpg',
+    ],
     description: 'Powerful John Deere wheel loader with excellent hydraulics and comfortable cab.',
     seller: {
       name: 'Empire Heavy Equipment',
@@ -91,7 +103,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '789 Equipment Row',
       city: 'Jersey City, NJ',
     },
-    images: ['/assets/equipment/skidsteer-1.jpg'],
+    images: [
+      '/assets/equipment/scissor-lift.jpg',
+      '/assets/equipment/cat-wheel-loader.jpg',
+      '/assets/equipment/cat-320d-excavator-2.jpg',
+      '/assets/equipment/liebherr-crane.jpg',
+      '/assets/equipment/dump-truck.jpg',
+    ],
     description:
       'Compact and versatile Bobcat skid steer loader. Great for tight spaces and various attachments.',
     seller: {
@@ -118,7 +136,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '321 Queens Blvd',
       city: 'Queens, NY',
     },
-    images: ['/assets/equipment/excavator-2.jpg'],
+    images: [
+      '/assets/equipment/cat-320d-excavator-2.jpg',
+      '/assets/equipment/cat-320d-excavator-1.jpg',
+      '/assets/equipment/cat-bulldozer.jpg',
+      '/assets/equipment/cat-wheel-loader.jpg',
+      '/assets/equipment/scissor-lift.jpg',
+    ],
     description:
       'Reliable Komatsu excavator with advanced hydraulic system and fuel-efficient engine.',
     seller: {
@@ -145,7 +169,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '654 Bronx Ave',
       city: 'Bronx, NY',
     },
-    images: ['/assets/equipment/backhoe-1.jpg'],
+    images: [
+      '/assets/equipment/cat-bulldozer.jpg',
+      '/assets/equipment/dump-truck.jpg',
+      '/assets/equipment/cat-320d-excavator-3.jpg',
+      '/assets/equipment/liebherr-crane.jpg',
+      '/assets/equipment/cat-wheel-loader.jpg',
+    ],
     description:
       'Versatile Case backhoe loader perfect for digging, loading, and material handling.',
     seller: {
@@ -172,7 +202,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '987 Brooklyn Heights',
       city: 'Brooklyn, NY',
     },
-    images: ['/assets/equipment/excavator-3.jpg'],
+    images: [
+      '/assets/equipment/cat-320d-excavator-3.jpg',
+      '/assets/equipment/cat-320d-excavator-1.jpg',
+      '/assets/equipment/liebherr-crane.jpg',
+      '/assets/equipment/scissor-lift.jpg',
+      '/assets/equipment/dump-truck.jpg',
+    ],
     description:
       'Fuel-efficient Volvo excavator with excellent operator comfort and precision controls.',
     seller: {
@@ -199,7 +235,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '147 Manhattan Plaza',
       city: 'New York, NY',
     },
-    images: ['/assets/equipment/backhoe-2.jpg'],
+    images: [
+      '/assets/equipment/liebherr-crane.jpg',
+      '/assets/equipment/cat-bulldozer.jpg',
+      '/assets/equipment/cat-320d-excavator-2.jpg',
+      '/assets/equipment/dump-truck.jpg',
+      '/assets/equipment/cat-wheel-loader.jpg',
+    ],
     description:
       'Compact JCB backhoe loader with excellent maneuverability and powerful digging force.',
     seller: {
@@ -226,7 +268,13 @@ export const equipmentData: EquipmentAd[] = [
       address: '258 Harlem Way',
       city: 'New York, NY',
     },
-    images: ['/assets/equipment/loader-2.jpg'],
+    images: [
+      '/assets/equipment/dump-truck.jpg',
+      '/assets/equipment/cat-wheel-loader.jpg',
+      '/assets/equipment/scissor-lift.jpg',
+      '/assets/equipment/cat-320d-excavator-1.jpg',
+      '/assets/equipment/liebherr-crane.jpg',
+    ],
     description:
       'Heavy-duty CAT wheel loader with high-capacity bucket and advanced load-sensing hydraulics.',
     seller: {
