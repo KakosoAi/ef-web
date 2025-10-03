@@ -234,42 +234,25 @@ const TopEquipmentForSale = memo(() => {
               <div className='p-3'>
                 {/* Header - Simplified */}
                 <div className='mb-3'>
-                  <h3 className='text-sm font-medium text-gray-900 dark:text-white line-clamp-2 mb-2'>
+                  <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-2'>
                     {equipment.title}
                   </h3>
-                  <div className='text-lg font-bold text-primary mb-1'>{equipment.price}</div>
+                  <div className='text-base font-medium text-primary mb-1'>{equipment.price}</div>
                 </div>
 
-                {/* Key Details - Simplified */}
-                <div className='flex items-center justify-between mb-3 text-xs text-gray-600 dark:text-gray-400'>
-                  <span className='font-medium'>{equipment.year}</span>
-                  <span className='font-medium'>{equipment.hours}</span>
+                {/* Key Details - Reduced */}
+                <div className='flex items-center justify-between mb-3 text-xs text-gray-500 dark:text-gray-400'>
+                  <span className='font-normal'>{equipment.year}</span>
                   <div className='flex items-center space-x-1'>
-                    <MapPin className='h-2 w-2' />
+                    <MapPin className='h-3 w-3' />
                     <span className='text-xs'>{equipment.location.split(',')[0]}</span>
                   </div>
                 </div>
 
-                {/* Dealer Info - Simplified */}
-                <div className='flex items-center justify-between mb-3 pt-2 border-t border-gray-200 dark:border-gray-700'>
-                  <div className='flex items-center space-x-1'>
-                    <span className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-                      {equipment.dealer}
-                    </span>
-                    {equipment.verified && <Verified className='h-3 w-3 text-green-500' />}
-                  </div>
-                  <div className='flex items-center space-x-1'>
-                    <Star className='h-2 w-2 text-yellow-500 fill-current' />
-                    <span className='text-xs font-medium text-gray-600 dark:text-gray-400'>
-                      {equipment.rating}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Action Button - Standardized Style */}
+                {/* Action Button - Transparent with orange hint */}
                 <Button
                   size='sm'
-                  className='w-full text-xs'
+                  className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
                   onClick={() => {
                     if (typeof window !== 'undefined') {
                       window.dispatchEvent(
@@ -328,53 +311,31 @@ const TopEquipmentForSale = memo(() => {
                     </div>
                   </div>
 
-                  {/* Card Content - Compact Layout */}
-                  <div className='p-3 space-y-2'>
-                    {/* Title and Price */}
-                    <div className='space-y-1'>
-                      <h3 className='text-sm font-medium text-gray-900 dark:text-white line-clamp-2 leading-tight'>
+                  {/* Content - Reduced padding */}
+                  <div className='p-3'>
+                    {/* Header - Simplified */}
+                    <div className='mb-3'>
+                      <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-2'>
                         {equipment.title}
                       </h3>
-                      <div className='flex items-center justify-between'>
-                        <span className='text-lg font-bold text-primary'>{equipment.price}</span>
-                        <Badge variant='secondary' className='text-xs px-2 py-1'>
-                          {equipment.priceType}
-                        </Badge>
+                      <div className='text-base font-medium text-primary mb-1'>
+                        {equipment.price}
                       </div>
                     </div>
 
-                    {/* Details - Compact */}
-                    <div className='space-y-1'>
-                      <div className='flex items-center justify-between text-xs text-gray-600 dark:text-gray-400'>
-                        <span>{equipment.year}</span>
-                        <span>{equipment.hours} hrs</span>
-                      </div>
-                      <div className='flex items-center text-xs text-gray-600 dark:text-gray-400'>
-                        <MapPin className='h-3 w-3 mr-1 flex-shrink-0' />
-                        <span className='truncate'>{equipment.location}</span>
-                      </div>
-                    </div>
-
-                    {/* Dealer Info - Simplified */}
-                    <div className='flex items-center justify-between mb-3 pt-2 border-t border-gray-200 dark:border-gray-700'>
+                    {/* Key Details - Reduced */}
+                    <div className='flex items-center justify-between mb-3 text-xs text-gray-500 dark:text-gray-400'>
+                      <span className='font-normal'>{equipment.year}</span>
                       <div className='flex items-center space-x-1'>
-                        <span className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-                          {equipment.dealer}
-                        </span>
-                        {equipment.verified && <Verified className='h-3 w-3 text-green-500' />}
-                      </div>
-                      <div className='flex items-center space-x-1'>
-                        <Star className='h-2 w-2 text-yellow-500 fill-current' />
-                        <span className='text-xs font-medium text-gray-600 dark:text-gray-400'>
-                          {equipment.rating}
-                        </span>
+                        <MapPin className='h-3 w-3' />
+                        <span className='text-xs'>{equipment.location.split(',')[0]}</span>
                       </div>
                     </div>
 
-                    {/* Action Button - Standardized Style */}
+                    {/* Action Button - Transparent with orange hint */}
                     <Button
                       size='sm'
-                      className='w-full text-xs'
+                      className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
                       onClick={() => {
                         if (typeof window !== 'undefined') {
                           window.dispatchEvent(

@@ -30,7 +30,7 @@ const Hero = memo(() => {
   const equipmentTypes = useMemo(() => equipmentCategories, []);
 
   return (
-    <section className='relative min-h-[60vh] flex items-center justify-center overflow-hidden'>
+    <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden'>
       {/* Static Background */}
       <div
         className='absolute inset-0 bg-cover bg-center bg-no-repeat'
@@ -41,35 +41,32 @@ const Hero = memo(() => {
       <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60'></div>
 
       {/* Content */}
-      <div className='relative z-10 container mx-auto px-4 py-12'>
-        <div className='max-w-2xl mx-auto text-center'>
+      <div className='relative z-10 container mx-auto px-6 md:px-8 py-8 md:py-12 lg:py-16'>
+        <div className='max-w-3xl mx-auto text-center'>
           {/* Hero Heading */}
-          <div className='animate-fade-in-up'>
-            <h1 className='text-3xl md:text-5xl font-display font-bold mb-4 leading-tight text-white drop-shadow-2xl'>
+          <div className='animate-fade-in-up mb-12 md:mb-16'>
+            <h1 className='text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 md:mb-8 leading-tight text-white drop-shadow-2xl'>
               <span className='drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>Middle East&apos;s</span>{' '}
               <span className='text-yellow-400 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>#1</span>
               <span className='block text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]'>
                 Equipment Marketplace
               </span>
             </h1>
-            <p className='text-base md:text-lg text-gray-100 mb-6 max-w-xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-medium'>
-              Premium construction equipment marketplace
-            </p>
           </div>
 
           {/* Search Section */}
-          <div className='search-hero max-w-4xl mx-auto animate-scale-in'>
+          <div className='search-hero max-w-5xl mx-auto animate-scale-in'>
             {/* Buy/Rent/Tools Toggle */}
-            <div className='flex justify-center mb-6'>
-              <div className='relative bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-xl border border-gray-200'>
+            <div className='flex justify-center mb-8 md:mb-10'>
+              <div className='relative bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-xl border border-gray-200'>
                 {/* Sliding Background */}
                 <div
-                  className={`absolute top-1 bottom-1 w-[calc(33.333%-2px)] bg-gray-900 rounded-full shadow-lg transition-all duration-500 ease-out ${
+                  className={`absolute top-1.5 bottom-1.5 w-[calc(33.333%-3px)] bg-gray-900 rounded-full shadow-lg transition-all duration-500 ease-out ${
                     searchType === 'buy'
-                      ? 'left-1'
+                      ? 'left-1.5'
                       : searchType === 'rent'
-                        ? 'left-[calc(33.333%+1px)]'
-                        : 'left-[calc(66.666%+1px)]'
+                        ? 'left-[calc(33.333%+1.5px)]'
+                        : 'left-[calc(66.666%+1.5px)]'
                   }`}
                 />
 
@@ -77,7 +74,7 @@ const Hero = memo(() => {
                 <div className='relative flex'>
                   <button
                     onClick={() => setSearchType('buy')}
-                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
                       searchType === 'buy'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -91,7 +88,7 @@ const Hero = memo(() => {
                   </button>
                   <button
                     onClick={() => setSearchType('rent')}
-                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
                       searchType === 'rent'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -105,7 +102,7 @@ const Hero = memo(() => {
                   </button>
                   <button
                     onClick={() => setSearchType('tools')}
-                    className={`relative z-10 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
                       searchType === 'tools'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
