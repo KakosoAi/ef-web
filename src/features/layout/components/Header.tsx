@@ -18,17 +18,14 @@ const Header = memo(() => {
       <div className='border-b border-border bg-muted/50'>
         <div className='container mx-auto px-4'>
           <div className='flex items-center justify-between h-8 text-xs'>
-            <div className='flex items-center space-x-3 text-muted-foreground'>
-              {/* Compact Location Display */}
-              <div className='flex items-center space-x-1 bg-muted/30 px-2 py-1 rounded-md'>
+            <div className='flex items-center space-x-2 text-muted-foreground'>
+              {/* Simplified Location Display */}
+              <div className='flex items-center space-x-1'>
                 <MapPin className='h-3 w-3 text-orange-500' />
-                <span className='font-medium text-[10px] sm:text-xs'>
-                  {contactInfo.locations.slice(0, 3).join(' • ')}
-                  {contactInfo.locations.length > 3 && ' +3 more'}
-                </span>
+                <span className='font-medium text-[10px] sm:text-xs'>UAE</span>
               </div>
-              {/* Compact Phone Display */}
-              <div className='flex items-center space-x-1 bg-muted/30 px-2 py-1 rounded-md'>
+              {/* Simplified Phone Display */}
+              <div className='flex items-center space-x-1'>
                 <Phone className='h-3 w-3 text-green-500' />
                 <span className='font-medium text-[10px] sm:text-xs'>{contactInfo.phone}</span>
               </div>
