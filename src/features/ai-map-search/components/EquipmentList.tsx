@@ -23,6 +23,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import { getActiveAds } from '@/shared/data/ads';
+import { useRouter } from 'next/navigation';
 
 interface EquipmentListProps {
   equipment: EquipmentAd[];
@@ -37,12 +39,21 @@ export default function EquipmentList({
   selectedEquipment,
   onEquipmentClick,
   onFilterChange,
-  className = '',
+  className,
 }: EquipmentListProps) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string>('all');
   const [showMoreAds, setShowMoreAds] = useState(false);
+
+  // Get active ads data
+  const activeAds = getActiveAds();
+
+  // Handle ad click navigation
+  const handleAdClick = (adId: string) => {
+    router.push(`/ads/${adId}`);
+  };
 
   // Use ref to store the callback to avoid dependency issues
   const onFilterChangeRef = useRef(onFilterChange);
@@ -225,14 +236,21 @@ export default function EquipmentList({
           ))}
 
           {/* Ad Space - Middle */}
-          <div className='relative w-full h-16 my-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-orange-100 to-orange-200 border border-orange-300'>
-            <div className='flex items-center justify-center h-full px-4'>
-              <div className='text-center'>
-                <div className='text-sm font-semibold text-gray-800'>⚙️ Parts & Service</div>
-                <div className='text-xs text-gray-600'>Genuine parts available</div>
+          {activeAds[0] && (
+            <div
+              className='relative w-full h-16 my-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-orange-100 to-orange-200 border border-orange-300 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200'
+              onClick={() => handleAdClick(activeAds[0].id)}
+            >
+              <div className='flex items-center justify-center h-full px-4'>
+                <div className='text-center'>
+                  <div className='text-sm font-semibold text-gray-800'>
+                    {activeAds[0].icon} {activeAds[0].title}
+                  </div>
+                  <div className='text-xs text-gray-600'>{activeAds[0].shortDescription}</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Show one more equipment item */}
           {filteredEquipment.slice(1, 2).map(item => (
@@ -308,53 +326,75 @@ export default function EquipmentList({
           ))}
 
           {/* Ad Space - Bottom */}
-          <div className='relative w-full h-16 mt-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-black to-gray-800 border border-gray-600'>
-            <div className='flex items-center justify-center h-full px-4'>
-              <div className='text-center'>
-                <div className='text-sm font-semibold text-white'>🏗️ Equipment Insurance</div>
-                <div className='text-xs text-gray-300'>Protect your investment</div>
+          {activeAds[1] && (
+            <div
+              className='relative w-full h-16 mt-3 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-black to-gray-800 border border-gray-600 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200'
+              onClick={() => handleAdClick(activeAds[1].id)}
+            >
+              <div className='flex items-center justify-center h-full px-4'>
+                <div className='text-center'>
+                  <div className='text-sm font-semibold text-white'>
+                    {activeAds[1].icon} {activeAds[1].title}
+                  </div>
+                  <div className='text-xs text-gray-300'>{activeAds[1].shortDescription}</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Additional Ads - Collapsible */}
           {showMoreAds && (
             <div className='space-y-3 mt-3'>
               {/* Additional Ad 1 */}
-              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300'>
-                <div className='flex items-center justify-center h-full px-4'>
-                  <div className='text-center'>
-                    <div className='text-sm font-semibold text-gray-800'>
-                      🚚 Equipment Transport
+              {activeAds[2] && (
+                <div
+                  className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200'
+                  onClick={() => handleAdClick(activeAds[2].id)}
+                >
+                  <div className='flex items-center justify-center h-full px-4'>
+                    <div className='text-center'>
+                      <div className='text-sm font-semibold text-gray-800'>
+                        {activeAds[2].icon} {activeAds[2].title}
+                      </div>
+                      <div className='text-xs text-gray-600'>{activeAds[2].shortDescription}</div>
                     </div>
-                    <div className='text-xs text-gray-600'>Nationwide delivery service</div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Additional Ad 2 */}
-              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-green-100 to-green-200 border border-green-300'>
-                <div className='flex items-center justify-center h-full px-4'>
-                  <div className='text-center'>
-                    <div className='text-sm font-semibold text-gray-800'>
-                      🔧 Maintenance Services
+              {activeAds[3] && (
+                <div
+                  className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-green-100 to-green-200 border border-green-300 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200'
+                  onClick={() => handleAdClick(activeAds[3].id)}
+                >
+                  <div className='flex items-center justify-center h-full px-4'>
+                    <div className='text-center'>
+                      <div className='text-sm font-semibold text-gray-800'>
+                        {activeAds[3].icon} {activeAds[3].title}
+                      </div>
+                      <div className='text-xs text-gray-600'>{activeAds[3].shortDescription}</div>
                     </div>
-                    <div className='text-xs text-gray-600'>Expert repair & maintenance</div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Additional Ad 3 */}
-              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-purple-100 to-purple-200 border border-purple-300'>
-                <div className='flex items-center justify-center h-full px-4'>
-                  <div className='text-center'>
-                    <div className='text-sm font-semibold text-gray-800'>
-                      💰 Equipment Financing
+              {activeAds[4] && (
+                <div
+                  className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-purple-100 to-purple-200 border border-purple-300 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200'
+                  onClick={() => handleAdClick(activeAds[4].id)}
+                >
+                  <div className='flex items-center justify-center h-full px-4'>
+                    <div className='text-center'>
+                      <div className='text-sm font-semibold text-gray-800'>
+                        {activeAds[4].icon} {activeAds[4].title}
+                      </div>
+                      <div className='text-xs text-gray-600'>{activeAds[4].shortDescription}</div>
                     </div>
-                    <div className='text-xs text-gray-600'>Flexible payment options</div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
