@@ -28,6 +28,7 @@ const Categories = memo(() => {
           setDbCategories(categories.map(c => ({ ...c, count: '', description: '' })));
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error('Failed to load categories', err);
         if (mounted) setError('Categories data is not available');
       } finally {
@@ -61,14 +62,14 @@ const Categories = memo(() => {
             {visibleCategories.map((category, index) => (
               <div key={`${category.name}-${index}`} className='group cursor-pointer'>
                 <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
-                  {/* Smaller, more professional icon container */}
-                  <div className='w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
+                  {/* Professional icon container */}
+                  <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
                     <Image
                       src={category.image}
                       alt={category.name}
-                      width={80}
-                      height={80}
-                      className='w-16 h-16 sm:w-20 sm:h-20 object-contain'
+                      width={96}
+                      height={96}
+                      className='w-20 h-20 sm:w-24 sm:h-24 object-contain'
                     />
                   </div>
                   {/* Category name and count */}
@@ -98,14 +99,14 @@ const Categories = memo(() => {
                 {collapsibleCategories.map((category, index) => (
                   <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
                     <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
-                      {/* Smaller, more professional icon container */}
-                      <div className='w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
+                      {/* Professional icon container */}
+                      <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
                         <Image
                           src={category.image}
                           alt={category.name}
-                          width={80}
-                          height={80}
-                          className='w-16 h-16 sm:w-20 sm:h-20 object-contain'
+                          width={96}
+                          height={96}
+                          className='w-20 h-20 sm:w-24 sm:h-24 object-contain'
                         />
                       </div>
                       {/* Category name and count */}
@@ -132,11 +133,11 @@ const Categories = memo(() => {
           <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
+              className='inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-medium rounded-lg hover:bg-white hover:shadow-md hover:scale-102 transition-all duration-200 border border-gray-200/60 shadow-sm hover:border-orange-200'
             >
               {isExpanded ? 'View Less' : `View More (${moreCount} more)`}
               <svg
-                className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                className={`ml-1.5 w-3 h-3 transition-transform duration-200 ${
                   isExpanded ? 'rotate-180' : ''
                 }`}
                 fill='none'

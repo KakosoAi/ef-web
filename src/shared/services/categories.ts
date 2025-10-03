@@ -26,6 +26,7 @@ export async function getCategories(): Promise<CategoryWithImage[]> {
 
   if (error) {
     // Log server-side errors; do not leak detailed info to clients
+    // eslint-disable-next-line no-console
     console.error('Supabase categories error:', error.message);
     return [];
   }
