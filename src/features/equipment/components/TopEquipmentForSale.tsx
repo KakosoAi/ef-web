@@ -2,13 +2,21 @@
 
 import { memo, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified, TrendingUp } from 'lucide-react';
 import { EquipmentCard } from '@/shared/types';
+import { getActiveAds } from '@/shared/data/ads';
 
 const TopEquipmentForSale = memo(() => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
+  const activeAds = getActiveAds();
+
+  const handleAdClick = (adId: string) => {
+    router.push(`/ads/${adId}`);
+  };
 
   const allEquipmentData: EquipmentCard[] = useMemo(
     () => [
@@ -167,7 +175,7 @@ const TopEquipmentForSale = memo(() => {
 
         {/* Equipment Grid - First row only (always visible) */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center mb-8'>
-          {visibleEquipment.map((equipment, index) => (
+          {visibleEquipment.slice(0, 3).map((equipment, index) => (
             <div
               key={equipment.id}
               className='group relative overflow-hidden rounded-2xl border border-border bg-white shadow-lg hover:shadow-xl transition-all duration-500'
@@ -254,11 +262,52 @@ const TopEquipmentForSale = memo(() => {
                   size='sm'
                   className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
                   onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      window.dispatchEvent(
-                        new CustomEvent('showEquipmentDetail', { detail: equipment })
-                      );
-                    }
+                    router.push(`/equipment/${equipment.id}`);
+                  }}
+                >
+                  View Details
+                  <ArrowRight className='ml-1 h-3 w-3' />
+                </Button>
+              </div>
+            </div>
+          ))}
+
+          {/* Add 2 ad cards to complete the row */}
+          {activeAds.slice(0, 2).map(ad => (
+            <div
+              key={ad.id}
+              className='group relative overflow-hidden rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer hover:scale-105'
+              onClick={() => handleAdClick(ad.id)}
+            >
+              {/* Ad Content */}
+              <div className='p-4 h-full flex flex-col justify-between'>
+                {/* Ad Icon */}
+                <div className='text-center mb-3'>
+                  <div className='text-3xl mb-2'>{ad.icon}</div>
+                  <Badge className='bg-orange-500 text-white font-bold px-2 py-1 text-xs'>
+                    SPONSORED
+                  </Badge>
+                </div>
+
+                {/* Ad Title */}
+                <h3 className='text-sm font-semibold text-gray-800 line-clamp-2 mb-2 text-center'>
+                  {ad.title}
+                </h3>
+
+                {/* Ad Description */}
+                <p className='text-xs text-gray-600 line-clamp-3 mb-3 text-center'>
+                  {ad.description.length > 60
+                    ? `${ad.description.substring(0, 60)}...`
+                    : ad.description}
+                </p>
+
+                {/* Action Button */}
+                <Button
+                  size='sm'
+                  className='w-full bg-orange-500 text-white hover:bg-orange-600 transition-all duration-200 text-xs'
+                  onClick={e => {
+                    e.stopPropagation();
+                    handleAdClick(ad.id);
                   }}
                 >
                   View Details
@@ -337,11 +386,7 @@ const TopEquipmentForSale = memo(() => {
                       size='sm'
                       className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
                       onClick={() => {
-                        if (typeof window !== 'undefined') {
-                          window.dispatchEvent(
-                            new CustomEvent('showEquipmentDetail', { detail: equipment })
-                          );
-                        }
+                        router.push(`/equipment/${equipment.id}`);
                       }}
                     >
                       View Details
