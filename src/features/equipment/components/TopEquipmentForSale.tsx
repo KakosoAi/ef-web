@@ -359,7 +359,7 @@ const TopEquipmentForSale = memo(() => {
           <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200'
+              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md'
             >
               {isExpanded ? 'Show Less' : 'Show More'}
               <svg

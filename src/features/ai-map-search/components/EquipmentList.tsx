@@ -42,6 +42,7 @@ export default function EquipmentList({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
+  const [showMoreAds, setShowMoreAds] = useState(false);
 
   // Use ref to store the callback to avoid dependency issues
   const onFilterChangeRef = useRef(onFilterChange);
@@ -314,6 +315,68 @@ export default function EquipmentList({
                 <div className='text-xs text-gray-300'>Protect your investment</div>
               </div>
             </div>
+          </div>
+
+          {/* Additional Ads - Collapsible */}
+          {showMoreAds && (
+            <div className='space-y-3 mt-3'>
+              {/* Additional Ad 1 */}
+              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300'>
+                <div className='flex items-center justify-center h-full px-4'>
+                  <div className='text-center'>
+                    <div className='text-sm font-semibold text-gray-800'>
+                      🚚 Equipment Transport
+                    </div>
+                    <div className='text-xs text-gray-600'>Nationwide delivery service</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Ad 2 */}
+              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-green-100 to-green-200 border border-green-300'>
+                <div className='flex items-center justify-center h-full px-4'>
+                  <div className='text-center'>
+                    <div className='text-sm font-semibold text-gray-800'>
+                      🔧 Maintenance Services
+                    </div>
+                    <div className='text-xs text-gray-600'>Expert repair & maintenance</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Ad 3 */}
+              <div className='relative w-full h-16 overflow-hidden rounded-lg shadow-md bg-gradient-to-r from-purple-100 to-purple-200 border border-purple-300'>
+                <div className='flex items-center justify-center h-full px-4'>
+                  <div className='text-center'>
+                    <div className='text-sm font-semibold text-gray-800'>
+                      💰 Equipment Financing
+                    </div>
+                    <div className='text-xs text-gray-600'>Flexible payment options</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Show More / Show Less Ads Button */}
+          <div className='text-center mt-4'>
+            <button
+              onClick={() => setShowMoreAds(!showMoreAds)}
+              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-sm text-orange-700 text-sm font-semibold rounded-lg hover:from-orange-100 hover:to-orange-200 hover:shadow-lg hover:scale-105 transition-all duration-300 border border-orange-200 shadow-md hover:border-orange-300 hover:text-orange-800'
+            >
+              {showMoreAds ? 'Show Less Ads' : 'Show More Ads (3 more)'}
+              <svg
+                className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+                  showMoreAds ? 'rotate-180' : ''
+                }`}
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                strokeWidth={2}
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
+              </svg>
+            </button>
           </div>
 
           {filteredEquipment.length === 0 && (

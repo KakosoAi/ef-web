@@ -15,6 +15,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { memo, useMemo } from 'react';
+import Image from 'next/image';
 
 const Footer = memo(() => {
   const quickLinks = useMemo(() => ['home', 'rent', 'buy', 'stores', 'brands', 'contact us'], []);
@@ -55,9 +56,14 @@ const Footer = memo(() => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8'>
           {/* Company Info */}
           <div className='lg:col-span-1'>
-            <div className='flex items-center space-x-2 mb-6'>
-              <Building2 className='h-8 w-8 text-orange-500' />
-              <div className='text-2xl font-display font-bold text-white'>{siteConfig.name}</div>
+            <div className='flex items-center mb-6'>
+              <Image
+                src='/assets/ef-logo.svg'
+                alt='EF Logo'
+                width={120}
+                height={40}
+                className='w-auto h-10 brightness-0 invert'
+              />
             </div>
 
             <p className='text-gray-300 mb-6 leading-relaxed'>{siteConfig.description}</p>

@@ -66,24 +66,130 @@ export default function HomePage() {
         <Categories />
 
         {/* SEO Content Block 1 - After Categories */}
-        <div className='py-8 bg-gray-50 mt-16 md:mt-20 lg:mt-24'>
-          <div className='container mx-auto px-6 text-center'>
-            <div className='max-w-4xl mx-auto'>
-              <h2 className='text-2xl md:text-3xl font-bold text-gray-900 mb-4'>
-                Middle East&apos;s Leading Heavy Equipment Marketplace
+        <div className='py-16 bg-gradient-to-br from-blue-50 via-white to-orange-50 mt-16 md:mt-20 lg:mt-24 relative overflow-hidden'>
+          {/* Background Pattern */}
+          <div className='absolute inset-0 opacity-5'>
+            <div className='absolute top-10 left-10 w-20 h-20 border-2 border-orange-500 rounded-full'></div>
+            <div className='absolute top-32 right-20 w-16 h-16 border-2 border-blue-500 rounded-lg rotate-45'></div>
+            <div className='absolute bottom-20 left-1/4 w-12 h-12 border-2 border-green-500 rounded-full'></div>
+            <div className='absolute bottom-32 right-1/3 w-14 h-14 border-2 border-purple-500 rounded-lg rotate-12'></div>
+          </div>
+
+          <div className='container mx-auto px-6 text-center relative z-10'>
+            <div className='max-w-5xl mx-auto'>
+              {/* Icon and Badge */}
+              <div className='flex justify-center mb-6'>
+                <div className='inline-flex items-center bg-white/80 backdrop-blur-sm border border-orange-200 rounded-full px-4 py-2 shadow-sm'>
+                  <div className='w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mr-3'>
+                    <svg className='w-4 h-4 text-white' fill='currentColor' viewBox='0 0 20 20'>
+                      <path d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+                    </svg>
+                  </div>
+                  <span className='text-sm font-semibold text-gray-700'>
+                    Trusted by 10,000+ Professionals
+                  </span>
+                </div>
+              </div>
+
+              {/* Main Heading */}
+              <h2 className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight'>
+                Middle East&apos;s Leading{' '}
+                <span className='bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent'>
+                  Heavy Equipment
+                </span>{' '}
+                Marketplace
               </h2>
-              <p className='text-lg text-gray-600 leading-relaxed'>
-                Equipment Finders connects construction professionals with verified heavy machinery
-                dealers across the UAE, Saudi Arabia, Qatar, Kuwait, Oman, and Bahrain. Our platform
-                features thousands of excavators, cranes, loaders, and specialized construction
-                equipment from trusted suppliers, ensuring you find the right machinery for your
-                project needs.
-              </p>
+
+              {/* Enhanced Description */}
+              <div className='max-w-4xl mx-auto'>
+                <p className='text-xl text-gray-700 leading-relaxed mb-8'>
+                  Equipment Finders connects construction professionals with verified heavy
+                  machinery dealers across the UAE, Saudi Arabia, Qatar, Kuwait, Oman, and Bahrain.
+                  Our platform features thousands of excavators, cranes, loaders, and specialized
+                  construction equipment from trusted suppliers, ensuring you find the right
+                  machinery for your project needs.
+                </p>
+
+                {/* Key Features Grid */}
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12'>
+                  <div className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20 shadow-sm hover:shadow-md transition-shadow'>
+                    <div className='w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                      <svg
+                        className='w-6 h-6 text-blue-600'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                        />
+                      </svg>
+                    </div>
+                    <h3 className='font-semibold text-gray-900 mb-2'>Verified Dealers</h3>
+                    <p className='text-sm text-gray-600'>
+                      All dealers are thoroughly vetted and verified for your peace of mind
+                    </p>
+                  </div>
+
+                  <div className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20 shadow-sm hover:shadow-md transition-shadow'>
+                    <div className='w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                      <svg
+                        className='w-6 h-6 text-green-600'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M13 10V3L4 14h7v7l9-11h-7z'
+                        />
+                      </svg>
+                    </div>
+                    <h3 className='font-semibold text-gray-900 mb-2'>Instant Connect</h3>
+                    <p className='text-sm text-gray-600'>
+                      Connect directly with equipment owners and get quotes instantly
+                    </p>
+                  </div>
+
+                  <div className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20 shadow-sm hover:shadow-md transition-shadow'>
+                    <div className='w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                      <svg
+                        className='w-6 h-6 text-orange-600'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
+                        />
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'
+                        />
+                      </svg>
+                    </div>
+                    <h3 className='font-semibold text-gray-900 mb-2'>Regional Coverage</h3>
+                    <p className='text-sm text-gray-600'>
+                      Comprehensive coverage across all major Middle Eastern markets
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className='py-8 mt-16 md:mt-20 lg:mt-24'>
+        <div className='py-8'>
           <FeaturedEquipment />
         </div>
 

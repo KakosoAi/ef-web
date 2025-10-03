@@ -133,11 +133,11 @@ const Categories = memo(() => {
           <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-medium rounded-lg hover:bg-white hover:shadow-md hover:scale-102 transition-all duration-200 border border-gray-200/60 shadow-sm hover:border-orange-200'
+              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-sm text-orange-700 text-sm font-semibold rounded-lg hover:from-orange-100 hover:to-orange-200 hover:shadow-lg hover:scale-105 transition-all duration-300 border border-orange-200 shadow-md hover:border-orange-300 hover:text-orange-800'
             >
               {isExpanded ? 'View Less' : `View More (${moreCount} more)`}
               <svg
-                className={`ml-1.5 w-3 h-3 transition-transform duration-200 ${
+                className={`ml-2 w-4 h-4 transition-transform duration-200 ${
                   isExpanded ? 'rotate-180' : ''
                 }`}
                 fill='none'
