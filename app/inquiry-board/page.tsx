@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import {
   Search,
   Filter,
@@ -186,22 +187,26 @@ export default function InquiryBoard() {
   };
 
   const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Excavators':
-        return '🚜';
-      case 'Cranes':
-        return '🏗️';
-      case 'Bulldozers':
-        return '🚧';
-      case 'Forklifts':
-        return '🏭';
-      case 'Concrete Mixers':
-        return '🚛';
-      case 'Dump Trucks':
-        return '🚚';
-      default:
-        return '⚙️';
-    }
+    const getImagePath = (category: string) => {
+      switch (category) {
+        case 'Excavators':
+          return '/assets/categories/excavators.png';
+        case 'Cranes':
+          return '/assets/categories/cranes.png';
+        case 'Bulldozers':
+          return '/assets/categories/dozers.png';
+        case 'Forklifts':
+          return '/assets/categories/forklifts.png';
+        case 'Concrete Mixers':
+          return '/assets/categories/trucks.png';
+        case 'Dump Trucks':
+          return '/assets/categories/trucks.png';
+        default:
+          return '/assets/categories/other-equipments.png';
+      }
+    };
+
+    return <Image src={getImagePath(category)} alt={category} fill className='object-contain' />;
   };
 
   const featuredInquiries = useMemo(() => {
@@ -325,41 +330,27 @@ export default function InquiryBoard() {
               {filteredInquiries.map(inquiry => (
                 <div
                   key={inquiry.id}
-                  className={`group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer transform hover:-translate-y-1 ${
+                  className={`group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer ${
                     inquiry.featured
-                      ? 'md:col-span-2 lg:col-span-2'
+                      ? 'md:col-span-2 lg:col-span-2 border-orange-200'
                       : inquiry.promoted
-                        ? 'md:col-span-1 lg:col-span-1'
+                        ? 'md:col-span-1 lg:col-span-1 border-blue-200'
                         : ''
                   }`}
                 >
                   <div
                     className={`p-6 ${inquiry.featured ? 'p-8' : inquiry.promoted ? 'p-7' : 'p-6'}`}
                   >
-                    {/* Header with icon and urgency */}
+                    {/* Header with badges */}
                     <div className='flex items-start justify-between mb-4'>
-                      <div className='flex items-center gap-3'>
-                        <div
-                          className={`p-2 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 ${
-                            inquiry.featured ? 'p-3' : inquiry.promoted ? 'p-2.5' : 'p-2'
-                          }`}
-                        >
-                          <span
-                            className={
-                              inquiry.featured
-                                ? 'text-2xl'
-                                : inquiry.promoted
-                                  ? 'text-xl'
-                                  : 'text-lg'
-                            }
-                          >
-                            {getCategoryIcon(inquiry.category)}
-                          </span>
-                        </div>
+                      <div className='flex items-center gap-2'>
                         <span
                           className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getUrgencyColor(inquiry.urgency)} shadow-sm`}
                         >
                           {inquiry.urgency}
+                        </span>
+                        <span className='px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700'>
+                          {inquiry.category}
                         </span>
                       </div>
                       {inquiry.verified && (
@@ -369,9 +360,30 @@ export default function InquiryBoard() {
                       )}
                     </div>
 
+                    {/* Category Icon */}
+                    <div className='flex justify-center mb-3'>
+                      <div
+                        className={`p-2 rounded-lg bg-gray-50 flex items-center justify-center ${
+                          inquiry.featured ? 'p-3' : inquiry.promoted ? 'p-2.5' : 'p-2'
+                        }`}
+                      >
+                        <div
+                          className={`relative ${
+                            inquiry.featured
+                              ? 'w-10 h-10'
+                              : inquiry.promoted
+                                ? 'w-8 h-8'
+                                : 'w-6 h-6'
+                          }`}
+                        >
+                          {getCategoryIcon(inquiry.category)}
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Title */}
                     <h3
-                      className={`font-medium text-gray-900 mb-4 line-clamp-2 leading-tight group-hover:text-orange-600 transition-colors ${
+                      className={`font-semibold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight ${
                         inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
                       }`}
                     >
@@ -379,39 +391,37 @@ export default function InquiryBoard() {
                     </h3>
 
                     {/* Location and Company */}
-                    <div className='flex flex-col gap-2 mb-4'>
-                      <div className='flex items-center gap-2 text-sm text-gray-600'>
-                        <div className='p-1 rounded-lg bg-gray-50'>
-                          <MapPin className='h-4 w-4 text-gray-500' />
-                        </div>
-                        <span className='font-medium'>{inquiry.location}</span>
+                    <div className='space-y-2 mb-4'>
+                      <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                        <MapPin className='h-4 w-4' />
+                        <span>{inquiry.location}</span>
                       </div>
-                      <div className='flex items-center gap-2 text-sm text-gray-600'>
-                        <div className='p-1 rounded-lg bg-gray-50'>
-                          <Building2 className='h-4 w-4 text-gray-500' />
-                        </div>
+                      <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                        <Building2 className='h-4 w-4' />
                         <span className='font-medium'>{inquiry.company}</span>
                       </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className='flex items-center justify-between pt-4 border-t border-gray-100'>
-                      <div className='text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-lg'>
+                    {/* Budget */}
+                    <div className='mb-3'>
+                      <div className='text-sm font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-lg inline-block'>
                         {inquiry.budget}
                       </div>
-                      <div className='flex items-center gap-4 text-xs text-gray-500'>
-                        <div className='flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-lg'>
-                          <Eye className='h-3.5 w-3.5' />
-                          <span className='font-medium'>{inquiry.views}</span>
-                        </div>
-                        <div className='flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-lg'>
-                          <MessageCircle className='h-3.5 w-3.5' />
-                          <span className='font-medium'>{inquiry.responses}</span>
-                        </div>
-                        <div className='flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-lg'>
-                          <Star className='h-3.5 w-3.5 text-yellow-500 fill-current' />
-                          <span className='font-medium text-yellow-700'>{inquiry.rating}</span>
-                        </div>
+                    </div>
+
+                    {/* Stats Footer */}
+                    <div className='flex items-center justify-between pt-3 border-t border-gray-100'>
+                      <div className='flex items-center gap-1 text-xs text-gray-500'>
+                        <Eye className='h-3 w-3' />
+                        <span>{inquiry.views}</span>
+                      </div>
+                      <div className='flex items-center gap-1 text-xs text-gray-500'>
+                        <MessageCircle className='h-3 w-3' />
+                        <span>{inquiry.responses}</span>
+                      </div>
+                      <div className='flex items-center gap-1 text-xs text-gray-500'>
+                        <Star className='h-3 w-3' />
+                        <span>{inquiry.rating}</span>
                       </div>
                     </div>
                   </div>
@@ -423,27 +433,27 @@ export default function InquiryBoard() {
               {filteredInquiries.map(inquiry => (
                 <div
                   key={inquiry.id}
-                  className='group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer p-6'
+                  className='group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer p-4'
                 >
                   <div className='flex items-center gap-6'>
                     {/* Icon Section */}
                     <div className='flex-shrink-0'>
                       <div
-                        className={`p-3 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 ${
-                          inquiry.featured ? 'p-4' : inquiry.promoted ? 'p-3.5' : 'p-3'
+                        className={`p-2 rounded-lg bg-gray-50 flex items-center justify-center ${
+                          inquiry.featured ? 'p-3' : inquiry.promoted ? 'p-2.5' : 'p-2'
                         }`}
                       >
-                        <span
-                          className={
+                        <div
+                          className={`relative ${
                             inquiry.featured
-                              ? 'text-3xl'
+                              ? 'w-12 h-12'
                               : inquiry.promoted
-                                ? 'text-2xl'
-                                : 'text-xl'
-                          }
+                                ? 'w-10 h-10'
+                                : 'w-8 h-8'
+                          }`}
                         >
                           {getCategoryIcon(inquiry.category)}
-                        </span>
+                        </div>
                       </div>
                     </div>
 
