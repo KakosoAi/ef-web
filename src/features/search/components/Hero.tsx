@@ -74,7 +74,7 @@ const Hero = memo(() => {
                 <div className='relative flex'>
                   <button
                     onClick={() => setSearchType('buy')}
-                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-500 ease-out ${
                       searchType === 'buy'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -88,7 +88,7 @@ const Hero = memo(() => {
                   </button>
                   <button
                     onClick={() => setSearchType('rent')}
-                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-500 ease-out ${
                       searchType === 'rent'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
@@ -102,7 +102,7 @@ const Hero = memo(() => {
                   </button>
                   <button
                     onClick={() => setSearchType('tools')}
-                    className={`relative z-10 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold transition-all duration-500 ease-out ${
+                    className={`relative z-10 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-500 ease-out ${
                       searchType === 'tools'
                         ? 'text-white transform scale-105'
                         : 'text-gray-700 hover:text-gray-900 hover:scale-102'
