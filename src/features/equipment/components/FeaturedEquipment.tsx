@@ -1,12 +1,23 @@
+'use client';
+
 import { memo, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified } from 'lucide-react';
 import { EquipmentCard } from '@/shared/types';
+import { getActiveAds } from '@/shared/data/ads';
 
 const FeaturedEquipment = memo(() => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
+  const activeAds = getActiveAds();
+
+  // Handle ad click navigation
+  const handleAdClick = (adId: string) => {
+    router.push(`/ads/${adId}`);
+  };
 
   const allEquipmentData: EquipmentCard[] = useMemo(
     () => [
@@ -242,11 +253,7 @@ const FeaturedEquipment = memo(() => {
                 <Button
                   className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                   onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      window.dispatchEvent(
-                        new CustomEvent('showEquipmentDetail', { detail: equipment })
-                      );
-                    }
+                    router.push(`/equipment/${equipment.id}`);
                   }}
                 >
                   View Details
@@ -323,11 +330,7 @@ const FeaturedEquipment = memo(() => {
                     <Button
                       className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                       onClick={() => {
-                        if (typeof window !== 'undefined') {
-                          window.dispatchEvent(
-                            new CustomEvent('showEquipmentDetail', { detail: equipment })
-                          );
-                        }
+                        router.push(`/equipment/${equipment.id}`);
                       }}
                     >
                       View Details
@@ -363,65 +366,35 @@ const FeaturedEquipment = memo(() => {
           </div>
         )}
 
-        {/* Call to Actions */}
+        {/* Featured Ads Section */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Sell Your Equipment</h3>
-            <p className='text-gray-300 mb-6'>
-              Reach thousands of verified buyers across the Middle East
-            </p>
-            <Button
-              variant='secondary'
-              size='lg'
-              className='bg-orange-500 text-white hover:bg-orange-600'
+          {activeAds.slice(0, 4).map(ad => (
+            <div
+              key={ad.id}
+              className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700 cursor-pointer hover:bg-gray-800 hover:shadow-lg hover:scale-105 transition-all duration-300'
+              onClick={() => handleAdClick(ad.id)}
             >
-              List Your Equipment
-              <ArrowRight className='h-5 w-5 ml-2' />
-            </Button>
-          </div>
-
-          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Valuation</h3>
-            <p className='text-gray-300 mb-6'>
-              Get accurate market value for your equipment instantly
-            </p>
-            <Button
-              variant='secondary'
-              size='lg'
-              className='bg-orange-500 text-white hover:bg-orange-600'
-            >
-              Get Valuation
-              <ArrowRight className='h-5 w-5 ml-2' />
-            </Button>
-          </div>
-
-          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Financing</h3>
-            <p className='text-gray-300 mb-6'>
-              Flexible financing options for your equipment purchase
-            </p>
-            <Button
-              variant='secondary'
-              size='lg'
-              className='bg-orange-500 text-white hover:bg-orange-600'
-            >
-              Apply Now
-              <ArrowRight className='h-5 w-5 ml-2' />
-            </Button>
-          </div>
-
-          <div className='bg-gray-900 rounded-xl p-8 text-white text-center border border-gray-700'>
-            <h3 className='text-2xl font-display font-bold mb-4'>Equipment Insurance</h3>
-            <p className='text-gray-300 mb-6'>Comprehensive coverage for your valuable equipment</p>
-            <Button
-              variant='secondary'
-              size='lg'
-              className='bg-orange-500 text-white hover:bg-orange-600'
-            >
-              Get Quote
-              <ArrowRight className='h-5 w-5 ml-2' />
-            </Button>
-          </div>
+              <div className='text-4xl mb-4'>{ad.icon}</div>
+              <h3 className='text-2xl font-display font-bold mb-4'>{ad.title}</h3>
+              <p className='text-gray-300 mb-6'>
+                {ad.description.length > 80
+                  ? `${ad.description.substring(0, 80)}...`
+                  : ad.description}
+              </p>
+              <Button
+                variant='secondary'
+                size='lg'
+                className='bg-orange-500 text-white hover:bg-orange-600'
+                onClick={e => {
+                  e.stopPropagation();
+                  handleAdClick(ad.id);
+                }}
+              >
+                View Details
+                <ArrowRight className='h-5 w-5 ml-2' />
+              </Button>
+            </div>
+          ))}
         </div>
       </div>
     </section>
