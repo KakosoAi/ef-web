@@ -9,13 +9,13 @@ const LANGUAGE_OPTIONS = [
   {
     icon: Globe,
     value: 'en',
-    label: 'EN',
+    label: 'English',
     name: 'English',
   },
   {
     icon: Languages,
     value: 'ar',
-    label: 'ع',
+    label: 'Arabic',
     name: 'العربية',
   },
 ];
@@ -91,12 +91,9 @@ export function ToggleLanguage() {
 
   if (!isMounted) {
     return (
-      <div className='bg-muted/80 inline-flex items-center overflow-hidden rounded-md border h-7 w-14'>
-        <div className='flex size-7 items-center justify-center text-xs font-medium text-muted-foreground'>
-          EN
-        </div>
-        <div className='flex size-7 items-center justify-center text-xs font-medium text-muted-foreground'>
-          ع
+      <div className='bg-muted/80 inline-flex items-center overflow-hidden rounded-md border h-7 px-2'>
+        <div className='flex items-center justify-center text-[10px] font-medium text-muted-foreground'>
+          English | Arabic
         </div>
       </div>
     );
@@ -108,33 +105,20 @@ export function ToggleLanguage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className='bg-muted/80 inline-flex items-center overflow-hidden rounded-md border'
-      role='radiogroup'
+      className='bg-muted/80 inline-flex items-center overflow-hidden rounded-md border h-7 px-2 cursor-pointer hover:bg-muted/60 transition-colors'
+      role='button'
+      onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+      aria-label={`Current language: ${language === 'en' ? 'English' : 'Arabic'}. Click to switch.`}
     >
-      {LANGUAGE_OPTIONS.map(option => (
-        <button
-          key={option.value}
-          className={cn(
-            'relative flex size-7 cursor-pointer items-center justify-center rounded-md transition-all text-xs font-medium',
-            language === option.value
-              ? 'text-foreground'
-              : 'text-muted-foreground hover:text-foreground'
-          )}
-          role='radio'
-          aria-checked={language === option.value}
-          aria-label={`Switch to ${option.name}`}
-          onClick={() => setLanguage(option.value)}
-        >
-          {language === option.value && (
-            <motion.div
-              layoutId='language-option'
-              transition={{ type: 'spring', bounce: 0.1, duration: 0.75 }}
-              className='border-muted-foreground/50 absolute inset-0 rounded-md border'
-            />
-          )}
-          <span className='relative z-10'>{option.label}</span>
-        </button>
-      ))}
+      <span className='text-[10px] font-medium text-foreground'>
+        <span className={cn(language === 'en' ? 'text-orange-500' : 'text-muted-foreground')}>
+          English
+        </span>
+        <span className='text-muted-foreground mx-1'>|</span>
+        <span className={cn(language === 'ar' ? 'text-orange-500' : 'text-muted-foreground')}>
+          Arabic
+        </span>
+      </span>
     </motion.div>
   );
 }

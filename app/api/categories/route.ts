@@ -9,6 +9,7 @@ export async function GET() {
     const categories = await getCategories();
     return NextResponse.json({ categories });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error('Categories API error:', e);
     return NextResponse.json({ error: 'Categories data is not available' }, { status: 500 });
   }

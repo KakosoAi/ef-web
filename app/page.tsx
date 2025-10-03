@@ -65,76 +65,143 @@ export default function HomePage() {
         <Hero />
         <Categories />
 
-        <FeaturedEquipment />
-        <BrowseListingsBanner />
-        <TopEquipmentForSale />
-        <TestimonialsSection
-          title='What Our Customers Say'
-          description='Trusted by thousands of equipment professionals worldwide'
-          testimonials={[
-            {
-              author: {
-                name: 'Ahmed Al-Rashid',
-                handle: '@ahmed_construction',
-                avatar:
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+        {/* SEO Content Block 1 - After Categories */}
+        <div className='py-8 bg-gray-50 mt-16 md:mt-20 lg:mt-24'>
+          <div className='container mx-auto px-6 text-center'>
+            <div className='max-w-4xl mx-auto'>
+              <h2 className='text-2xl md:text-3xl font-bold text-gray-900 mb-4'>
+                Middle East&apos;s Leading Heavy Equipment Marketplace
+              </h2>
+              <p className='text-lg text-gray-600 leading-relaxed'>
+                Equipment Finders connects construction professionals with verified heavy machinery
+                dealers across the UAE, Saudi Arabia, Qatar, Kuwait, Oman, and Bahrain. Our platform
+                features thousands of excavators, cranes, loaders, and specialized construction
+                equipment from trusted suppliers, ensuring you find the right machinery for your
+                project needs.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className='py-8 mt-16 md:mt-20 lg:mt-24'>
+          <FeaturedEquipment />
+        </div>
+
+        <div className='py-12 mt-16 md:mt-20 lg:mt-24'>
+          <BrowseListingsBanner />
+        </div>
+
+        {/* SEO Content Block 2 - Before Top Equipment */}
+        <div className='py-8 bg-blue-50 mt-16 md:mt-20 lg:mt-24'>
+          <div className='container mx-auto px-6 text-center'>
+            <div className='max-w-4xl mx-auto'>
+              <h2 className='text-2xl md:text-3xl font-bold text-gray-900 mb-4'>
+                Trusted Equipment Rental & Sales Platform
+              </h2>
+              <p className='text-lg text-gray-600 leading-relaxed'>
+                Whether you&apos;re looking to buy or rent construction equipment, our comprehensive
+                marketplace offers competitive pricing, detailed specifications, and direct dealer
+                contact. From small contractors to large construction companies, Equipment Finders
+                serves as your reliable partner for all heavy machinery requirements in the Middle
+                East region.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className='py-8 mt-16 md:mt-20 lg:mt-24'>
+          <TopEquipmentForSale />
+        </div>
+
+        {/* SEO Content Block 3 - Before Testimonials */}
+        <div className='py-8 bg-orange-50 mt-16 md:mt-20 lg:mt-24'>
+          <div className='container mx-auto px-6 text-center'>
+            <div className='max-w-4xl mx-auto'>
+              <h2 className='text-2xl md:text-3xl font-bold text-gray-900 mb-4'>
+                Professional Equipment Solutions for Every Project
+              </h2>
+              <p className='text-lg text-gray-600 leading-relaxed'>
+                From excavators and bulldozers to cranes and specialized machinery, our platform
+                connects you with verified equipment dealers offering competitive rates and reliable
+                service. Join thousands of satisfied customers who trust Equipment Finders for their
+                construction equipment needs across the Middle East.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className='py-8 mt-16 md:mt-20 lg:mt-24'>
+          <TestimonialsSection
+            title='What Our Customers Say'
+            description='Trusted by thousands of equipment professionals worldwide'
+            testimonials={[
+              {
+                author: {
+                  name: 'Ahmed Al-Rashid',
+                  handle: '@ahmed_construction',
+                  avatar:
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+                },
+                text: 'Equipment Finders helped us find the perfect excavator for our construction project. The process was smooth and professional.',
+                href: '#',
               },
-              text: 'Equipment Finders helped us find the perfect excavator for our construction project. The process was smooth and professional.',
-              href: '#',
-            },
-            {
-              author: {
-                name: 'Sarah Johnson',
-                handle: '@sarah_equipment',
-                avatar:
-                  'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+              {
+                author: {
+                  name: 'Sarah Johnson',
+                  handle: '@sarah_equipment',
+                  avatar:
+                    'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+                },
+                text: "Outstanding service and quality equipment. We've been using their platform for all our heavy machinery needs.",
+                href: '#',
               },
-              text: "Outstanding service and quality equipment. We've been using their platform for all our heavy machinery needs.",
-              href: '#',
-            },
-            {
-              author: {
-                name: 'Mohammed Hassan',
-                handle: '@mohammed_builds',
-                avatar:
-                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+              {
+                author: {
+                  name: 'Mohammed Hassan',
+                  handle: '@mohammed_builds',
+                  avatar:
+                    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+                },
+                text: 'Reliable equipment and excellent customer support. Highly recommend for any construction business.',
+                href: '#',
               },
-              text: 'Reliable equipment and excellent customer support. Highly recommend for any construction business.',
-              href: '#',
-            },
-            {
-              author: {
-                name: 'Lisa Chen',
-                handle: '@lisa_machinery',
-                avatar:
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+              {
+                author: {
+                  name: 'Lisa Chen',
+                  handle: '@lisa_machinery',
+                  avatar:
+                    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+                },
+                text: 'The best platform for finding quality construction equipment. Fast delivery and competitive prices.',
+                href: '#',
               },
-              text: 'The best platform for finding quality construction equipment. Fast delivery and competitive prices.',
-              href: '#',
-            },
-            {
-              author: {
-                name: 'Omar Khalil',
-                handle: '@omar_projects',
-                avatar:
-                  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+              {
+                author: {
+                  name: 'Omar Khalil',
+                  handle: '@omar_projects',
+                  avatar:
+                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+                },
+                text: 'Professional service from start to finish. Their equipment quality exceeded our expectations.',
+                href: '#',
               },
-              text: 'Professional service from start to finish. Their equipment quality exceeded our expectations.',
-              href: '#',
-            },
-            {
-              author: {
-                name: 'Jennifer Smith',
-                handle: '@jennifer_rentals',
-                avatar:
-                  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+              {
+                author: {
+                  name: 'Jennifer Smith',
+                  handle: '@jennifer_rentals',
+                  avatar:
+                    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+                },
+                text: 'Great experience renting equipment through this platform. Will definitely use again for future projects.',
+                href: '#',
               },
-              text: 'Great experience renting equipment through this platform. Will definitely use again for future projects.',
-              href: '#',
-            },
-          ]}
-        />
-        <PopularBrands />
+            ]}
+          />
+        </div>
+
+        <div className='py-8 mt-16 md:mt-20 lg:mt-24'>
+          <PopularBrands />
+        </div>
       </main>
       <BannerIraqConstruct />
       <Footer />

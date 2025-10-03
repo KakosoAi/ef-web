@@ -2,7 +2,11 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Server-side Supabase client (do not expose keys to the browser)
 // Uses a global singleton to avoid re-instantiation during hot reloads
-let supabaseClient: SupabaseClient | undefined = (globalThis as any).__supabaseServerClient;
+let supabaseClient: SupabaseClient | undefined = (
+  globalThis as typeof globalThis & {
+    __supabaseServerClient?: SupabaseClient;
+  }
+).__supabaseServerClient;
 
 export function getSupabaseServerClient(): SupabaseClient {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -20,7 +24,11 @@ export function getSupabaseServerClient(): SupabaseClient {
         autoRefreshToken: false,
       },
     });
-    (globalThis as any).__supabaseServerClient = supabaseClient;
+    (
+      globalThis as typeof globalThis & {
+        __supabaseServerClient?: SupabaseClient;
+      }
+    ).__supabaseServerClient = supabaseClient;
   }
 
   return supabaseClient;
