@@ -63,7 +63,7 @@ const Categories = memo(() => {
               <div key={`${category.name}-${index}`} className='group cursor-pointer'>
                 <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
                   {/* Professional icon container */}
-                  <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
+                  <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl group-hover:scale-105 transition-all duration-300'>
                     <Image
                       src={category.image}
                       alt={category.name}
@@ -100,7 +100,7 @@ const Categories = memo(() => {
                   <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
                     <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
                       {/* Professional icon container */}
-                      <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
+                      <div className='w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center bg-white rounded-xl group-hover:scale-105 transition-all duration-300'>
                         <Image
                           src={category.image}
                           alt={category.name}
