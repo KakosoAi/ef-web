@@ -245,7 +245,15 @@ const FeaturedEquipment = memo(() => {
                 <Button
                   className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                   onClick={() => {
-                    router.push(`/equipment/${equipment.id}`);
+                    const slug = equipment.title
+                      .toLowerCase()
+                      .replace(/[^a-z0-9\s-]/g, '')
+                      .replace(/\s+/g, '-')
+                      .replace(/-+/g, '-')
+                      .trim();
+                    const type =
+                      parseFloat(equipment.price.replace(/[$,]/g, '')) > 75000 ? 'buy' : 'rent';
+                    router.push(`/products/${type}/${slug}/${equipment.id}`);
                   }}
                 >
                   View Details
@@ -322,7 +330,15 @@ const FeaturedEquipment = memo(() => {
                     <Button
                       className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                       onClick={() => {
-                        router.push(`/equipment/${equipment.id}`);
+                        const slug = equipment.title
+                          .toLowerCase()
+                          .replace(/[^a-z0-9\s-]/g, '')
+                          .replace(/\s+/g, '-')
+                          .replace(/-+/g, '-')
+                          .trim();
+                        const type =
+                          parseFloat(equipment.price.replace(/[$,]/g, '')) > 75000 ? 'buy' : 'rent';
+                        router.push(`/products/${type}/${slug}/${equipment.id}`);
                       }}
                     >
                       View Details

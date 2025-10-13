@@ -21,18 +21,23 @@ export default function SearchWithCategory({ onSearch }: SearchWithCategoryProps
     if (onSearch) {
       onSearch(searchQuery, searchType);
     } else {
-      // Default search behavior
+      // Use clean URL structure
       const params = new URLSearchParams();
       if (searchQuery) params.set('q', searchQuery);
+
+      // Route to clean URLs based on search type
+      let route = '';
       if (searchType === 'buy') {
-        params.set('type', 'sale');
+        route = '/equipments/buy';
       } else if (searchType === 'rent') {
-        params.set('type', 'rent');
+        route = '/equipments/rent';
       } else if (searchType === 'tools') {
-        params.set('type', 'tools');
+        route = '/equipments/tools';
         params.set('category', 'tools');
       }
-      router.push(`/search?${params.toString()}`);
+
+      const queryString = params.toString();
+      router.push(`${route}${queryString ? `?${queryString}` : ''}`);
     }
   };
 

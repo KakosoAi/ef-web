@@ -78,7 +78,11 @@ export default function PopularBrands() {
 
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
           {allBrands.map(brand => (
-            <Link key={brand.slug} href={`/equipments/rent/${brand.slug}`} className='group block'>
+            <Link
+              key={brand.slug}
+              href={`/equipments/rent?q=${brand.slug}`}
+              className='group block'
+            >
               <div className='bg-card rounded-lg border border-border p-4 hover:border-primary hover:shadow-lg transition-all duration-200 group-hover:scale-105'>
                 <div className='relative w-full h-16'>
                   <Image
