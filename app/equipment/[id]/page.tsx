@@ -39,6 +39,13 @@ import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 
 // Convert EquipmentAd to our component format
+// Add type definition for specification
+type SpecificationItem = {
+  name: string;
+  value: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
 const convertEquipmentData = (equipmentAd: EquipmentAd) => ({
   id: parseInt(equipmentAd.id),
   title: equipmentAd.title,
@@ -74,9 +81,35 @@ const convertEquipmentData = (equipmentAd: EquipmentAd) => ({
   whatsapp: '+971-50-555-0123',
 });
 
+// Add type definition for equipment
+type Equipment = {
+  id: number;
+  title: string;
+  category: string;
+  subcategories: string[];
+  rating: number;
+  reviewCount: number;
+  price: number;
+  originalPrice: number | null;
+  brand: string;
+  model: string;
+  year: number;
+  hours: string;
+  condition: string;
+  location: string;
+  images: string[];
+  description: string;
+  specifications: SpecificationItem[];
+  dealer: string;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  whatsapp: string;
+};
+
 export default function EquipmentDetailPage() {
   const params = useParams();
-  const [equipment, setEquipment] = useState<any>(null);
+  const [equipment, setEquipment] = useState<Equipment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -387,7 +420,7 @@ export default function EquipmentDetailPage() {
                     Technical Specifications
                   </h4>
                   <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-                    {equipment.specifications.map((spec: any, index: number) => (
+                    {equipment.specifications.map((spec: SpecificationItem, index: number) => (
                       <div
                         key={index}
                         className='flex items-center space-x-3 p-3 bg-gray-50 rounded-lg'

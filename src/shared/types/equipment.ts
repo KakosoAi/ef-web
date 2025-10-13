@@ -1,21 +1,34 @@
+import React from 'react';
+
 export interface Equipment {
   id: number;
   title: string;
   year: number;
   hours: string;
-  price: string;
-  priceType: 'For Sale' | 'For Rent';
+  price: number;
+  priceType?: 'For Sale' | 'For Rent';
   location: string;
   dealer: string;
-  verified: boolean;
+  verified?: boolean;
   rating: number;
-  image: string;
+  reviewCount: number;
+  image?: string;
   images: string[];
-  features: string[];
+  features?: string[];
   condition: string;
   category: string;
+  subcategories: string[];
   description: string;
-  specifications: EquipmentSpecifications;
+  specifications:
+    | Array<{ name: string; value: string; icon: React.ComponentType<{ className?: string }> }>
+    | EquipmentSpecifications;
+  brand: string;
+  model: string;
+  originalPrice?: number | null;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  whatsapp: string;
 }
 
 export interface EquipmentSpecifications {

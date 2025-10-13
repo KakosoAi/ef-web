@@ -42,8 +42,6 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
     setIsFavorited(!isFavorited);
   }, [isFavorited]);
 
-
-
   return (
     <div className='min-h-screen bg-background'>
       {/* Header */}
@@ -197,7 +195,9 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
                     <Award className='h-5 w-5 text-muted-foreground' />
                     <div>
                       <div className='text-sm text-muted-foreground'>Serial Number</div>
-                      <div className='font-semibold'>{equipment.specifications.serialNumber}</div>
+                      <div className='font-semibold'>
+                        {(equipment.specifications as any).serialNumber}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -211,27 +211,35 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Make</span>
-                  <span className='font-semibold'>{equipment.specifications.make}</span>
+                  <span className='font-semibold'>{(equipment.specifications as any).make}</span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Model</span>
-                  <span className='font-semibold'>{equipment.specifications.model}</span>
+                  <span className='font-semibold'>{(equipment.specifications as any).model}</span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Engine Power</span>
-                  <span className='font-semibold'>{equipment.specifications.enginePower}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as any).enginePower}
+                  </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Fuel Type</span>
-                  <span className='font-semibold'>{equipment.specifications.fuelType}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as any).fuelType}
+                  </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Operating Weight</span>
-                  <span className='font-semibold'>{equipment.specifications.operatingWeight}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as any).operatingWeight}
+                  </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Bucket Capacity</span>
-                  <span className='font-semibold'>{equipment.specifications.bucketCapacity}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as any).bucketCapacity}
+                  </span>
                 </div>
               </div>
             </div>
@@ -241,7 +249,7 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
               <h2 className='text-2xl font-bold text-foreground mb-4'>Key Features</h2>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-                {equipment.features.map((feature, index) => (
+                {equipment.features?.map((feature, index) => (
                   <div key={index} className='flex items-center space-x-2'>
                     <div className='w-2 h-2 bg-primary rounded-full'></div>
                     <span className='text-muted-foreground'>{feature}</span>
@@ -282,19 +290,11 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
                   <Phone className='h-4 w-4 mr-2' />
                   Call Dealer
                 </Button>
-                <Button
-                  variant='outline'
-                  className='w-full'
-                  size='lg'
-                >
+                <Button variant='outline' className='w-full' size='lg'>
                   <Mail className='h-4 w-4 mr-2' />
                   Send Message
                 </Button>
-                <Button
-                  variant='outline'
-                  className='w-full'
-                  size='lg'
-                >
+                <Button variant='outline' className='w-full' size='lg'>
                   Request Quote
                 </Button>
               </div>
