@@ -169,73 +169,67 @@ const TopEquipmentForSale = memo(() => {
         {/* Equipment Grid - First row only (always visible) */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center mb-8'>
           {visibleEquipment.slice(0, 3).map((equipment, index) => (
-            <div
-              key={equipment.id}
-              className='group relative overflow-hidden rounded-2xl border border-border bg-white shadow-lg hover:shadow-xl transition-all duration-500'
-            >
+            <div key={equipment.id} className='card-featured group'>
               {/* Image Container - More Vertical */}
               <div className='relative aspect-[4/3] bg-muted overflow-hidden'>
                 <Image
                   src={equipment.image}
                   alt={equipment.title}
-                  className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-700'
+                  className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                   width={300}
                   height={225}
                 />
 
-                {/* Overlay Controls - Different Positioning */}
-                <div className='absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                  <Button
-                    size='sm'
-                    variant='secondary'
-                    className='bg-white/90 text-primary hover:bg-white shadow-md'
-                  >
-                    <Eye className='h-4 w-4' />
-                  </Button>
-                  <Button
-                    size='sm'
-                    variant='secondary'
-                    className='bg-white/90 text-primary hover:bg-white shadow-md'
-                  >
-                    <Heart className='h-4 w-4' />
-                  </Button>
-                  <Button
-                    size='sm'
-                    variant='secondary'
-                    className='bg-white/90 text-primary hover:bg-white shadow-md'
-                  >
-                    <Phone className='h-4 w-4' />
-                  </Button>
-                </div>
-
-                {/* Sale Badge - Different Style */}
-                <div className='absolute top-4 left-4'>
-                  <Badge className='bg-red-500 text-white font-bold px-3 py-1'>SALE</Badge>
-                </div>
-
-                {/* Verified Badge - Different Position */}
-                {equipment.verified && (
-                  <div className='absolute bottom-4 left-4'>
-                    <Badge variant='secondary' className='bg-green-500 text-white'>
-                      <Verified className='h-3 w-3 mr-1' />
-                      Verified
-                    </Badge>
+                {/* Overlay Controls */}
+                <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
+                  <div className='flex space-x-2'>
+                    <Button
+                      size='sm'
+                      variant='secondary'
+                      className='bg-white/90 text-primary hover:bg-white'
+                    >
+                      <Eye className='h-4 w-4' />
+                    </Button>
+                    <Button
+                      size='sm'
+                      variant='secondary'
+                      className='bg-white/90 text-primary hover:bg-white'
+                    >
+                      <Heart className='h-4 w-4' />
+                    </Button>
+                    <Button
+                      size='sm'
+                      variant='secondary'
+                      className='bg-white/90 text-primary hover:bg-white'
+                    >
+                      <Phone className='h-4 w-4' />
+                    </Button>
                   </div>
-                )}
+                </div>
 
-                {/* Condition Badge - Different Style */}
-                <div className='absolute bottom-4 right-4'>
-                  <Badge variant='outline' className='bg-white/90 text-primary border-2'>
+                {/* Price Badge */}
+                <div className='absolute top-4 left-4'>
+                  <Badge
+                    variant='secondary'
+                    className={`${equipment.priceType === 'For Sale' ? 'bg-success' : 'bg-warning'} text-white font-semibold`}
+                  >
+                    {equipment.priceType}
+                  </Badge>
+                </div>
+
+                {/* Condition Badge */}
+                <div className='absolute top-4 right-4'>
+                  <Badge variant='outline' className='bg-white/90 text-primary border-white/20'>
                     {equipment.condition}
                   </Badge>
                 </div>
               </div>
 
-              {/* Content - Reduced padding */}
+              {/* Content */}
               <div className='p-3'>
-                {/* Header - Simplified */}
+                {/* Header */}
                 <div className='mb-3'>
-                  <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-2'>
+                  <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                     {equipment.title}
                   </h3>
                   <div className='text-base font-medium text-primary mb-1'>{equipment.price}</div>
@@ -250,10 +244,9 @@ const TopEquipmentForSale = memo(() => {
                   </div>
                 </div>
 
-                {/* Action Button - Transparent with orange hint */}
+                {/* Action Button */}
                 <Button
-                  size='sm'
-                  className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
+                  className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                   onClick={() => {
                     router.push(`/equipment/${equipment.id}`);
                   }}
@@ -275,44 +268,67 @@ const TopEquipmentForSale = memo(() => {
           <div className='min-h-0'>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center'>
               {collapsibleEquipment.map((equipment, index) => (
-                <div
-                  key={equipment.id}
-                  className='group relative overflow-hidden rounded-2xl border border-border bg-white shadow-lg hover:shadow-xl transition-all duration-500'
-                >
+                <div key={equipment.id} className='card-featured group'>
                   {/* Image Container - More Vertical */}
                   <div className='relative aspect-[4/3] bg-muted overflow-hidden'>
                     <Image
                       src={equipment.image}
                       alt={equipment.title}
-                      className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-700'
+                      className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                       width={300}
                       height={225}
                     />
 
-                    {/* Overlay Controls - Different Positioning */}
-                    <div className='absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                      <Button
-                        size='sm'
+                    {/* Overlay Controls */}
+                    <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
+                      <div className='flex space-x-2'>
+                        <Button
+                          size='sm'
+                          variant='secondary'
+                          className='bg-white/90 text-primary hover:bg-white'
+                        >
+                          <Eye className='h-4 w-4' />
+                        </Button>
+                        <Button
+                          size='sm'
+                          variant='secondary'
+                          className='bg-white/90 text-primary hover:bg-white'
+                        >
+                          <Heart className='h-4 w-4' />
+                        </Button>
+                        <Button
+                          size='sm'
+                          variant='secondary'
+                          className='bg-white/90 text-primary hover:bg-white'
+                        >
+                          <Phone className='h-4 w-4' />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Price Badge */}
+                    <div className='absolute top-4 left-4'>
+                      <Badge
                         variant='secondary'
-                        className='bg-white/90 text-primary hover:bg-white shadow-md'
+                        className={`${equipment.priceType === 'For Sale' ? 'bg-success' : 'bg-warning'} text-white font-semibold`}
                       >
-                        <Eye className='h-4 w-4' />
-                      </Button>
-                      <Button
-                        size='sm'
-                        variant='secondary'
-                        className='bg-white/90 text-primary hover:bg-white shadow-md'
-                      >
-                        <Heart className='h-4 w-4' />
-                      </Button>
+                        {equipment.priceType}
+                      </Badge>
+                    </div>
+
+                    {/* Condition Badge */}
+                    <div className='absolute top-4 right-4'>
+                      <Badge variant='outline' className='bg-white/90 text-primary border-white/20'>
+                        {equipment.condition}
+                      </Badge>
                     </div>
                   </div>
 
-                  {/* Content - Reduced padding */}
+                  {/* Content */}
                   <div className='p-3'>
-                    {/* Header - Simplified */}
+                    {/* Header */}
                     <div className='mb-3'>
-                      <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-2'>
+                      <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                         {equipment.title}
                       </h3>
                       <div className='text-base font-medium text-primary mb-1'>
@@ -329,10 +345,9 @@ const TopEquipmentForSale = memo(() => {
                       </div>
                     </div>
 
-                    {/* Action Button - Transparent with orange hint */}
+                    {/* Action Button */}
                     <Button
-                      size='sm'
-                      className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200 text-xs'
+                      className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
                       onClick={() => {
                         router.push(`/equipment/${equipment.id}`);
                       }}

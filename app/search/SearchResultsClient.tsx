@@ -222,30 +222,46 @@ export default function SearchResultsClient() {
         className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
       >
         {filteredEquipment.map(equipment => (
-          <div
-            key={equipment.id}
-            className='bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow'
-          >
-            <div className='relative'>
+          <div key={equipment.id} className='card-featured group cursor-pointer'>
+            <div className='relative overflow-hidden rounded-lg'>
               <Image
                 src={equipment.image}
                 alt={equipment.title}
-                className='w-full h-48 object-cover'
+                className='w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105'
                 width={400}
                 height={192}
               />
-              <Badge
-                className='absolute top-2 left-2'
-                variant={equipment.type === 'sale' ? 'default' : 'secondary'}
-              >
-                {equipment.type === 'sale' ? 'For Sale' : 'For Rent'}
-              </Badge>
-              {equipment.isVerified && (
-                <Badge className='absolute top-2 right-2' variant='outline'>
-                  Verified
+
+              {/* Overlay Controls */}
+              <div className='absolute top-3 left-3 right-3 flex justify-between items-start'>
+                <div className='flex flex-col gap-2'>
+                  <Badge
+                    className='bg-black/80 text-white border-0 hover:bg-black/90'
+                    variant={equipment.type === 'sale' ? 'default' : 'secondary'}
+                  >
+                    {equipment.type === 'sale' ? 'For Sale' : 'For Rent'}
+                  </Badge>
+                  {equipment.isVerified && (
+                    <Badge className='bg-green-600/90 text-white border-0 hover:bg-green-700/90'>
+                      Verified
+                    </Badge>
+                  )}
+                </div>
+                <div className='flex gap-2'>
+                  <button className='p-2 bg-white/90 hover:bg-white rounded-full shadow-sm transition-colors'>
+                    <Star className='w-4 h-4 text-gray-600' />
+                  </button>
+                </div>
+              </div>
+
+              {/* Condition Badge */}
+              <div className='absolute bottom-3 left-3'>
+                <Badge className='bg-white/90 text-gray-800 border-0 hover:bg-white'>
+                  {equipment.condition}
                 </Badge>
-              )}
+              </div>
             </div>
+
             <div className='p-4'>
               <h3 className='font-semibold text-lg mb-2'>{equipment.title}</h3>
               <p className='text-muted-foreground mb-2'>
