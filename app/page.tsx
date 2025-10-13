@@ -94,7 +94,10 @@ export default function HomePage() {
               {/* Main Heading */}
               <h2 className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight'>
                 Middle East&apos;s Leading{' '}
-                <span className='text-gray-800 font-bold'>Heavy Equipment</span> Marketplace
+                <span className='bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold'>
+                  Heavy Equipment
+                </span>{' '}
+                Marketplace
               </h2>
 
               {/* Enhanced Description */}
@@ -110,9 +113,9 @@ export default function HomePage() {
                 {/* Key Features Grid */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12'>
                   <div className='bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow'>
-                    <div className='w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                    <div className='w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
                       <svg
-                        className='w-6 h-6 text-gray-700'
+                        className='w-6 h-6 text-green-600'
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'
@@ -132,9 +135,9 @@ export default function HomePage() {
                   </div>
 
                   <div className='bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow'>
-                    <div className='w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                    <div className='w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
                       <svg
-                        className='w-6 h-6 text-gray-700'
+                        className='w-6 h-6 text-blue-600'
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'
@@ -154,9 +157,9 @@ export default function HomePage() {
                   </div>
 
                   <div className='bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow'>
-                    <div className='w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
+                    <div className='w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 mx-auto'>
                       <svg
-                        className='w-6 h-6 text-gray-700'
+                        className='w-6 h-6 text-orange-600'
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'

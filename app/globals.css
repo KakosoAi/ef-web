@@ -253,4 +253,9 @@
       transform: translateY(0);
     }
   }
+
+  /* Card Featured Styling */
+  .card-featured {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300;
+  }
 }

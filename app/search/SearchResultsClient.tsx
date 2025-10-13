@@ -164,20 +164,76 @@ export default function SearchResultsClient() {
 
   useEffect(() => {
     const query = searchParams.get('q') || '';
+    const type = searchParams.get('type') || '';
     setSearchTerm(query);
 
+    let filtered = mockEquipment;
+
+    // Filter by search query
     if (query) {
-      const filtered = mockEquipment.filter(
+      filtered = filtered.filter(
         item =>
           item.title.toLowerCase().includes(query.toLowerCase()) ||
           item.brand.toLowerCase().includes(query.toLowerCase()) ||
           item.category.toLowerCase().includes(query.toLowerCase())
       );
-      setFilteredEquipment(filtered);
-    } else {
-      setFilteredEquipment(mockEquipment);
     }
+
+    // Filter by type
+    if (type) {
+      if (type === 'sale') {
+        filtered = filtered.filter(item => item.type === 'sale');
+      } else if (type === 'rent') {
+        filtered = filtered.filter(item => item.type === 'rent');
+      } else if (type === 'tools') {
+        // For tools, we can filter by category or add a tools-specific filter
+        filtered = filtered.filter(
+          item =>
+            item.category.toLowerCase().includes('tool') ||
+            item.category.toLowerCase().includes('lift') ||
+            item.type === 'rent'
+        );
+      }
+    }
+
+    setFilteredEquipment(filtered);
   }, [searchParams]);
+
+  // Handle real-time search input changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+
+    let filtered = mockEquipment;
+    const type = searchParams.get('type') || '';
+
+    // Filter by search query
+    if (value) {
+      filtered = filtered.filter(
+        item =>
+          item.title.toLowerCase().includes(value.toLowerCase()) ||
+          item.brand.toLowerCase().includes(value.toLowerCase()) ||
+          item.category.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+    // Filter by type
+    if (type) {
+      if (type === 'sale') {
+        filtered = filtered.filter(item => item.type === 'sale');
+      } else if (type === 'rent') {
+        filtered = filtered.filter(item => item.type === 'rent');
+      } else if (type === 'tools') {
+        filtered = filtered.filter(
+          item =>
+            item.category.toLowerCase().includes('tool') ||
+            item.category.toLowerCase().includes('lift') ||
+            item.type === 'rent'
+        );
+      }
+    }
+
+    setFilteredEquipment(filtered);
+  };
 
   return (
     <div className='container mx-auto px-4 py-8'>
@@ -190,7 +246,7 @@ export default function SearchResultsClient() {
               <Input
                 placeholder='Search equipment...'
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={e => handleSearchChange(e.target.value)}
                 className='pl-10'
               />
             </div>
@@ -222,7 +278,20 @@ export default function SearchResultsClient() {
         className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
       >
         {filteredEquipment.map(equipment => (
-          <div key={equipment.id} className='card-featured group cursor-pointer'>
+          <div
+            key={equipment.id}
+            className='card-featured group cursor-pointer'
+            onClick={() => {
+              const slug = equipment.title
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+              const type = equipment.type === 'sale' ? 'buy' : 'rent';
+              window.location.href = `/products/${type}/${slug}/${equipment.id}`;
+            }}
+          >
             <div className='relative overflow-hidden rounded-lg'>
               <Image
                 src={equipment.image}
