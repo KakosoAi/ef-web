@@ -35,7 +35,7 @@ Next.js 13+ App Router directory structure for routing and layouts.
 
 ### Routes
 
-- **`equipment/[id]/page.tsx`** - Dynamic route for individual equipment details
+- **`products/[type]/[slug]/[id]/page.tsx`** - Dynamic route for individual equipment details
 - **`search/page.tsx`** - Equipment search and filtering page
 
 ## 📁 public/

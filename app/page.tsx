@@ -66,35 +66,39 @@ export default function HomePage() {
         <Categories />
 
         {/* SEO Content Block 1 - After Categories */}
-        <div className='py-16 bg-white mt-16 md:mt-20 lg:mt-24 relative overflow-hidden'>
+        <div className='py-16 bg-card mt-16 md:mt-20 lg:mt-24 relative overflow-hidden'>
           {/* Background Pattern */}
           <div className='absolute inset-0 opacity-5'>
-            <div className='absolute top-10 left-10 w-20 h-20 border-2 border-gray-300 rounded-full'></div>
-            <div className='absolute top-32 right-20 w-16 h-16 border-2 border-gray-300 rounded-lg rotate-45'></div>
-            <div className='absolute bottom-20 left-1/4 w-12 h-12 border-2 border-gray-300 rounded-full'></div>
-            <div className='absolute bottom-32 right-1/3 w-14 h-14 border-2 border-gray-300 rounded-lg rotate-12'></div>
+            <div className='absolute top-10 left-10 w-20 h-20 border-2 border-border rounded-full'></div>
+            <div className='absolute top-32 right-20 w-16 h-16 border-2 border-border rounded-lg rotate-45'></div>
+            <div className='absolute bottom-20 left-1/4 w-12 h-12 border-2 border-border rounded-full'></div>
+            <div className='absolute bottom-32 right-1/3 w-14 h-14 border-2 border-border rounded-lg rotate-12'></div>
           </div>
 
           <div className='container mx-auto px-6 text-center relative z-10'>
             <div className='max-w-5xl mx-auto'>
               {/* Icon and Badge */}
               <div className='flex justify-center mb-6'>
-                <div className='inline-flex items-center bg-white backdrop-blur-sm border border-gray-200 rounded-full px-4 py-2 shadow-sm'>
-                  <div className='w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center mr-3'>
-                    <svg className='w-4 h-4 text-white' fill='currentColor' viewBox='0 0 20 20'>
+                <div className='inline-flex items-center bg-card backdrop-blur-sm border border-border rounded-full px-4 py-2 shadow-sm'>
+                  <div className='w-8 h-8 bg-foreground rounded-full flex items-center justify-center mr-3'>
+                    <svg
+                      className='w-4 h-4 text-background'
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                    >
                       <path d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path>
                     </svg>
                   </div>
-                  <span className='text-sm font-semibold text-gray-700'>
+                  <span className='text-sm font-semibold text-muted-foreground'>
                     Trusted by 10,000+ Professionals
                   </span>
                 </div>
               </div>
 
               {/* Main Heading */}
-              <h2 className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight'>
+              <h2 className='text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight'>
                 Middle East&apos;s Leading{' '}
-                <span className='bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent font-bold'>
+                <span className='bg-gradient-to-r from-primary to-destructive bg-clip-text text-transparent font-bold'>
                   Heavy Equipment
                 </span>{' '}
                 Marketplace

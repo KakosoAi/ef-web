@@ -48,22 +48,26 @@ const Categories = memo(() => {
   const moreCount = Math.max(0, allCategories.length - 12);
 
   return (
-    <section className='py-4 bg-white'>
+    <section className='py-4 bg-background'>
       <div className='container mx-auto px-4'>
         {/* Categories Grid - First 2 rows (always visible) */}
         {loading && (
-          <div className='text-center py-8 text-sm text-gray-500'>Loading categories...</div>
+          <div className='text-center py-8 text-sm text-muted-foreground'>
+            Loading categories...
+          </div>
         )}
 
-        {!loading && error && <div className='text-center py-8 text-sm text-red-600'>{error}</div>}
+        {!loading && error && (
+          <div className='text-center py-8 text-sm text-destructive'>{error}</div>
+        )}
 
         {!loading && !error && (
           <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
             {visibleCategories.map((category, index) => (
               <div key={`${category.name}-${index}`} className='group cursor-pointer'>
-                <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-gray-50/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-gray-200/50'>
+                <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl hover:bg-muted/80 hover:shadow-md transition-all duration-300 border border-transparent hover:border-border/50'>
                   {/* Professional icon container */}
-                  <div className='w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center bg-white rounded-xl group-hover:scale-105 transition-all duration-300'>
+                  <div className='w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center bg-card rounded-xl group-hover:scale-105 transition-all duration-300'>
                     <Image
                       src={category.image}
                       alt={category.name}
@@ -74,11 +78,13 @@ const Categories = memo(() => {
                   </div>
                   {/* Category name and count */}
                   <div className='min-h-[2.5rem] flex flex-col items-center justify-center'>
-                    <h3 className='text-sm font-semibold text-gray-900 leading-tight break-words text-center px-1'>
+                    <h3 className='text-sm font-semibold text-foreground leading-tight break-words text-center px-1'>
                       {category.name}
                     </h3>
                     {category.count && (
-                      <div className='text-xs text-gray-600 font-medium mt-1'>{category.count}</div>
+                      <div className='text-xs text-muted-foreground font-medium mt-1'>
+                        {category.count}
+                      </div>
                     )}
                   </div>
                 </div>

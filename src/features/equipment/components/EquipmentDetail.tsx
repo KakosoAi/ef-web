@@ -24,7 +24,7 @@ import {
   Award,
   Building2,
 } from 'lucide-react';
-import { EquipmentDetailProps } from '@/shared/types';
+import { EquipmentDetailProps, EquipmentSpecifications } from '@/shared/types';
 
 const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -196,7 +196,7 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
                     <div>
                       <div className='text-sm text-muted-foreground'>Serial Number</div>
                       <div className='font-semibold'>
-                        {(equipment.specifications as any).serialNumber}
+                        {(equipment.specifications as EquipmentSpecifications).serialNumber}
                       </div>
                     </div>
                   </div>
@@ -211,34 +211,38 @@ const EquipmentDetail = memo(({ equipment, onClose }: EquipmentDetailProps) => {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Make</span>
-                  <span className='font-semibold'>{(equipment.specifications as any).make}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as EquipmentSpecifications).make}
+                  </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Model</span>
-                  <span className='font-semibold'>{(equipment.specifications as any).model}</span>
+                  <span className='font-semibold'>
+                    {(equipment.specifications as EquipmentSpecifications).model}
+                  </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Engine Power</span>
                   <span className='font-semibold'>
-                    {(equipment.specifications as any).enginePower}
+                    {(equipment.specifications as EquipmentSpecifications).enginePower}
                   </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Fuel Type</span>
                   <span className='font-semibold'>
-                    {(equipment.specifications as any).fuelType}
+                    {(equipment.specifications as EquipmentSpecifications).fuelType}
                   </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Operating Weight</span>
                   <span className='font-semibold'>
-                    {(equipment.specifications as any).operatingWeight}
+                    {(equipment.specifications as EquipmentSpecifications).operatingWeight}
                   </span>
                 </div>
                 <div className='flex justify-between py-2 border-b border-border'>
                   <span className='text-muted-foreground'>Bucket Capacity</span>
                   <span className='font-semibold'>
-                    {(equipment.specifications as any).bucketCapacity}
+                    {(equipment.specifications as EquipmentSpecifications).bucketCapacity}
                   </span>
                 </div>
               </div>

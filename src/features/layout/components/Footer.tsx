@@ -27,22 +27,24 @@ const Footer = memo(() => {
   const locations = useMemo(() => contactInfo.locations, []);
 
   return (
-    <footer className='bg-gray-900 text-white'>
+    <footer className='bg-card text-card-foreground'>
       {/* Newsletter Section */}
-      <div className='border-b border-gray-700'>
+      <div className='border-b border-border'>
         <div className='container mx-auto px-4 py-12'>
           <div className='max-w-4xl mx-auto text-center'>
-            <h3 className='text-3xl font-display font-bold mb-4 text-white'>
+            <h3 className='text-3xl font-display font-bold mb-4 text-foreground'>
               Let&apos;s get in touch
             </h3>
-            <p className='text-gray-300 mb-8 max-w-2xl mx-auto'>Sign up for our Newsletter</p>
+            <p className='text-muted-foreground mb-8 max-w-2xl mx-auto'>
+              Sign up for our Newsletter
+            </p>
 
             <div className='flex flex-col sm:flex-row gap-4 max-w-md mx-auto'>
               <Input
                 placeholder='Enter your email address'
-                className='flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400'
+                className='flex-1 bg-muted border-border text-foreground placeholder:text-muted-foreground'
               />
-              <Button className='bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6'>
+              <Button className='bg-primary hover:bg-primary-hover text-primary-foreground font-semibold px-6'>
                 Subscribe
                 <ArrowRight className='h-4 w-4 ml-2' />
               </Button>
