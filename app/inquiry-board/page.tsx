@@ -226,22 +226,22 @@ export default function InquiryBoard() {
       <Header />
       <main>
         {/* Page Header */}
-        <div className='bg-white border-b border-gray-100'>
+        <div className='bg-card border-b border-border'>
           <div className='max-w-7xl mx-auto px-6 lg:px-8 py-6'>
             <div className='mb-6'>
-              <h1 className='text-2xl font-semibold text-gray-900 mb-2'>Equipment Inquiries</h1>
-              <p className='text-gray-600'>Find the perfect equipment for your project</p>
+              <h1 className='text-2xl font-semibold text-foreground mb-2'>Equipment Inquiries</h1>
+              <p className='text-muted-foreground'>Find the perfect equipment for your project</p>
             </div>
 
             <div className='flex flex-col lg:flex-row gap-4 items-center'>
               <div className='relative flex-1 max-w-2xl'>
-                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5' />
+                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5' />
                 <input
                   type='text'
                   placeholder='Search equipment inquiries...'
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
-                  className='w-full pl-12 pr-6 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                  className='w-full pl-12 pr-6 py-3 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent'
                 />
               </div>
 
