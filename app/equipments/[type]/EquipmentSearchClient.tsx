@@ -1,16 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Search, Filter, Grid, List, MapPin, Star, Eye, Shield } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Badge } from '@/shared/ui/badge';
-import { Card, CardContent } from '@/shared/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Grid3X3, List, Heart, Phone, ArrowRight, Shield, MapPin, Star, Eye } from 'lucide-react';
 import { equipmentData } from '@/shared/data/equipmentData';
 import { createSlug } from '@/shared/utils/urlHelpers';
+import EquipmentFilters from '@/features/equipment/components/EquipmentFilters';
 
 interface Equipment {
   id: string;
@@ -44,8 +43,15 @@ interface EquipmentSearchClientProps {
 export default function EquipmentSearchClient({ type, searchParams }: EquipmentSearchClientProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState(searchParams.q || '');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.category || 'all');
-  const [selectedLocation, setSelectedLocation] = useState(searchParams.location || 'all');
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.category || 'All Categories'
+  );
+  const [selectedLocation, setSelectedLocation] = useState(
+    searchParams.location || 'All Locations'
+  );
+  const [selectedCondition, setSelectedCondition] = useState('All Conditions');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
+  const [selectedYear, setSelectedYear] = useState('All Years');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('relevance');
 
@@ -86,7 +92,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
 
     // Filter by category
     if (
-      selectedCategory !== 'all' &&
+      selectedCategory !== 'All Categories' &&
       equipment.category.toLowerCase() !== selectedCategory.toLowerCase()
     ) {
       return false;
@@ -94,10 +100,49 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
 
     // Filter by location
     if (
-      selectedLocation !== 'all' &&
+      selectedLocation !== 'All Locations' &&
       equipment.location.toLowerCase() !== selectedLocation.toLowerCase()
     ) {
       return false;
+    }
+
+    // Filter by condition
+    if (
+      selectedCondition !== 'All Conditions' &&
+      equipment.condition.toLowerCase() !== selectedCondition.toLowerCase()
+    ) {
+      return false;
+    }
+
+    // Filter by price range
+    if (selectedPriceRange !== 'All Prices') {
+      const price = parseFloat(equipment.price.replace(/[^0-9.]/g, ''));
+      switch (selectedPriceRange) {
+        case 'Under AED 50,000':
+          if (price >= 50000) return false;
+          break;
+        case 'AED 50,000 - 100,000':
+          if (price < 50000 || price > 100000) return false;
+          break;
+        case 'AED 100,000 - 250,000':
+          if (price < 100000 || price > 250000) return false;
+          break;
+        case 'AED 250,000 - 500,000':
+          if (price < 250000 || price > 500000) return false;
+          break;
+        case 'Over AED 500,000':
+          if (price <= 500000) return false;
+          break;
+      }
+    }
+
+    // Filter by year
+    if (selectedYear !== 'All Years') {
+      if (selectedYear === 'Before 2018') {
+        if (equipment.year >= 2018) return false;
+      } else if (equipment.year.toString() !== selectedYear) {
+        return false;
+      }
     }
 
     return true;
@@ -106,11 +151,21 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchQuery) params.set('q', searchQuery);
-    if (selectedCategory !== 'all') params.set('category', selectedCategory);
-    if (selectedLocation !== 'all') params.set('location', selectedLocation);
+    if (selectedCategory !== 'All Categories') params.set('category', selectedCategory);
+    if (selectedLocation !== 'All Locations') params.set('location', selectedLocation);
 
     const queryString = params.toString();
     router.push(`/equipments/${type}${queryString ? `?${queryString}` : ''}`);
+  };
+
+  const handleClearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All Categories');
+    setSelectedLocation('All Locations');
+    setSelectedCondition('All Conditions');
+    setSelectedPriceRange('All Prices');
+    setSelectedYear('All Years');
+    handleSearch();
   };
 
   const handleEquipmentClick = (equipment: Equipment) => {
@@ -146,171 +201,210 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   };
 
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='min-h-screen bg-background'>
       {/* Header */}
-      <div className='mb-8'>
-        <h1 className='text-3xl font-bold text-gray-900 mb-2'>{getTypeTitle()}</h1>
-        <p className='text-gray-600 mb-6'>{getTypeDescription()}</p>
-
-        {/* Search and Filters */}
-        <div className='bg-white rounded-lg shadow-sm border p-6 mb-6'>
-          <div className='grid grid-cols-1 md:grid-cols-4 gap-4 mb-4'>
-            <div className='md:col-span-2'>
-              <Input
-                placeholder={`Search ${type === 'buy' ? 'equipment for sale' : type === 'rent' ? 'equipment for rent' : 'tools'}...`}
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className='w-full'
-              />
-            </div>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
-                <SelectValue placeholder='All Categories' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='all'>All Categories</SelectItem>
-                <SelectItem value='excavators'>Excavators</SelectItem>
-                <SelectItem value='wheel loaders'>Wheel Loaders</SelectItem>
-                <SelectItem value='cranes'>Cranes</SelectItem>
-                <SelectItem value='bulldozers'>Bulldozers</SelectItem>
-                <SelectItem value='backhoe loaders'>Backhoe Loaders</SelectItem>
-                <SelectItem value='skid steers'>Skid Steers</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-              <SelectTrigger>
-                <SelectValue placeholder='All Locations' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='all'>All Locations</SelectItem>
-                <SelectItem value='dubai'>Dubai</SelectItem>
-                <SelectItem value='abu dhabi'>Abu Dhabi</SelectItem>
-                <SelectItem value='sharjah'>Sharjah</SelectItem>
-                <SelectItem value='ajman'>Ajman</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={handleSearch} className='w-full md:w-auto'>
-            <Search className='h-4 w-4 mr-2' />
-            Search
-          </Button>
-        </div>
-
-        {/* Results Header */}
-        <div className='flex justify-between items-center mb-6'>
-          <div>
-            <p className='text-gray-600'>
-              Showing {filteredEquipment.length} results
-              {searchQuery && ` for "${searchQuery}"`}
-            </p>
-          </div>
-          <div className='flex items-center gap-4'>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className='w-40'>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='relevance'>Relevance</SelectItem>
-                <SelectItem value='price-low'>Price: Low to High</SelectItem>
-                <SelectItem value='price-high'>Price: High to Low</SelectItem>
-                <SelectItem value='newest'>Newest First</SelectItem>
-                <SelectItem value='rating'>Highest Rated</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className='flex border rounded-lg'>
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size='sm'
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid className='h-4 w-4' />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size='sm'
-                onClick={() => setViewMode('list')}
-              >
-                <List className='h-4 w-4' />
-              </Button>
-            </div>
-          </div>
+      <div className='bg-card border-b border-border'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
+          <h1 className='text-3xl font-bold text-foreground'>{getTypeTitle()}</h1>
+          <p className='text-muted-foreground mt-2'>{getTypeDescription()}</p>
         </div>
       </div>
 
-      {/* Results */}
-      {filteredEquipment.length === 0 ? (
-        <div className='text-center py-12'>
-          <div className='text-gray-500 mb-4'>No equipment found matching your criteria</div>
-          <Button
-            onClick={() => {
-              setSearchQuery('');
-              setSelectedCategory('all');
-              setSelectedLocation('all');
-              handleSearch();
-            }}
-          >
-            Clear Filters
-          </Button>
-        </div>
-      ) : (
-        <div
-          className={
-            viewMode === 'grid'
-              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-              : 'space-y-4'
-          }
-        >
-          {filteredEquipment.map(equipment => (
-            <Card
-              key={equipment.id}
-              className='cursor-pointer hover:shadow-lg transition-shadow'
-              onClick={() => handleEquipmentClick(equipment)}
-            >
-              <CardContent className='p-0'>
-                <div className='relative'>
-                  <Image
-                    src={equipment.image}
-                    alt={equipment.title}
-                    width={400}
-                    height={192}
-                    className='w-full h-48 object-cover rounded-t-lg'
-                  />
-                  {equipment.isVerified && (
-                    <Badge className='absolute top-2 right-2 bg-green-500'>
-                      <Shield className='h-3 w-3 mr-1' />
-                      Verified
-                    </Badge>
-                  )}
+      {/* Main Content */}
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        <div className='flex gap-8'>
+          {/* Left Sidebar - Filters */}
+          <div className='w-80 flex-shrink-0'>
+            <EquipmentFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              selectedLocation={selectedLocation}
+              onLocationChange={setSelectedLocation}
+              selectedCondition={selectedCondition}
+              onConditionChange={setSelectedCondition}
+              selectedPriceRange={selectedPriceRange}
+              onPriceRangeChange={setSelectedPriceRange}
+              selectedYear={selectedYear}
+              onYearChange={setSelectedYear}
+              resultsCount={filteredEquipment.length}
+              onClearFilters={handleClearFilters}
+            />
+          </div>
+
+          {/* Main Content Area */}
+          <div className='flex-1'>
+            {/* Results Header */}
+            <div className='flex items-center justify-between mb-6'>
+              <div className='flex items-center gap-4'>
+                <span className='text-sm text-muted-foreground'>
+                  {filteredEquipment.length} results found
+                </span>
+              </div>
+
+              <div className='flex items-center gap-4'>
+                {/* Sort Dropdown */}
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className='w-48'>
+                    <SelectValue placeholder='Sort by' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='relevance'>Sort by Relevance</SelectItem>
+                    <SelectItem value='price-low'>Price: Low to High</SelectItem>
+                    <SelectItem value='price-high'>Price: High to Low</SelectItem>
+                    <SelectItem value='newest'>Newest First</SelectItem>
+                    <SelectItem value='rating'>Highest Rated</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* View Toggle */}
+                <div className='flex border border-border rounded-lg'>
+                  <Button
+                    variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                    size='sm'
+                    onClick={() => setViewMode('grid')}
+                    className='rounded-r-none'
+                  >
+                    <Grid3X3 className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant={viewMode === 'list' ? 'default' : 'ghost'}
+                    size='sm'
+                    onClick={() => setViewMode('list')}
+                    className='rounded-l-none'
+                  >
+                    <List className='h-4 w-4' />
+                  </Button>
                 </div>
-                <div className='p-4'>
-                  <h3 className='font-semibold text-lg mb-2'>{equipment.title}</h3>
-                  <p className='text-2xl font-bold text-blue-600 mb-2'>{equipment.price}</p>
-                  <div className='flex items-center gap-4 text-sm text-gray-600 mb-2'>
-                    <span className='flex items-center'>
-                      <MapPin className='h-4 w-4 mr-1' />
-                      {equipment.location}
-                    </span>
-                    <span className='flex items-center'>
-                      <Star className='h-4 w-4 mr-1 fill-yellow-400 text-yellow-400' />
-                      {equipment.rating.toFixed(1)}
-                    </span>
-                    <span className='flex items-center'>
-                      <Eye className='h-4 w-4 mr-1' />
-                      {equipment.views}
-                    </span>
+              </div>
+            </div>
+
+            {/* Equipment Grid/List */}
+            {filteredEquipment.length === 0 ? (
+              <div className='text-center py-12'>
+                <p className='text-muted-foreground mb-4'>
+                  No equipment found matching your criteria.
+                </p>
+                <Button onClick={handleClearFilters} variant='outline'>
+                  Clear Filters
+                </Button>
+              </div>
+            ) : (
+              <div
+                className={
+                  viewMode === 'grid'
+                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                    : 'space-y-4'
+                }
+              >
+                {filteredEquipment.map(equipment => (
+                  <div
+                    key={equipment.id}
+                    className='card-featured cursor-pointer group'
+                    onClick={() => handleEquipmentClick(equipment)}
+                  >
+                    {/* Image Container */}
+                    <div className='relative aspect-[4/3] overflow-hidden rounded-t-lg'>
+                      <Image
+                        src={equipment.image}
+                        alt={equipment.title}
+                        width={400}
+                        height={300}
+                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      />
+
+                      {/* Overlay Controls */}
+                      <div className='absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300'>
+                        <div className='absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                          <Button
+                            size='sm'
+                            variant='secondary'
+                            className='h-8 w-8 p-0 bg-white/90 hover:bg-white'
+                            onClick={e => {
+                              e.stopPropagation();
+                              // Handle favorite
+                            }}
+                          >
+                            <Heart className='h-4 w-4' />
+                          </Button>
+                          <Button
+                            size='sm'
+                            variant='secondary'
+                            className='h-8 w-8 p-0 bg-white/90 hover:bg-white'
+                            onClick={e => {
+                              e.stopPropagation();
+                              // Handle contact
+                            }}
+                          >
+                            <Phone className='h-4 w-4' />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Badges */}
+                      <div className='absolute top-3 left-3 flex flex-col gap-2'>
+                        {equipment.isVerified && (
+                          <Badge variant='secondary' className='bg-green-500 text-white'>
+                            <Shield className='h-3 w-3 mr-1' />
+                            Verified
+                          </Badge>
+                        )}
+                        <Badge variant='secondary' className='bg-primary text-primary-foreground'>
+                          {equipment.condition}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className='p-4'>
+                      <div className='flex items-start justify-between mb-2'>
+                        <h3 className='font-semibold text-foreground line-clamp-1 group-hover:text-primary transition-colors'>
+                          {equipment.title}
+                        </h3>
+                        <span className='text-lg font-bold text-primary ml-2'>
+                          {equipment.price}
+                        </span>
+                      </div>
+
+                      {/* Key Details */}
+                      <div className='space-y-1 mb-3'>
+                        <div className='flex items-center justify-between text-sm text-muted-foreground'>
+                          <span>{equipment.year}</span>
+                          <span className='flex items-center'>
+                            <MapPin className='h-3 w-3 mr-1' />
+                            {equipment.location}
+                          </span>
+                        </div>
+                        <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                          <span className='flex items-center gap-1'>
+                            <Star className='h-3 w-3 fill-yellow-400 text-yellow-400' />
+                            {equipment.rating.toFixed(1)}
+                          </span>
+                          <span>•</span>
+                          <span className='flex items-center gap-1'>
+                            <Eye className='h-3 w-3' />
+                            {equipment.views}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <Button
+                        className='w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors'
+                        variant='outline'
+                      >
+                        View Details
+                        <ArrowRight className='ml-2 h-4 w-4' />
+                      </Button>
+                    </div>
                   </div>
-                  <div className='flex justify-between items-center'>
-                    <Badge variant='secondary'>{equipment.category}</Badge>
-                    <span className='text-sm text-gray-500'>
-                      {equipment.year} • {equipment.condition}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
