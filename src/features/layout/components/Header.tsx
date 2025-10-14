@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/shared/ui/button';
 import { RainbowButton } from '@/shared/ui/rainbow-borders-button';
@@ -10,8 +10,26 @@ import { siteConfig, contactInfo } from '@/shared/constants';
 import { ToggleTheme } from '@/shared/ui/toggle-theme';
 import { ToggleLanguage } from '@/shared/ui/toggle-language';
 import { NavigationMenu } from './NavigationMenu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/dropdown-menu';
+
+// Available locations
+const locations = [
+  { code: 'UAE', name: 'United Arab Emirates', flag: '🇦🇪' },
+  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: 'QA', name: 'Qatar', flag: '🇶🇦' },
+  { code: 'KW', name: 'Kuwait', flag: '🇰🇼' },
+  { code: 'OM', name: 'Oman', flag: '🇴🇲' },
+  { code: 'BH', name: 'Bahrain', flag: '🇧🇭' },
+];
 
 const Header = memo(() => {
+  const [selectedLocation, setSelectedLocation] = useState(locations[0]);
+
   return (
     <header className='bg-background border-b border-border sticky top-0 z-50 backdrop-blur-sm'>
       {/* Top Bar */}
@@ -19,11 +37,35 @@ const Header = memo(() => {
         <div className='container mx-auto px-4'>
           <div className='flex items-center justify-between h-8 text-xs'>
             <div className='flex items-center space-x-2 text-muted-foreground'>
-              {/* Simplified Location Display */}
-              <div className='flex items-center space-x-1'>
-                <MapPin className='h-3 w-3 text-orange-500' />
-                <span className='font-medium text-[10px] sm:text-xs'>UAE</span>
-              </div>
+              {/* Location Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='flex items-center space-x-1 h-6 px-2 text-muted-foreground hover:text-foreground'
+                  >
+                    <MapPin className='h-3 w-3 text-orange-500' />
+                    <span className='font-medium text-[10px] sm:text-xs'>
+                      {selectedLocation.flag} {selectedLocation.code}
+                    </span>
+                    <ChevronDown className='h-3 w-3' />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='start' className='w-48'>
+                  {locations.map(location => (
+                    <DropdownMenuItem
+                      key={location.code}
+                      onClick={() => setSelectedLocation(location)}
+                      className='flex items-center space-x-2'
+                    >
+                      <span>{location.flag}</span>
+                      <span className='text-sm'>{location.name}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {/* Simplified Phone Display */}
               <div className='flex items-center space-x-1'>
                 <Phone className='h-3 w-3 text-green-500' />
@@ -31,6 +73,17 @@ const Header = memo(() => {
               </div>
             </div>
             <div className='flex items-center space-x-3'>
+              {/* Login Icon */}
+              <Button
+                variant='ghost'
+                size='sm'
+                className='text-muted-foreground hover:text-foreground h-6 px-2'
+                asChild
+              >
+                <Link href='/login'>
+                  <User className='h-3 w-3' />
+                </Link>
+              </Button>
               {/* Theme Toggle */}
               <ToggleTheme />
               {/* Language Toggle */}
@@ -84,14 +137,6 @@ const Header = memo(() => {
                 </div>
                 AI Map Search
               </Link>
-            </Button>
-            <Button
-              variant='outline'
-              size='sm'
-              className='hidden md:flex border-border text-foreground hover:bg-muted'
-            >
-              <User className='h-4 w-4 mr-2' />
-              Login
             </Button>
             <RainbowButton>Post Now</RainbowButton>
           </div>
