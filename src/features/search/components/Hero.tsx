@@ -18,9 +18,11 @@ const Hero = memo(() => {
       if (mode === websiteMode) return;
 
       setIsTransitioning(true);
+
+      // Simple, fast transition
       setTimeout(() => {
         setWebsiteMode(mode);
-        setTimeout(() => setIsTransitioning(false), 150);
+        setIsTransitioning(false);
       }, 200);
     },
     [websiteMode]
@@ -71,27 +73,17 @@ const Hero = memo(() => {
 
   return (
     <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden'>
-      {/* Animated Background */}
+      {/* Simple Background */}
       <div
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-600 ease-out ${
-          isTransitioning ? 'scale-102 brightness-110' : 'scale-100 brightness-100'
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-300 ease-in-out ${
+          isTransitioning ? 'opacity-50' : 'opacity-100'
         }`}
         style={{ backgroundImage: `url(${backgroundConfig[websiteMode].image})` }}
       />
 
-      {/* Secondary Background for Smooth Transitions */}
+      {/* Simple Gradient Overlay */}
       <div
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-600 ease-out ${
-          isTransitioning ? 'opacity-100 scale-100' : 'opacity-0 scale-102'
-        }`}
-        style={{
-          backgroundImage: `url(${backgroundConfig[websiteMode === 'general' ? 'agricultural' : 'general'].image})`,
-        }}
-      />
-
-      {/* Animated Gradient Overlay */}
-      <div
-        className={`absolute inset-0 transition-all duration-600 ease-out ${backgroundConfig[websiteMode].overlay}`}
+        className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${backgroundConfig[websiteMode].overlay}`}
       ></div>
 
       {/* Floating Particles for Agricultural Mode */}
@@ -146,10 +138,8 @@ const Hero = memo(() => {
           <div className='animate-fade-in-up mb-12 md:mb-16'>
             <div className='min-h-[120px] md:min-h-[140px] lg:min-h-[160px] flex items-center justify-center'>
               <h1
-                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-all duration-500 ease-out ${
-                  isTransitioning
-                    ? 'opacity-0 transform translate-y-4'
-                    : 'opacity-100 transform translate-y-0'
+                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-opacity duration-300 ease-in-out ${
+                  isTransitioning ? 'opacity-50' : 'opacity-100'
                 }`}
               >
                 <span className='block'>
