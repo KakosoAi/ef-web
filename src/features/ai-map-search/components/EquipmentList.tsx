@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
 interface EquipmentListProps {
   equipment: EquipmentAd[];
@@ -31,6 +32,7 @@ interface EquipmentListProps {
   onEquipmentClick: (equipment: EquipmentAd) => void;
   onFilterChange: (filteredEquipment: EquipmentAd[]) => void;
   className?: string;
+  websiteMode?: 'general' | 'agricultural';
 }
 
 export default function EquipmentList({
@@ -39,7 +41,10 @@ export default function EquipmentList({
   onEquipmentClick,
   onFilterChange,
   className,
+  websiteMode: propWebsiteMode,
 }: EquipmentListProps) {
+  const { websiteMode: contextWebsiteMode } = useWebsiteMode();
+  const websiteMode = propWebsiteMode || contextWebsiteMode;
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -200,7 +205,13 @@ export default function EquipmentList({
                         </div>
                       </div>
                       <div className='text-right ml-2'>
-                        <div className='text-sm font-bold text-primary'>{item.price}</div>
+                        <div
+                          className={`text-sm font-bold ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
+                        >
+                          {item.price}
+                        </div>
                       </div>
                     </div>
 
@@ -213,7 +224,11 @@ export default function EquipmentList({
                       </div>
                       <Button
                         size='sm'
-                        className='h-6 px-2 bg-black hover:bg-gray-800 text-white text-xs'
+                        className={`h-6 px-2 text-white text-xs ${
+                          websiteMode === 'agricultural'
+                            ? 'bg-green-600 hover:bg-green-700'
+                            : 'bg-black hover:bg-gray-800'
+                        }`}
                         onClick={e => e.stopPropagation()}
                       >
                         📞
@@ -286,7 +301,11 @@ export default function EquipmentList({
                       </div>
                       <Button
                         size='sm'
-                        className='h-6 px-2 bg-black hover:bg-gray-800 text-white text-xs'
+                        className={`h-6 px-2 text-white text-xs ${
+                          websiteMode === 'agricultural'
+                            ? 'bg-green-600 hover:bg-green-700'
+                            : 'bg-black hover:bg-gray-800'
+                        }`}
                         onClick={e => e.stopPropagation()}
                       >
                         📞

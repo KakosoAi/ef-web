@@ -1,11 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, Filter, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
+import { Checkbox } from '@/shared/ui/checkbox';
+import { Slider } from '@/shared/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
+import {
+  Search,
+  Filter,
+  X,
+  MapPin,
+  Calendar,
+  DollarSign,
+  Settings,
+  Truck,
+  ChevronUp,
+  ChevronDown,
+} from 'lucide-react';
+import { equipmentCategories } from '@/shared/constants';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
 interface FilterSection {
   id: string;
@@ -14,38 +32,18 @@ interface FilterSection {
 }
 
 interface EquipmentFiltersProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
-  selectedLocation: string;
-  onLocationChange: (location: string) => void;
-  selectedCondition: string;
-  onConditionChange: (condition: string) => void;
-  selectedPriceRange: string;
-  onPriceRangeChange: (range: string) => void;
-  selectedYear: string;
-  onYearChange: (year: string) => void;
-  onClearFilters: () => void;
-  resultsCount: number;
+  onFiltersChange?: (filters: any) => void;
+  websiteMode?: 'general' | 'agricultural';
+  resultsCount?: number;
 }
 
 export default function EquipmentFilters({
-  searchQuery,
-  onSearchChange,
-  selectedCategory,
-  onCategoryChange,
-  selectedLocation,
-  onLocationChange,
-  selectedCondition,
-  onConditionChange,
-  selectedPriceRange,
-  onPriceRangeChange,
-  selectedYear,
-  onYearChange,
-  onClearFilters,
-  resultsCount,
+  onFiltersChange,
+  websiteMode: propWebsiteMode,
+  resultsCount = 0,
 }: EquipmentFiltersProps) {
+  const { websiteMode: contextWebsiteMode } = useWebsiteMode();
+  const websiteMode = propWebsiteMode || contextWebsiteMode;
   const [filterSections, setFilterSections] = useState<FilterSection[]>([
     { id: 'category', title: 'Category', isExpanded: true },
     { id: 'location', title: 'Location', isExpanded: true },
@@ -54,6 +52,14 @@ export default function EquipmentFilters({
     { id: 'year', title: 'Year', isExpanded: false },
   ]);
 
+  // Filter state variables
+  const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [selectedLocation, setSelectedLocation] = useState('All Locations');
+  const [selectedCondition, setSelectedCondition] = useState('All Conditions');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
+  const [selectedYear, setSelectedYear] = useState('All Years');
+  const [searchQuery, setSearchQuery] = useState('');
+
   const toggleSection = (sectionId: string) => {
     setFilterSections(prev =>
       prev.map(section =>
@@ -61,6 +67,40 @@ export default function EquipmentFilters({
       )
     );
   };
+
+  const onClearFilters = useCallback(() => {
+    setSelectedCategory('All Categories');
+    setSelectedLocation('All Locations');
+    setSelectedCondition('All Conditions');
+    setSelectedPriceRange('All Prices');
+    setSelectedYear('All Years');
+    setSearchQuery('');
+  }, []);
+
+  // Handler functions for filter changes
+  const onSearchChange = useCallback((value: string) => {
+    setSearchQuery(value);
+  }, []);
+
+  const onCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  const onLocationChange = useCallback((location: string) => {
+    setSelectedLocation(location);
+  }, []);
+
+  const onConditionChange = useCallback((condition: string) => {
+    setSelectedCondition(condition);
+  }, []);
+
+  const onPriceRangeChange = useCallback((priceRange: string) => {
+    setSelectedPriceRange(priceRange);
+  }, []);
+
+  const onYearChange = useCallback((year: string) => {
+    setSelectedYear(year);
+  }, []);
 
   const categories = [
     'All Categories',
@@ -146,7 +186,11 @@ export default function EquipmentFilters({
               placeholder='Search equipment...'
               value={searchQuery}
               onChange={e => onSearchChange(e.target.value)}
-              className='pl-10 rounded-xl border-gray-200/60 focus:border-orange-300 transition-colors duration-300 tracking-wide'
+              className={`pl-10 rounded-xl border-gray-200/60 transition-colors duration-300 tracking-wide ${
+                websiteMode === 'agricultural'
+                  ? 'focus:border-green-300'
+                  : 'focus:border-orange-300'
+              }`}
             />
           </div>
         </div>

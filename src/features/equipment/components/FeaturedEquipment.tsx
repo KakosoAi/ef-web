@@ -7,7 +7,7 @@ import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified } from 'lucide-react';
 import { EquipmentCard } from '@/shared/types';
-const FeaturedEquipment = memo(() => {
+const FeaturedEquipment = memo(({ websiteMode }: { websiteMode?: 'general' | 'agricultural' }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
 
@@ -156,7 +156,10 @@ const FeaturedEquipment = memo(() => {
         {/* Section Header */}
         <div className='text-center mb-16'>
           <h2 className='text-3xl md:text-4xl font-display font-bold text-foreground mb-4'>
-            Featured <span className='text-primary'>Equipment</span>
+            Featured{' '}
+            <span className={websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'}>
+              Equipment
+            </span>
           </h2>
           <p className='text-lg text-muted-foreground max-w-2xl mx-auto'>
             Handpicked premium equipment from verified dealers across the Middle East
@@ -229,7 +232,11 @@ const FeaturedEquipment = memo(() => {
                   <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                     {equipment.title}
                   </h3>
-                  <div className='text-base font-medium text-primary mb-1'>{equipment.price}</div>
+                  <div
+                    className={`text-base font-medium mb-1 ${websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'}`}
+                  >
+                    {equipment.price}
+                  </div>
                 </div>
 
                 {/* Key Details - Reduced */}
@@ -243,7 +250,11 @@ const FeaturedEquipment = memo(() => {
 
                 {/* Action Button */}
                 <Button
-                  className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
+                  className={`w-full bg-transparent border transition-all duration-200 ${
+                    websiteMode === 'agricultural'
+                      ? 'border-green-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      : 'border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                  }`}
                   onClick={() => {
                     const slug = equipment.title
                       .toLowerCase()
@@ -290,14 +301,18 @@ const FeaturedEquipment = memo(() => {
                         <Button
                           size='sm'
                           variant='secondary'
-                          className='bg-white/90 text-primary hover:bg-white'
+                          className={`bg-white/90 hover:bg-white ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
                         >
                           <Eye className='h-4 w-4' />
                         </Button>
                         <Button
                           size='sm'
                           variant='secondary'
-                          className='bg-white/90 text-primary hover:bg-white'
+                          className={`bg-white/90 hover:bg-white ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
                         >
                           <Heart className='h-4 w-4' />
                         </Button>
@@ -312,7 +327,9 @@ const FeaturedEquipment = memo(() => {
                       <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                         {equipment.title}
                       </h3>
-                      <div className='text-base font-medium text-primary mb-1'>
+                      <div
+                        className={`text-base font-medium mb-1 ${websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'}`}
+                      >
                         {equipment.price}
                       </div>
                     </div>
@@ -328,7 +345,11 @@ const FeaturedEquipment = memo(() => {
 
                     {/* Action Button */}
                     <Button
-                      className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
+                      className={`w-full bg-transparent border transition-all duration-200 ${
+                        websiteMode === 'agricultural'
+                          ? 'border-green-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          : 'border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                      }`}
                       onClick={() => {
                         const slug = equipment.title
                           .toLowerCase()
@@ -356,7 +377,11 @@ const FeaturedEquipment = memo(() => {
           <div className='text-center mb-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md'
+              className={`inline-flex items-center px-6 py-3 font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md ${
+                websiteMode === 'agricultural'
+                  ? 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800'
+                  : 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700'
+              }`}
             >
               {isExpanded ? 'Show Less' : 'Show More'}
               <svg

@@ -34,6 +34,7 @@ interface ExpandableChatProps extends React.HTMLAttributes<HTMLDivElement> {
   position?: ChatPosition;
   size?: ChatSize;
   icon?: React.ReactNode;
+  websiteMode?: 'general' | 'agricultural';
 }
 
 const ExpandableChat: React.FC<ExpandableChatProps> = ({
@@ -41,6 +42,7 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
   position = 'bottom-right',
   size = 'md',
   icon,
+  websiteMode = 'general',
   children,
   ...props
 }) => {
@@ -71,7 +73,12 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
           <X className='h-4 w-4' />
         </Button>
       </div>
-      <ExpandableChatToggle icon={icon} isOpen={isOpen} toggleChat={toggleChat} />
+      <ExpandableChatToggle
+        icon={icon}
+        isOpen={isOpen}
+        toggleChat={toggleChat}
+        websiteMode={websiteMode}
+      />
     </div>
   );
 };
@@ -105,6 +112,7 @@ interface ExpandableChatToggleProps extends React.ButtonHTMLAttributes<HTMLButto
   icon?: React.ReactNode;
   isOpen: boolean;
   toggleChat: () => void;
+  websiteMode?: 'general' | 'agricultural';
 }
 
 const ExpandableChatToggle: React.FC<ExpandableChatToggleProps> = ({
@@ -112,6 +120,7 @@ const ExpandableChatToggle: React.FC<ExpandableChatToggleProps> = ({
   icon,
   isOpen,
   toggleChat,
+  websiteMode = 'general',
   ...props
 }) => (
   <Button
@@ -119,6 +128,7 @@ const ExpandableChatToggle: React.FC<ExpandableChatToggleProps> = ({
     onClick={toggleChat}
     className={cn(
       'w-14 h-14 rounded-full shadow-md flex items-center justify-center hover:shadow-lg hover:shadow-black/30 transition-all duration-300',
+      websiteMode === 'agricultural' ? 'bg-green-600 hover:bg-green-700' : '',
       className
     )}
     {...props}
