@@ -384,13 +384,12 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
 
                       {/* Modern Compact Badges - Top Left */}
                       <div className='absolute top-2 left-2 flex flex-col gap-1'>
-                        <div className='bg-orange-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm'>
+                        <div className='bg-orange-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm w-fit'>
                           Rent
                         </div>
                         {equipment.isVerified && (
-                          <div className='bg-green-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm flex items-center gap-1'>
-                            <Shield className='h-2.5 w-2.5' />
-                            Verified
+                          <div className='bg-green-500/90 backdrop-blur-sm text-white p-1 rounded-md shadow-sm flex items-center justify-center w-fit'>
+                            <Shield className='h-3 w-3' />
                           </div>
                         )}
                       </div>
@@ -451,21 +450,21 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     {/* Content */}
                     <div className='p-4'>
                       {/* Title */}
-                      <h3 className='font-semibold text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300 line-clamp-1'>
+                      <h3 className='font-medium text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300 line-clamp-1'>
                         {equipment.title}
                       </h3>
 
                       {/* Price */}
                       <div className='mb-3'>
-                        <span className='text-lg font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent'>
+                        <span className='text-lg font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent'>
                           {equipment.price}
                         </span>
                       </div>
 
                       {/* Details Row - Simplified */}
                       <div className='flex items-center justify-between text-sm text-gray-600 mb-3'>
-                        <span className='font-medium'>{equipment.year}</span>
-                        <span className='flex items-center font-medium'>
+                        <span className='font-normal'>{equipment.year}</span>
+                        <span className='flex items-center font-normal'>
                           <MapPin className='h-3 w-3 mr-1 text-orange-500' />
                           {equipment.location}
                         </span>
@@ -473,7 +472,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
 
                       {/* Action Button */}
                       <Button
-                        className='w-full bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-medium transition-all duration-300 group-hover:border-orange-500 group-hover:text-orange-600 rounded-lg py-2'
+                        className='w-full bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-normal transition-all duration-300 group-hover:border-orange-500 group-hover:text-orange-600 rounded-lg py-2'
                         variant='outline'
                       >
                         View Details
