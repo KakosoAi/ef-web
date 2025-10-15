@@ -19,13 +19,13 @@ const Hero = memo(() => {
 
       setIsTransitioning(true);
 
-      // Smooth transition with proper timing
+      // Refined transition with professional timing
       setTimeout(() => {
         setWebsiteMode(mode);
         setTimeout(() => {
           setIsTransitioning(false);
-        }, 50);
-      }, 150);
+        }, 100);
+      }, 200);
     },
     [websiteMode]
   );
@@ -75,36 +75,43 @@ const Hero = memo(() => {
 
   return (
     <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden'>
-      {/* Smooth Background Transition */}
-      <div
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500 ease-out ${
-          isTransitioning ? 'opacity-30 scale-105' : 'opacity-100 scale-100'
-        }`}
-        style={{ backgroundImage: `url(${backgroundConfig[websiteMode].image})` }}
-      />
+      {/* Professional Background Transition with Crossfade */}
+      <div className='absolute inset-0'>
+        {/* General Equipment Background */}
+        <div
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-800 ease-in-out ${
+            websiteMode === 'general' ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ backgroundImage: `url(${backgroundConfig.general.image})` }}
+        />
 
-      {/* Smooth Gradient Overlay */}
+        {/* Agricultural Background */}
+        <div
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-800 ease-in-out ${
+            websiteMode === 'agricultural' ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ backgroundImage: `url(${backgroundConfig.agricultural.image})` }}
+        />
+      </div>
+
+      {/* Subtle Gradient Overlay with Smooth Transition */}
       <div
-        className={`absolute inset-0 transition-all duration-500 ease-out ${
-          isTransitioning ? 'opacity-30' : 'opacity-100'
+        className={`absolute inset-0 transition-all duration-800 ease-in-out ${
+          isTransitioning ? 'opacity-90' : 'opacity-100'
         } ${backgroundConfig[websiteMode].overlay}`}
       ></div>
 
-      {/* Floating Particles for Agricultural Mode */}
+      {/* Refined Floating Elements for Agricultural Mode */}
       {websiteMode === 'agricultural' && (
         <div className='absolute inset-0 overflow-hidden pointer-events-none'>
-          <div className='absolute top-1/4 left-1/4 w-2 h-2 bg-green-400/30 rounded-full animate-float'></div>
+          <div className='absolute top-1/4 left-1/4 w-1.5 h-1.5 bg-green-400/20 rounded-full animate-pulse'></div>
           <div
-            className='absolute top-1/3 right-1/4 w-1 h-1 bg-green-300/40 rounded-full animate-float'
-            style={{ animationDelay: '1s' }}
-          ></div>
-          <div
-            className='absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-green-500/20 rounded-full animate-float'
+            className='absolute top-1/3 right-1/4 w-1 h-1 bg-green-300/25 rounded-full animate-pulse'
             style={{ animationDelay: '2s' }}
           ></div>
           <div
-            className='absolute top-1/2 right-1/3 w-1 h-1 bg-green-400/25 rounded-full animate-float'
-            style={{ animationDelay: '3s' }}
+            className='absolute bottom-1/3 left-1/3 w-1 h-1 bg-green-500/15 rounded-full animate-pulse'
+            style={{ animationDelay: '4s' }}
           ></div>
         </div>
       )}
@@ -114,23 +121,23 @@ const Hero = memo(() => {
         <div className='max-w-3xl mx-auto text-center'>
           {/* Mode Switcher */}
           <div className='animate-fade-in-up mb-6'>
-            <div className='inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20'>
+            <div className='inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20 shadow-lg'>
               <button
                 onClick={() => handleModeChange('general')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-400 ease-in-out transform ${
                   websiteMode === 'general'
-                    ? 'bg-white text-gray-900 shadow-lg'
-                    : 'text-white hover:bg-white/10'
+                    ? 'bg-white text-gray-900 shadow-md scale-105'
+                    : 'text-white hover:bg-white/15 hover:scale-102'
                 }`}
               >
                 General Equipment
               </button>
               <button
                 onClick={() => handleModeChange('agricultural')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-400 ease-in-out transform ${
                   websiteMode === 'agricultural'
-                    ? 'bg-white text-gray-900 shadow-lg'
-                    : 'text-white hover:bg-white/10'
+                    ? 'bg-white text-gray-900 shadow-md scale-105'
+                    : 'text-white hover:bg-white/15 hover:scale-102'
                 }`}
               >
                 Agricultural Machinery
@@ -142,9 +149,9 @@ const Hero = memo(() => {
           <div className='animate-fade-in-up mb-12 md:mb-16'>
             <div className='min-h-[120px] md:min-h-[140px] lg:min-h-[160px] flex items-center justify-center'>
               <h1
-                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-all duration-500 ease-out ${
+                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-all duration-600 ease-in-out ${
                   isTransitioning
-                    ? 'opacity-60 transform translate-y-2'
+                    ? 'opacity-85 transform translate-y-1'
                     : 'opacity-100 transform translate-y-0'
                 }`}
               >
