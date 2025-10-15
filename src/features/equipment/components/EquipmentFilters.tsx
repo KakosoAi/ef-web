@@ -118,19 +118,19 @@ export default function EquipmentFilters({
 
   return (
     <div className='w-full bg-white/95 backdrop-blur-sm h-full'>
-      <div className='p-6'>
+      <div className='p-6 space-y-6'>
         {/* Header */}
-        <div className='flex items-center justify-between mb-6'>
+        <div className='flex items-center justify-between'>
           <div className='flex items-center gap-2'>
             <Filter className='h-5 w-5 text-muted-foreground' />
-            <h2 className='text-lg font-semibold text-foreground'>Filters</h2>
+            <h2 className='text-lg font-medium text-foreground tracking-wide'>Filters</h2>
           </div>
           {hasActiveFilters && (
             <Button
               variant='ghost'
               size='sm'
               onClick={onClearFilters}
-              className='text-muted-foreground hover:text-foreground'
+              className='text-muted-foreground hover:text-foreground transition-colors duration-300 tracking-wide'
             >
               <X className='h-4 w-4 mr-1' />
               Clear
@@ -139,22 +139,22 @@ export default function EquipmentFilters({
         </div>
 
         {/* Search */}
-        <div className='mb-6'>
+        <div>
           <div className='relative'>
             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4' />
             <Input
               placeholder='Search equipment...'
               value={searchQuery}
               onChange={e => onSearchChange(e.target.value)}
-              className='pl-10'
+              className='pl-10 rounded-xl border-gray-200/60 focus:border-orange-300 transition-colors duration-300 tracking-wide'
             />
           </div>
         </div>
 
         {/* Results Count */}
-        <div className='mb-6 p-3 bg-muted/50 rounded-lg'>
-          <p className='text-sm text-muted-foreground'>
-            <span className='font-semibold text-foreground'>{resultsCount}</span> results found
+        <div className='p-3 bg-gray-50/60 rounded-xl border border-gray-100/50'>
+          <p className='text-sm text-muted-foreground tracking-wide leading-relaxed'>
+            <span className='font-medium text-foreground'>{resultsCount}</span> results found
           </p>
         </div>
 
