@@ -117,7 +117,7 @@ export default function EquipmentFilters({
     searchQuery.length > 0;
 
   return (
-    <div className='w-80 bg-card border-r border-border h-full overflow-y-auto'>
+    <div className='w-full bg-white/95 backdrop-blur-sm h-full'>
       <div className='p-6'>
         {/* Header */}
         <div className='flex items-center justify-between mb-6'>

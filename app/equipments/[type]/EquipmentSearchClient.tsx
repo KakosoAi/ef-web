@@ -201,44 +201,106 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   };
 
   return (
-    <div className='min-h-screen bg-background'>
-      {/* Header */}
-      <div className='bg-card border-b border-border'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
-          <h1 className='text-3xl font-bold text-foreground'>{getTypeTitle()}</h1>
-          <p className='text-muted-foreground mt-2'>{getTypeDescription()}</p>
-        </div>
-      </div>
-
+    <div className='min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50/30'>
       {/* Main Content */}
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-        <div className='flex gap-8'>
+      <div className='max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 py-10'>
+        <div className='flex gap-8 lg:gap-10'>
           {/* Left Sidebar - Filters */}
-          <div className='w-80 flex-shrink-0'>
-            <EquipmentFilters
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              selectedLocation={selectedLocation}
-              onLocationChange={setSelectedLocation}
-              selectedCondition={selectedCondition}
-              onConditionChange={setSelectedCondition}
-              selectedPriceRange={selectedPriceRange}
-              onPriceRangeChange={setSelectedPriceRange}
-              selectedYear={selectedYear}
-              onYearChange={setSelectedYear}
-              resultsCount={filteredEquipment.length}
-              onClearFilters={handleClearFilters}
-            />
+          <div className='hidden lg:block w-80 flex-shrink-0'>
+            <div className='sticky top-8 z-20'>
+              <div className='backdrop-blur-xl bg-white/90 border border-white/30 rounded-2xl shadow-xl shadow-gray-300/30 p-0 overflow-hidden'>
+                <EquipmentFilters
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={setSelectedCategory}
+                  selectedLocation={selectedLocation}
+                  onLocationChange={setSelectedLocation}
+                  selectedCondition={selectedCondition}
+                  onConditionChange={setSelectedCondition}
+                  selectedPriceRange={selectedPriceRange}
+                  onPriceRangeChange={setSelectedPriceRange}
+                  selectedYear={selectedYear}
+                  onYearChange={setSelectedYear}
+                  resultsCount={filteredEquipment.length}
+                  onClearFilters={handleClearFilters}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Filter Drawer/Overlay - Hidden by default, shown on mobile */}
+          <div
+            className='lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden'
+            id='mobile-filter-overlay'
+          >
+            <div
+              className='absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform -translate-x-full transition-transform duration-300'
+              id='mobile-filter-drawer'
+            >
+              <div className='p-6 h-full overflow-y-auto'>
+                <div className='flex items-center justify-end mb-6'>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='h-8 w-8 p-0'
+                    onClick={() => {
+                      const overlay = document.getElementById('mobile-filter-overlay');
+                      const drawer = document.getElementById('mobile-filter-drawer');
+                      if (overlay && drawer) {
+                        drawer.classList.add('-translate-x-full');
+                        setTimeout(() => overlay.classList.add('hidden'), 300);
+                      }
+                    }}
+                  >
+                    ×
+                  </Button>
+                </div>
+                <EquipmentFilters
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={setSelectedCategory}
+                  selectedLocation={selectedLocation}
+                  onLocationChange={setSelectedLocation}
+                  selectedCondition={selectedCondition}
+                  onConditionChange={setSelectedCondition}
+                  selectedPriceRange={selectedPriceRange}
+                  onPriceRangeChange={setSelectedPriceRange}
+                  selectedYear={selectedYear}
+                  onYearChange={setSelectedYear}
+                  resultsCount={filteredEquipment.length}
+                  onClearFilters={handleClearFilters}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Main Content Area */}
-          <div className='flex-1'>
+          <div className='flex-1 min-w-0 relative z-30'>
+            {/* Mobile Filter Toggle Button */}
+            <div className='lg:hidden mb-6'>
+              <Button
+                variant='outline'
+                className='bg-white/90 backdrop-blur-sm border-gray-200 shadow-md rounded-lg px-4 py-2'
+                onClick={() => {
+                  const overlay = document.getElementById('mobile-filter-overlay');
+                  const drawer = document.getElementById('mobile-filter-drawer');
+                  if (overlay && drawer) {
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => drawer.classList.remove('-translate-x-full'), 10);
+                  }
+                }}
+              >
+                <Grid3X3 className='h-4 w-4 mr-2' />
+                Filters ({filteredEquipment.length} results)
+              </Button>
+            </div>
+
             {/* Results Header */}
-            <div className='flex items-center justify-between mb-6'>
+            <div className='flex items-center justify-between mb-8'>
               <div className='flex items-center gap-4'>
-                <span className='text-sm text-muted-foreground'>
+                <span className='text-lg font-medium text-gray-700'>
                   {filteredEquipment.length} results found
                 </span>
               </div>
@@ -246,25 +308,25 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
               <div className='flex items-center gap-4'>
                 {/* Sort Dropdown */}
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className='w-48'>
+                  <SelectTrigger className='w-48 h-10 bg-white/90 backdrop-blur-sm border-gray-200 shadow-md rounded-lg'>
                     <SelectValue placeholder='Sort by' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='relevance'>Sort by Relevance</SelectItem>
+                    <SelectItem value='relevance'>Most Relevant</SelectItem>
                     <SelectItem value='price-low'>Price: Low to High</SelectItem>
                     <SelectItem value='price-high'>Price: High to Low</SelectItem>
-                    <SelectItem value='newest'>Newest First</SelectItem>
-                    <SelectItem value='rating'>Highest Rated</SelectItem>
+                    <SelectItem value='year-new'>Year: Newest First</SelectItem>
+                    <SelectItem value='year-old'>Year: Oldest First</SelectItem>
                   </SelectContent>
                 </Select>
 
-                {/* View Toggle */}
-                <div className='flex border border-border rounded-lg'>
+                {/* View Mode Toggle */}
+                <div className='flex items-center bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-1 shadow-md'>
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size='sm'
                     onClick={() => setViewMode('grid')}
-                    className='rounded-r-none'
+                    className={`h-8 px-3 rounded-md ${viewMode === 'grid' ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md' : 'text-gray-600 hover:text-gray-900'}`}
                   >
                     <Grid3X3 className='h-4 w-4' />
                   </Button>
@@ -272,7 +334,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size='sm'
                     onClick={() => setViewMode('list')}
-                    className='rounded-l-none'
+                    className={`h-8 px-3 rounded-md ${viewMode === 'list' ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md' : 'text-gray-600 hover:text-gray-900'}`}
                   >
                     <List className='h-4 w-4' />
                   </Button>
@@ -282,120 +344,140 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
 
             {/* Equipment Grid/List */}
             {filteredEquipment.length === 0 ? (
-              <div className='text-center py-12'>
-                <p className='text-muted-foreground mb-4'>
-                  No equipment found matching your criteria.
-                </p>
-                <Button onClick={handleClearFilters} variant='outline'>
-                  Clear Filters
-                </Button>
+              <div className='text-center py-16'>
+                <div className='bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-gray-300/20 p-12 border border-white/40'>
+                  <p className='text-gray-600 mb-6 text-base'>
+                    No equipment found matching your criteria.
+                  </p>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant='outline'
+                    className='bg-gradient-to-r from-orange-500 to-amber-500 text-white border-0 hover:from-orange-600 hover:to-amber-600 shadow-lg px-6 py-2'
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
               </div>
             ) : (
               <div
                 className={
                   viewMode === 'grid'
-                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-                    : 'space-y-4'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+                    : 'space-y-6'
                 }
               >
                 {filteredEquipment.map(equipment => (
                   <div
                     key={equipment.id}
-                    className='card-featured cursor-pointer group'
+                    className='bg-white rounded-2xl shadow-lg shadow-gray-200/60 border border-gray-100 cursor-pointer group transition-all duration-300 hover:shadow-2xl hover:shadow-gray-300/40 hover:scale-[1.03] hover:-translate-y-2 overflow-hidden'
                     onClick={() => handleEquipmentClick(equipment)}
                   >
                     {/* Image Container */}
-                    <div className='relative aspect-[4/3] overflow-hidden rounded-t-lg'>
+                    <div className='relative aspect-[4/3] overflow-hidden'>
                       <Image
                         src={equipment.image}
                         alt={equipment.title}
-                        width={400}
-                        height={300}
-                        className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        width={320}
+                        height={240}
+                        className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
                       />
 
-                      {/* Overlay Controls */}
-                      <div className='absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300'>
-                        <div className='absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                      {/* Modern Compact Badges - Top Left */}
+                      <div className='absolute top-2 left-2 flex flex-col gap-1'>
+                        <div className='bg-orange-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm'>
+                          Rent
+                        </div>
+                        {equipment.isVerified && (
+                          <div className='bg-green-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm flex items-center gap-1'>
+                            <Shield className='h-2.5 w-2.5' />
+                            Verified
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Condition Badge - Top Right */}
+                      <div className='absolute top-2 right-2'>
+                        <div className='bg-blue-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm'>
+                          {equipment.condition}
+                        </div>
+                      </div>
+
+                      {/* AI Map Icon - Bottom Right Corner */}
+                      <div className='absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300'>
+                        <Button
+                          size='sm'
+                          variant='secondary'
+                          className='h-7 w-7 p-0 bg-blue-500/90 hover:bg-blue-600 text-white border-0 rounded-full shadow-lg backdrop-blur-sm'
+                          onClick={e => {
+                            e.stopPropagation();
+                            // Navigate to AI map page for this equipment
+                            window.open(`/ai-map-search?equipment=${equipment.id}`, '_blank');
+                          }}
+                          title='View on AI Map'
+                        >
+                          <MapPin className='h-3 w-3' />
+                        </Button>
+                      </div>
+
+                      {/* Overlay Controls - Hidden by default, shown on hover */}
+                      <div className='absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300'>
+                        <div className='absolute bottom-2 left-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0'>
                           <Button
                             size='sm'
                             variant='secondary'
-                            className='h-8 w-8 p-0 bg-white/90 hover:bg-white'
+                            className='h-7 w-7 p-0 bg-white/95 hover:bg-white backdrop-blur-sm shadow-lg border-0 rounded-full'
                             onClick={e => {
                               e.stopPropagation();
                               // Handle favorite
                             }}
                           >
-                            <Heart className='h-4 w-4' />
+                            <Heart className='h-3 w-3 text-gray-700' />
                           </Button>
                           <Button
                             size='sm'
                             variant='secondary'
-                            className='h-8 w-8 p-0 bg-white/90 hover:bg-white'
+                            className='h-7 w-7 p-0 bg-white/95 hover:bg-white backdrop-blur-sm shadow-lg border-0 rounded-full'
                             onClick={e => {
                               e.stopPropagation();
                               // Handle contact
                             }}
                           >
-                            <Phone className='h-4 w-4' />
+                            <Phone className='h-3 w-3 text-gray-700' />
                           </Button>
                         </div>
-                      </div>
-
-                      {/* Badges */}
-                      <div className='absolute top-3 left-3 flex flex-col gap-2'>
-                        {equipment.isVerified && (
-                          <Badge variant='secondary' className='bg-green-500 text-white'>
-                            <Shield className='h-3 w-3 mr-1' />
-                            Verified
-                          </Badge>
-                        )}
-                        <Badge variant='secondary' className='bg-primary text-primary-foreground'>
-                          {equipment.condition}
-                        </Badge>
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className='p-4'>
-                      <div className='flex items-start justify-between mb-2'>
-                        <h3 className='font-semibold text-foreground line-clamp-1 group-hover:text-primary transition-colors'>
-                          {equipment.title}
-                        </h3>
-                        <span className='text-lg font-bold text-primary ml-2'>
+                      {/* Title */}
+                      <h3 className='font-semibold text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300 line-clamp-1'>
+                        {equipment.title}
+                      </h3>
+
+                      {/* Price */}
+                      <div className='mb-3'>
+                        <span className='text-lg font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent'>
                           {equipment.price}
                         </span>
                       </div>
 
-                      {/* Key Details */}
-                      <div className='space-y-1 mb-3'>
-                        <div className='flex items-center justify-between text-sm text-muted-foreground'>
-                          <span>{equipment.year}</span>
-                          <span className='flex items-center'>
-                            <MapPin className='h-3 w-3 mr-1' />
-                            {equipment.location}
-                          </span>
-                        </div>
-                        <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-                          <span className='flex items-center gap-1'>
-                            <Star className='h-3 w-3 fill-yellow-400 text-yellow-400' />
-                            {equipment.rating.toFixed(1)}
-                          </span>
-                          <span>•</span>
-                          <span className='flex items-center gap-1'>
-                            <Eye className='h-3 w-3' />
-                            {equipment.views}
-                          </span>
-                        </div>
+                      {/* Details Row - Simplified */}
+                      <div className='flex items-center justify-between text-sm text-gray-600 mb-3'>
+                        <span className='font-medium'>{equipment.year}</span>
+                        <span className='flex items-center font-medium'>
+                          <MapPin className='h-3 w-3 mr-1 text-orange-500' />
+                          {equipment.location}
+                        </span>
                       </div>
 
                       {/* Action Button */}
                       <Button
-                        className='w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors'
+                        className='w-full bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-medium transition-all duration-300 group-hover:border-orange-500 group-hover:text-orange-600 rounded-lg py-2'
                         variant='outline'
                       >
                         View Details
-                        <ArrowRight className='ml-2 h-4 w-4' />
+                        <ArrowRight className='ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1' />
                       </Button>
                     </div>
                   </div>
