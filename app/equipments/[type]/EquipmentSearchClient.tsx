@@ -6,7 +6,19 @@ import Image from 'next/image';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { Grid3X3, List, Heart, Phone, ArrowRight, Shield, MapPin, Star, Eye } from 'lucide-react';
+import {
+  Grid3X3,
+  List,
+  Heart,
+  Phone,
+  ArrowRight,
+  Shield,
+  MapPin,
+  Star,
+  Eye,
+  Search,
+  Filter,
+} from 'lucide-react';
 import { equipmentData } from '@/shared/data/equipmentData';
 import { createSlug } from '@/shared/utils/urlHelpers';
 import EquipmentFilters from '@/features/equipment/components/EquipmentFilters';
@@ -277,12 +289,12 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
           </div>
 
           {/* Main Content Area */}
-          <div className='flex-1 min-w-0 relative z-30'>
+          <div className='flex-1 min-w-0 relative z-30 bg-gradient-to-br from-gray-50/30 via-white to-gray-50/20 min-h-screen'>
             {/* Mobile Filter Toggle Button */}
             <div className='lg:hidden mb-6'>
               <Button
                 variant='outline'
-                className='bg-white/90 backdrop-blur-sm border-gray-200 shadow-md rounded-lg px-4 py-2'
+                className='w-full bg-white/90 backdrop-blur-sm border-gray-200/60 text-gray-700 hover:bg-white hover:border-orange-200 transition-all duration-300 rounded-xl py-3 tracking-wide'
                 onClick={() => {
                   const overlay = document.getElementById('mobile-filter-overlay');
                   const drawer = document.getElementById('mobile-filter-drawer');
@@ -345,31 +357,35 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
             {/* Equipment Grid/List */}
             {filteredEquipment.length === 0 ? (
               <div className='text-center py-16'>
-                <div className='bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-gray-300/20 p-12 border border-white/40'>
-                  <p className='text-gray-600 mb-6 text-base'>
-                    No equipment found matching your criteria.
-                  </p>
-                  <Button
-                    onClick={handleClearFilters}
-                    variant='outline'
-                    className='bg-gradient-to-r from-orange-500 to-amber-500 text-white border-0 hover:from-orange-600 hover:to-amber-600 shadow-lg px-6 py-2'
-                  >
-                    Clear Filters
-                  </Button>
+                <div className='mx-auto w-24 h-24 bg-gray-100/60 rounded-full flex items-center justify-center mb-6'>
+                  <Search className='h-8 w-8 text-gray-400' />
                 </div>
+                <h3 className='text-lg font-medium text-gray-900 mb-2 tracking-wide'>
+                  No equipment found
+                </h3>
+                <p className='text-gray-500 max-w-md mx-auto leading-relaxed tracking-wide mb-6'>
+                  Try adjusting your filters or search terms to find what you&apos;re looking for.
+                </p>
+                <Button
+                  onClick={handleClearFilters}
+                  variant='outline'
+                  className='bg-gradient-to-r from-orange-500 to-amber-500 text-white border-0 hover:from-orange-600 hover:to-amber-600 shadow-lg px-6 py-2'
+                >
+                  Clear Filters
+                </Button>
               </div>
             ) : (
               <div
                 className={
                   viewMode === 'grid'
-                    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 auto-rows-fr'
                     : 'space-y-6'
                 }
               >
                 {filteredEquipment.map(equipment => (
                   <div
                     key={equipment.id}
-                    className='bg-white rounded-2xl shadow-lg shadow-gray-200/60 border border-gray-100 cursor-pointer group transition-all duration-300 hover:shadow-2xl hover:shadow-gray-300/40 hover:scale-[1.03] hover:-translate-y-2 overflow-hidden'
+                    className='group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 border-0 ring-1 ring-gray-100/50 hover:ring-gray-200/80 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transform-gpu'
                     onClick={() => handleEquipmentClick(equipment)}
                   >
                     {/* Image Container */}
@@ -379,7 +395,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                         alt={equipment.title}
                         width={320}
                         height={240}
-                        className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+                        className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out'
                       />
 
                       {/* Modern Compact Badges - Top Left */}
@@ -448,31 +464,31 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     </div>
 
                     {/* Content */}
-                    <div className='p-4'>
+                    <div className='p-6 space-y-4'>
                       {/* Title */}
-                      <h3 className='font-medium text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300 line-clamp-1'>
+                      <h3 className='font-medium text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-500 line-clamp-1 tracking-wide leading-relaxed'>
                         {equipment.title}
                       </h3>
 
                       {/* Price */}
-                      <div className='mb-3'>
-                        <span className='text-lg font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent'>
+                      <div className='mb-4'>
+                        <span className='text-lg font-semibold bg-gradient-to-r from-orange-500 via-orange-400 to-amber-500 bg-clip-text text-transparent tracking-wide'>
                           {equipment.price}
                         </span>
                       </div>
 
                       {/* Details Row - Simplified */}
-                      <div className='flex items-center justify-between text-sm text-gray-600 mb-3'>
-                        <span className='font-normal'>{equipment.year}</span>
-                        <span className='flex items-center font-normal'>
-                          <MapPin className='h-3 w-3 mr-1 text-orange-500' />
+                      <div className='flex items-center justify-between text-sm text-gray-500 mb-4 tracking-wide'>
+                        <span className='font-normal leading-relaxed'>{equipment.year}</span>
+                        <span className='flex items-center font-normal leading-relaxed'>
+                          <MapPin className='h-3 w-3 mr-1.5 text-orange-500' />
                           {equipment.location}
                         </span>
                       </div>
 
                       {/* Action Button */}
                       <Button
-                        className='w-full bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-normal transition-all duration-300 group-hover:border-orange-500 group-hover:text-orange-600 rounded-lg py-2'
+                        className='w-full bg-gray-50/80 border border-gray-200/60 text-gray-600 hover:bg-white hover:border-orange-200 font-normal transition-all duration-500 group-hover:border-orange-300 group-hover:text-orange-600 rounded-xl py-2.5 tracking-wide backdrop-blur-sm'
                         variant='outline'
                       >
                         View Details
