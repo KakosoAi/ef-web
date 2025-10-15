@@ -35,12 +35,38 @@ interface EquipmentFiltersProps {
   onFiltersChange?: (filters: any) => void;
   websiteMode?: 'general' | 'agricultural';
   resultsCount?: number;
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
+  selectedCategory?: string;
+  onCategoryChange?: (category: string) => void;
+  selectedLocation?: string;
+  onLocationChange?: (location: string) => void;
+  selectedCondition?: string;
+  onConditionChange?: (condition: string) => void;
+  selectedPriceRange?: string;
+  onPriceRangeChange?: (priceRange: string) => void;
+  selectedYear?: string;
+  onYearChange?: (year: string) => void;
+  onClearFilters?: () => void;
 }
 
 export default function EquipmentFilters({
   onFiltersChange,
   websiteMode: propWebsiteMode,
   resultsCount = 0,
+  searchQuery: propSearchQuery,
+  onSearchChange: propOnSearchChange,
+  selectedCategory: propSelectedCategory,
+  onCategoryChange: propOnCategoryChange,
+  selectedLocation: propSelectedLocation,
+  onLocationChange: propOnLocationChange,
+  selectedCondition: propSelectedCondition,
+  onConditionChange: propOnConditionChange,
+  selectedPriceRange: propSelectedPriceRange,
+  onPriceRangeChange: propOnPriceRangeChange,
+  selectedYear: propSelectedYear,
+  onYearChange: propOnYearChange,
+  onClearFilters: propOnClearFilters,
 }: EquipmentFiltersProps) {
   const { websiteMode: contextWebsiteMode } = useWebsiteMode();
   const websiteMode = propWebsiteMode || contextWebsiteMode;
@@ -52,13 +78,21 @@ export default function EquipmentFilters({
     { id: 'year', title: 'Year', isExpanded: false },
   ]);
 
-  // Filter state variables
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedLocation, setSelectedLocation] = useState('All Locations');
-  const [selectedCondition, setSelectedCondition] = useState('All Conditions');
-  const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
-  const [selectedYear, setSelectedYear] = useState('All Years');
-  const [searchQuery, setSearchQuery] = useState('');
+  // Filter state variables - use props if provided, otherwise use internal state
+  const [internalSelectedCategory, setInternalSelectedCategory] = useState('All Categories');
+  const [internalSelectedLocation, setInternalSelectedLocation] = useState('All Locations');
+  const [internalSelectedCondition, setInternalSelectedCondition] = useState('All Conditions');
+  const [internalSelectedPriceRange, setInternalSelectedPriceRange] = useState('All Prices');
+  const [internalSelectedYear, setInternalSelectedYear] = useState('All Years');
+  const [internalSearchQuery, setInternalSearchQuery] = useState('');
+
+  // Use props if provided, otherwise use internal state
+  const selectedCategory = propSelectedCategory ?? internalSelectedCategory;
+  const selectedLocation = propSelectedLocation ?? internalSelectedLocation;
+  const selectedCondition = propSelectedCondition ?? internalSelectedCondition;
+  const selectedPriceRange = propSelectedPriceRange ?? internalSelectedPriceRange;
+  const selectedYear = propSelectedYear ?? internalSelectedYear;
+  const searchQuery = propSearchQuery ?? internalSearchQuery;
 
   const toggleSection = (sectionId: string) => {
     setFilterSections(prev =>
@@ -69,38 +103,84 @@ export default function EquipmentFilters({
   };
 
   const onClearFilters = useCallback(() => {
-    setSelectedCategory('All Categories');
-    setSelectedLocation('All Locations');
-    setSelectedCondition('All Conditions');
-    setSelectedPriceRange('All Prices');
-    setSelectedYear('All Years');
-    setSearchQuery('');
-  }, []);
+    if (propOnClearFilters) {
+      propOnClearFilters();
+    } else {
+      setInternalSelectedCategory('All Categories');
+      setInternalSelectedLocation('All Locations');
+      setInternalSelectedCondition('All Conditions');
+      setInternalSelectedPriceRange('All Prices');
+      setInternalSelectedYear('All Years');
+      setInternalSearchQuery('');
+    }
+  }, [propOnClearFilters]);
 
-  // Handler functions for filter changes
-  const onSearchChange = useCallback((value: string) => {
-    setSearchQuery(value);
-  }, []);
+  // Handler functions for filter changes - use props if provided, otherwise use internal handlers
+  const onSearchChange = useCallback(
+    (value: string) => {
+      if (propOnSearchChange) {
+        propOnSearchChange(value);
+      } else {
+        setInternalSearchQuery(value);
+      }
+    },
+    [propOnSearchChange]
+  );
 
-  const onCategoryChange = useCallback((category: string) => {
-    setSelectedCategory(category);
-  }, []);
+  const onCategoryChange = useCallback(
+    (category: string) => {
+      if (propOnCategoryChange) {
+        propOnCategoryChange(category);
+      } else {
+        setInternalSelectedCategory(category);
+      }
+    },
+    [propOnCategoryChange]
+  );
 
-  const onLocationChange = useCallback((location: string) => {
-    setSelectedLocation(location);
-  }, []);
+  const onLocationChange = useCallback(
+    (location: string) => {
+      if (propOnLocationChange) {
+        propOnLocationChange(location);
+      } else {
+        setInternalSelectedLocation(location);
+      }
+    },
+    [propOnLocationChange]
+  );
 
-  const onConditionChange = useCallback((condition: string) => {
-    setSelectedCondition(condition);
-  }, []);
+  const onConditionChange = useCallback(
+    (condition: string) => {
+      if (propOnConditionChange) {
+        propOnConditionChange(condition);
+      } else {
+        setInternalSelectedCondition(condition);
+      }
+    },
+    [propOnConditionChange]
+  );
 
-  const onPriceRangeChange = useCallback((priceRange: string) => {
-    setSelectedPriceRange(priceRange);
-  }, []);
+  const onPriceRangeChange = useCallback(
+    (priceRange: string) => {
+      if (propOnPriceRangeChange) {
+        propOnPriceRangeChange(priceRange);
+      } else {
+        setInternalSelectedPriceRange(priceRange);
+      }
+    },
+    [propOnPriceRangeChange]
+  );
 
-  const onYearChange = useCallback((year: string) => {
-    setSelectedYear(year);
-  }, []);
+  const onYearChange = useCallback(
+    (year: string) => {
+      if (propOnYearChange) {
+        propOnYearChange(year);
+      } else {
+        setInternalSelectedYear(year);
+      }
+    },
+    [propOnYearChange]
+  );
 
   const categories = [
     'All Categories',

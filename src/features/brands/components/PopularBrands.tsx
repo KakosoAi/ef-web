@@ -9,6 +9,10 @@ interface Brand {
   imageUrl: string;
 }
 
+interface PopularBrandsProps {
+  websiteMode?: 'general' | 'agricultural';
+}
+
 // Brands matching the navigation dropdown in the same order
 const allBrands: Brand[] = [
   {
@@ -63,7 +67,7 @@ const allBrands: Brand[] = [
   },
 ];
 
-export default function PopularBrands() {
+export default function PopularBrands({ websiteMode }: PopularBrandsProps) {
   return (
     <section className='w-full py-12 bg-background'>
       <div className='container mx-auto px-4'>
