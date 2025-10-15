@@ -8,7 +8,11 @@ interface CategoryWithImage {
   description?: string;
 }
 
-const Categories = memo(() => {
+interface CategoriesProps {
+  websiteMode?: 'general' | 'agricultural';
+}
+
+const Categories = memo(({ websiteMode = 'general' }: CategoriesProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [dbCategories, setDbCategories] = useState<CategoryWithImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -139,7 +143,11 @@ const Categories = memo(() => {
           <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-sm text-orange-700 text-sm font-semibold rounded-lg hover:from-orange-100 hover:to-orange-200 hover:shadow-lg hover:scale-105 transition-all duration-300 border border-orange-200 shadow-md hover:border-orange-300 hover:text-orange-800'
+              className={`inline-flex items-center px-6 py-3 bg-gradient-to-r backdrop-blur-sm text-sm font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 border shadow-md ${
+                websiteMode === 'agricultural'
+                  ? 'from-green-50 to-green-100 text-green-700 hover:from-green-100 hover:to-green-200 border-green-200 hover:border-green-300 hover:text-green-800'
+                  : 'from-orange-50 to-orange-100 text-orange-700 hover:from-orange-100 hover:to-orange-200 border-orange-200 hover:border-orange-300 hover:text-orange-800'
+              }`}
             >
               {isExpanded ? 'View Less' : `View More (${moreCount} more)`}
               <svg

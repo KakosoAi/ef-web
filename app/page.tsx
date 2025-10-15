@@ -13,9 +13,11 @@ import Hero from '@/features/search/components/Hero';
 import { TestimonialsSection } from '@/shared/ui/testimonials-with-marquee';
 import { Equipment } from '@/shared/types';
 import { useEffect, useState } from 'react';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
 export default function HomePage() {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+  const { websiteMode, setWebsiteMode } = useWebsiteMode();
 
   useEffect(() => {
     const handleShowEquipmentDetail = (event: CustomEvent) => {
@@ -62,8 +64,8 @@ export default function HomePage() {
     <div className='min-h-screen bg-background'>
       <Header />
       <main>
-        <Hero />
-        <Categories />
+        <Hero onModeChange={setWebsiteMode} />
+        <Categories websiteMode={websiteMode} />
 
         {/* SEO Content Block 1 - After Categories */}
         <div className='py-16 bg-card mt-16 md:mt-20 lg:mt-24 relative overflow-hidden'>
@@ -194,7 +196,7 @@ export default function HomePage() {
         </div>
 
         <div className='py-8 bg-gray-50'>
-          <FeaturedEquipment />
+          <FeaturedEquipment websiteMode={websiteMode} />
         </div>
 
         <div className='py-12 mt-16 md:mt-20 lg:mt-24 bg-white'>
@@ -220,7 +222,7 @@ export default function HomePage() {
         </div>
 
         <div className='py-8 mt-16 md:mt-20 lg:mt-24 bg-gray-50'>
-          <TopEquipmentForSale />
+          <TopEquipmentForSale websiteMode={websiteMode} />
         </div>
 
         {/* SEO Content Block 3 - Before Testimonials */}
@@ -310,11 +312,11 @@ export default function HomePage() {
         </div>
 
         <div className='py-8 mt-16 md:mt-20 lg:mt-24 bg-white'>
-          <PopularBrands />
+          <PopularBrands websiteMode={websiteMode} />
         </div>
       </main>
       <BannerIraqConstruct />
-      <Footer />
+      <Footer websiteMode={websiteMode} />
     </div>
   );
 }

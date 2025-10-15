@@ -14,7 +14,11 @@ import {
 import { ChatMessageList } from '@/shared/ui/chat-message-list';
 import { MachineryIcon } from '@/shared/ui/machinery-icon';
 
-export function ChatWidget() {
+interface ChatWidgetProps {
+  websiteMode?: 'general' | 'agricultural';
+}
+
+export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -74,7 +78,12 @@ export function ChatWidget() {
   };
 
   return (
-    <ExpandableChat size='md' position='bottom-right' icon={<MachineryIcon className='h-6 w-6' />}>
+    <ExpandableChat
+      size='md'
+      position='bottom-right'
+      icon={<MachineryIcon className='h-6 w-6' />}
+      websiteMode={websiteMode}
+    >
       <ExpandableChatHeader className='flex-col text-center justify-center'>
         <h1 className='text-lg font-semibold'>Equipment Chat ✨</h1>
         <p className='text-xs text-muted-foreground'>Ask me anything about our equipment</p>
