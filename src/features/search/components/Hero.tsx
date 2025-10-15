@@ -19,11 +19,13 @@ const Hero = memo(() => {
 
       setIsTransitioning(true);
 
-      // Simple, fast transition
+      // Smooth transition with proper timing
       setTimeout(() => {
         setWebsiteMode(mode);
-        setIsTransitioning(false);
-      }, 200);
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 50);
+      }, 150);
     },
     [websiteMode]
   );
@@ -35,8 +37,8 @@ const Hero = memo(() => {
         overlay: 'bg-gradient-to-b from-black/50 via-black/40 to-black/60',
       },
       agricultural: {
-        image: '/assets/agricultural-hero.svg',
-        overlay: 'bg-gradient-to-b from-green-900/60 via-green-800/50 to-green-900/70',
+        image: '/assets/hero-agriculture.jpg',
+        overlay: 'bg-gradient-to-b from-green-900/20 via-transparent to-green-900/30',
       },
     };
   }, []);
@@ -73,17 +75,19 @@ const Hero = memo(() => {
 
   return (
     <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden'>
-      {/* Simple Background */}
+      {/* Smooth Background Transition */}
       <div
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-300 ease-in-out ${
-          isTransitioning ? 'opacity-50' : 'opacity-100'
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500 ease-out ${
+          isTransitioning ? 'opacity-30 scale-105' : 'opacity-100 scale-100'
         }`}
         style={{ backgroundImage: `url(${backgroundConfig[websiteMode].image})` }}
       />
 
-      {/* Simple Gradient Overlay */}
+      {/* Smooth Gradient Overlay */}
       <div
-        className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${backgroundConfig[websiteMode].overlay}`}
+        className={`absolute inset-0 transition-all duration-500 ease-out ${
+          isTransitioning ? 'opacity-30' : 'opacity-100'
+        } ${backgroundConfig[websiteMode].overlay}`}
       ></div>
 
       {/* Floating Particles for Agricultural Mode */}
@@ -138,8 +142,10 @@ const Hero = memo(() => {
           <div className='animate-fade-in-up mb-12 md:mb-16'>
             <div className='min-h-[120px] md:min-h-[140px] lg:min-h-[160px] flex items-center justify-center'>
               <h1
-                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-opacity duration-300 ease-in-out ${
-                  isTransitioning ? 'opacity-50' : 'opacity-100'
+                className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-all duration-500 ease-out ${
+                  isTransitioning
+                    ? 'opacity-60 transform translate-y-2'
+                    : 'opacity-100 transform translate-y-0'
                 }`}
               >
                 <span className='block'>
