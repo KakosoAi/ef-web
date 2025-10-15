@@ -33,7 +33,11 @@ const EquipmentMap = dynamic(() => import('./EquipmentMap'), {
   ),
 });
 
-export default function AIMapSearchPage() {
+export default function AIMapSearchPage({
+  websiteMode = 'general',
+}: {
+  websiteMode?: 'general' | 'agricultural';
+}) {
   const [selectedEquipment, setSelectedEquipment] = useState<EquipmentAd | null>(null);
   const [filteredEquipment, setFilteredEquipment] = useState<EquipmentAd[]>(equipmentData);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
@@ -181,6 +185,7 @@ export default function AIMapSearchPage() {
             onEquipmentClick={handleEquipmentClick}
             onFilterChange={handleFilterChange}
             className='h-full'
+            websiteMode={websiteMode}
           />
         </div>
 
@@ -232,7 +237,11 @@ export default function AIMapSearchPage() {
                 <div className='flex items-start justify-between'>
                   <div className='flex-1'>
                     <h3 className='font-semibold text-sm'>{selectedEquipment.title}</h3>
-                    <div className='text-lg font-bold text-orange-600 mt-1'>
+                    <div
+                      className={`text-lg font-bold mt-1 ${
+                        websiteMode === 'agricultural' ? 'text-green-600' : 'text-orange-600'
+                      }`}
+                    >
                       {selectedEquipment.price}
                     </div>
                     <div className='text-xs text-gray-600 mt-1'>

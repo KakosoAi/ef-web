@@ -1,3 +1,5 @@
+'use client';
+
 import { contactInfo, equipmentCategories, siteConfig } from '@/shared/constants';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -16,8 +18,15 @@ import {
 } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import Image from 'next/image';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
-const Footer = memo(() => {
+interface FooterProps {
+  websiteMode?: 'general' | 'agricultural';
+}
+
+const Footer = memo(({ websiteMode: propWebsiteMode }: FooterProps) => {
+  const { websiteMode: contextWebsiteMode } = useWebsiteMode();
+  const websiteMode = propWebsiteMode || contextWebsiteMode;
   const quickLinks = useMemo(() => ['home', 'rent', 'buy', 'stores', 'brands', 'contact us'], []);
 
   const services = useMemo(() => ['Terms and Conditions', 'Privacy Policy', 'Contact Now'], []);
@@ -42,7 +51,13 @@ const Footer = memo(() => {
                 placeholder='Enter your email address'
                 className='flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400'
               />
-              <Button className='bg-primary hover:bg-primary-hover text-primary-foreground font-semibold px-6'>
+              <Button
+                className={`font-semibold px-6 ${
+                  websiteMode === 'agricultural'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-primary hover:bg-primary-hover text-primary-foreground'
+                }`}
+              >
                 Subscribe
                 <ArrowRight className='h-4 w-4 ml-2' />
               </Button>
@@ -93,7 +108,11 @@ const Footer = memo(() => {
                 <li key={service}>
                   <a
                     href='#'
-                    className='text-gray-300 hover:text-orange-500 transition-colors text-sm'
+                    className={`transition-colors text-sm ${
+                      websiteMode === 'agricultural'
+                        ? 'text-gray-300 hover:text-green-500'
+                        : 'text-gray-300 hover:text-orange-500'
+                    }`}
                   >
                     {service}
                   </a>
@@ -110,7 +129,11 @@ const Footer = memo(() => {
                 <li key={link}>
                   <a
                     href='#'
-                    className='text-gray-300 hover:text-orange-500 transition-colors text-sm'
+                    className={`transition-colors text-sm ${
+                      websiteMode === 'agricultural'
+                        ? 'text-gray-300 hover:text-green-500'
+                        : 'text-gray-300 hover:text-orange-500'
+                    }`}
                   >
                     {link}
                   </a>
@@ -162,7 +185,11 @@ const Footer = memo(() => {
                   key='instagram'
                   size='sm'
                   variant='ghost'
-                  className='p-2 hover:bg-gray-800 text-gray-300 hover:text-orange-500'
+                  className={`p-2 hover:bg-gray-800 ${
+                    websiteMode === 'agricultural'
+                      ? 'text-gray-300 hover:text-green-500'
+                      : 'text-gray-300 hover:text-orange-500'
+                  }`}
                   asChild
                 >
                   <a

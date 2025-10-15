@@ -7,7 +7,14 @@ import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified, TrendingUp } from 'lucide-react';
 import { EquipmentCard } from '@/shared/types';
-const TopEquipmentForSale = memo(() => {
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+interface TopEquipmentForSaleProps {
+  websiteMode?: 'general' | 'agricultural';
+}
+
+const TopEquipmentForSale = memo(({ websiteMode: propWebsiteMode }: TopEquipmentForSaleProps) => {
+  const { websiteMode: contextWebsiteMode } = useWebsiteMode();
+  const websiteMode = propWebsiteMode || contextWebsiteMode;
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
 
@@ -155,11 +162,22 @@ const TopEquipmentForSale = memo(() => {
       <div className='container mx-auto px-4'>
         {/* Section Header with Trending Icon */}
         <div className='text-center mb-16'>
-          <div className='inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4'>
-            <TrendingUp className='w-8 h-8 text-primary' />
+          <div
+            className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+              websiteMode === 'agricultural' ? 'bg-green-600/10' : 'bg-primary/10'
+            }`}
+          >
+            <TrendingUp
+              className={`w-8 h-8 ${
+                websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+              }`}
+            />
           </div>
           <h2 className='text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4'>
-            Top Equipment <span className='text-primary'>For Sale</span>
+            Top Equipment{' '}
+            <span className={websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'}>
+              For Sale
+            </span>
           </h2>
           <p className='text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'>
             Premium equipment available for immediate purchase from verified dealers
@@ -186,21 +204,27 @@ const TopEquipmentForSale = memo(() => {
                     <Button
                       size='sm'
                       variant='secondary'
-                      className='bg-white/90 text-primary hover:bg-white'
+                      className={`bg-white/90 hover:bg-white ${
+                        websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                      }`}
                     >
                       <Eye className='h-4 w-4' />
                     </Button>
                     <Button
                       size='sm'
                       variant='secondary'
-                      className='bg-white/90 text-primary hover:bg-white'
+                      className={`bg-white/90 hover:bg-white ${
+                        websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                      }`}
                     >
                       <Heart className='h-4 w-4' />
                     </Button>
                     <Button
                       size='sm'
                       variant='secondary'
-                      className='bg-white/90 text-primary hover:bg-white'
+                      className={`bg-white/90 hover:bg-white ${
+                        websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                      }`}
                     >
                       <Phone className='h-4 w-4' />
                     </Button>
@@ -219,7 +243,12 @@ const TopEquipmentForSale = memo(() => {
 
                 {/* Condition Badge */}
                 <div className='absolute top-4 right-4'>
-                  <Badge variant='outline' className='bg-white/90 text-primary border-white/20'>
+                  <Badge
+                    variant='outline'
+                    className={`bg-white/90 border-white/20 ${
+                      websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                    }`}
+                  >
                     {equipment.condition}
                   </Badge>
                 </div>
@@ -232,7 +261,11 @@ const TopEquipmentForSale = memo(() => {
                   <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                     {equipment.title}
                   </h3>
-                  <div className='text-base font-medium text-primary mb-1'>{equipment.price}</div>
+                  <div
+                    className={`text-base font-medium mb-1 ${websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'}`}
+                  >
+                    {equipment.price}
+                  </div>
                 </div>
 
                 {/* Key Details - Reduced */}
@@ -246,7 +279,11 @@ const TopEquipmentForSale = memo(() => {
 
                 {/* Action Button */}
                 <Button
-                  className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
+                  className={`w-full bg-transparent border transition-all duration-200 ${
+                    websiteMode === 'agricultural'
+                      ? 'border-green-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      : 'border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                  }`}
                   onClick={() => {
                     const slug = equipment.title
                       .toLowerCase()
@@ -293,21 +330,27 @@ const TopEquipmentForSale = memo(() => {
                         <Button
                           size='sm'
                           variant='secondary'
-                          className='bg-white/90 text-primary hover:bg-white'
+                          className={`bg-white/90 hover:bg-white ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
                         >
                           <Eye className='h-4 w-4' />
                         </Button>
                         <Button
                           size='sm'
                           variant='secondary'
-                          className='bg-white/90 text-primary hover:bg-white'
+                          className={`bg-white/90 hover:bg-white ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
                         >
                           <Heart className='h-4 w-4' />
                         </Button>
                         <Button
                           size='sm'
                           variant='secondary'
-                          className='bg-white/90 text-primary hover:bg-white'
+                          className={`bg-white/90 hover:bg-white ${
+                            websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                          }`}
                         >
                           <Phone className='h-4 w-4' />
                         </Button>
@@ -326,7 +369,12 @@ const TopEquipmentForSale = memo(() => {
 
                     {/* Condition Badge */}
                     <div className='absolute top-4 right-4'>
-                      <Badge variant='outline' className='bg-white/90 text-primary border-white/20'>
+                      <Badge
+                        variant='outline'
+                        className={`bg-white/90 border-white/20 ${
+                          websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                        }`}
+                      >
                         {equipment.condition}
                       </Badge>
                     </div>
@@ -339,7 +387,11 @@ const TopEquipmentForSale = memo(() => {
                       <h3 className='text-sm font-normal text-gray-800 dark:text-white line-clamp-2 mb-1'>
                         {equipment.title}
                       </h3>
-                      <div className='text-base font-medium text-primary mb-1'>
+                      <div
+                        className={`text-base font-medium mb-1 ${
+                          websiteMode === 'agricultural' ? 'text-green-600' : 'text-primary'
+                        }`}
+                      >
                         {equipment.price}
                       </div>
                     </div>
@@ -355,7 +407,11 @@ const TopEquipmentForSale = memo(() => {
 
                     {/* Action Button */}
                     <Button
-                      className='w-full bg-transparent border border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200'
+                      className={`w-full bg-transparent border transition-all duration-200 ${
+                        websiteMode === 'agricultural'
+                          ? 'border-green-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          : 'border-orange-200 text-gray-700 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                      }`}
                       onClick={() => {
                         const slug = equipment.title
                           .toLowerCase()
@@ -383,7 +439,11 @@ const TopEquipmentForSale = memo(() => {
           <div className='text-center mt-8'>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md'
+              className={`inline-flex items-center px-6 py-3 bg-gradient-to-r text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md ${
+                websiteMode === 'agricultural'
+                  ? 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
+                  : 'from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+              }`}
             >
               {isExpanded ? 'Show Less' : 'Show More'}
               <svg
