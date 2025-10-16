@@ -175,11 +175,13 @@ function NavGridCard({
   return (
     <NavigationMenuPrimitive.Link asChild>
       <GridCard {...props}>
-        {link.icon && <link.icon className='text-foreground/80 relative size-5' />}
+        {link.icon && <link.icon className='text-foreground/80 relative size-4' />}
         <div className='relative'>
-          <span className='text-foreground/80 text-sm font-medium'>{link.title}</span>
+          <span className='text-foreground/80 text-xs font-medium'>{link.title}</span>
           {link.description && (
-            <p className='text-muted-foreground mt-2 text-xs'>{link.description}</p>
+            <p className='text-muted-foreground mt-1 text-xs leading-tight line-clamp-2'>
+              {link.description}
+            </p>
           )}
         </div>
       </GridCard>
