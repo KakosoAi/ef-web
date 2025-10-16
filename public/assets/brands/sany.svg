@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#E60012"/>
+  <text x="50" y="40" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">SANY</text>
+  <rect x="20" y="50" width="60" height="3" fill="white"/>
+  <text x="50" y="70" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">HEAVY INDUSTRY</text>
+  <path d="M30 80 L50 75 L70 80 L50 85 Z" fill="white"/>
+</svg>

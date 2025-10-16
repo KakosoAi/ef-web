@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#F47C00"/>
+  <text x="50" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">BOBCAT</text>
+  <path d="M20 50 Q30 40 40 50 Q50 60 60 50 Q70 40 80 50 L80 70 Q50 80 20 70 Z" fill="white"/>
+  <circle cx="35" cy="55" r="3" fill="#F47C00"/>
+  <circle cx="65" cy="55" r="3" fill="#F47C00"/>
+</svg>
