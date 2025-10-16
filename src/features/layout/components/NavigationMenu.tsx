@@ -17,6 +17,26 @@ import {
   Hammer,
   Star,
 } from 'lucide-react';
+import {
+  CaterpillarIcon,
+  JCBIcon,
+  KomatsuIcon,
+  VolvoIcon,
+  LiebherrIcon,
+  HitachiIcon,
+  HyundaiIcon,
+  CaseIcon,
+  BobcatIcon,
+  MercedesIcon,
+  MitsubishiIcon,
+  XCMGIcon,
+  TadanoIcon,
+  SanyIcon,
+  JohnDeereIcon,
+  ManitouIcon,
+  TerexIcon,
+  JLGIcon,
+} from '@/shared/ui/brand-icons';
 
 import {
   NavigationMenu as NavigationMenuPrimitive,
@@ -301,85 +321,85 @@ const rentBrandLinks: NavItemType[] = [
     title: 'Caterpillar',
     href: '/equipments/rent?q=caterpillar',
     description: 'Heavy machinery and construction equipment',
-    icon: Star,
+    icon: CaterpillarIcon,
   },
   {
     title: 'JCB',
     href: '/equipments/rent?q=jcb',
     description: 'Excavators, loaders, and construction equipment',
-    icon: Star,
+    icon: JCBIcon,
   },
   {
     title: 'Volvo',
     href: '/equipments/rent?q=volvo',
     description: 'Construction equipment and heavy machinery',
-    icon: Star,
+    icon: VolvoIcon,
   },
   {
     title: 'Komatsu',
     href: '/equipments/rent?q=komatsu',
     description: 'Mining and construction equipment',
-    icon: Star,
+    icon: KomatsuIcon,
   },
   {
     title: 'Liebherr',
     href: '/equipments/rent?q=liebherr',
     description: 'Cranes, excavators, and heavy equipment',
-    icon: Star,
+    icon: LiebherrIcon,
   },
   {
     title: 'JLG',
     href: '/equipments/rent?q=jlg',
     description: 'Aerial work platforms and lifts',
-    icon: Star,
+    icon: JLGIcon,
   },
   {
     title: 'Hyundai',
     href: '/equipments/rent?q=hyundai',
     description: 'Construction and heavy equipment',
-    icon: Star,
+    icon: HyundaiIcon,
   },
   {
     title: 'Bobcat',
     href: '/equipments/rent?q=bobcat',
     description: 'Compact equipment and skid steers',
-    icon: Star,
+    icon: BobcatIcon,
   },
   {
     title: 'Mercedes',
     href: '/equipments/rent?q=mercedes',
     description: 'Commercial vehicles and trucks',
-    icon: Star,
+    icon: MercedesIcon,
   },
   {
     title: 'Mitsubishi',
     href: '/equipments/rent?q=mitsubishi',
     description: 'Industrial equipment and machinery',
-    icon: Star,
+    icon: MitsubishiIcon,
   },
   {
     title: 'XCMG',
     href: '/equipments/rent?q=xcmg',
     description: 'Construction machinery and equipment',
-    icon: Star,
+    icon: XCMGIcon,
   },
   {
     title: 'Tadano',
     href: '/equipments/rent?q=tadano',
     description: 'Mobile cranes and lifting equipment',
-    icon: Star,
+    icon: TadanoIcon,
   },
   {
     title: 'Sany',
     href: '/equipments/rent?q=sany',
     description: 'Heavy machinery and construction equipment',
-    icon: Star,
+    icon: SanyIcon,
   },
   {
     title: 'Terex',
     href: '/equipments/rent?q=terex',
     description: 'Aerial work platforms and cranes',
-    icon: Star,
+    icon: TerexIcon,
   },
   {
     title: 'Generac',
@@ -481,7 +501,7 @@ const rentBrandLinks: NavItemType[] = [
     title: 'Case',
     href: '/equipments/rent?q=case',
     description: 'Construction equipment and machinery',
-    icon: Star,
+    icon: CaseIcon,
   },
   {
     title: 'Haulotte',
@@ -665,55 +685,55 @@ const buyBrandLinks: NavItemType[] = [
     title: 'Volvo',
     href: '/equipments/sale?q=volvo',
     description: 'Construction equipment and heavy machinery',
-    icon: Star,
+    icon: VolvoIcon,
   },
   {
     title: 'Caterpillar',
     href: '/equipments/sale?q=caterpillar',
     description: 'Heavy machinery and construction equipment',
-    icon: Star,
+    icon: CaterpillarIcon,
   },
   {
     title: 'Komatsu',
     href: '/equipments/sale?q=komatsu',
     description: 'Mining and construction equipment',
-    icon: Star,
+    icon: KomatsuIcon,
   },
   {
     title: 'JCB',
     href: '/equipments/sale?q=jcb',
     description: 'Excavators, loaders, and construction equipment',
-    icon: Star,
+    icon: JCBIcon,
   },
   {
     title: 'Mercedes',
     href: '/equipments/sale?q=mercedes',
     description: 'Commercial vehicles and trucks',
-    icon: Star,
+    icon: MercedesIcon,
   },
   {
     title: 'Hyundai',
     href: '/equipments/sale?q=hyundai',
     description: 'Construction and heavy equipment',
-    icon: Star,
+    icon: HyundaiIcon,
   },
   {
     title: 'Sany',
     href: '/equipments/sale?q=sany',
     description: 'Heavy machinery and construction equipment',
-    icon: Star,
+    icon: SanyIcon,
   },
   {
     title: 'XCMG',
     href: '/equipments/sale?q=xcmg',
     description: 'Construction machinery and equipment',
-    icon: Star,
+    icon: XCMGIcon,
   },
   {
     title: 'Bobcat',
     href: '/equipments/sale?q=bobcat',
     description: 'Compact equipment and skid steers',
-    icon: Star,
+    icon: BobcatIcon,
   },
   {
     title: 'Toyota',
@@ -749,7 +769,7 @@ const buyBrandLinks: NavItemType[] = [
     title: 'Tadano',
     href: '/equipments/sale?q=tadano',
     description: 'Mobile cranes and lifting equipment',
-    icon: Star,
+    icon: TadanoIcon,
   },
   {
     title: 'Westinpower',
@@ -761,7 +781,7 @@ const buyBrandLinks: NavItemType[] = [
     title: 'Mitsubishi',
     href: '/equipments/sale?q=mitsubishi',
     description: 'Industrial equipment and machinery',
-    icon: Star,
+    icon: MitsubishiIcon,
   },
   {
     title: 'Zoomlion',
@@ -773,7 +793,7 @@ const buyBrandLinks: NavItemType[] = [
     title: 'Terex',
     href: '/equipments/sale?q=terex',
     description: 'Aerial work platforms and cranes',
-    icon: Star,
+    icon: TerexIcon,
   },
   {
     title: 'Kobelco',
@@ -815,13 +835,13 @@ const buyBrandLinks: NavItemType[] = [
     title: 'JLG',
     href: '/equipments/sale?q=jlg',
     description: 'Aerial work platforms and lifts',
-    icon: Star,
+    icon: JLGIcon,
   },
   {
     title: 'Case',
     href: '/equipments/sale?q=case',
     description: 'Construction equipment and machinery',
-    icon: Star,
+    icon: CaseIcon,
   },
   {
     title: 'Metso',
@@ -833,7 +853,7 @@ const buyBrandLinks: NavItemType[] = [
     title: 'Liebherr',
     href: '/equipments/sale?q=liebherr',
     description: 'Cranes, excavators, and heavy equipment',
-    icon: Star,
+    icon: LiebherrIcon,
   },
   {
     title: 'Hamm',
@@ -875,13 +895,13 @@ const buyBrandLinks: NavItemType[] = [
     title: 'John Deere',
     href: '/equipments/sale?q=john-deere',
     description: 'Agricultural and construction machinery',
-    icon: Star,
+    icon: JohnDeereIcon,
   },
   {
     title: 'Manitou',
     href: '/equipments/sale?q=manitou',
     description: 'Material handling and telehandlers',
-    icon: Star,
+    icon: ManitouIcon,
   },
   {
     title: 'Zoom',
@@ -1219,158 +1239,41 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='w-[800px] p-6'>
-              <div className='grid grid-cols-3 gap-8'>
+            <div className='w-[675px] p-4'>
+              <div className='grid grid-cols-3 gap-6'>
                 {/* Categories Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
                     Categories
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=sale&category=crane'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Crane
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=wheel-loader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Wheel Loader
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=jcb-backhoe'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      JCB Backhoe
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=forklift'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Forklift
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=tipper-truck'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Tipper Truck
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=boom-loader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Boom Loader
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=motor-grader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Motor Grader
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {equipmentLinks.slice(0, 7).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
 
                 {/* Locations Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
                     Locations
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=sale&location=dubai'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Dubai
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=abu-dhabi'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Abu Dhabi
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=sharjah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Sharjah
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=ajman'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Ajman
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=fujairah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Fujairah
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=ras-al-khaimah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Ras al-Khaimah
-                    </Link>
-                    <Link
-                      href='/search?type=sale&location=umm-al-quwain'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Umm al-Quwain
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {equipmentLinks.slice(7, 14).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
 
                 {/* New Machines Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-blue-600 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-blue-600 uppercase tracking-wider'>
                     New Machines
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=sale&category=attachments'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Attachments
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=spare-parts'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Spare Parts
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=lifting-equipment'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Lifting Equipment
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=excavators'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Excavators
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=generators'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Generators
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=trailers'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Trailers
-                    </Link>
-                    <Link
-                      href='/search?type=sale&category=cranes'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Cranes
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {equipmentLinks.slice(14, 21).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -1381,146 +1284,41 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='w-[800px] p-6'>
-              <div className='grid grid-cols-3 gap-8'>
+            <div className='w-[675px] p-4'>
+              <div className='grid grid-cols-3 gap-6'>
                 {/* Categories Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
                     Categories
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=rent&category=crane'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Crane
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=wheel-loader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Wheel Loader
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=excavator'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Excavator
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=forklift'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Forklift
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=boom-loader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Boom loader
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=motor-grader'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Motor Grader
-                    </Link>
-                    <Link
-                      href='/search?type=rent&category=road-roller'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Road Roller
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {rentalLinks.slice(0, 7).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
 
                 {/* Locations Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
                     Locations
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=rent&location=dubai'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Dubai
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=abu-dhabi'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Abu Dhabi
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=sharjah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Sharjah
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=ajman'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Ajman
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=fujeirah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Fujeirah
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=ras-al-khaimah'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Ras al-Khaimah
-                    </Link>
-                    <Link
-                      href='/search?type=rent&location=umm-al-quwain'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Umm al-Quwain
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {rentalLinks.slice(7, 14).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
 
                 {/* Industries Section */}
                 <div>
-                  <h3 className='mb-4 text-sm font-semibold text-blue-600 uppercase tracking-wider'>
+                  <h3 className='mb-3 text-xs font-semibold text-green-600 uppercase tracking-wider'>
                     Industries
                   </h3>
-                  <div className='space-y-2'>
-                    <Link
-                      href='/search?type=rent&industry=construction'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Construction
-                    </Link>
-                    <Link
-                      href='/search?type=rent&industry=material-handling'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Material Handling Equipment
-                    </Link>
-                    <Link
-                      href='/search?type=rent&industry=mining-quarry'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Mining And Quarry Equipment
-                    </Link>
-                    <Link
-                      href='/search?type=rent&industry=agriculture'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      Agriculture
-                    </Link>
-                    <Link
-                      href='/search?type=rent'
-                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
-                    >
-                      All Equipment
-                    </Link>
+                  <div className='grid grid-cols-1 gap-1'>
+                    {rentalLinks.slice(14, 19).map(link => (
+                      <NavGridCard key={link.title} link={link} />
+                    ))}
                   </div>
                 </div>
               </div>

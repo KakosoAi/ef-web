@@ -6,7 +6,7 @@ export function GridCard({ className, children, ...props }: React.ComponentProps
   return (
     <div
       className={cn(
-        'group bg-background relative isolate z-0 flex h-full flex-col justify-between overflow-hidden rounded-sm border px-5 py-4 transition-colors duration-75',
+        'group bg-background relative isolate z-0 flex h-auto flex-col justify-between overflow-hidden rounded-sm border px-2 py-2 transition-colors duration-75',
         className
       )}
       {...props}
