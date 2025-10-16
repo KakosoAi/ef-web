@@ -33,9 +33,121 @@ import {
 } from '@/shared/ui/navigation-menu';
 import { Button } from '@/shared/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/shared/ui/sheet';
+import { cn } from '@/shared/lib/utils';
 
 // Equipment links for Buy Equipment dropdown
 const equipmentLinks: NavItemType[] = [
+  // Categories
+  {
+    title: 'Crane',
+    href: '/search?type=sale&category=crane',
+    description: 'Tower cranes, mobile cranes, and lifting equipment',
+    icon: Building2,
+  },
+  {
+    title: 'Wheel Loader',
+    href: '/search?type=sale&category=wheel-loader',
+    description: 'Heavy-duty wheel loaders for material handling',
+    icon: Hammer,
+  },
+  {
+    title: 'JCB Backhoe',
+    href: '/search?type=sale&category=jcb-backhoe',
+    description: 'JCB backhoe loaders for construction',
+    icon: Construction,
+  },
+  {
+    title: 'Forklift',
+    href: '/search?type=sale&category=forklift',
+    description: 'Industrial forklifts and material handling equipment',
+    icon: Truck,
+  },
+  {
+    title: 'Tipper Truck',
+    href: '/search?type=sale&category=tipper-truck',
+    description: 'Heavy-duty tipper trucks for transportation',
+    icon: Truck,
+  },
+  {
+    title: 'Boom Loader',
+    href: '/search?type=sale&category=boom-loader',
+    description: 'Boom loaders for lifting and loading operations',
+    icon: Hammer,
+  },
+  {
+    title: 'Motor Grader',
+    href: '/search?type=sale&category=motor-grader',
+    description: 'Motor graders for road construction and maintenance',
+    icon: Construction,
+  },
+  // Locations
+  {
+    title: 'Dubai',
+    href: '/search?type=sale&location=dubai',
+    description: 'Equipment for sale in Dubai',
+    icon: Building2,
+  },
+  {
+    title: 'Abu Dhabi',
+    href: '/search?type=sale&location=abu-dhabi',
+    description: 'Equipment for sale in Abu Dhabi',
+    icon: Building2,
+  },
+  {
+    title: 'Sharjah',
+    href: '/search?type=sale&location=sharjah',
+    description: 'Equipment for sale in Sharjah',
+    icon: Building2,
+  },
+  {
+    title: 'Ajman',
+    href: '/search?type=sale&location=ajman',
+    description: 'Equipment for sale in Ajman',
+    icon: Building2,
+  },
+  {
+    title: 'Fujairah',
+    href: '/search?type=sale&location=fujairah',
+    description: 'Equipment for sale in Fujairah',
+    icon: Building2,
+  },
+  {
+    title: 'Ras al-Khaimah',
+    href: '/search?type=sale&location=ras-al-khaimah',
+    description: 'Equipment for sale in Ras al-Khaimah',
+    icon: Building2,
+  },
+  {
+    title: 'Umm al-Quwain',
+    href: '/search?type=sale&location=umm-al-quwain',
+    description: 'Equipment for sale in Umm al-Quwain',
+    icon: Building2,
+  },
+  // New Machines Section
+  {
+    title: 'New Machines',
+    href: '/search?type=sale&condition=new',
+    description: 'Brand new construction and industrial machines',
+    icon: Star,
+  },
+  {
+    title: 'Attachments',
+    href: '/search?type=sale&category=attachments',
+    description: 'Equipment attachments and accessories',
+    icon: Wrench,
+  },
+  {
+    title: 'Spare Parts',
+    href: '/search?type=sale&category=spare-parts',
+    description: 'Genuine spare parts for all equipment',
+    icon: Wrench,
+  },
+  {
+    title: 'Lifting Equipment',
+    href: '/search?type=sale&category=lifting-equipment',
+    description: 'Cranes, hoists, and lifting solutions',
+    icon: Building2,
+  },
   {
     title: 'Excavators',
     href: '/search?type=sale&category=excavators',
@@ -43,55 +155,148 @@ const equipmentLinks: NavItemType[] = [
     icon: Construction,
   },
   {
+    title: 'Generators',
+    href: '/search?type=sale&category=generators',
+    description: 'Power generators and electrical equipment',
+    icon: Construction,
+  },
+  {
+    title: 'Trailers',
+    href: '/search?type=sale&category=trailers',
+    description: 'Heavy-duty trailers for transportation',
+    icon: Truck,
+  },
+  {
     title: 'Cranes',
     href: '/search?type=sale&category=cranes',
-    description: 'Tower cranes, mobile cranes, and lifting equipment',
+    description: 'All types of cranes and lifting equipment',
     icon: Building2,
-  },
-  {
-    title: 'Loaders',
-    href: '/search?type=sale&category=loaders',
-    description: 'Wheel loaders, skid steers, and material handling',
-    icon: Hammer,
-  },
-  {
-    title: 'Bulldozers',
-    href: '/search?type=sale&category=bulldozers',
-    description: 'Track dozers and wheel dozers for earthmoving',
-    icon: Truck,
   },
 ];
 
 // Rental links for Rent Equipment dropdown
 const rentalLinks: NavItemType[] = [
+  // Categories
   {
-    title: 'Excavators for Rent',
-    href: '/search?type=rent&category=excavators',
-    description: 'Short and long-term excavator rentals',
-    icon: Construction,
-  },
-  {
-    title: 'Cranes for Rent',
-    href: '/search?type=rent&category=cranes',
+    title: 'Crane',
+    href: '/search?type=rent&category=crane',
     description: 'Professional crane rental services',
     icon: Building2,
   },
   {
-    title: 'Loaders for Rent',
-    href: '/search?type=rent&category=loaders',
-    description: 'Flexible loader rental options',
+    title: 'Wheel Loader',
+    href: '/search?type=rent&category=wheel-loader',
+    description: 'Wheel loader rentals for material handling',
     icon: Hammer,
   },
   {
-    title: 'All Rentals',
+    title: 'Excavator',
+    href: '/search?type=rent&category=excavator',
+    description: 'Short and long-term excavator rentals',
+    icon: Construction,
+  },
+  {
+    title: 'Forklift',
+    href: '/search?type=rent&category=forklift',
+    description: 'Industrial forklift rental services',
+    icon: Truck,
+  },
+  {
+    title: 'Boom loader',
+    href: '/search?type=rent&category=boom-loader',
+    description: 'Boom loader rentals for lifting operations',
+    icon: Hammer,
+  },
+  {
+    title: 'Motor Grader',
+    href: '/search?type=rent&category=motor-grader',
+    description: 'Motor grader rentals for road construction',
+    icon: Construction,
+  },
+  {
+    title: 'Road Roller',
+    href: '/search?type=rent&category=road-roller',
+    description: 'Road roller rentals for compaction work',
+    icon: Construction,
+  },
+  // Locations
+  {
+    title: 'Dubai',
+    href: '/search?type=rent&location=dubai',
+    description: 'Equipment rentals in Dubai',
+    icon: Building2,
+  },
+  {
+    title: 'Abu Dhabi',
+    href: '/search?type=rent&location=abu-dhabi',
+    description: 'Equipment rentals in Abu Dhabi',
+    icon: Building2,
+  },
+  {
+    title: 'Sharjah',
+    href: '/search?type=rent&location=sharjah',
+    description: 'Equipment rentals in Sharjah',
+    icon: Building2,
+  },
+  {
+    title: 'Ajman',
+    href: '/search?type=rent&location=ajman',
+    description: 'Equipment rentals in Ajman',
+    icon: Building2,
+  },
+  {
+    title: 'Fujeirah',
+    href: '/search?type=rent&location=fujeirah',
+    description: 'Equipment rentals in Fujeirah',
+    icon: Building2,
+  },
+  {
+    title: 'Ras al-Khaimah',
+    href: '/search?type=rent&location=ras-al-khaimah',
+    description: 'Equipment rentals in Ras al-Khaimah',
+    icon: Building2,
+  },
+  {
+    title: 'Umm al-Quwain',
+    href: '/search?type=rent&location=umm-al-quwain',
+    description: 'Equipment rentals in Umm al-Quwain',
+    icon: Building2,
+  },
+  // Industries
+  {
+    title: 'Construction',
+    href: '/search?type=rent&industry=construction',
+    description: 'Construction equipment rentals',
+    icon: Construction,
+  },
+  {
+    title: 'Material Handling Equipment',
+    href: '/search?type=rent&industry=material-handling',
+    description: 'Material handling equipment rentals',
+    icon: Truck,
+  },
+  {
+    title: 'Mining And Quarry Equipment',
+    href: '/search?type=rent&industry=mining-quarry',
+    description: 'Mining and quarry equipment rentals',
+    icon: Hammer,
+  },
+  {
+    title: 'Agriculture',
+    href: '/search?type=rent&industry=agriculture',
+    description: 'Agricultural equipment rentals',
+    icon: Star,
+  },
+  {
+    title: 'All Equipment',
     href: '/search?type=rent',
     description: 'Browse all available equipment for rent',
     icon: Wrench,
   },
 ];
 
-// Brand links for Brands dropdown
-const brandLinks: NavItemType[] = [
+// Brand links for Rent Equipment dropdown
+const rentBrandLinks: NavItemType[] = [
   {
     title: 'Caterpillar',
     href: '/equipments/rent?q=caterpillar',
@@ -123,18 +328,6 @@ const brandLinks: NavItemType[] = [
     icon: Star,
   },
   {
-    title: 'John Deere',
-    href: '/equipments/rent?q=john-deere',
-    description: 'Agricultural and construction machinery',
-    icon: Star,
-  },
-  {
-    title: 'Bobcat',
-    href: '/equipments/rent?q=bobcat',
-    description: 'Compact equipment and skid steers',
-    icon: Star,
-  },
-  {
     title: 'JLG',
     href: '/equipments/rent?q=jlg',
     description: 'Aerial work platforms and lifts',
@@ -147,11 +340,787 @@ const brandLinks: NavItemType[] = [
     icon: Star,
   },
   {
+    title: 'Bobcat',
+    href: '/equipments/rent?q=bobcat',
+    description: 'Compact equipment and skid steers',
+    icon: Star,
+  },
+  {
+    title: 'Mercedes',
+    href: '/equipments/rent?q=mercedes',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Mitsubishi',
+    href: '/equipments/rent?q=mitsubishi',
+    description: 'Industrial equipment and machinery',
+    icon: Star,
+  },
+  {
+    title: 'XCMG',
+    href: '/equipments/rent?q=xcmg',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Tadano',
+    href: '/equipments/rent?q=tadano',
+    description: 'Mobile cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sany',
+    href: '/equipments/rent?q=sany',
+    description: 'Heavy machinery and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Terex',
+    href: '/equipments/rent?q=terex',
+    description: 'Aerial work platforms and cranes',
+    icon: Star,
+  },
+  {
+    title: 'Generac',
+    href: '/equipments/rent?q=generac',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+  {
+    title: 'Toyota',
+    href: '/equipments/rent?q=toyota',
+    description: 'Industrial vehicles and forklifts',
+    icon: Star,
+  },
+  {
+    title: 'Kato',
+    href: '/equipments/rent?q=kato',
+    description: 'Mobile cranes and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Zoomlion',
+    href: '/equipments/rent?q=zoomlion',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Perkins',
+    href: '/equipments/rent?q=perkins',
+    description: 'Diesel engines and power solutions',
+    icon: Star,
+  },
+  {
+    title: 'Demag',
+    href: '/equipments/rent?q=demag',
+    description: 'Mobile cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'Dynapac',
+    href: '/equipments/rent?q=dynapac',
+    description: 'Road construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Doosan',
+    href: '/equipments/rent?q=doosan',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Atlas',
+    href: '/equipments/rent?q=atlas',
+    description: 'Construction and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Kobelco',
+    href: '/equipments/rent?q=kobelco',
+    description: 'Excavators and construction machinery',
+    icon: Star,
+  },
+  {
+    title: 'Fuso',
+    href: '/equipments/rent?q=fuso',
+    description: 'Commercial trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'MAN',
+    href: '/equipments/rent?q=man',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Heli',
+    href: '/equipments/rent?q=heli',
+    description: 'Forklifts and material handling equipment',
+    icon: Star,
+  },
+  {
+    title: 'Hino',
+    href: '/equipments/rent?q=hino',
+    description: 'Commercial trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'Skyjack',
+    href: '/equipments/rent?q=skyjack',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Isuzu',
+    href: '/equipments/rent?q=isuzu',
+    description: 'Commercial trucks and vehicles',
+    icon: Star,
+  },
+  {
     title: 'Case',
     href: '/equipments/rent?q=case',
     description: 'Construction equipment and machinery',
     icon: Star,
   },
+  {
+    title: 'Haulotte',
+    href: '/equipments/rent?q=haulotte',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Nissan',
+    href: '/equipments/rent?q=nissan',
+    description: 'Commercial vehicles and forklifts',
+    icon: Star,
+  },
+  {
+    title: 'Atlas Copco',
+    href: '/equipments/rent?q=atlas-copco',
+    description: 'Compressors and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Cummins',
+    href: '/equipments/rent?q=cummins',
+    description: 'Diesel engines and power generation',
+    icon: Star,
+  },
+  {
+    title: 'Bomag',
+    href: '/equipments/rent?q=bomag',
+    description: 'Road construction and compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Hitachi',
+    href: '/equipments/rent?q=hitachi',
+    description: 'Construction and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Daewoo',
+    href: '/equipments/rent?q=daewoo',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sandvik',
+    href: '/equipments/rent?q=sandvik',
+    description: 'Mining and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Metso',
+    href: '/equipments/rent?q=metso',
+    description: 'Mining and aggregates equipment',
+    icon: Star,
+  },
+  {
+    title: 'Kubota',
+    href: '/equipments/rent?q=kubota',
+    description: 'Construction and agricultural equipment',
+    icon: Star,
+  },
+  {
+    title: 'Liugong',
+    href: '/equipments/rent?q=liugong',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Astec',
+    href: '/equipments/rent?q=astec',
+    description: 'Aggregate and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'IHI',
+    href: '/equipments/rent?q=ihi',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Champion',
+    href: '/equipments/rent?q=champion',
+    description: 'Road construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sumitomo',
+    href: '/equipments/rent?q=sumitomo',
+    description: 'Excavators and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Hamm',
+    href: '/equipments/rent?q=hamm',
+    description: 'Road construction and compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Miller',
+    href: '/equipments/rent?q=miller',
+    description: 'Welding and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'New Holland',
+    href: '/equipments/rent?q=new-holland',
+    description: 'Agricultural and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Wacker',
+    href: '/equipments/rent?q=wacker',
+    description: 'Compaction and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Grove',
+    href: '/equipments/rent?q=grove',
+    description: 'Mobile cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'Manitou',
+    href: '/equipments/rent?q=manitou',
+    description: 'Material handling and telehandlers',
+    icon: Star,
+  },
+  {
+    title: 'Linnhoff',
+    href: '/equipments/rent?q=linnhoff',
+    description: 'Trailers and transport equipment',
+    icon: Star,
+  },
+  {
+    title: 'Yanmar',
+    href: '/equipments/rent?q=yanmar',
+    description: 'Compact construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Ford',
+    href: '/equipments/rent?q=ford',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Genie',
+    href: '/equipments/rent?q=genie',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Manitowoc',
+    href: '/equipments/rent?q=manitowoc',
+    description: 'Cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'JAC',
+    href: '/equipments/rent?q=jac',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Scania',
+    href: '/equipments/rent?q=scania',
+    description: 'Heavy-duty trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'Pramac',
+    href: '/equipments/rent?q=pramac',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+];
+
+// Brand links for Buy Equipment dropdown
+const buyBrandLinks: NavItemType[] = [
+  {
+    title: 'Volvo',
+    href: '/equipments/sale?q=volvo',
+    description: 'Construction equipment and heavy machinery',
+    icon: Star,
+  },
+  {
+    title: 'Caterpillar',
+    href: '/equipments/sale?q=caterpillar',
+    description: 'Heavy machinery and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Komatsu',
+    href: '/equipments/sale?q=komatsu',
+    description: 'Mining and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'JCB',
+    href: '/equipments/sale?q=jcb',
+    description: 'Excavators, loaders, and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Mercedes',
+    href: '/equipments/sale?q=mercedes',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Hyundai',
+    href: '/equipments/sale?q=hyundai',
+    description: 'Construction and heavy equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sany',
+    href: '/equipments/sale?q=sany',
+    description: 'Heavy machinery and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'XCMG',
+    href: '/equipments/sale?q=xcmg',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Bobcat',
+    href: '/equipments/sale?q=bobcat',
+    description: 'Compact equipment and skid steers',
+    icon: Star,
+  },
+  {
+    title: 'Toyota',
+    href: '/equipments/sale?q=toyota',
+    description: 'Industrial vehicles and forklifts',
+    icon: Star,
+  },
+  {
+    title: 'Kato',
+    href: '/equipments/sale?q=kato',
+    description: 'Mobile cranes and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Doosan',
+    href: '/equipments/sale?q=doosan',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'MAN',
+    href: '/equipments/sale?q=man',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Hino',
+    href: '/equipments/sale?q=hino',
+    description: 'Commercial trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'Tadano',
+    href: '/equipments/sale?q=tadano',
+    description: 'Mobile cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'Westinpower',
+    href: '/equipments/sale?q=westinpower',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+  {
+    title: 'Mitsubishi',
+    href: '/equipments/sale?q=mitsubishi',
+    description: 'Industrial equipment and machinery',
+    icon: Star,
+  },
+  {
+    title: 'Zoomlion',
+    href: '/equipments/sale?q=zoomlion',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Terex',
+    href: '/equipments/sale?q=terex',
+    description: 'Aerial work platforms and cranes',
+    icon: Star,
+  },
+  {
+    title: 'Kobelco',
+    href: '/equipments/sale?q=kobelco',
+    description: 'Excavators and construction machinery',
+    icon: Star,
+  },
+  {
+    title: 'Kubota',
+    href: '/equipments/sale?q=kubota',
+    description: 'Construction and agricultural equipment',
+    icon: Star,
+  },
+  {
+    title: 'Perkins',
+    href: '/equipments/sale?q=perkins',
+    description: 'Diesel engines and power solutions',
+    icon: Star,
+  },
+  {
+    title: 'Scania',
+    href: '/equipments/sale?q=scania',
+    description: 'Heavy-duty trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'Dynapac',
+    href: '/equipments/sale?q=dynapac',
+    description: 'Road construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Bomag',
+    href: '/equipments/sale?q=bomag',
+    description: 'Road construction and compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'JLG',
+    href: '/equipments/sale?q=jlg',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Case',
+    href: '/equipments/sale?q=case',
+    description: 'Construction equipment and machinery',
+    icon: Star,
+  },
+  {
+    title: 'Metso',
+    href: '/equipments/sale?q=metso',
+    description: 'Mining and aggregates equipment',
+    icon: Star,
+  },
+  {
+    title: 'Liebherr',
+    href: '/equipments/sale?q=liebherr',
+    description: 'Cranes, excavators, and heavy equipment',
+    icon: Star,
+  },
+  {
+    title: 'Hamm',
+    href: '/equipments/sale?q=hamm',
+    description: 'Road construction and compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Komac',
+    href: '/equipments/sale?q=komac',
+    description: 'Hydraulic breakers and attachments',
+    icon: Star,
+  },
+  {
+    title: 'Liugong',
+    href: '/equipments/sale?q=liugong',
+    description: 'Construction machinery and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Cummins',
+    href: '/equipments/sale?q=cummins',
+    description: 'Diesel engines and power generation',
+    icon: Star,
+  },
+  {
+    title: 'Generac',
+    href: '/equipments/sale?q=generac',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+  {
+    title: 'KMCO',
+    href: '/equipments/sale?q=kmco',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'John Deere',
+    href: '/equipments/sale?q=john-deere',
+    description: 'Agricultural and construction machinery',
+    icon: Star,
+  },
+  {
+    title: 'Manitou',
+    href: '/equipments/sale?q=manitou',
+    description: 'Material handling and telehandlers',
+    icon: Star,
+  },
+  {
+    title: 'Zoom',
+    href: '/equipments/sale?q=zoom',
+    description: 'Boom lifts and aerial platforms',
+    icon: Star,
+  },
+  {
+    title: 'Nissan',
+    href: '/equipments/sale?q=nissan',
+    description: 'Commercial vehicles and forklifts',
+    icon: Star,
+  },
+  {
+    title: 'Pramac',
+    href: '/equipments/sale?q=pramac',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+  {
+    title: 'Atlas',
+    href: '/equipments/sale?q=atlas',
+    description: 'Construction and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sakai',
+    href: '/equipments/sale?q=sakai',
+    description: 'Road construction and compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Ashok Leyland',
+    href: '/equipments/sale?q=ashok-leyland',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Grove',
+    href: '/equipments/sale?q=grove',
+    description: 'Mobile cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'Wirtgen',
+    href: '/equipments/sale?q=wirtgen',
+    description: 'Road construction and milling equipment',
+    icon: Star,
+  },
+  {
+    title: 'Astec',
+    href: '/equipments/sale?q=astec',
+    description: 'Aggregate and mining equipment',
+    icon: Star,
+  },
+  {
+    title: 'Vogele',
+    href: '/equipments/sale?q=vogele',
+    description: 'Road paving equipment',
+    icon: Star,
+  },
+  {
+    title: 'Iveco',
+    href: '/equipments/sale?q=iveco',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Yanmar',
+    href: '/equipments/sale?q=yanmar',
+    description: 'Compact construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Dongfeng',
+    href: '/equipments/sale?q=dongfeng',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Sumitomo',
+    href: '/equipments/sale?q=sumitomo',
+    description: 'Excavators and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Lovol',
+    href: '/equipments/sale?q=lovol',
+    description: 'Construction and agricultural equipment',
+    icon: Star,
+  },
+  {
+    title: 'Heli',
+    href: '/equipments/sale?q=heli',
+    description: 'Forklifts and material handling equipment',
+    icon: Star,
+  },
+  {
+    title: 'Ford',
+    href: '/equipments/sale?q=ford',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Daewoo',
+    href: '/equipments/sale?q=daewoo',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Foton Motor',
+    href: '/equipments/sale?q=foton-motor',
+    description: 'Commercial vehicles and trucks',
+    icon: Star,
+  },
+  {
+    title: 'Gesan',
+    href: '/equipments/sale?q=gesan',
+    description: 'Power generation equipment',
+    icon: Star,
+  },
+  {
+    title: 'Shanmon',
+    href: '/equipments/sale?q=shanmon',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Locatelli',
+    href: '/equipments/sale?q=locatelli',
+    description: 'Concrete mixers and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Genie',
+    href: '/equipments/sale?q=genie',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Haulotte',
+    href: '/equipments/sale?q=haulotte',
+    description: 'Aerial work platforms and lifts',
+    icon: Star,
+  },
+  {
+    title: 'Manitowoc',
+    href: '/equipments/sale?q=manitowoc',
+    description: 'Cranes and lifting equipment',
+    icon: Star,
+  },
+  {
+    title: 'New Holland',
+    href: '/equipments/sale?q=new-holland',
+    description: 'Agricultural and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Oshkosh',
+    href: '/equipments/sale?q=oshkosh',
+    description: 'Specialty vehicles and equipment',
+    icon: Star,
+  },
+  {
+    title: 'Palfinger',
+    href: '/equipments/sale?q=palfinger',
+    description: 'Loading cranes and lifting solutions',
+    icon: Star,
+  },
+  {
+    title: 'Rammax',
+    href: '/equipments/sale?q=rammax',
+    description: 'Compaction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Takeuchi',
+    href: '/equipments/sale?q=takeuchi',
+    description: 'Compact excavators and track loaders',
+    icon: Star,
+  },
+  {
+    title: 'Wacker',
+    href: '/equipments/sale?q=wacker',
+    description: 'Compaction and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Isuzu',
+    href: '/equipments/sale?q=isuzu',
+    description: 'Commercial trucks and vehicles',
+    icon: Star,
+  },
+  {
+    title: 'Telsmith',
+    href: '/equipments/sale?q=telsmith',
+    description: 'Crushing and screening equipment',
+    icon: Star,
+  },
+  {
+    title: 'Nordberg',
+    href: '/equipments/sale?q=nordberg',
+    description: 'Crushing and screening equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sayal',
+    href: '/equipments/sale?q=sayal',
+    description: 'Construction and industrial equipment',
+    icon: Star,
+  },
+  {
+    title: 'Linnhoff',
+    href: '/equipments/sale?q=linnhoff',
+    description: 'Trailers and transport equipment',
+    icon: Star,
+  },
+  {
+    title: 'Aebi Schmidt',
+    href: '/equipments/sale?q=aebi-schmidt',
+    description: 'Municipal and airport equipment',
+    icon: Star,
+  },
+  {
+    title: 'Sanyo',
+    href: '/equipments/sale?q=sanyo',
+    description: 'Industrial and construction equipment',
+    icon: Star,
+  },
+  {
+    title: 'Simplex',
+    href: '/equipments/sale?q=simplex',
+    description: 'Lifting and jacking equipment',
+    icon: Star,
+  },
+];
+
+// Legacy brand links (keeping for backward compatibility)
+const brandLinks: NavItemType[] = [
   {
     title: 'All Brands',
     href: '/brands',
@@ -159,6 +1128,50 @@ const brandLinks: NavItemType[] = [
     icon: Building2,
   },
 ];
+
+// BrandsDropdown component with two sections
+function BrandsDropdown() {
+  const [activeTab, setActiveTab] = React.useState<'rent' | 'buy'>('rent');
+
+  return (
+    <div className='w-[800px] p-4'>
+      {/* Tab buttons */}
+      <div className='flex mb-4 border-b'>
+        <button
+          onClick={() => setActiveTab('rent')}
+          className={cn(
+            'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
+            activeTab === 'rent'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground hover:text-foreground'
+          )}
+        >
+          Rent Brands
+        </button>
+        <button
+          onClick={() => setActiveTab('buy')}
+          className={cn(
+            'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
+            activeTab === 'buy'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground hover:text-foreground'
+          )}
+        >
+          Buy Brands
+        </button>
+      </div>
+
+      {/* Scrollable brand list */}
+      <div className='max-h-[400px] overflow-y-auto'>
+        <div className='grid grid-cols-4 gap-2'>
+          {activeTab === 'rent'
+            ? rentBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)
+            : buyBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Company/About links
 const companyLinks: NavItemType[] = [
@@ -206,10 +1219,161 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
-              {equipmentLinks.map(link => (
-                <NavGridCard key={link.href} link={link} />
-              ))}
+            <div className='w-[800px] p-6'>
+              <div className='grid grid-cols-3 gap-8'>
+                {/* Categories Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                    Categories
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=sale&category=crane'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Crane
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=wheel-loader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Wheel Loader
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=jcb-backhoe'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      JCB Backhoe
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=forklift'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Forklift
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=tipper-truck'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Tipper Truck
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=boom-loader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Boom Loader
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=motor-grader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Motor Grader
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Locations Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                    Locations
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=sale&location=dubai'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Dubai
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=abu-dhabi'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Abu Dhabi
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=sharjah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Sharjah
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=ajman'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Ajman
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=fujairah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Fujairah
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=ras-al-khaimah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Ras al-Khaimah
+                    </Link>
+                    <Link
+                      href='/search?type=sale&location=umm-al-quwain'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Umm al-Quwain
+                    </Link>
+                  </div>
+                </div>
+
+                {/* New Machines Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-blue-600 uppercase tracking-wider'>
+                    New Machines
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=sale&category=attachments'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Attachments
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=spare-parts'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Spare Parts
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=lifting-equipment'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Lifting Equipment
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=excavators'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Excavators
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=generators'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Generators
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=trailers'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Trailers
+                    </Link>
+                    <Link
+                      href='/search?type=sale&category=cranes'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Cranes
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -217,10 +1381,149 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[480px] grid-cols-2 gap-2 p-3'>
-              {rentalLinks.map(link => (
-                <NavGridCard key={link.href} link={link} />
-              ))}
+            <div className='w-[800px] p-6'>
+              <div className='grid grid-cols-3 gap-8'>
+                {/* Categories Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                    Categories
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=rent&category=crane'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Crane
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=wheel-loader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Wheel Loader
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=excavator'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Excavator
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=forklift'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Forklift
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=boom-loader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Boom loader
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=motor-grader'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Motor Grader
+                    </Link>
+                    <Link
+                      href='/search?type=rent&category=road-roller'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Road Roller
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Locations Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
+                    Locations
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=rent&location=dubai'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Dubai
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=abu-dhabi'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Abu Dhabi
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=sharjah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Sharjah
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=ajman'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Ajman
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=fujeirah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Fujeirah
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=ras-al-khaimah'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Ras al-Khaimah
+                    </Link>
+                    <Link
+                      href='/search?type=rent&location=umm-al-quwain'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Umm al-Quwain
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Industries Section */}
+                <div>
+                  <h3 className='mb-4 text-sm font-semibold text-blue-600 uppercase tracking-wider'>
+                    Industries
+                  </h3>
+                  <div className='space-y-2'>
+                    <Link
+                      href='/search?type=rent&industry=construction'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Construction
+                    </Link>
+                    <Link
+                      href='/search?type=rent&industry=material-handling'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Material Handling Equipment
+                    </Link>
+                    <Link
+                      href='/search?type=rent&industry=mining-quarry'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Mining And Quarry Equipment
+                    </Link>
+                    <Link
+                      href='/search?type=rent&industry=agriculture'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      Agriculture
+                    </Link>
+                    <Link
+                      href='/search?type=rent'
+                      className='block text-sm text-gray-700 hover:text-blue-600 transition-colors'
+                    >
+                      All Equipment
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -228,11 +1531,7 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='grid w-[640px] grid-cols-4 gap-2 p-3'>
-              {brandLinks.map(link => (
-                <NavGridCard key={link.href} link={link} />
-              ))}
-            </div>
+            <BrandsDropdown />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
