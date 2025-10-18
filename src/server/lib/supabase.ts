@@ -1,3 +1,4 @@
+import 'server-only';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Server-side Supabase client (do not expose keys to the browser)

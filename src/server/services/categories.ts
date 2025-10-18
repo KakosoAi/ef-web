@@ -1,4 +1,5 @@
-import { getSupabaseServerClient } from '@/shared/lib/supabaseServer';
+import 'server-only';
+import { getSupabaseServerClient } from '@server/lib/supabase';
 
 export interface CategoryRecord {
   id: number;

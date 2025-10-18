@@ -1,5 +1,23 @@
 # Machinery Vision - Project Structure
 
+## Latest Structure Highlights
+
+- UI routes grouped under `app/(routes)`; root stays `app/(routes)/page.tsx`.
+- API endpoints grouped under `app/(api)`; example `app/(api)/api/categories/route.ts`.
+- Server-only code lives in `src/server/` (services, libs); example `src/server/services/categories.ts` and `src/server/lib/supabase.ts`.
+- Reusable UI and client logic remains in `src/features/` and `src/shared/`.
+
+## Path Aliases
+
+- `@server/*` → `src/server/*`
+- `@features/*` → `src/features/*`
+- `@shared/*` → `src/shared/*`
+
+## Guardrails
+
+- Server modules import `server-only` to prevent client usage.
+- ESLint blocks `@server/*` imports in client modules via `no-restricted-imports` (disabled in `src/server/**` and `app/(api)/**`).
+
 This document provides a comprehensive overview of the project structure and explains the purpose of each folder and file.
 
 ## 📁 Root Directory
