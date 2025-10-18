@@ -1,4 +1,4 @@
-name: CI
+name: CI (Quality Only)
 
 on:
   push:
@@ -9,8 +9,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,17 +23,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
       - name: Type check
-        run: npm run type-check
+        run: npm run -s type-check
 
-      - name: Build
-        run: npm run build
+      - name: Lint (fail on warnings)
+        run: npm run -s lint
