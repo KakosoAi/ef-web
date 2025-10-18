@@ -1,0 +1,14 @@
+# CODEOWNERS
+# Update these aliases to your actual org/team or usernames
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything
+* @Kakoso.ai/tech
+
+# Frontend ownership
+app/** @Kakoso.ai/frontend
+src/** @Kakoso.ai/frontend
+public/** @Kakoso.ai/frontend
+
+# Infrastructure / workflows
+.github/** @Kakoso.ai/devops
