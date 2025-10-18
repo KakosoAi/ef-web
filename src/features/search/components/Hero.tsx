@@ -31,7 +31,7 @@ const Hero = memo(
           }, 100);
         }, 200);
       },
-      [websiteMode, onModeChange]
+      [websiteMode, onModeChange, setWebsiteMode]
     );
 
     const backgroundConfig = useMemo(() => {

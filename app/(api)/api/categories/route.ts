@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCategories } from '@/shared/services/categories';
+import { getCategories } from '@server/services/categories';
 
 // Cache categories for 5 minutes to reduce Supabase queries
 export const revalidate = 300;

@@ -116,9 +116,9 @@ create policy "Public read for categories" on public.categories
 
 ### Project Files
 
-- `src/shared/lib/supabaseServer.ts`: Server-only Supabase client using `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
-- `src/shared/services/categories.ts`: Server service that fetches `id, name, icon` and maps icons to `/assets/categories/<icon>`.
-- `app/api/categories/route.ts`: API route returning `{ categories }` as JSON.
+- `src/server/lib/supabase.ts`: Server-only Supabase client using `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+- `src/server/services/categories.ts`: Server service that fetches `id, name, icon` and maps icons to `/assets/categories/<icon>`.
+- `app/(api)/api/categories/route.ts`: API route returning `{ categories }` as JSON.
 - `src/features/categories/components/Categories.tsx`: Client component that fetches `/api/categories` and renders names/icons, falling back to static content when unavailable.
 
 ### Icon Naming

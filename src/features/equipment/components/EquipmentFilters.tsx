@@ -31,8 +31,17 @@ interface FilterSection {
   isExpanded: boolean;
 }
 
+interface EquipmentFiltersValues {
+  category: string;
+  location: string;
+  condition: string;
+  priceRange: string;
+  year: string;
+  query: string;
+}
+
 interface EquipmentFiltersProps {
-  onFiltersChange?: (filters: any) => void;
+  onFiltersChange?: (filters: EquipmentFiltersValues) => void;
   websiteMode?: 'general' | 'agricultural';
   resultsCount?: number;
   searchQuery?: string;
