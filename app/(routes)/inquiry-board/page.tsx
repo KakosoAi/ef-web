@@ -379,7 +379,7 @@ export default function InquiryBoard() {
                         >
                           {inquiry.urgency}
                         </span>
-                        <span className='px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700'>
+                        <span className='px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700'>
                           {inquiry.category}
                         </span>
                       </div>
@@ -439,20 +439,14 @@ export default function InquiryBoard() {
                       </div>
                     </div>
 
-                    {/* Stats Footer */}
+                    {/* Stats Footer - Only show if data exists */}
                     <div className='flex items-center justify-between pt-3 border-t border-gray-100'>
-                      <div className='flex items-center gap-1 text-xs text-gray-500'>
-                        <Eye className='h-3 w-3' />
-                        <span>{inquiry.views}</span>
+                      <div className='text-xs text-gray-500'>
+                        Posted {new Date(inquiry.postedDate).toLocaleDateString()}
                       </div>
-                      <div className='flex items-center gap-1 text-xs text-gray-500'>
-                        <MessageCircle className='h-3 w-3' />
-                        <span>{inquiry.responses}</span>
-                      </div>
-                      <div className='flex items-center gap-1 text-xs text-gray-500'>
-                        <Star className='h-3 w-3' />
-                        <span>{inquiry.rating}</span>
-                      </div>
+                      {inquiry.verified && (
+                        <div className='text-xs text-green-600 font-medium'>✓ Verified</div>
+                      )}
                     </div>
                   </div>
                 </Link>
@@ -530,24 +524,13 @@ export default function InquiryBoard() {
                       </div>
                     </div>
 
-                    {/* Right Section - Budget and Stats */}
+                    {/* Right Section - Budget and Date */}
                     <div className='flex-shrink-0 text-right'>
                       <div className='text-sm font-medium text-orange-600 bg-orange-50 px-4 py-2 rounded-lg mb-3'>
                         {inquiry.budget}
                       </div>
-                      <div className='flex items-center gap-3 text-xs text-gray-500'>
-                        <div className='flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg'>
-                          <Eye className='h-3.5 w-3.5' />
-                          <span className='font-medium'>{inquiry.views}</span>
-                        </div>
-                        <div className='flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg'>
-                          <MessageCircle className='h-3.5 w-3.5' />
-                          <span className='font-medium'>{inquiry.responses}</span>
-                        </div>
-                        <div className='flex items-center gap-1.5 bg-yellow-50 px-3 py-1.5 rounded-lg'>
-                          <Star className='h-3.5 w-3.5 text-yellow-500 fill-current' />
-                          <span className='font-medium text-yellow-700'>{inquiry.rating}</span>
-                        </div>
+                      <div className='text-xs text-gray-500'>
+                        Posted {new Date(inquiry.postedDate).toLocaleDateString()}
                       </div>
                     </div>
                   </div>

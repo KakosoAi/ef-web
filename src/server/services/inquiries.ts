@@ -269,10 +269,10 @@ export const getInquiries = unstable_cache(
           urgency: mapStatusToUrgency(record.statusid),
           budget: details.budget || 'Contact for pricing',
           postedDate: record.createdat.split('T')[0], // Format date
-          views: Math.floor(Math.random() * 500) + 50, // Mock data for now
-          responses: Math.floor(Math.random() * 20) + 1, // Mock data for now
+          views: 0, // Not available in database
+          responses: 0, // Not available in database
           company: details.company || record.name || 'Anonymous',
-          rating: 4.0 + Math.random() * 1.0, // Mock rating
+          rating: 0, // Not available in database
           verified: record.consent, // Use consent as verification indicator
           promoted: record.adtypeid !== null, // Has ad type = promoted
           featured: record.exempt_payment, // Exempt payment = featured

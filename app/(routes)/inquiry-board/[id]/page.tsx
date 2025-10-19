@@ -227,9 +227,9 @@ export default function InquiryDetailPage() {
                 Posted{' '}
                 {new Date(inquiry.stats?.postedDate || inquiry.postedDate).toLocaleDateString()}
               </span>
-              <span>{inquiry.equipmentDetails?.category || inquiry.category}</span>
-              <span>{inquiry.stats?.views || inquiry.views} Views</span>
-              <span>{inquiry.stats?.responses || inquiry.responses} Responses</span>
+              <span className='font-medium text-base text-gray-700'>
+                {inquiry.equipmentDetails?.category || inquiry.category}
+              </span>
             </div>
           </div>
         </div>
@@ -261,7 +261,7 @@ export default function InquiryDetailPage() {
                   <div className='space-y-4'>
                     <div className='p-3 bg-gray-50 rounded-md border'>
                       <span className='font-medium text-gray-900 block mb-1'>Category</span>
-                      <p className='text-gray-700'>
+                      <p className='text-gray-700 text-base font-medium'>
                         {inquiry.equipmentDetails?.category || inquiry.category}
                       </p>
                     </div>
