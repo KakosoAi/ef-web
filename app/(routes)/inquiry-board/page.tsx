@@ -245,45 +245,45 @@ export default function InquiryBoard() {
                 />
               </div>
 
-              <div className='flex items-center gap-3'>
+              <div className='flex items-center gap-2'>
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-all ${
+                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-all ${
                     showFilters ? 'bg-orange-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
                   }`}
                 >
-                  <Filter className='h-4 w-4' />
-                  Filter
+                  <Filter className='h-3 w-3' />
+                  <span className='hidden sm:inline'>Filter</span>
                 </button>
 
-                <div className='flex bg-gray-100 rounded-xl p-1'>
+                <div className='flex bg-gray-100 rounded-lg p-0.5'>
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded-lg transition-all ${
+                    className={`p-1.5 rounded transition-all ${
                       viewMode === 'grid' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
                     }`}
                   >
-                    <Grid className='h-4 w-4' />
+                    <Grid className='h-3 w-3' />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`p-2 rounded-lg transition-all ${
+                    className={`p-1.5 rounded transition-all ${
                       viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
                     }`}
                   >
-                    <List className='h-4 w-4' />
+                    <List className='h-3 w-3' />
                   </button>
                 </div>
               </div>
             </div>
 
             {showFilters && (
-              <div className='mt-4 p-4 bg-gray-50 rounded-xl'>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+              <div className='mt-3 p-3 bg-gray-50 rounded-lg'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
                   <select
                     value={selectedCategory}
                     onChange={e => setSelectedCategory(e.target.value)}
-                    className='px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500'
+                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
                   >
                     {categories.map(category => (
                       <option key={category} value={category}>
@@ -294,7 +294,7 @@ export default function InquiryBoard() {
                   <select
                     value={selectedLocation}
                     onChange={e => setSelectedLocation(e.target.value)}
-                    className='px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500'
+                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
                   >
                     {locations.map(location => (
                       <option key={location} value={location}>
@@ -305,7 +305,7 @@ export default function InquiryBoard() {
                   <select
                     value={selectedUrgency}
                     onChange={e => setSelectedUrgency(e.target.value)}
-                    className='px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500'
+                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
                   >
                     {urgencyLevels.map(urgency => (
                       <option key={urgency} value={urgency}>
@@ -360,114 +360,20 @@ export default function InquiryBoard() {
                 <Link
                   key={inquiry.id}
                   href={`/inquiry-board/${inquiry.id}`}
-                  className={`group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer block ${
+                  className={`group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 cursor-pointer block overflow-hidden ${
                     inquiry.featured
-                      ? 'md:col-span-2 lg:col-span-2 border-orange-200'
+                      ? 'md:col-span-2 lg:col-span-2 border-orange-200 shadow-md'
                       : inquiry.promoted
-                        ? 'md:col-span-1 lg:col-span-1 border-blue-200'
+                        ? 'md:col-span-1 lg:col-span-1 border-blue-200 shadow-md'
                         : ''
                   }`}
                 >
                   <div
                     className={`p-6 ${inquiry.featured ? 'p-8' : inquiry.promoted ? 'p-7' : 'p-6'}`}
                   >
-                    {/* Header with badges */}
-                    <div className='flex items-start justify-between mb-4'>
-                      <div className='flex items-center gap-2'>
-                        <span
-                          className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getUrgencyColor(inquiry.urgency)} shadow-sm`}
-                        >
-                          {inquiry.urgency}
-                        </span>
-                        <span className='px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700'>
-                          {inquiry.category}
-                        </span>
-                      </div>
-                      {inquiry.verified && (
-                        <div className='bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm'>
-                          ✓ Verified
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Category Icon */}
-                    <div className='flex justify-center mb-3'>
-                      <div
-                        className={`p-2 rounded-lg bg-gray-50 flex items-center justify-center ${
-                          inquiry.featured ? 'p-3' : inquiry.promoted ? 'p-2.5' : 'p-2'
-                        }`}
-                      >
-                        <div
-                          className={`relative ${
-                            inquiry.featured
-                              ? 'w-10 h-10'
-                              : inquiry.promoted
-                                ? 'w-8 h-8'
-                                : 'w-6 h-6'
-                          }`}
-                        >
-                          {getCategoryIcon(inquiry.category)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className={`font-semibold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight ${
-                        inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
-                      }`}
-                    >
-                      {inquiry.title}
-                    </h3>
-
-                    {/* Location and Company */}
-                    <div className='space-y-2 mb-4'>
-                      <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                        <MapPin className='h-4 w-4' />
-                        <span>{inquiry.location}</span>
-                      </div>
-                      <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                        <Building2 className='h-4 w-4' />
-                        <span className='font-medium'>{inquiry.company}</span>
-                      </div>
-                    </div>
-
-                    {/* Budget */}
-                    <div className='mb-3'>
-                      <div className='text-sm font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-lg inline-block'>
-                        {inquiry.budget}
-                      </div>
-                    </div>
-
-                    {/* Stats Footer - Only show if data exists */}
-                    <div className='flex items-center justify-between pt-3 border-t border-gray-100'>
-                      <div className='text-xs text-gray-500'>
-                        Posted {new Date(inquiry.postedDate).toLocaleDateString()}
-                      </div>
-                      {inquiry.verified && (
-                        <div className='text-xs text-green-600 font-medium'>✓ Verified</div>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className='space-y-4'>
-              {filteredInquiries.map(inquiry => (
-                <Link
-                  key={inquiry.id}
-                  href={`/inquiry-board/${inquiry.id}`}
-                  className='block group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer p-4'
-                >
-                  <div className='flex items-center gap-6'>
-                    {/* Icon Section */}
-                    <div className='flex-shrink-0'>
-                      <div
-                        className={`p-2 rounded-lg bg-gray-50 flex items-center justify-center ${
-                          inquiry.featured ? 'p-3' : inquiry.promoted ? 'p-2.5' : 'p-2'
-                        }`}
-                      >
+                    {/* Header Section - Like Invoice Header */}
+                    <div className='flex items-start justify-between mb-4 pb-3 border-b border-gray-100'>
+                      <div className='flex items-center gap-3'>
                         <div
                           className={`relative ${
                             inquiry.featured
@@ -479,58 +385,145 @@ export default function InquiryBoard() {
                         >
                           {getCategoryIcon(inquiry.category)}
                         </div>
+                        <div>
+                          <span
+                            className={`px-3 py-1 rounded-md font-medium bg-orange-50 text-orange-700 border border-orange-200 ${
+                              inquiry.featured
+                                ? 'text-sm'
+                                : inquiry.promoted
+                                  ? 'text-xs'
+                                  : 'text-xs'
+                            }`}
+                          >
+                            {inquiry.category}
+                          </span>
+                        </div>
+                      </div>
+                      <div className='text-right'>
+                        <div className='text-xs text-gray-500 mb-1'>Posted</div>
+                        <div className='text-sm font-medium text-gray-700'>
+                          {new Date(inquiry.postedDate).toLocaleDateString()}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Main Content */}
-                    <div className='flex-1 min-w-0'>
-                      <div className='flex items-center gap-3 mb-2'>
-                        <h3
-                          className={`font-medium text-gray-900 truncate group-hover:text-orange-600 transition-colors ${
+                    {/* Main Content - Like Invoice Body */}
+                    <div className='mb-4'>
+                      <h3
+                        className={`font-semibold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight ${
+                          inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
+                        }`}
+                      >
+                        {inquiry.title}
+                      </h3>
+
+                      <div className='grid grid-cols-2 gap-3 mb-4'>
+                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                          <MapPin className='h-4 w-4 text-orange-500 flex-shrink-0' />
+                          <span className='font-medium truncate'>{inquiry.location}</span>
+                        </div>
+                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                          <Building2 className='h-4 w-4 text-blue-500 flex-shrink-0' />
+                          <span className='font-medium truncate'>{inquiry.company}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Footer Section - Like Invoice Total */}
+                    <div className='pt-3 border-t border-gray-100'>
+                      <div className='flex items-center justify-between'>
+                        <div className='text-xs text-gray-500'>Budget</div>
+                        <div
+                          className={`font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-lg shadow-sm ${
                             inquiry.featured
-                              ? 'text-lg'
+                              ? 'text-base'
                               : inquiry.promoted
-                                ? 'text-base'
+                                ? 'text-sm'
                                 : 'text-sm'
                           }`}
                         >
-                          {inquiry.title}
-                        </h3>
-                        <span
-                          className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getUrgencyColor(inquiry.urgency)} shadow-sm`}
-                        >
-                          {inquiry.urgency}
-                        </span>
-                        {inquiry.verified && (
-                          <div className='bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm'>
-                            ✓ Verified
-                          </div>
-                        )}
-                      </div>
-
-                      <div className='flex items-center gap-6 text-sm text-gray-600'>
-                        <div className='flex items-center gap-2'>
-                          <div className='p-1 rounded-lg bg-gray-50'>
-                            <MapPin className='h-4 w-4 text-gray-500' />
-                          </div>
-                          <span className='font-medium'>{inquiry.location}</span>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                          <div className='p-1 rounded-lg bg-gray-50'>
-                            <Building2 className='h-4 w-4 text-gray-500' />
-                          </div>
-                          <span className='font-medium'>{inquiry.company}</span>
+                          {inquiry.budget}
                         </div>
                       </div>
                     </div>
-
-                    {/* Right Section - Budget and Date */}
-                    <div className='flex-shrink-0 text-right'>
-                      <div className='text-sm font-medium text-orange-600 bg-orange-50 px-4 py-2 rounded-lg mb-3'>
-                        {inquiry.budget}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className='space-y-4'>
+              {filteredInquiries.map(inquiry => (
+                <Link
+                  key={inquiry.id}
+                  href={`/inquiry-board/${inquiry.id}`}
+                  className='block group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 cursor-pointer overflow-hidden'
+                >
+                  <div className='flex items-start gap-4 p-6'>
+                    {/* Left Icon Section */}
+                    <div className='flex-shrink-0'>
+                      <div
+                        className={`relative ${
+                          inquiry.featured
+                            ? 'w-12 h-12'
+                            : inquiry.promoted
+                              ? 'w-10 h-10'
+                              : 'w-8 h-8'
+                        }`}
+                      >
+                        {getCategoryIcon(inquiry.category)}
                       </div>
-                      <div className='text-xs text-gray-500'>
-                        Posted {new Date(inquiry.postedDate).toLocaleDateString()}
+                    </div>
+
+                    {/* Main Content Section */}
+                    <div className='flex-1 min-w-0'>
+                      {/* Header Row */}
+                      <div className='flex items-start justify-between mb-3 pb-2 border-b border-gray-100'>
+                        <div className='flex items-center gap-3'>
+                          <span
+                            className={`px-3 py-1 rounded-md font-medium bg-orange-50 text-orange-700 border border-orange-200 ${
+                              inquiry.featured ? 'text-sm' : 'text-xs'
+                            }`}
+                          >
+                            {inquiry.category}
+                          </span>
+                        </div>
+                        <div className='text-right'>
+                          <div className='text-xs text-gray-500'>Posted</div>
+                          <div className='text-sm font-medium text-gray-700'>
+                            {new Date(inquiry.postedDate).toLocaleDateString()}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3
+                        className={`font-medium text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 ${
+                          inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
+                        }`}
+                      >
+                        {inquiry.title}
+                      </h3>
+
+                      {/* Location and Company Row */}
+                      <div className='flex items-center gap-6 mb-3'>
+                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                          <MapPin className='h-4 w-4 text-orange-500 flex-shrink-0' />
+                          <span className='font-medium'>{inquiry.location}</span>
+                        </div>
+                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
+                          <Building2 className='h-4 w-4 text-blue-500 flex-shrink-0' />
+                          <span className='font-medium'>{inquiry.company}</span>
+                        </div>
+                      </div>
+
+                      {/* Footer - Budget */}
+                      <div className='pt-2 border-t border-gray-100'>
+                        <div className='flex items-center justify-between'>
+                          <div className='text-xs text-gray-500'>Budget</div>
+                          <div className='text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-lg shadow-sm'>
+                            {inquiry.budget}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
