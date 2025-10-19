@@ -1,23 +1,11 @@
 import CategoriesClient from './CategoriesClient';
+import { headers } from 'next/headers';
 
 interface CategoryWithImage {
   name: string;
   image: string;
   count?: string;
   description?: string;
-}
-
-function getBaseUrl() {
-  const envUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.NEXT_PUBLIC_VERCEL_URL ||
-    process.env.VERCEL_URL;
-  if (envUrl) {
-    const hasProtocol = envUrl.startsWith('http://') || envUrl.startsWith('https://');
-    return hasProtocol ? envUrl : `https://${envUrl}`;
-  }
-  const port = process.env.PORT || '3000';
-  return `http://localhost:${port}`;
 }
 
 // Server component wrapper that fetches categories with ISR and tags
@@ -27,8 +15,12 @@ export default async function CategoriesServer({
   websiteMode?: 'general' | 'agricultural';
 }) {
   try {
-    const baseUrl = getBaseUrl();
-    const res = await fetch(new URL('/api/categories', baseUrl), {
+    const hdrs = await headers();
+    const proto = hdrs.get('x-forwarded-proto') ?? 'http';
+    const host = hdrs.get('host') ?? 'localhost:3000';
+    const url = `${proto}://${host}/api/categories`;
+
+    const res = await fetch(url, {
       next: { revalidate: 300, tags: ['categories'] },
       cache: 'force-cache',
     });

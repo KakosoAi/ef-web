@@ -124,24 +124,24 @@ const Hero = memo(
         <div className='relative z-10 container mx-auto px-6 md:px-8 py-8 md:py-12 lg:py-16'>
           <div className='max-w-3xl mx-auto text-center'>
             {/* Mode Switcher */}
-            <div className='animate-fade-in-up mb-6'>
+            <div className='mb-6'>
               <div className='inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20 shadow-lg'>
                 <button
                   onClick={() => handleModeChange('general')}
-                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-400 ease-in-out transform ${
+                  className={`px-4 py-2 text-sm font-medium rounded-full ${
                     websiteMode === 'general'
-                      ? 'bg-white text-gray-900 shadow-md scale-105'
-                      : 'text-white hover:bg-white/15 hover:scale-102'
+                      ? 'bg-white text-gray-900 shadow-md'
+                      : 'text-white hover:bg-white/15'
                   }`}
                 >
                   General Equipment
                 </button>
                 <button
                   onClick={() => handleModeChange('agricultural')}
-                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-400 ease-in-out transform ${
+                  className={`px-4 py-2 text-sm font-medium rounded-full ${
                     websiteMode === 'agricultural'
-                      ? 'bg-white text-gray-900 shadow-md scale-105'
-                      : 'text-white hover:bg-white/15 hover:scale-102'
+                      ? 'bg-white text-gray-900 shadow-md'
+                      : 'text-white hover:bg-white/15'
                   }`}
                 >
                   Agricultural Machinery
@@ -150,14 +150,10 @@ const Hero = memo(
             </div>
 
             {/* Hero Heading - Fixed Height Container */}
-            <div className='animate-fade-in-up mb-12 md:mb-16'>
+            <div className='mb-12 md:mb-16'>
               <div className='min-h-[120px] md:min-h-[140px] lg:min-h-[160px] flex items-center justify-center'>
                 <h1
-                  className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white transition-all duration-600 ease-in-out ${
-                    isTransitioning
-                      ? 'opacity-85 transform translate-y-1'
-                      : 'opacity-100 transform translate-y-0'
-                  }`}
+                  className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white`}
                 >
                   <span className='block'>
                     Middle East&apos;s{' '}
@@ -184,7 +180,7 @@ const Hero = memo(
             </div>
 
             {/* Search Section */}
-            <div className='search-hero max-w-5xl mx-auto animate-scale-in'>
+            <div className='search-hero max-w-5xl mx-auto'>
               {/* Integrated Search Component with Equipment Type Selection */}
               <SearchWithCategory onSearch={handleSearch} websiteMode={websiteMode} />
             </div>
