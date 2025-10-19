@@ -1,7 +1,7 @@
 'use client';
 
 import { PopularBrands } from '@/features/brands';
-import Categories from '@/features/categories/components/Categories';
+import CategoriesServer from '@/features/categories/components/CategoriesServer';
 import BrowseListingsBanner from '@/features/equipment/components/BrowseListingsBanner';
 import EquipmentDetail from '@/features/equipment/components/EquipmentDetail';
 import FeaturedEquipment from '@/features/equipment/components/FeaturedEquipment';
@@ -65,7 +65,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero onModeChange={setWebsiteMode} />
-        <Categories websiteMode={websiteMode} />
+        <CategoriesServer websiteMode={websiteMode} />
 
         {/* SEO Content Block 1 - After Categories */}
         <div className='py-16 bg-card mt-16 md:mt-20 lg:mt-24 relative overflow-hidden'>
