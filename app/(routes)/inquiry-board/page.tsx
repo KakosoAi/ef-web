@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   Search,
   Filter,
@@ -328,9 +329,10 @@ export default function InquiryBoard() {
           {viewMode === 'grid' ? (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
               {filteredInquiries.map(inquiry => (
-                <div
+                <Link
                   key={inquiry.id}
-                  className={`group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer ${
+                  href={`/inquiry-board/${inquiry.id}`}
+                  className={`group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer block ${
                     inquiry.featured
                       ? 'md:col-span-2 lg:col-span-2 border-orange-200'
                       : inquiry.promoted
@@ -425,15 +427,16 @@ export default function InquiryBoard() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
             <div className='space-y-4'>
               {filteredInquiries.map(inquiry => (
-                <div
+                <Link
                   key={inquiry.id}
-                  className='group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer p-4'
+                  href={`/inquiry-board/${inquiry.id}`}
+                  className='block group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer p-4'
                 >
                   <div className='flex items-center gap-6'>
                     {/* Icon Section */}
@@ -520,7 +523,7 @@ export default function InquiryBoard() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
