@@ -347,9 +347,12 @@ export default function SearchResults({
                             className='object-cover group-hover:scale-105 transition-transform duration-300'
                           />
                         ) : (
-                          <div className='flex items-center justify-center h-full text-gray-400'>
-                            <Search className='h-12 w-12' />
-                          </div>
+                          <Image
+                            src={'/placeholder.svg'}
+                            alt={item.title}
+                            fill
+                            className='object-cover opacity-70'
+                          />
                         )}
 
                         {/* Badges */}

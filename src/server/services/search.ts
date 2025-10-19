@@ -1,5 +1,6 @@
 import { getSupabaseServerClient } from '@/server/lib/supabase';
 import { debug, debugError } from '@/shared/utils/debug';
+import { resolveImageUrl, mapFilesToImages } from '@/shared/utils/images';
 import type {
   SearchQueryParams,
   SearchResponse,
@@ -47,6 +48,7 @@ type AdsViewRow = {
   city_name?: string;
   file_name?: string;
   file_isdefault?: boolean;
+  files?: { id: number; name: string; isdefault: boolean; adid: number }[] | null;
   store_userid?: number;
   store_name?: string;
   year?: number | string | null;
@@ -368,9 +370,12 @@ export class SearchService {
         ? Number(row.hoursorkilometer)
         : undefined;
 
-    const images = row.file_name
-      ? [{ url: row.file_name as string, isDefault: !!row.file_isdefault }]
-      : [];
+    const images =
+      Array.isArray(row.files) && row.files.length > 0
+        ? mapFilesToImages(row.files)
+        : row.file_name
+          ? [{ url: resolveImageUrl(String(row.file_name)), isDefault: !!row.file_isdefault }]
+          : [];
 
     return {
       id: row.id,

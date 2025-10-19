@@ -373,7 +373,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     {/* Image Container */}
                     <div className='relative aspect-[4/3] overflow-hidden'>
                       <Image
-                        src={item.images?.[0]?.url || '/placeholder-equipment.jpg'}
+                        src={item.images?.[0]?.url || '/placeholder.svg'}
                         alt={item.title}
                         width={320}
                         height={240}
