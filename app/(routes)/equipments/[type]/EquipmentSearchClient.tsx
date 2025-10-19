@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import {
   Grid3X3,
@@ -19,26 +20,10 @@ import {
   Search,
   Filter,
 } from 'lucide-react';
-import { equipmentData } from '@/shared/data/equipmentData';
+import { useSearch } from '@/shared/hooks/use-search';
+import { SearchQueryParams } from '@/shared/types/search';
 import { createSlug } from '@/shared/utils/urlHelpers';
 import EquipmentFilters from '@/features/equipment/components/EquipmentFilters';
-
-interface Equipment {
-  id: string;
-  title: string;
-  brand: string;
-  model: string;
-  year: number;
-  price: string;
-  location: string;
-  category: string;
-  condition: string;
-  image: string;
-  rating: number;
-  views: number;
-  isVerified: boolean;
-  type: 'sale' | 'rent' | 'tools';
-}
 
 interface EquipmentSearchClientProps {
   type: string;
@@ -66,110 +51,91 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('relevance');
+  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.page || '1'));
 
-  // Convert equipment data to match our interface
-  const convertedEquipment: Equipment[] = equipmentData.map(item => ({
-    id: item.id,
-    title: item.title,
-    brand: item.specifications.brand || 'Unknown',
-    model: item.specifications.model || 'Unknown',
-    year: parseInt(item.specifications.year || '2020'),
-    price: item.price,
-    location: item.location.city,
-    category: item.category,
-    condition: item.condition,
-    image: item.images[0] || '/assets/equipment/cat-320d-excavator-1.jpg',
-    rating: 4.5 + Math.random() * 0.5, // Mock rating
-    views: Math.floor(Math.random() * 2000) + 100,
-    isVerified: item.seller.verified,
-    type: type === 'buy' ? 'sale' : (type as 'rent' | 'tools'),
-  }));
+  // Build search filters - convert to proper SearchQueryParams format
+  const searchFilters: SearchQueryParams = {
+    searchText: searchQuery,
+    // Remove the 'type' field as it's not part of SearchQueryParams
+    // TODO: Map type to appropriate categoryId or typeId
+    page: currentPage,
+    limit: 20,
+    sort: getSortValue(sortBy),
+    priceMin: searchParams.priceMin ? parseFloat(searchParams.priceMin) : undefined,
+    priceMax: searchParams.priceMax ? parseFloat(searchParams.priceMax) : undefined,
+    // TODO: Convert string filters to IDs when we have the mapping
+    // categoryId: selectedCategory !== 'All Categories' ? getCategoryId(selectedCategory) : undefined,
+    // cityId: selectedLocation !== 'All Locations' ? getCityId(selectedLocation) : undefined,
+    // conditionId: selectedCondition !== 'All Conditions' ? getConditionId(selectedCondition) : undefined,
+  };
 
-  // Filter equipment based on type and search params
-  const filteredEquipment = convertedEquipment.filter(equipment => {
-    // Filter by type
-    if (type === 'buy' && equipment.type !== 'sale') return false;
-    if (type === 'rent' && equipment.type !== 'rent') return false;
-    if (type === 'tools' && equipment.type !== 'tools') return false;
-
-    // Filter by search query
-    if (
-      searchQuery &&
-      !equipment.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !equipment.brand.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !equipment.category.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      return false;
+  // Helper function to map sort values
+  function getSortValue(
+    sortBy: string
+  ): 'recent' | 'older' | 'name_asc' | 'name_desc' | 'price_asc' | 'price_desc' {
+    switch (sortBy) {
+      case 'relevance':
+        return 'recent';
+      case 'price-low':
+        return 'price_asc';
+      case 'price-high':
+        return 'price_desc';
+      case 'year-new':
+        return 'recent'; // Newest first is similar to recent
+      case 'year-old':
+        return 'older'; // Oldest first
+      default:
+        return 'recent';
     }
+  }
 
-    // Filter by category
-    if (
-      selectedCategory !== 'All Categories' &&
-      equipment.category.toLowerCase() !== selectedCategory.toLowerCase()
-    ) {
-      return false;
-    }
+  // Use the search hook
+  const { data: searchResults, isLoading, error } = useSearch(searchFilters);
 
-    // Filter by location
-    if (
-      selectedLocation !== 'All Locations' &&
-      equipment.location.toLowerCase() !== selectedLocation.toLowerCase()
-    ) {
-      return false;
-    }
-
-    // Filter by condition
-    if (
-      selectedCondition !== 'All Conditions' &&
-      equipment.condition.toLowerCase() !== selectedCondition.toLowerCase()
-    ) {
-      return false;
-    }
-
-    // Filter by price range
-    if (selectedPriceRange !== 'All Prices') {
-      const price = parseFloat(equipment.price.replace(/[^0-9.]/g, ''));
-      switch (selectedPriceRange) {
-        case 'Under AED 50,000':
-          if (price >= 50000) return false;
-          break;
-        case 'AED 50,000 - 100,000':
-          if (price < 50000 || price > 100000) return false;
-          break;
-        case 'AED 100,000 - 250,000':
-          if (price < 100000 || price > 250000) return false;
-          break;
-        case 'AED 250,000 - 500,000':
-          if (price < 250000 || price > 500000) return false;
-          break;
-        case 'Over AED 500,000':
-          if (price <= 500000) return false;
-          break;
-      }
-    }
-
-    // Filter by year
-    if (selectedYear !== 'All Years') {
-      if (selectedYear === 'Before 2018') {
-        if (equipment.year >= 2018) return false;
-      } else if (equipment.year.toString() !== selectedYear) {
-        return false;
-      }
-    }
-
-    return true;
-  });
-
-  const handleSearch = () => {
+  // Update URL when filters change
+  useEffect(() => {
     const params = new URLSearchParams();
     if (searchQuery) params.set('q', searchQuery);
     if (selectedCategory !== 'All Categories') params.set('category', selectedCategory);
     if (selectedLocation !== 'All Locations') params.set('location', selectedLocation);
+    if (searchParams.priceMin) params.set('priceMin', searchParams.priceMin);
+    if (searchParams.priceMax) params.set('priceMax', searchParams.priceMax);
+    if (currentPage > 1) params.set('page', currentPage.toString());
 
-    const queryString = params.toString();
-    router.push(`/equipments/${type}${queryString ? `?${queryString}` : ''}`);
+    const newUrl = `/equipments/${type}${params.toString() ? `?${params.toString()}` : ''}`;
+    router.replace(newUrl, { scroll: false });
+  }, [
+    searchQuery,
+    selectedCategory,
+    selectedLocation,
+    currentPage,
+    type,
+    router,
+    searchParams.priceMin,
+    searchParams.priceMax,
+  ]);
+
+  // Handle equipment click
+  type ClickItem = { id: number; title: string; priceType?: string };
+  const handleEquipmentClick = (equipment: ClickItem) => {
+    const slug = equipment.title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+
+    const equipmentType = equipment.priceType === 'For Rent' ? 'rent' : 'buy';
+    router.push(`/equipments/${equipmentType}/${slug}/${equipment.id}`);
   };
 
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Handle clear filters
   const handleClearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('All Categories');
@@ -177,14 +143,13 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
     setSelectedCondition('All Conditions');
     setSelectedPriceRange('All Prices');
     setSelectedYear('All Years');
-    handleSearch();
+    setCurrentPage(1);
   };
 
-  const handleEquipmentClick = (equipment: Equipment) => {
-    const slug = createSlug(equipment.title);
-    const equipmentType = equipment.type === 'sale' ? 'buy' : equipment.type;
-    router.push(`/products/${equipmentType}/${slug}/${equipment.id}`);
-  };
+  // Get equipment data from search results
+  const equipment = searchResults?.items || [];
+  const totalResults = searchResults?.pagination?.total || 0;
+  const hasMore = searchResults?.pagination?.hasNext || false;
 
   const getTypeTitle = () => {
     switch (type) {
@@ -234,7 +199,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                   onPriceRangeChange={setSelectedPriceRange}
                   selectedYear={selectedYear}
                   onYearChange={setSelectedYear}
-                  resultsCount={filteredEquipment.length}
+                  resultsCount={totalResults}
                   onClearFilters={handleClearFilters}
                 />
               </div>
@@ -281,7 +246,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                   onPriceRangeChange={setSelectedPriceRange}
                   selectedYear={selectedYear}
                   onYearChange={setSelectedYear}
-                  resultsCount={filteredEquipment.length}
+                  resultsCount={totalResults}
                   onClearFilters={handleClearFilters}
                 />
               </div>
@@ -305,7 +270,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                 }}
               >
                 <Grid3X3 className='h-4 w-4 mr-2' />
-                Filters ({filteredEquipment.length} results)
+                Filters ({searchResults?.items?.length || 0} results)
               </Button>
             </div>
 
@@ -313,7 +278,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
             <div className='flex items-center justify-between mb-8'>
               <div className='flex items-center gap-4'>
                 <span className='text-lg font-medium text-gray-700'>
-                  {filteredEquipment.length} results found
+                  {isLoading ? 'Loading...' : `${totalResults} results found`}
                 </span>
               </div>
 
@@ -355,7 +320,24 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
             </div>
 
             {/* Equipment Grid/List */}
-            {filteredEquipment.length === 0 ? (
+            {isLoading ? (
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8'>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className='bg-white rounded-2xl overflow-hidden shadow-lg'>
+                    <Skeleton className='aspect-[4/3] w-full' />
+                    <div className='p-6 space-y-4'>
+                      <Skeleton className='h-4 w-3/4' />
+                      <Skeleton className='h-6 w-1/2' />
+                      <div className='flex justify-between'>
+                        <Skeleton className='h-4 w-16' />
+                        <Skeleton className='h-4 w-20' />
+                      </div>
+                      <Skeleton className='h-10 w-full' />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : equipment.length === 0 ? (
               <div className='text-center py-16'>
                 <div className='mx-auto w-24 h-24 bg-gray-100/60 rounded-full flex items-center justify-center mb-6'>
                   <Search className='h-8 w-8 text-gray-400' />
@@ -382,17 +364,17 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     : 'space-y-6'
                 }
               >
-                {filteredEquipment.map(equipment => (
+                {equipment.map(item => (
                   <div
-                    key={equipment.id}
+                    key={item.id}
                     className='group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 border-0 ring-1 ring-gray-100/50 hover:ring-gray-200/80 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transform-gpu'
-                    onClick={() => handleEquipmentClick(equipment)}
+                    onClick={() => handleEquipmentClick(item)}
                   >
                     {/* Image Container */}
                     <div className='relative aspect-[4/3] overflow-hidden'>
                       <Image
-                        src={equipment.image}
-                        alt={equipment.title}
+                        src={item.images?.[0]?.url || '/placeholder-equipment.jpg'}
+                        alt={item.title}
                         width={320}
                         height={240}
                         className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out'
@@ -403,7 +385,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                         <div className='bg-orange-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm w-fit'>
                           Rent
                         </div>
-                        {equipment.isVerified && (
+                        {item.isFeatured && (
                           <div className='bg-green-500/90 backdrop-blur-sm text-white p-1 rounded-md shadow-sm flex items-center justify-center w-fit'>
                             <Shield className='h-3 w-3' />
                           </div>
@@ -413,7 +395,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                       {/* Condition Badge - Top Right */}
                       <div className='absolute top-2 right-2'>
                         <div className='bg-blue-500/90 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm'>
-                          {equipment.condition}
+                          {item.condition || 'Good'}
                         </div>
                       </div>
 
@@ -426,7 +408,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                           onClick={e => {
                             e.stopPropagation();
                             // Navigate to AI map page for this equipment
-                            window.open(`/ai-map-search?equipment=${equipment.id}`, '_blank');
+                            window.open(`/ai-map-search?equipment=${item.id}`, '_blank');
                           }}
                           title='View on AI Map'
                         >
@@ -467,22 +449,25 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     <div className='p-6 space-y-4'>
                       {/* Title */}
                       <h3 className='font-medium text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-500 line-clamp-1 tracking-wide leading-relaxed'>
-                        {equipment.title}
+                        {item.title}
                       </h3>
 
                       {/* Price */}
                       <div className='mb-4'>
                         <span className='text-lg font-semibold bg-gradient-to-r from-orange-500 via-orange-400 to-amber-500 bg-clip-text text-transparent tracking-wide'>
-                          {equipment.price}
+                          {item.price}
                         </span>
                       </div>
 
                       {/* Details Row - Simplified */}
                       <div className='flex items-center justify-between text-sm text-gray-500 mb-4 tracking-wide'>
-                        <span className='font-normal leading-relaxed'>{equipment.year}</span>
+                        <span className='font-normal leading-relaxed'>{item.year || 'N/A'}</span>
                         <span className='flex items-center font-normal leading-relaxed'>
                           <MapPin className='h-3 w-3 mr-1.5 text-orange-500' />
-                          {equipment.location}
+                          {item.location?.city ||
+                            item.location?.state ||
+                            item.location?.country ||
+                            'Location not specified'}
                         </span>
                       </div>
 
@@ -497,6 +482,70 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {!isLoading && equipment.length > 0 && (
+              <div className='flex justify-center items-center gap-4 mt-12'>
+                <Button
+                  variant='outline'
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage <= 1}
+                  className='bg-white/90 backdrop-blur-sm border-gray-200'
+                >
+                  Previous
+                </Button>
+
+                <div className='flex items-center gap-2'>
+                  {Array.from({ length: Math.min(5, Math.ceil(totalResults / 20)) }, (_, i) => {
+                    const page = i + 1;
+                    return (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? 'default' : 'outline'}
+                        onClick={() => handlePageChange(page)}
+                        className={`w-10 h-10 ${
+                          currentPage === page
+                            ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white'
+                            : 'bg-white/90 backdrop-blur-sm border-gray-200'
+                        }`}
+                      >
+                        {page}
+                      </Button>
+                    );
+                  })}
+                </div>
+
+                <Button
+                  variant='outline'
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={!hasMore}
+                  className='bg-white/90 backdrop-blur-sm border-gray-200'
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+
+            {/* Error State */}
+            {error && (
+              <div className='text-center py-16'>
+                <div className='mx-auto w-24 h-24 bg-red-100/60 rounded-full flex items-center justify-center mb-6'>
+                  <Search className='h-8 w-8 text-red-400' />
+                </div>
+                <h3 className='text-lg font-medium text-gray-900 mb-2 tracking-wide'>
+                  Error loading equipment
+                </h3>
+                <p className='text-gray-600 mb-6 tracking-wide'>
+                  There was an error loading the equipment. Please try again.
+                </p>
+                <Button
+                  onClick={() => window.location.reload()}
+                  className='bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-8 py-3 rounded-xl font-medium tracking-wide'
+                >
+                  Try Again
+                </Button>
               </div>
             )}
           </div>

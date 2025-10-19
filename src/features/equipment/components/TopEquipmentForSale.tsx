@@ -293,7 +293,7 @@ const TopEquipmentForSale = memo(({ websiteMode: propWebsiteMode }: TopEquipment
                       .trim();
                     const type =
                       parseFloat(equipment.price.replace(/[$,]/g, '')) > 75000 ? 'buy' : 'rent';
-                    router.push(`/products/${type}/${slug}/${equipment.id}`);
+                    router.push(`/equipments/${type}/${slug}/${equipment.id}`);
                   }}
                 >
                   View Details

@@ -7,7 +7,18 @@ import { LanguageProvider } from '@/shared/ui/toggle-language';
 import { WebsiteModeProvider } from '@/shared/contexts/website-mode-context';
 
 export function ReactQueryProvider({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: 3,
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            gcTime: 10 * 60 * 1000, // 10 minutes
+          },
+        },
+      })
+  );
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

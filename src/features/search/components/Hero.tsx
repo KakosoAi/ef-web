@@ -49,28 +49,14 @@ const Hero = memo(
 
     const handleSearch = useCallback(
       (query: string, searchType: string) => {
-        // Use clean URL structure
+        // Use the unified search page with proper parameters
         const params = new URLSearchParams();
         if (query) params.set('q', query);
-
-        // Route to clean URLs based on search type
-        let route = '';
-        if (searchType === 'buy') {
-          route = '/equipments/buy';
-        } else if (searchType === 'rent') {
-          route = '/equipments/rent';
-        } else if (searchType === 'tools') {
-          route = '/equipments/tools';
-          params.set('category', 'tools');
-        }
-
-        // Add mode parameter if agricultural
-        if (websiteMode === 'agricultural') {
-          params.set('mode', 'agricultural');
-        }
+        if (searchType) params.set('type', searchType);
+        if (websiteMode === 'agricultural') params.set('mode', 'agricultural');
 
         const queryString = params.toString();
-        router.push(`${route}${queryString ? `?${queryString}` : ''}`);
+        router.push(`/search${queryString ? `?${queryString}` : ''}`);
       },
       [router, websiteMode]
     );
