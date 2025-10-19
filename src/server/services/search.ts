@@ -53,15 +53,16 @@ type AdsViewRow = {
   year_name?: string | number | null;
   yearid?: number | string | null;
   hoursorkilometer?: number | string | null;
+  condition_name?: string;
   model_name?: string;
 };
 
-type FilterQuery<T> = {
-  or: (condition: string) => FilterQuery<T>;
-  eq: (column: string, value: string | number | boolean) => FilterQuery<T>;
-  gte: (column: string, value: number | string) => FilterQuery<T>;
-  lte: (column: string, value: number | string) => FilterQuery<T>;
-};
+interface HasFilterMethods {
+  or: (condition: string) => this;
+  eq: (column: string, value: string | number | boolean) => this;
+  gte: (column: string, value: number | string) => this;
+  lte: (column: string, value: number | string) => this;
+}
 
 export class SearchService {
   private supabase = getSupabaseServerClient();
@@ -183,25 +184,36 @@ export class SearchService {
           is_featured?: boolean;
           is_published?: boolean;
           priority?: number | null;
-          category?: { id: number; name: string } | null;
-          brand?: { id: number; name: string } | null;
+          category?: { id: number; name: string } | { id: number; name: string }[] | null;
+          brand?: { id: number; name: string } | { id: number; name: string }[] | null;
           images?: { url: string; is_default: boolean }[] | null;
-        }) => ({
-          id: item.id,
-          title: item.title,
-          slug: item.slug,
-          description: item.description || '',
-          price: item.price ?? undefined,
-          createdAt: item.created_at || '',
-          updatedAt: item.updated_at || '',
-          isActive: !!item.is_active,
-          isFeatured: !!item.is_featured,
-          isPublished: !!item.is_published,
-          priority: item.priority || 0,
-          category: item.category || undefined,
-          brand: item.brand || undefined,
-          images: item.images || [],
-        })
+        }) => {
+          const categoryVal = Array.isArray(item.category)
+            ? (item.category[0] ?? undefined)
+            : (item.category ?? undefined);
+          const brandVal = Array.isArray(item.brand)
+            ? (item.brand[0] ?? undefined)
+            : (item.brand ?? undefined);
+          return {
+            id: item.id,
+            title: item.title || '',
+            slug: item.slug || '',
+            description: item.description || '',
+            price: item.price ?? undefined,
+            createdAt: item.created_at || '',
+            updatedAt: item.updated_at || '',
+            isActive: !!item.is_active,
+            isFeatured: !!item.is_featured,
+            isPublished: !!item.is_published,
+            priority: item.priority || 0,
+            category: categoryVal,
+            brand: brandVal,
+            images: (item.images || []).map((img: { url: string; is_default: boolean }) => ({
+              url: img.url,
+              isDefault: img.is_default,
+            })),
+          };
+        }
       );
 
       return {
@@ -284,11 +296,12 @@ export class SearchService {
       whereConditions.push(`year.lte.${params.yearMax}`);
     }
 
+    const oc = this.getOrderByClause(params);
     return {
       baseQuery,
       whereConditions,
       joinConditions,
-      orderByClause: this.getOrderByClause(params),
+      orderByClause: `order.${oc.column}.${oc.ascending ? 'asc' : 'desc'}`,
       limitClause: `limit.${params.limit || 20}`,
       offsetClause: `offset.${((params.page || 1) - 1) * (params.limit || 20)}`,
       parameters,
@@ -371,20 +384,30 @@ export class SearchService {
       isFeatured: !!(row.isfeatured ?? row.is_featured),
       isPublished: !!(row.published ?? row.is_published),
       priority: typeof row.priority === 'number' ? row.priority : 0,
-      category: row.category_id ? { id: row.category_id, name: row.category_name } : undefined,
-      subCategory: row.subcategory_id
-        ? { id: row.subcategory_id, name: row.subcategory_name }
-        : undefined,
-      type: row.adtype_id ? { id: row.adtype_id, name: row.adtype_name } : undefined,
-      brand: row.brand_id ? { id: row.brand_id, name: row.brand_name } : undefined,
-      status: row.status_id ? { id: row.status_id, name: row.status_name } : undefined,
+      category:
+        row.category_id && row.category_name
+          ? { id: row.category_id, name: row.category_name }
+          : undefined,
+      subCategory:
+        row.subcategory_id && row.subcategory_name
+          ? { id: row.subcategory_id, name: row.subcategory_name }
+          : undefined,
+      type:
+        row.adtype_id && row.adtype_name ? { id: row.adtype_id, name: row.adtype_name } : undefined,
+      brand:
+        row.brand_id && row.brand_name ? { id: row.brand_id, name: row.brand_name } : undefined,
+      status:
+        row.status_id && row.status_name ? { id: row.status_id, name: row.status_name } : undefined,
       location: {
         country: row.country_name || undefined,
         state: row.state_name || undefined,
         city: row.city_name || undefined,
       },
       images,
-      owner: row.store_userid ? { id: row.store_userid, name: row.store_name } : undefined,
+      owner:
+        row.store_userid && row.store_name
+          ? { id: row.store_userid, name: row.store_name }
+          : undefined,
       year,
       condition: row.condition_name || undefined,
       hours,
@@ -393,7 +416,7 @@ export class SearchService {
   }
 
   // Map filters to the ads_with_all_joins view and apply text/price/year conditions
-  private applyFilters<T>(query: FilterQuery<T>, params: SearchQueryParams): FilterQuery<T> {
+  private applyFilters<T extends HasFilterMethods>(query: T, params: SearchQueryParams): T {
     const {
       searchText,
       categoryId,
@@ -476,7 +499,25 @@ export class SearchService {
         hint: err.hint,
         code: err.code,
       });
-      return { items: [], pagination: { page, limit, total: 0 } };
+      return {
+        items: [],
+        pagination: { page, limit, total: 0, totalPages: 0, hasNext: false, hasPrev: false },
+        filters: {
+          appliedFilters: params,
+          availableFilters: {
+            categories: [],
+            subCategories: [],
+            types: [],
+            brands: [],
+            statuses: [],
+            countries: [],
+            states: [],
+            cities: [],
+            priceRange: { min: 0, max: 1000000 },
+            yearRange: { min: 1990, max: new Date().getFullYear() },
+          },
+        },
+      };
     }
 
     const items = (data || []).map((row: AdsViewRow) => this.mapSearchItemFromRow(row));
@@ -575,8 +616,8 @@ export class SearchService {
       ]);
 
       // Calculate price range
-      const prices =
-        priceRange.data?.map((item: { price?: number | null }) => item.price).filter(Boolean) || [];
+      const pricesRaw = priceRange.data?.map((item: { price?: number | null }) => item.price) ?? [];
+      const prices = pricesRaw.filter((p): p is number => typeof p === 'number');
       const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
       const maxPrice = prices.length > 0 ? Math.max(...prices) : 1000000;
 
