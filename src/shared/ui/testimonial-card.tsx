@@ -3,7 +3,8 @@ import { Avatar, AvatarImage } from '@/shared/ui/avatar';
 
 export interface TestimonialAuthor {
   name: string;
-  handle: string;
+  title: string;
+  company: string;
   avatar: string;
 }
 
@@ -36,7 +37,8 @@ export function TestimonialCard({ author, text, href, className }: TestimonialCa
         </Avatar>
         <div className='flex flex-col items-start'>
           <h3 className='text-md font-semibold leading-none'>{author.name}</h3>
-          <p className='text-sm text-muted-foreground'>{author.handle}</p>
+          <p className='text-sm text-muted-foreground'>{author.title}</p>
+          <p className='text-xs text-muted-foreground'>{author.company}</p>
         </div>
       </div>
       <p className='sm:text-md mt-4 text-sm text-muted-foreground'>{text}</p>

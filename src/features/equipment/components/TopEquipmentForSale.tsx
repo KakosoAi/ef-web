@@ -154,11 +154,11 @@ const TopEquipmentForSale = memo(({ websiteMode: propWebsiteMode }: TopEquipment
   );
 
   // Split equipment into visible and collapsible sections
-  const visibleEquipment = allEquipmentData.slice(0, 5); // First row only (always visible)
+  const visibleEquipment = allEquipmentData.slice(0, 5); // Show 5 items initially
   const collapsibleEquipment = allEquipmentData.slice(5); // Remaining equipment (collapsible)
 
   return (
-    <section className='py-20 bg-gradient-to-br from-gray-50 to-white'>
+    <section className='py-12 bg-white'>
       <div className='container mx-auto px-4'>
         {/* Section Header with Trending Icon */}
         <div className='text-center mb-16'>
@@ -184,9 +184,9 @@ const TopEquipmentForSale = memo(({ websiteMode: propWebsiteMode }: TopEquipment
           </p>
         </div>
 
-        {/* Equipment Grid - First row only (always visible) */}
+        {/* Equipment Grid - Show 5 items initially */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center mb-8'>
-          {visibleEquipment.slice(0, 3).map((equipment, index) => (
+          {visibleEquipment.map((equipment, index) => (
             <div key={equipment.id} className='card-featured group'>
               {/* Image Container - More Vertical */}
               <div className='relative aspect-[4/3] bg-muted overflow-hidden'>
