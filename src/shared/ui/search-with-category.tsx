@@ -49,23 +49,13 @@ export default function SearchWithCategory({
     if (onSearch) {
       onSearch(searchQuery, searchType);
     } else {
-      // Use clean URL structure
+      // Use the unified search page with proper parameters
       const params = new URLSearchParams();
       if (searchQuery) params.set('q', searchQuery);
-
-      // Route to clean URLs based on search type
-      let route = '';
-      if (searchType === 'buy') {
-        route = '/equipments/buy';
-      } else if (searchType === 'rent') {
-        route = '/equipments/rent';
-      } else if (searchType === 'tools') {
-        route = '/equipments/tools';
-        params.set('category', 'tools');
-      }
+      if (searchType) params.set('type', searchType);
 
       const queryString = params.toString();
-      router.push(`${route}${queryString ? `?${queryString}` : ''}`);
+      router.push(`/search${queryString ? `?${queryString}` : ''}`);
     }
   };
 

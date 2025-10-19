@@ -1,0 +1,591 @@
+Name	Description	Data Type	Format	Nullable
+id
+
+No description
+
+integer	int4
+title
+
+No description
+
+character varying	varchar
+serialnumber
+
+No description
+
+character varying	varchar
+description
+
+No description
+
+text	text
+additional_info
+
+No description
+
+text	text
+price
+
+No description
+
+integer	int4
+dayprice
+
+No description
+
+integer	int4
+weekprice
+
+No description
+
+integer	int4
+monthprice
+
+No description
+
+integer	int4
+published
+
+No description
+
+boolean	bool
+isfeatured
+
+No description
+
+boolean	bool
+isactive
+
+No description
+
+boolean	bool
+visits
+
+No description
+
+integer	int4
+priority
+
+No description
+
+integer	int4
+hoursorkilometer
+
+No description
+
+character varying	varchar
+capacity
+
+No description
+
+character varying	varchar
+createdat
+
+No description
+
+timestamp without time zone	timestamp
+updatedat
+
+No description
+
+timestamp without time zone	timestamp
+pricetypeid
+
+No description
+
+integer	int4
+adtypeid
+
+No description
+
+integer	int4
+categoryid
+
+No description
+
+integer	int4
+subcategoryid
+
+No description
+
+integer	int4
+brandid
+
+No description
+
+integer	int4
+conditionid
+
+No description
+
+integer	int4
+storeid
+
+No description
+
+integer	int4
+bodyconditionid
+
+No description
+
+integer	int4
+mechanicalconditionid
+
+No description
+
+integer	int4
+warrantyid
+
+No description
+
+integer	int4
+modelid
+
+No description
+
+integer	int4
+countryid
+
+No description
+
+integer	int4
+yearid
+
+No description
+
+integer	int4
+fueltypeid
+
+No description
+
+integer	int4
+engineid
+
+No description
+
+integer	int4
+slug
+
+No description
+
+character varying	varchar
+status
+
+No description
+
+USER-DEFINED	ad_status_enum
+stateid
+
+No description
+
+integer	int4
+cityid
+
+No description
+
+integer	int4
+industryid
+
+No description
+
+integer	int4
+metadata
+
+No description
+
+jsonb	jsonb
+adtype_id
+
+No description
+
+integer	int4
+adtype_name
+
+No description
+
+character varying	varchar
+adtype_metatitle
+
+No description
+
+character varying	varchar
+adtype_metadescription
+
+No description
+
+character varying	varchar
+pricetype_id
+
+No description
+
+integer	int4
+pricetype_name
+
+No description
+
+character varying	varchar
+category_id
+
+No description
+
+integer	int4
+category_name
+
+No description
+
+character varying	varchar
+category_isfooter
+
+No description
+
+boolean	bool
+category_icon
+
+No description
+
+character varying	varchar
+subcategory_id
+
+No description
+
+integer	int4
+subcategory_name
+
+No description
+
+character varying	varchar
+subcategory_categoryid
+
+No description
+
+integer	int4
+brand_id
+
+No description
+
+integer	int4
+brand_name
+
+No description
+
+character varying	varchar
+brand_isfooter
+
+No description
+
+boolean	bool
+brand_icon
+
+No description
+
+character varying	varchar
+condition_id
+
+No description
+
+integer	int4
+condition_name
+
+No description
+
+character varying	varchar
+store_id
+
+No description
+
+integer	int4
+store_name
+
+No description
+
+character varying	varchar
+store_verified
+
+No description
+
+boolean	bool
+store_address
+
+No description
+
+character varying	varchar
+store_isactive
+
+No description
+
+boolean	bool
+store_isvendor
+
+No description
+
+boolean	bool
+store_packagecreatedat
+
+No description
+
+timestamp without time zone	timestamp
+store_banner
+
+No description
+
+character varying	varchar
+store_logo
+
+No description
+
+character varying	varchar
+store_tagline
+
+No description
+
+character varying	varchar
+store_website
+
+No description
+
+character varying	varchar
+store_description
+
+No description
+
+character varying	varchar
+store_visits
+
+No description
+
+integer	int4
+store_priority
+
+No description
+
+integer	int4
+store_subscriptionactivatedat
+
+No description
+
+timestamp without time zone	timestamp
+store_subscriptionexpireat
+
+No description
+
+timestamp without time zone	timestamp
+store_subscriptionid
+
+No description
+
+character varying	varchar
+store_subscriptionstatus
+
+No description
+
+character varying	varchar
+store_subscriptioninterval
+
+No description
+
+character varying	varchar
+store_stateid
+
+No description
+
+integer	int4
+store_cityid
+
+No description
+
+integer	int4
+store_countryid
+
+No description
+
+integer	int4
+store_packageid
+
+No description
+
+integer	int4
+store_userid
+
+No description
+
+integer	int4
+store_storetypeid
+
+No description
+
+integer	int4
+store_slug
+
+No description
+
+character varying	varchar
+bodycondition_id
+
+No description
+
+integer	int4
+bodycondition_name
+
+No description
+
+character varying	varchar
+mechanicalcondition_id
+
+No description
+
+integer	int4
+mechanicalcondition_name
+
+No description
+
+character varying	varchar
+warranty_id
+
+No description
+
+integer	int4
+warranty_name
+
+No description
+
+character varying	varchar
+model_id
+
+No description
+
+integer	int4
+model_name
+
+No description
+
+character varying	varchar
+model_brandid
+
+No description
+
+integer	int4
+country_id
+
+No description
+
+integer	int4
+country_name
+
+No description
+
+character varying	varchar
+country_icon
+
+No description
+
+character varying	varchar
+state_id
+
+No description
+
+integer	int4
+state_name
+
+No description
+
+character varying	varchar
+state_countryid
+
+No description
+
+integer	int4
+state_icon
+
+No description
+
+character varying	varchar
+city_id
+
+No description
+
+integer	int4
+city_name
+
+No description
+
+character varying	varchar
+city_stateid
+
+No description
+
+integer	int4
+city_countryid
+
+No description
+
+integer	int4
+city_icon
+
+No description
+
+character varying	varchar
+year_id
+
+No description
+
+integer	int4
+year_name
+
+No description
+
+character varying	varchar
+fueltype_id
+
+No description
+
+integer	int4
+fueltype_name
+
+No description
+
+character varying	varchar
+engine_id
+
+No description
+
+integer	int4
+engine_name
+
+No description
+
+character varying	varchar
+industry_id
+
+No description
+
+integer	int4
+industry_name
+
+No description
+
+character varying	varchar
+industry_icon
+
+No description
+
+character varying	varchar
+file_id
+
+No description
+
+integer	int4
+file_name
+
+No description
+
+character varying	varchar
+file_isdefault
+
+No description
+
+boolean	bool
+file_adid
+
+No description
+
+integer	int4		
