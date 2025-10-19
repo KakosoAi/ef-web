@@ -1,5 +1,6 @@
+/* eslint-disable no-restricted-imports */
 import CategoriesClient from './CategoriesClient';
-import { headers } from 'next/headers';
+import { getCategoriesCached } from '@server/services/categories';
 
 interface CategoryWithImage {
   name: string;
@@ -8,39 +9,26 @@ interface CategoryWithImage {
   description?: string;
 }
 
-// Server component wrapper that fetches categories with ISR and tags
+// Server component that fetches categories directly from server service (bypasses Vercel Protect)
 export default async function CategoriesServer({
   websiteMode = 'general',
 }: {
   websiteMode?: 'general' | 'agricultural';
 }) {
   try {
-    const hdrs = await headers();
-    const proto = hdrs.get('x-forwarded-proto') ?? 'http';
-    const host = hdrs.get('host') ?? 'localhost:3000';
-    const url = `${proto}://${host}/api/categories`;
+    const categories = await getCategoriesCached();
 
-    const res = await fetch(url, {
-      next: { revalidate: 300, tags: ['categories'] },
-      cache: 'force-cache',
-    });
+    // Normalize to client shape without using any
+    const normalized: CategoryWithImage[] = (categories ?? []).map(c => ({
+      name: (c as { name: string }).name,
+      image: (c as { image: string }).image,
+      count: '',
+      description: '',
+    }));
 
-    if (!res.ok) {
-      return <CategoriesClient categories={[]} websiteMode={websiteMode} />;
-    }
-
-    const json = await res.json();
-    const categories: CategoryWithImage[] = (json?.categories ?? []).map(
-      (c: CategoryWithImage) => ({
-        ...c,
-        count: c.count ?? '',
-        description: c.description ?? '',
-      })
-    );
-
-    return <CategoriesClient categories={categories} websiteMode={websiteMode} />;
+    return <CategoriesClient categories={normalized} websiteMode={websiteMode} />;
   } catch (e) {
-    // In case of errors, render an empty state
+    // On error, render empty state (service already falls back to defaults where possible)
     return <CategoriesClient categories={[]} websiteMode={websiteMode} />;
   }
 }
