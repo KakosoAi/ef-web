@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -12,10 +12,7 @@ import {
   Eye,
   MessageCircle,
   Star,
-  DollarSign,
   Building2,
-  Calendar,
-  Crown,
 } from 'lucide-react';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
@@ -23,6 +20,7 @@ import Footer from '@/features/layout/components/Footer';
 interface Inquiry {
   id: string;
   title: string;
+  description: string;
   category: string;
   location: string;
   urgency: 'Low' | 'Medium' | 'High' | 'Urgent';
@@ -35,119 +33,32 @@ interface Inquiry {
   verified: boolean;
   promoted?: boolean;
   featured?: boolean;
+  contactInfo: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  equipmentDetails?: {
+    category: string;
+    subCategory?: string;
+    purpose?: string;
+    modelsOfInterest?: string[];
+    quantity?: number;
+    duration?: string;
+    startDate?: string;
+    workingHours?: string;
+    siteConditions?: string;
+    budgetRange?: string;
+  };
 }
 
-const mockInquiries: Inquiry[] = [
-  {
-    id: '1',
-    title: 'Need 3 Excavators for Construction',
-    category: 'Excavators',
-    location: 'New York, NY',
-    urgency: 'High',
-    budget: '$15K-25K/mo',
-    postedDate: '2024-01-15',
-    views: 245,
-    responses: 12,
-    company: 'BuildCorp',
-    rating: 4.8,
-    verified: true,
-    featured: true,
-  },
-  {
-    id: '2',
-    title: 'Crane Rental for High-Rise',
-    category: 'Cranes',
-    location: 'Los Angeles, CA',
-    urgency: 'Urgent',
-    budget: '$8K-12K/mo',
-    postedDate: '2024-01-14',
-    views: 189,
-    responses: 8,
-    company: 'SkyLine Dev',
-    rating: 4.9,
-    verified: true,
-    promoted: true,
-  },
-  {
-    id: '3',
-    title: 'Bulldozers for Land Clearing',
-    category: 'Bulldozers',
-    location: 'Austin, TX',
-    urgency: 'Medium',
-    budget: '$5K-8K/mo',
-    postedDate: '2024-01-13',
-    views: 156,
-    responses: 15,
-    company: 'Texas Land Dev',
-    rating: 4.6,
-    verified: false,
-  },
-  {
-    id: '4',
-    title: 'Forklift Fleet for Warehouse',
-    category: 'Forklifts',
-    location: 'Chicago, IL',
-    urgency: 'Low',
-    budget: '$2K-3.5K/mo',
-    postedDate: '2024-01-12',
-    views: 203,
-    responses: 22,
-    company: 'Midwest Logistics',
-    rating: 4.7,
-    verified: true,
-    promoted: true,
-  },
-  {
-    id: '5',
-    title: 'Concrete Mixer Trucks',
-    category: 'Concrete Mixers',
-    location: 'Phoenix, AZ',
-    urgency: 'High',
-    budget: '$4K-6K/mo',
-    postedDate: '2024-01-11',
-    views: 178,
-    responses: 9,
-    company: 'Desert Homes',
-    rating: 4.5,
-    verified: true,
-  },
-  {
-    id: '6',
-    title: 'Dump Trucks for Mining',
-    category: 'Dump Trucks',
-    location: 'Denver, CO',
-    urgency: 'Medium',
-    budget: '$7K-10K/mo',
-    postedDate: '2024-01-10',
-    views: 134,
-    responses: 6,
-    company: 'Rocky Mining',
-    rating: 4.4,
-    verified: false,
-  },
-];
-
-const categories = [
-  'All Categories',
-  'Excavators',
-  'Cranes',
-  'Bulldozers',
-  'Forklifts',
-  'Concrete Mixers',
-  'Dump Trucks',
-];
-const locations = [
-  'All Locations',
-  'New York, NY',
-  'Los Angeles, CA',
-  'Austin, TX',
-  'Chicago, IL',
-  'Phoenix, AZ',
-  'Denver, CO',
-];
-const urgencyLevels = ['All Urgency', 'Low', 'Medium', 'High', 'Urgent'];
-
 export default function InquiryBoard() {
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
@@ -155,22 +66,123 @@ export default function InquiryBoard() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
 
-  const filteredInquiries = useMemo(() => {
-    return mockInquiries.filter(inquiry => {
-      const matchesSearch =
-        inquiry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        inquiry.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        inquiry.category.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        selectedCategory === 'All Categories' || inquiry.category === selectedCategory;
-      const matchesLocation =
-        selectedLocation === 'All Locations' || inquiry.location === selectedLocation;
-      const matchesUrgency =
-        selectedUrgency === 'All Urgency' || inquiry.urgency === selectedUrgency;
+  // Ensure component is mounted on client side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-      return matchesSearch && matchesCategory && matchesLocation && matchesUrgency;
-    });
-  }, [searchTerm, selectedCategory, selectedLocation, selectedUrgency]);
+  // Fetch inquiries from API - only run on client side
+  useEffect(() => {
+    if (!mounted) return;
+
+    const fetchInquiries = async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch('/api/inquiries');
+        if (!response.ok) {
+          throw new Error('Failed to fetch inquiries');
+        }
+        const data = await response.json();
+
+        setInquiries(data);
+      } catch (err) {
+        console.error('Error fetching inquiries:', err);
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInquiries();
+  }, [mounted]);
+
+  // Extract unique categories and locations from inquiries - always call these hooks
+  const categories = useMemo(() => {
+    if (!mounted || inquiries.length === 0) return ['All Categories'];
+    const uniqueCategories = Array.from(new Set(inquiries.map(inquiry => inquiry.category)));
+    return ['All Categories', ...uniqueCategories];
+  }, [mounted, inquiries]);
+
+  const locations = useMemo(() => {
+    if (!mounted || inquiries.length === 0) return ['All Locations'];
+    const uniqueLocations = Array.from(new Set(inquiries.map(inquiry => inquiry.location)));
+    return ['All Locations', ...uniqueLocations];
+  }, [mounted, inquiries]);
+
+  const urgencyLevels = ['All Urgency', 'Low', 'Medium', 'High', 'Urgent'];
+
+  // Filter inquiries based on search and filters
+  const filteredInquiries = useMemo(() => {
+    if (!mounted || loading || inquiries.length === 0) {
+      return [];
+    }
+
+    let filtered = [...inquiries];
+
+    // Apply search filter
+    if (searchTerm.trim() !== '') {
+      filtered = filtered.filter(
+        inquiry =>
+          inquiry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          inquiry.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          inquiry.company.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply category filter
+    if (selectedCategory !== 'All Categories') {
+      filtered = filtered.filter(inquiry => inquiry.category === selectedCategory);
+    }
+
+    // Apply location filter
+    if (selectedLocation !== 'All Locations') {
+      filtered = filtered.filter(inquiry => inquiry.location === selectedLocation);
+    }
+
+    // Apply urgency filter
+    if (selectedUrgency !== 'All Urgency') {
+      filtered = filtered.filter(inquiry => inquiry.urgency === selectedUrgency);
+    }
+
+    return filtered;
+  }, [
+    mounted,
+    loading,
+    inquiries,
+    searchTerm,
+    selectedCategory,
+    selectedLocation,
+    selectedUrgency,
+  ]);
+
+  // Categorize inquiries - must be called before any conditional returns
+  const featuredInquiries = useMemo(() => {
+    return filteredInquiries.filter(inquiry => inquiry.featured);
+  }, [filteredInquiries]);
+
+  const promotedInquiries = useMemo(() => {
+    return filteredInquiries.filter(inquiry => inquiry.promoted && !inquiry.featured);
+  }, [filteredInquiries]);
+
+  const regularInquiries = useMemo(() => {
+    return filteredInquiries.filter(inquiry => !inquiry.promoted && !inquiry.featured);
+  }, [filteredInquiries]);
+
+  // Don't render until mounted on client side
+  if (!mounted) {
+    return (
+      <div className='min-h-screen bg-gray-50'>
+        <Header />
+        <main className='container mx-auto px-4 py-8'>
+          <div className='flex justify-center items-center h-64'>
+            <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600'></div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
@@ -210,28 +222,15 @@ export default function InquiryBoard() {
     return <Image src={getImagePath(category)} alt={category} fill className='object-contain' />;
   };
 
-  const featuredInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => inquiry.featured);
-  }, [filteredInquiries]);
-
-  const promotedInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => inquiry.promoted && !inquiry.featured);
-  }, [filteredInquiries]);
-
-  const regularInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => !inquiry.promoted && !inquiry.featured);
-  }, [filteredInquiries]);
-
   return (
     <div className='min-h-screen bg-background'>
       <Header />
       <main>
         {/* Page Header */}
         <div className='bg-card border-b border-border'>
-          <div className='max-w-7xl mx-auto px-6 lg:px-8 py-6'>
-            <div className='mb-6'>
-              <h1 className='text-2xl font-semibold text-foreground mb-2'>Equipment Inquiries</h1>
-              <p className='text-muted-foreground'>Find the perfect equipment for your project</p>
+          <div className='max-w-7xl mx-auto px-6 lg:px-8 py-4'>
+            <div className='mb-4'>
+              <h1 className='text-xl font-semibold text-foreground mb-1'>Equipment Inquiries</h1>
             </div>
 
             <div className='flex flex-col lg:flex-row gap-4 items-center'>
@@ -326,7 +325,36 @@ export default function InquiryBoard() {
 
         {/* Inquiries */}
         <div className='max-w-7xl mx-auto px-6 lg:px-8 py-8'>
-          {viewMode === 'grid' ? (
+          {loading ? (
+            <div className='flex justify-center items-center py-12'>
+              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary'></div>
+            </div>
+          ) : error ? (
+            <div className='text-center py-12'>
+              <div className='text-red-600 mb-4'>Error: {error}</div>
+              <button
+                onClick={() => window.location.reload()}
+                className='px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90'
+              >
+                Retry
+              </button>
+            </div>
+          ) : filteredInquiries.length === 0 ? (
+            <div className='text-center py-12'>
+              <div className='text-gray-500 mb-4'>No inquiries found matching your criteria.</div>
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedCategory('All Categories');
+                  setSelectedLocation('All Locations');
+                  setSelectedUrgency('All Urgency');
+                }}
+                className='px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90'
+              >
+                Clear Filters
+              </button>
+            </div>
+          ) : viewMode === 'grid' ? (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
               {filteredInquiries.map(inquiry => (
                 <Link

@@ -1,0 +1,328 @@
+﻿{
+  "value": [
+    {
+      "id": "54",
+      "title": "Equipment Request",
+      "description": "i want to rent backhoe loader",
+      "category": "Backhoe Loaders",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2025-02-22",
+      "views": 438,
+      "responses": 2,
+      "company": "wajahat ali",
+      "rating": 4.218764057728966,
+      "verified": true,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "wajahat ali",
+        "email": "wajahataliusmani@gmail.com",
+        "phone": "971561014548"
+      },
+      "equipmentDetails": {
+        "category": "Backhoe Loaders",
+        "subCategory": null,
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "51",
+      "title": "Equipment Request",
+      "description": "testing the staging request",
+      "category": "Attachments",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-12-26",
+      "views": 263,
+      "responses": 15,
+      "company": "Equipments Finder",
+      "rating": 4.421635084968353,
+      "verified": true,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Equipments Finder",
+        "email": "equipmentsfinder@gmail.com",
+        "phone": "+971568347655"
+      },
+      "equipmentDetails": {
+        "category": "Attachments",
+        "subCategory": null,
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "46",
+      "title": "Equipment Request",
+      "description": "ty If you cannot details of the equipment you are looking for please put those in the Description tab.",
+      "category": "Attachments",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 109,
+      "responses": 9,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.622240535682321,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97188888899"
+      },
+      "equipmentDetails": {
+        "category": "Attachments",
+        "subCategory": null,
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "45",
+      "title": "Equipment Request",
+      "description": "ty",
+      "category": "Attachments",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 457,
+      "responses": 8,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.552786829325518,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97188888899"
+      },
+      "equipmentDetails": {
+        "category": "Attachments",
+        "subCategory": null,
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "44",
+      "title": "Equipment Request",
+      "description": "Tell us about the models you are looking for",
+      "category": "General Equipment",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 414,
+      "responses": 11,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.783935898907897,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97188888891"
+      },
+      "equipmentDetails": {
+        "category": "General Equipment",
+        "subCategory": "",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "43",
+      "title": "Equipment Request",
+      "description": "4454542",
+      "category": "General Equipment",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 318,
+      "responses": 12,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.201697604468565,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97199999979"
+      },
+      "equipmentDetails": {
+        "category": "General Equipment",
+        "subCategory": "",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "42",
+      "title": "Equipment Request",
+      "description": "fds",
+      "category": "General Equipment",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 133,
+      "responses": 18,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.372129749114491,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97188888892"
+      },
+      "equipmentDetails": {
+        "category": "General Equipment",
+        "subCategory": "",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "41",
+      "title": "Equipment Request",
+      "description": "If you cannot details of the equipment you are looking for please put those in the Description tab.",
+      "category": "Cranes",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-30",
+      "views": 397,
+      "responses": 16,
+      "company": "Muhammad Umair Raza",
+      "rating": 4.1121020830988035,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Muhammad Umair Raza",
+        "email": "mrumair94@gmail.com",
+        "phone": "+97188888889"
+      },
+      "equipmentDetails": {
+        "category": "Cranes",
+        "subCategory": "Tower Cranes",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "39",
+      "title": "Equipment Request",
+      "description": "Checking ",
+      "category": "Motor Graders",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-29",
+      "views": 245,
+      "responses": 4,
+      "company": "Sufiaan NAdeem",
+      "rating": 4.8844883057507005,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Sufiaan NAdeem",
+        "email": "earthmovers222@gmail.com",
+        "phone": "+971551727024"
+      },
+      "equipmentDetails": {
+        "category": "Motor Graders",
+        "subCategory": null,
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "38",
+      "title": "Equipment Request",
+      "description": "Hi iam looking for a Truck to rent on monthly basis. ",
+      "category": "Cranes",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-26",
+      "views": 184,
+      "responses": 9,
+      "company": "Ahmad Jamal Mustafa ",
+      "rating": 4.447821302490775,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "Ahmad Jamal Mustafa ",
+        "email": "my_soul999@yahoo.com",
+        "phone": "+971565861108"
+      },
+      "equipmentDetails": {
+        "category": "Cranes",
+        "subCategory": "Mobile Cranes",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "35",
+      "title": "Equipment Request",
+      "description": "looking  for a brand new Truck Crane",
+      "category": "Cranes",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-10-23",
+      "views": 106,
+      "responses": 16,
+      "company": "usman nadeem",
+      "rating": 4.680724319401342,
+      "verified": false,
+      "promoted": true,
+      "featured": false,
+      "contactInfo": {
+        "name": "usman nadeem",
+        "email": "ch.osmannadeem@gmail.com",
+        "phone": "+923036833710"
+      },
+      "equipmentDetails": {
+        "category": "Cranes",
+        "subCategory": "Truck Cranes",
+        "modelsOfInterest": []
+      }
+    },
+    {
+      "id": "33",
+      "title": "Untitled Inquiry",
+      "description": "checking chbecking.",
+      "category": "General Equipment",
+      "location": "Location not specified",
+      "urgency": "High",
+      "budget": "Contact for pricing",
+      "postedDate": "2024-09-10",
+      "views": 121,
+      "responses": 17,
+      "company": "Sufian Nadeem",
+      "rating": 4.827653185068663,
+      "verified": false,
+      "promoted": false,
+      "featured": false,
+      "contactInfo": {
+        "name": "Sufian Nadeem",
+        "email": "sufiaan@gmail.com",
+        "phone": "+971551727024"
+      },
+      "equipmentDetails": {
+        "category": "General Equipment",
+        "modelsOfInterest": []
+      }
+    }
+  ],
+  "Count": 12
+}
