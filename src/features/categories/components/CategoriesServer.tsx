@@ -20,27 +20,48 @@ export default async function CategoriesServer({
     const host = hdrs.get('host') ?? 'localhost:3000';
     const url = `${proto}://${host}/api/categories`;
 
+    // Forward cookies so protected previews can return JSON
+    const cookie = hdrs.get('cookie') ?? undefined;
+
     const res = await fetch(url, {
       next: { revalidate: 300, tags: ['categories'] },
       cache: 'force-cache',
+      headers: cookie ? { cookie } : undefined,
     });
 
-    if (!res.ok) {
-      return <CategoriesClient categories={[]} websiteMode={websiteMode} />;
+    const contentType = res.headers.get('content-type') || '';
+
+    // If request failed or returned non-JSON (e.g., SSO page), show error message
+    if (!res.ok || !contentType.includes('application/json')) {
+      return (
+        <section className='py-4 bg-background'>
+          <div className='container mx-auto px-4'>
+            <div role='alert' className='text-center py-8 text-sm text-red-600'>
+              Failed to load categories. Please try again later.
+            </div>
+          </div>
+        </section>
+      );
     }
 
-    const json = await res.json();
-    const categories: CategoryWithImage[] = (json?.categories ?? []).map(
-      (c: CategoryWithImage) => ({
-        ...c,
-        count: c.count ?? '',
-        description: c.description ?? '',
-      })
-    );
+    const json = (await res.json()) as { categories?: CategoryWithImage[] };
+    const categories: CategoryWithImage[] = (json?.categories ?? []).map(c => ({
+      ...c,
+      count: c.count ?? '',
+      description: c.description ?? '',
+    }));
 
     return <CategoriesClient categories={categories} websiteMode={websiteMode} />;
   } catch (e) {
-    // In case of errors, render an empty state
-    return <CategoriesClient categories={[]} websiteMode={websiteMode} />;
+    // On errors or JSON parse failures, show error message
+    return (
+      <section className='py-4 bg-background'>
+        <div className='container mx-auto px-4'>
+          <div role='alert' className='text-center py-8 text-sm text-red-600'>
+            Failed to load categories. Please try again later.
+          </div>
+        </div>
+      </section>
+    );
   }
 }
