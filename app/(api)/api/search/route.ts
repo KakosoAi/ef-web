@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import { searchService } from '@/server/services/search';
 import type { SearchQueryParams, ApiResponse, SearchResponse } from '@/shared/types/search';
 
@@ -72,8 +73,13 @@ export async function GET(request: NextRequest) {
       queryParams.limit = 20; // Default limit with max cap of 100
     }
 
-    // Execute search
-    const searchResult = await searchService.search(queryParams);
+    // Execute search (cached per params)
+    const cacheKey = ['search', JSON.stringify(queryParams)];
+    const getCachedSearch = unstable_cache(() => searchService.search(queryParams), cacheKey, {
+      revalidate: 60,
+      tags: ['search'],
+    });
+    const searchResult = await getCachedSearch();
 
     const response: ApiResponse<SearchResponse> = {
       success: true,
@@ -83,7 +89,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
         'Content-Type': 'application/json',
       },
     });

@@ -5,6 +5,9 @@ import { Card, CardContent } from '@/shared/ui/card';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 
+export const revalidate = 60;
+export const dynamic = 'force-static';
+
 interface SearchPageProps {
   searchParams: Promise<{
     q?: string;

@@ -4,6 +4,9 @@ import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import EquipmentSearchClient from './EquipmentSearchClient';
 
+export const revalidate = 60;
+export const dynamic = 'force-static';
+
 interface PageProps {
   params: Promise<{
     type: string;
@@ -20,6 +23,10 @@ interface PageProps {
 
 // Valid equipment types
 const validTypes = ['rent', 'buy', 'tools'];
+
+export function generateStaticParams() {
+  return validTypes.map(type => ({ type }));
+}
 
 export default async function EquipmentSearchPage({ params, searchParams }: PageProps) {
   const { type } = await params;
