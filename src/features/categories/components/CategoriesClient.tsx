@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { memo, useMemo, useState } from 'react';
 import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+import { useRouter } from 'next/navigation';
+import { createSlug } from '@/shared/utils/urlHelpers';
 
 interface CategoryWithImage {
   name: string;
@@ -20,8 +22,17 @@ const CategoriesClient = memo(({ categories, websiteMode = 'general' }: Categori
   const [isExpanded, setIsExpanded] = useState(false);
   const { websiteMode: contextMode } = useWebsiteMode();
   const mode = websiteMode ?? contextMode ?? 'general';
+  const router = useRouter();
 
   const allCategories: CategoryWithImage[] = useMemo(() => categories ?? [], [categories]);
+
+  // Navigate to search results for the clicked category
+  const handleCategoryClick = (categoryName: string) => {
+    const slug = createSlug(categoryName);
+    const type = 'rent'; // default to Rent; aligns with site defaults
+    const modeParam = mode === 'agricultural' ? '?mode=agricultural' : '';
+    router.push(`/equipments/${type}/brands/${slug}${modeParam}`);
+  };
 
   // Split categories into visible and collapsible sections
   const visibleCategories = allCategories.slice(0, 12); // First 2 rows (always visible)
@@ -42,7 +53,11 @@ const CategoriesClient = memo(({ categories, websiteMode = 'general' }: Categori
         {allCategories.length > 0 && (
           <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
             {visibleCategories.map((category, index) => (
-              <div key={`${category.name}-${index}`} className='group cursor-pointer'>
+              <div
+                key={`${category.name}-${index}`}
+                className='group cursor-pointer'
+                onClick={() => handleCategoryClick(category.name)}
+              >
                 <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl transition-all duration-300 border border-transparent'>
                   {/* Professional icon container */}
                   <div className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] flex items-center justify-center bg-card rounded-xl group-hover:scale-105 transition-all duration-300'>
@@ -76,7 +91,11 @@ const CategoriesClient = memo(({ categories, websiteMode = 'general' }: Categori
           <div className={`${isExpanded ? 'block mt-4 opacity-100' : 'hidden opacity-0'}`}>
             <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto'>
               {collapsibleCategories.map((category, index) => (
-                <div key={`${category.name}-${index + 8}`} className='group cursor-pointer'>
+                <div
+                  key={`${category.name}-${index + 8}`}
+                  className='group cursor-pointer'
+                  onClick={() => handleCategoryClick(category.name)}
+                >
                   <div className='flex flex-col items-center text-center space-y-3 p-4 rounded-xl transition-all duration-300 border border-transparent'>
                     {/* Professional icon container */}
                     <div className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] flex items-center justify-center bg-card rounded-xl group-hover:scale-105 transition-all duration-300'>

@@ -10,6 +10,7 @@ export interface CategoryRecord {
 }
 
 export interface CategoryWithImage {
+  id: number;
   name: string;
   image: string; // resolved public path
 }
@@ -35,7 +36,11 @@ export async function getCategories(): Promise<CategoryWithImage[]> {
 
     const records = (data ?? []) as CategoryRecord[];
     if (!records.length) return [];
-    return records.map(rec => ({ name: rec.name, image: `/assets/categories/${rec.icon}` }));
+    return records.map(rec => ({
+      id: rec.id,
+      name: rec.name,
+      image: `/assets/categories/${rec.icon}`,
+    }));
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Supabase client unavailable');
