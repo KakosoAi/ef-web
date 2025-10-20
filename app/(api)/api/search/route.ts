@@ -32,6 +32,8 @@ export async function GET(request: NextRequest) {
         ? parseInt(searchParams.get('subCategoryId')!)
         : undefined,
       typeId: searchParams.get('typeId') ? parseInt(searchParams.get('typeId')!) : undefined,
+      // String type mapping (rent/buy/tools)
+      type: searchParams.get('type') || undefined,
 
       // Attribute Filters
       brandId: searchParams.get('brandId') ? parseInt(searchParams.get('brandId')!) : undefined,
@@ -63,6 +65,16 @@ export async function GET(request: NextRequest) {
       // Year Range
       yearMin: searchParams.get('yearMin') ? parseInt(searchParams.get('yearMin')!) : undefined,
       yearMax: searchParams.get('yearMax') ? parseInt(searchParams.get('yearMax')!) : undefined,
+
+      // Direct item lookup by ID (supports both itemId and equipmentId)
+      itemId: ((): number | undefined => {
+        const itemIdParam = searchParams.get('itemId');
+        const equipmentIdParam = searchParams.get('equipmentId');
+        const raw = itemIdParam ?? equipmentIdParam;
+        if (!raw) return undefined;
+        const parsed = parseInt(raw);
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+      })(),
     };
 
     // Validate pagination parameters

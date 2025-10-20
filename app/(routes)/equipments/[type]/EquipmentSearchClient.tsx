@@ -56,8 +56,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   // Build search filters - convert to proper SearchQueryParams format
   const searchFilters: SearchQueryParams = {
     searchText: searchQuery,
-    // Remove the 'type' field as it's not part of SearchQueryParams
-    // TODO: Map type to appropriate categoryId or typeId
+    type: type === 'tools' ? 'rent' : type,
     page: currentPage,
     limit: 20,
     sort: getSortValue(sortBy),
@@ -95,14 +94,15 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
-    if (searchQuery) params.set('q', searchQuery);
     if (selectedCategory !== 'All Categories') params.set('category', selectedCategory);
     if (selectedLocation !== 'All Locations') params.set('location', selectedLocation);
     if (searchParams.priceMin) params.set('priceMin', searchParams.priceMin);
     if (searchParams.priceMax) params.set('priceMax', searchParams.priceMax);
     if (currentPage > 1) params.set('page', currentPage.toString());
 
-    const newUrl = `/equipments/${type}${params.toString() ? `?${params.toString()}` : ''}`;
+    const slug = searchQuery ? createSlug(searchQuery) : '';
+    const basePath = `/equipments/${type}${slug ? `/${slug}` : ''}`;
+    const newUrl = `${basePath}${params.toString() ? `?${params.toString()}` : ''}`;
     router.replace(newUrl, { scroll: false });
   }, [
     searchQuery,
@@ -126,7 +126,7 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
       .trim();
 
     const equipmentType = equipment.priceType === 'For Rent' ? 'rent' : 'buy';
-    router.push(`/equipments/${equipmentType}/${slug}/${equipment.id}`);
+    router.push(`/products/${equipmentType}/${slug}/${equipment.id}`);
   };
 
   // Handle page change

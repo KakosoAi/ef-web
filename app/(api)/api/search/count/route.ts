@@ -27,6 +27,8 @@ export async function GET(request: NextRequest) {
         ? parseInt(searchParams.get('subCategoryId')!)
         : undefined,
       typeId: searchParams.get('typeId') ? parseInt(searchParams.get('typeId')!) : undefined,
+      // String type mapping (rent/buy/tools)
+      type: searchParams.get('type') || undefined,
 
       // Attribute Filters
       brandId: searchParams.get('brandId') ? parseInt(searchParams.get('brandId')!) : undefined,

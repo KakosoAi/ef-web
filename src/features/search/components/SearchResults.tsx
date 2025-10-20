@@ -74,6 +74,8 @@ export default function SearchResults({
         {
           categoryId: filters.categoryId,
           subCategoryId: filters.subCategoryId,
+          typeId: filters.typeId,
+          type: filters.type,
           brandId: filters.brandId,
           conditionId: filters.conditionId,
           countryId: filters.countryId,
@@ -108,6 +110,8 @@ export default function SearchResults({
     searchText: searchQuery,
     categoryId: filters.categoryId,
     subCategoryId: filters.subCategoryId,
+    typeId: filters.typeId,
+    type: filters.type,
     brandId: filters.brandId,
     conditionId: filters.conditionId,
     countryId: filters.countryId,
@@ -209,7 +213,7 @@ export default function SearchResults({
       .trim();
 
     const type = equipment.priceType === 'For Rent' ? 'rent' : 'buy';
-    router.push(`/equipments/${type}/${slug}/${equipment.id}`);
+    router.push(`/products/${type}/${slug}/${equipment.id}`);
   };
 
   const totalPages = Math.ceil((countData?.total ?? searchResults?.items?.length ?? 0) / 20);

@@ -420,6 +420,37 @@ export class SearchService {
     };
   }
 
+  /**
+   * Normalize incoming params: resolve string `type` to numeric `typeId` when needed
+   */
+  private async normalizeParams(params: SearchQueryParams): Promise<SearchQueryParams> {
+    try {
+      if (!params.typeId && params.type) {
+        let key = params.type.toLowerCase();
+        // Treat tools as rentals for now
+        if (key === 'tools') key = 'rent';
+
+        let q = this.supabase.from('types').select('id, name').limit(1);
+        if (key === 'buy') {
+          q = q.ilike('name', '%sale%');
+        } else if (key === 'rent') {
+          q = q.ilike('name', '%rent%');
+        } else {
+          q = q.ilike('name', `%${key}%`);
+        }
+
+        const { data, error } = await q;
+        if (!error && data && data.length > 0 && typeof data[0]?.id === 'number') {
+          params.typeId = data[0].id;
+        }
+      }
+    } catch (e) {
+      // Swallow mapping errors; proceed without typeId if resolution fails
+      debugError('normalizeParams error:', e as unknown);
+    }
+    return params;
+  }
+
   // Map filters to the ads_with_all_joins view and apply text/price/year conditions
   private applyFilters<T extends HasFilterMethods>(query: T, params: SearchQueryParams): T {
     const {
@@ -440,6 +471,7 @@ export class SearchService {
       priceMax,
       yearMin,
       yearMax,
+      itemId,
     } = params;
 
     // Text search across title and description
@@ -447,6 +479,11 @@ export class SearchService {
     if (text) {
       // Use OR for title/description to match partial text
       query = query.or(`title.ilike.%${text}%,description.ilike.%${text}%`);
+    }
+
+    // Direct item lookup by ID
+    if (itemId) {
+      query = query.eq('id', itemId);
     }
 
     // Category/type/brand filters (align to view columns)
@@ -480,6 +517,9 @@ export class SearchService {
   }
 
   async search(params: SearchQueryParams): Promise<SearchResponse> {
+    // Resolve string type to typeId if provided
+    params = await this.normalizeParams(params);
+
     const { page = 1, limit = 20 } = params;
     const offset = (page - 1) * limit;
 
@@ -555,6 +595,9 @@ export class SearchService {
 
   private async getSearchCount(params: SearchQueryParams): Promise<number> {
     try {
+      // Resolve type string to id consistently for count
+      params = await this.normalizeParams(params);
+
       let countQuery = this.supabase
         .from('ads_with_all_joins')
         // Using head: false to avoid edge cases with OR filters on views

@@ -1,6 +1,8 @@
 import { IMAGE_BASE_URL } from '@/shared/constants/cdn';
 
 // Resolve a stored image name to a usable URL. If already absolute, return as-is.
+const IS_PLACEHOLDER_BASE = IMAGE_BASE_URL.includes('example.com');
+
 export function resolveImageUrl(name?: string | null): string {
   if (!name) return '';
   const trimmed = String(name).trim();
@@ -9,6 +11,8 @@ export function resolveImageUrl(name?: string | null): string {
   // Data URLs or other non-http sources
   if (trimmed.startsWith('data:')) return trimmed;
   const cleanName = trimmed.replace(/^\/+/, '');
+  // If CDN base is not configured, fall back to local placeholder to avoid server fetch errors
+  if (IS_PLACEHOLDER_BASE) return '/placeholder.svg';
   return `${IMAGE_BASE_URL}/${cleanName}`;
 }
 

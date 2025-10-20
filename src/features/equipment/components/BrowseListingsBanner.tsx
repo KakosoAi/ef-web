@@ -39,7 +39,7 @@ const BrowseListingsBanner = memo(() => {
               </p>
 
               {/* CTA Button */}
-              <Link href='/search'>
+              <Link href='/equipments/rent'>
                 <Button
                   size='lg'
                   className='bg-primary hover:bg-primary-hover text-primary-foreground font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg'

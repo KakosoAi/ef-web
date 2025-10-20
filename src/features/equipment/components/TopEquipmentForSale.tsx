@@ -1,13 +1,13 @@
 'use client';
 
-import { memo, useMemo, useState } from 'react';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+import { EquipmentCard } from '@/shared/types';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { ArrowRight, Eye, Heart, MapPin, Phone, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/shared/ui/button';
-import { Badge } from '@/shared/ui/badge';
-import { Heart, Eye, MapPin, Phone, ArrowRight, Star, Verified, TrendingUp } from 'lucide-react';
-import { EquipmentCard } from '@/shared/types';
-import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+import { memo, useMemo, useState } from 'react';
 interface TopEquipmentForSaleProps {
   websiteMode?: 'general' | 'agricultural';
 }
@@ -293,7 +293,7 @@ const TopEquipmentForSale = memo(({ websiteMode: propWebsiteMode }: TopEquipment
                       .trim();
                     const type =
                       parseFloat(equipment.price.replace(/[$,]/g, '')) > 75000 ? 'buy' : 'rent';
-                    router.push(`/equipments/${type}/${slug}/${equipment.id}`);
+                    router.push(`/products/${type}/${slug}/${equipment.id}`);
                   }}
                 >
                   View Details

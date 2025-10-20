@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Search, Sparkles, Zap } from 'lucide-react';
+import { createSlug } from '@/shared/utils/urlHelpers';
 
 interface SearchWithCategoryProps {
   onSearch?: (query: string, searchType: string) => void;
@@ -49,13 +50,9 @@ export default function SearchWithCategory({
     if (onSearch) {
       onSearch(searchQuery, searchType);
     } else {
-      // Use the unified search page with proper parameters
-      const params = new URLSearchParams();
-      if (searchQuery) params.set('q', searchQuery);
-      if (searchType) params.set('type', searchType);
-
-      const queryString = params.toString();
-      router.push(`/search${queryString ? `?${queryString}` : ''}`);
+      const slug = searchQuery ? createSlug(searchQuery) : '';
+      const targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
+      router.push(targetPath);
     }
   };
 

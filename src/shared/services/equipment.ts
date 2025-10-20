@@ -1,9 +1,9 @@
 import { Equipment, EquipmentFilters, SearchParams, SearchResult } from '@/shared/types';
 import {
+  RelatedItemsResponse,
   SearchQueryParams,
   SearchResponse,
   SearchResultItem,
-  RelatedItemsResponse,
 } from '@/shared/types/search';
 import { debugError } from '@/shared/utils/debug';
 
@@ -12,13 +12,16 @@ export class EquipmentService {
   static async getEquipment(id: number): Promise<Equipment | null> {
     try {
       // Use the search API to find a specific equipment by ID
-      const response = await fetch(`/api/search?searchText=&page=1&limit=1&equipmentId=${id}`);
+      const response = await fetch(`/api/search?searchText=&page=1&limit=1&itemId=${id}`);
 
       if (!response.ok) {
         throw new Error(`Equipment fetch failed: ${response.statusText}`);
       }
 
-      const data: SearchResponse = await response.json();
+      const apiResponse = await response.json();
+
+      // Handle ApiResponse wrapper
+      const data: SearchResponse = apiResponse.success ? apiResponse.data : apiResponse;
 
       if (data.items && data.items.length > 0) {
         return this.mapSearchItemToEquipment(data.items[0]);
