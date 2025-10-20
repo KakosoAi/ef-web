@@ -35,9 +35,16 @@ interface EquipmentSearchClientProps {
     priceMax?: string;
     page?: string;
   };
+  initialCategoryId?: number;
+  categoriesMap?: Record<string, number>;
 }
 
-export default function EquipmentSearchClient({ type, searchParams }: EquipmentSearchClientProps) {
+export default function EquipmentSearchClient({
+  type,
+  searchParams,
+  initialCategoryId,
+  categoriesMap,
+}: EquipmentSearchClientProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState(searchParams.q || '');
   const [selectedCategory, setSelectedCategory] = useState(
@@ -53,6 +60,44 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   const [sortBy, setSortBy] = useState('relevance');
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.page || '1'));
 
+  // NEW: Categories map state (fallback to API if not provided)
+  const [categoryMapState, setCategoryMapState] = useState<Record<string, number> | undefined>(
+    categoriesMap
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadCategoriesMap() {
+      try {
+        if (categoriesMap) {
+          setCategoryMapState(categoriesMap);
+          return;
+        }
+        const res = await fetch('/api/categories');
+        if (!res.ok) return;
+        const body = await res.json();
+        const cats = Array.isArray(body) ? body : body?.categories || [];
+        const map: Record<string, number> = {};
+        cats.forEach((c: { name?: string; id?: number }) => {
+          if (c?.name && typeof c?.id === 'number') {
+            map[c.name] = c.id;
+          }
+        });
+        if (!cancelled) {
+          setCategoryMapState(map);
+        }
+      } catch (err) {
+        void err;
+      }
+    }
+    if (!categoryMapState) {
+      loadCategoriesMap();
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [categoriesMap, categoryMapState]);
+
   // Build search filters - convert to proper SearchQueryParams format
   const searchFilters: SearchQueryParams = {
     searchText: searchQuery,
@@ -62,8 +107,10 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
     sort: getSortValue(sortBy),
     priceMin: searchParams.priceMin ? parseFloat(searchParams.priceMin) : undefined,
     priceMax: searchParams.priceMax ? parseFloat(searchParams.priceMax) : undefined,
-    // TODO: Convert string filters to IDs when we have the mapping
-    // categoryId: selectedCategory !== 'All Categories' ? getCategoryId(selectedCategory) : undefined,
+    categoryId:
+      selectedCategory !== 'All Categories'
+        ? (categoryMapState && categoryMapState[selectedCategory]) || initialCategoryId
+        : undefined,
     // cityId: selectedLocation !== 'All Locations' ? getCityId(selectedLocation) : undefined,
     // conditionId: selectedCondition !== 'All Conditions' ? getConditionId(selectedCondition) : undefined,
   };
@@ -94,14 +141,26 @@ export default function EquipmentSearchClient({ type, searchParams }: EquipmentS
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
-    if (selectedCategory !== 'All Categories') params.set('category', selectedCategory);
+    // Do not include category label in query; use brands route when selected
     if (selectedLocation !== 'All Locations') params.set('location', selectedLocation);
     if (searchParams.priceMin) params.set('priceMin', searchParams.priceMin);
     if (searchParams.priceMax) params.set('priceMax', searchParams.priceMax);
     if (currentPage > 1) params.set('page', currentPage.toString());
 
-    const slug = searchQuery ? createSlug(searchQuery) : '';
-    const basePath = `/equipments/${type}${slug ? `/${slug}` : ''}`;
+    let basePath = `/equipments/${type}`;
+
+    // If a category is selected, prefer the brands route
+    if (selectedCategory && selectedCategory !== 'All Categories') {
+      const categorySlug = createSlug(selectedCategory);
+      basePath = `/equipments/${type}/brands/${categorySlug}`;
+      // Preserve text search as query when category is active
+      if (searchQuery) params.set('q', searchQuery);
+    } else if (searchQuery) {
+      // No category selected, use query slug route
+      const slug = createSlug(searchQuery);
+      basePath = `/equipments/${type}/${slug}`;
+    }
+
     const newUrl = `${basePath}${params.toString() ? `?${params.toString()}` : ''}`;
     router.replace(newUrl, { scroll: false });
   }, [
