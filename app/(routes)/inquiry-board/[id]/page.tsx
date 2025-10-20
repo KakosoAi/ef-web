@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
+import { InquiryDetailSkeleton } from '@/shared/ui/inquiry-skeleton';
 
 interface InquiryDetail {
   id: string;
@@ -163,11 +164,7 @@ export default function InquiryDetailPage() {
     return (
       <div className='min-h-screen bg-background'>
         <Header />
-        <main className='max-w-7xl mx-auto px-6 lg:px-8 py-8'>
-          <div className='flex justify-center items-center py-12'>
-            <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary'></div>
-          </div>
-        </main>
+        <InquiryDetailSkeleton />
         <Footer />
       </div>
     );

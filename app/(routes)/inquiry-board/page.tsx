@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
+import { InquiryCardSkeleton, InquiryListSkeleton } from '@/shared/ui/inquiry-skeleton';
 
 interface Inquiry {
   id: string;
@@ -326,9 +327,29 @@ export default function InquiryBoard() {
         {/* Inquiries */}
         <div className='max-w-7xl mx-auto px-6 lg:px-8 py-8'>
           {loading ? (
-            <div className='flex justify-center items-center py-12'>
-              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-primary'></div>
-            </div>
+            viewMode === 'grid' ? (
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                {/* Show skeleton cards with different types */}
+                <InquiryCardSkeleton featured />
+                <InquiryCardSkeleton promoted />
+                <InquiryCardSkeleton />
+                <InquiryCardSkeleton />
+                <InquiryCardSkeleton />
+                <InquiryCardSkeleton />
+                <InquiryCardSkeleton />
+                <InquiryCardSkeleton />
+              </div>
+            ) : (
+              <div className='space-y-4'>
+                {/* Show skeleton list items */}
+                <InquiryListSkeleton />
+                <InquiryListSkeleton />
+                <InquiryListSkeleton />
+                <InquiryListSkeleton />
+                <InquiryListSkeleton />
+                <InquiryListSkeleton />
+              </div>
+            )
           ) : error ? (
             <div className='text-center py-12'>
               <div className='text-red-600 mb-4'>Error: {error}</div>
