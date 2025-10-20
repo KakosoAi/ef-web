@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -60,135 +60,135 @@ const equipmentLinks: NavItemType[] = [
   // Categories
   {
     title: 'Crane',
-    href: '/search?type=sale&category=crane',
+    href: '/equipments/buy?category=crane',
     description: 'Tower cranes, mobile cranes, and lifting equipment',
     icon: Building2,
   },
   {
     title: 'Wheel Loader',
-    href: '/search?type=sale&category=wheel-loader',
+    href: '/equipments/buy?category=wheel-loader',
     description: 'Heavy-duty wheel loaders for material handling',
     icon: Hammer,
   },
   {
     title: 'JCB Backhoe',
-    href: '/search?type=sale&category=jcb-backhoe',
+    href: '/equipments/buy?category=jcb-backhoe',
     description: 'JCB backhoe loaders for construction',
     icon: Construction,
   },
   {
     title: 'Forklift',
-    href: '/search?type=sale&category=forklift',
+    href: '/equipments/buy?category=forklift',
     description: 'Industrial forklifts and material handling equipment',
     icon: Truck,
   },
   {
     title: 'Tipper Truck',
-    href: '/search?type=sale&category=tipper-truck',
+    href: '/equipments/buy?category=tipper-truck',
     description: 'Heavy-duty tipper trucks for transportation',
     icon: Truck,
   },
   {
     title: 'Boom Loader',
-    href: '/search?type=sale&category=boom-loader',
+    href: '/equipments/buy?category=boom-loader',
     description: 'Boom loaders for lifting and loading operations',
     icon: Hammer,
   },
   {
     title: 'Motor Grader',
-    href: '/search?type=sale&category=motor-grader',
+    href: '/equipments/buy?category=motor-grader',
     description: 'Motor graders for road construction and maintenance',
     icon: Construction,
   },
   // Locations
   {
     title: 'Dubai',
-    href: '/search?type=sale&location=dubai',
+    href: '/equipments/buy?location=dubai',
     description: 'Equipment for sale in Dubai',
     icon: Building2,
   },
   {
     title: 'Abu Dhabi',
-    href: '/search?type=sale&location=abu-dhabi',
+    href: '/equipments/buy?location=abu-dhabi',
     description: 'Equipment for sale in Abu Dhabi',
     icon: Building2,
   },
   {
     title: 'Sharjah',
-    href: '/search?type=sale&location=sharjah',
+    href: '/equipments/buy?location=sharjah',
     description: 'Equipment for sale in Sharjah',
     icon: Building2,
   },
   {
     title: 'Ajman',
-    href: '/search?type=sale&location=ajman',
+    href: '/equipments/buy?location=ajman',
     description: 'Equipment for sale in Ajman',
     icon: Building2,
   },
   {
     title: 'Fujairah',
-    href: '/search?type=sale&location=fujairah',
+    href: '/equipments/buy?location=fujairah',
     description: 'Equipment for sale in Fujairah',
     icon: Building2,
   },
   {
     title: 'Ras al-Khaimah',
-    href: '/search?type=sale&location=ras-al-khaimah',
+    href: '/equipments/buy?location=ras-al-khaimah',
     description: 'Equipment for sale in Ras al-Khaimah',
     icon: Building2,
   },
   {
     title: 'Umm al-Quwain',
-    href: '/search?type=sale&location=umm-al-quwain',
+    href: '/equipments/buy?location=umm-al-quwain',
     description: 'Equipment for sale in Umm al-Quwain',
     icon: Building2,
   },
   // New Machines Section
   {
     title: 'New Machines',
-    href: '/search?type=sale&condition=new',
+    href: '/equipments/buy?condition=new',
     description: 'Brand new construction and industrial machines',
     icon: Star,
   },
   {
     title: 'Attachments',
-    href: '/search?type=sale&category=attachments',
+    href: '/equipments/buy?category=attachments',
     description: 'Equipment attachments and accessories',
     icon: Wrench,
   },
   {
     title: 'Spare Parts',
-    href: '/search?type=sale&category=spare-parts',
+    href: '/equipments/buy?category=spare-parts',
     description: 'Genuine spare parts for all equipment',
     icon: Wrench,
   },
   {
     title: 'Lifting Equipment',
-    href: '/search?type=sale&category=lifting-equipment',
+    href: '/equipments/buy?category=lifting-equipment',
     description: 'Cranes, hoists, and lifting solutions',
     icon: Building2,
   },
   {
     title: 'Excavators',
-    href: '/search?type=sale&category=excavators',
+    href: '/equipments/buy?category=excavators',
     description: 'Heavy-duty excavators for construction and mining',
     icon: Construction,
   },
   {
     title: 'Generators',
-    href: '/search?type=sale&category=generators',
+    href: '/equipments/buy?category=generators',
     description: 'Power generators and electrical equipment',
     icon: Construction,
   },
   {
     title: 'Trailers',
-    href: '/search?type=sale&category=trailers',
+    href: '/equipments/buy?category=trailers',
     description: 'Heavy-duty trailers for transportation',
     icon: Truck,
   },
   {
     title: 'Cranes',
-    href: '/search?type=sale&category=cranes',
+    href: '/equipments/buy?category=cranes',
     description: 'All types of cranes and lifting equipment',
     icon: Building2,
   },
@@ -199,117 +199,117 @@ const rentalLinks: NavItemType[] = [
   // Categories
   {
     title: 'Crane',
-    href: '/search?type=rent&category=crane',
+    href: '/equipments/rent?category=crane',
     description: 'Professional crane rental services',
     icon: Building2,
   },
   {
     title: 'Wheel Loader',
-    href: '/search?type=rent&category=wheel-loader',
+    href: '/equipments/rent?category=wheel-loader',
     description: 'Wheel loader rentals for material handling',
     icon: Hammer,
   },
   {
     title: 'Excavator',
-    href: '/search?type=rent&category=excavator',
+    href: '/equipments/rent?category=excavator',
     description: 'Short and long-term excavator rentals',
     icon: Construction,
   },
   {
     title: 'Forklift',
-    href: '/search?type=rent&category=forklift',
+    href: '/equipments/rent?category=forklift',
     description: 'Industrial forklift rental services',
     icon: Truck,
   },
   {
     title: 'Boom loader',
-    href: '/search?type=rent&category=boom-loader',
+    href: '/equipments/rent?category=boom-loader',
     description: 'Boom loader rentals for lifting operations',
     icon: Hammer,
   },
   {
     title: 'Motor Grader',
-    href: '/search?type=rent&category=motor-grader',
+    href: '/equipments/rent?category=motor-grader',
     description: 'Motor grader rentals for road construction',
     icon: Construction,
   },
   {
     title: 'Road Roller',
-    href: '/search?type=rent&category=road-roller',
+    href: '/equipments/rent?category=road-roller',
     description: 'Road roller rentals for compaction work',
     icon: Construction,
   },
   // Locations
   {
     title: 'Dubai',
-    href: '/search?type=rent&location=dubai',
+    href: '/equipments/rent?location=dubai',
     description: 'Equipment rentals in Dubai',
     icon: Building2,
   },
   {
     title: 'Abu Dhabi',
-    href: '/search?type=rent&location=abu-dhabi',
+    href: '/equipments/rent?location=abu-dhabi',
     description: 'Equipment rentals in Abu Dhabi',
     icon: Building2,
   },
   {
     title: 'Sharjah',
-    href: '/search?type=rent&location=sharjah',
+    href: '/equipments/rent?location=sharjah',
     description: 'Equipment rentals in Sharjah',
     icon: Building2,
   },
   {
     title: 'Ajman',
-    href: '/search?type=rent&location=ajman',
+    href: '/equipments/rent?location=ajman',
     description: 'Equipment rentals in Ajman',
     icon: Building2,
   },
   {
     title: 'Fujeirah',
-    href: '/search?type=rent&location=fujeirah',
+    href: '/equipments/rent?location=fujeirah',
     description: 'Equipment rentals in Fujeirah',
     icon: Building2,
   },
   {
     title: 'Ras al-Khaimah',
-    href: '/search?type=rent&location=ras-al-khaimah',
+    href: '/equipments/rent?location=ras-al-khaimah',
     description: 'Equipment rentals in Ras al-Khaimah',
     icon: Building2,
   },
   {
     title: 'Umm al-Quwain',
-    href: '/search?type=rent&location=umm-al-quwain',
+    href: '/equipments/rent?location=umm-al-quwain',
     description: 'Equipment rentals in Umm al-Quwain',
     icon: Building2,
   },
   // Industries
   {
     title: 'Construction',
-    href: '/search?type=rent&industry=construction',
+    href: '/equipments/rent?industry=construction',
     description: 'Construction equipment rentals',
     icon: Construction,
   },
   {
     title: 'Material Handling Equipment',
-    href: '/search?type=rent&industry=material-handling',
+    href: '/equipments/rent?industry=material-handling',
     description: 'Material handling equipment rentals',
     icon: Truck,
   },
   {
     title: 'Mining And Quarry Equipment',
-    href: '/search?type=rent&industry=mining-quarry',
+    href: '/equipments/rent?industry=mining-quarry',
     description: 'Mining and quarry equipment rentals',
     icon: Hammer,
   },
   {
     title: 'Agriculture',
-    href: '/search?type=rent&industry=agriculture',
+    href: '/equipments/rent?industry=agriculture',
     description: 'Agricultural equipment rentals',
     icon: Star,
   },
   {
     title: 'All Equipment',
-    href: '/search?type=rent',
+    href: '/equipments/rent',
     description: 'Browse all available equipment for rent',
     icon: Wrench,
   },
@@ -1226,17 +1226,6 @@ function DesktopMenu() {
     <NavigationMenuPrimitive className='hidden lg:flex'>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link
-              href='/'
-              className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50'
-            >
-              Home
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className='w-[675px] p-4'>
@@ -1352,7 +1341,6 @@ function MobileNav() {
   const [open, setOpen] = React.useState(false);
 
   const allLinks = [
-    { title: 'Home', href: '/', icon: Building2 },
     {
       title: 'Inquiry Board',
       href: '/inquiry-board',

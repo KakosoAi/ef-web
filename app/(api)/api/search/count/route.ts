@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import { searchService } from '@/server/services/search';
 import type { SearchQueryParams, ApiResponse, CountResponse } from '@/shared/types/search';
 
@@ -26,6 +27,8 @@ export async function GET(request: NextRequest) {
         ? parseInt(searchParams.get('subCategoryId')!)
         : undefined,
       typeId: searchParams.get('typeId') ? parseInt(searchParams.get('typeId')!) : undefined,
+      // String type mapping (rent/buy/tools)
+      type: searchParams.get('type') || undefined,
 
       // Attribute Filters
       brandId: searchParams.get('brandId') ? parseInt(searchParams.get('brandId')!) : undefined,
@@ -59,8 +62,13 @@ export async function GET(request: NextRequest) {
       yearMax: searchParams.get('yearMax') ? parseInt(searchParams.get('yearMax')!) : undefined,
     };
 
-    // Execute count query
-    const countResult = await searchService.count(queryParams);
+    // Execute count query (cached per params)
+    const cacheKey = ['search-count', JSON.stringify(queryParams)];
+    const getCachedCount = unstable_cache(() => searchService.count(queryParams), cacheKey, {
+      revalidate: 120,
+      tags: ['search-count'],
+    });
+    const countResult = await getCachedCount();
 
     const response: ApiResponse<CountResponse> = {
       success: true,
@@ -70,7 +78,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=120, stale-while-revalidate=600',
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
         'Content-Type': 'application/json',
       },
     });

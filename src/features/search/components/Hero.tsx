@@ -49,14 +49,19 @@ const Hero = memo(
 
     const handleSearch = useCallback(
       (query: string, searchType: string) => {
-        // Use the unified search page with proper parameters
         const params = new URLSearchParams();
-        if (query) params.set('q', query);
-        if (searchType) params.set('type', searchType);
         if (websiteMode === 'agricultural') params.set('mode', 'agricultural');
 
+        const slug = query
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim();
+
+        const targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
         const queryString = params.toString();
-        router.push(`/search${queryString ? `?${queryString}` : ''}`);
+        router.push(`${targetPath}${queryString ? `?${queryString}` : ''}`);
       },
       [router, websiteMode]
     );

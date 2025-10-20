@@ -34,7 +34,7 @@ import {
   Wrench,
   Fuel,
 } from 'lucide-react';
-import { equipmentData, type EquipmentAd } from '@/shared/data/equipmentData';
+import EquipmentService from '@/shared/services/equipment';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 
@@ -46,26 +46,48 @@ type SpecificationItem = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-const convertEquipmentData = (equipmentAd: EquipmentAd) => ({
-  id: parseInt(equipmentAd.id),
-  title: equipmentAd.title,
-  category: equipmentAd.category,
-  subcategories: ['Heavy Equipment', 'Construction', 'Earthmoving'],
-  rating: equipmentAd.seller.rating,
-  reviewCount: Math.floor(Math.random() * 200) + 50, // Random review count
-  price: parseFloat(equipmentAd.price.replace(/[$,]/g, '')),
-  originalPrice: null,
-  brand: equipmentAd.specifications.brand || 'Unknown',
-  model: equipmentAd.specifications.model || 'Unknown',
-  year: parseInt(equipmentAd.specifications.year || '2020'),
-  hours: equipmentAd.specifications.hours || 'N/A',
-  condition: equipmentAd.condition,
-  location: equipmentAd.location.city,
+const convertEquipmentFromService = (item: {
+  id: number;
+  title: string;
+  category: string;
+  subcategories: string[];
+  rating: number;
+  reviewCount: number;
+  price: number;
+  originalPrice?: number | null;
+  brand: string;
+  model: string;
+  year: number;
+  hours: string;
+  condition: string;
+  location: string;
+  images: string[];
+  description: string;
+  dealer: string;
+  contactPerson?: string;
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+}): Equipment => ({
+  id: item.id,
+  title: item.title,
+  category: item.category,
+  subcategories: item.subcategories || [],
+  rating: item.rating || 0,
+  reviewCount: item.reviewCount || 0,
+  price: item.price,
+  originalPrice: item.originalPrice ?? null,
+  brand: item.brand || 'Unknown',
+  model: item.model || 'Unknown',
+  year: item.year || new Date().getFullYear(),
+  hours: item.hours || 'N/A',
+  condition: item.condition || 'Unknown',
+  location: item.location || 'Unknown',
   images:
-    equipmentAd.images.length > 0
-      ? equipmentAd.images
+    item.images && item.images.length > 0
+      ? item.images
       : ['/assets/equipment/cat-320d-excavator-1.jpg'],
-  description: equipmentAd.description,
+  description: item.description || '',
   specifications: [
     { name: 'Operating Weight', value: '20,300 kg', icon: Weight },
     { name: 'Engine Power', value: '122 HP', icon: Zap },
@@ -74,11 +96,11 @@ const convertEquipmentData = (equipmentAd: EquipmentAd) => ({
     { name: 'Max Reach', value: '9.9 m', icon: Wrench },
     { name: 'Fuel Tank', value: '400 L', icon: Car },
   ],
-  dealer: equipmentAd.seller.name,
-  contactPerson: 'Sales Manager',
-  phone: '+971-4-555-0123',
-  email: 'sales@equipment.ae',
-  whatsapp: '+971-50-555-0123',
+  dealer: item.dealer || 'Unknown Dealer',
+  contactPerson: item.contactPerson || 'Contact Dealer',
+  phone: item.phone || '',
+  email: item.email || '',
+  whatsapp: item.whatsapp || '',
 });
 
 // Add type definition for equipment
@@ -117,15 +139,19 @@ export default function ProductDetailPage() {
   const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
-    const equipmentId = params.id as string;
-    const foundEquipment = equipmentData.find(eq => eq.id === equipmentId);
-
-    if (foundEquipment) {
-      setEquipment(convertEquipmentData(foundEquipment));
-    } else {
-      setError('Equipment not found');
-    }
-    setLoading(false);
+    const equipmentId = Number(params.id);
+    EquipmentService.getEquipment(equipmentId)
+      .then(item => {
+        if (item) {
+          setEquipment(convertEquipmentFromService(item));
+        } else {
+          setError('Equipment not found');
+        }
+      })
+      .catch(() => {
+        setError('Failed to load equipment details');
+      })
+      .finally(() => setLoading(false));
   }, [params.id]);
 
   if (loading) {
@@ -148,7 +174,7 @@ export default function ProductDetailPage() {
             The equipment you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link
-            href='/search'
+            href='/equipments/rent'
             className='bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors'
           >
             Browse Equipment

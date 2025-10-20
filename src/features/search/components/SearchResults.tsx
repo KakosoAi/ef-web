@@ -74,6 +74,8 @@ export default function SearchResults({
         {
           categoryId: filters.categoryId,
           subCategoryId: filters.subCategoryId,
+          typeId: filters.typeId,
+          type: filters.type,
           brandId: filters.brandId,
           conditionId: filters.conditionId,
           countryId: filters.countryId,
@@ -108,6 +110,8 @@ export default function SearchResults({
     searchText: searchQuery,
     categoryId: filters.categoryId,
     subCategoryId: filters.subCategoryId,
+    typeId: filters.typeId,
+    type: filters.type,
     brandId: filters.brandId,
     conditionId: filters.conditionId,
     countryId: filters.countryId,
@@ -209,7 +213,7 @@ export default function SearchResults({
       .trim();
 
     const type = equipment.priceType === 'For Rent' ? 'rent' : 'buy';
-    router.push(`/equipments/${type}/${slug}/${equipment.id}`);
+    router.push(`/products/${type}/${slug}/${equipment.id}`);
   };
 
   const totalPages = Math.ceil((countData?.total ?? searchResults?.items?.length ?? 0) / 20);
@@ -347,9 +351,12 @@ export default function SearchResults({
                             className='object-cover group-hover:scale-105 transition-transform duration-300'
                           />
                         ) : (
-                          <div className='flex items-center justify-center h-full text-gray-400'>
-                            <Search className='h-12 w-12' />
-                          </div>
+                          <Image
+                            src={'/placeholder.svg'}
+                            alt={item.title}
+                            fill
+                            className='object-cover opacity-70'
+                          />
                         )}
 
                         {/* Badges */}

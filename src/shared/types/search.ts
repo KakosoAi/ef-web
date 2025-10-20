@@ -45,7 +45,7 @@ export interface SearchQueryParams {
   // Pagination & Sorting
   page?: number;
   limit?: number;
-  sort?: 'recent' | 'older' | 'name_asc' | 'name_desc' | 'price_asc' | 'price_desc';
+  sort?: 'recent' | 'older' | 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc';
   orderBy?: 'asc' | 'desc';
 
   // Search
@@ -55,6 +55,8 @@ export interface SearchQueryParams {
   categoryId?: number;
   subCategoryId?: number;
   typeId?: number;
+  // String type mapping (rent/buy/tools)
+  type?: string;
 
   // Attribute Filters
   brandId?: number;
@@ -78,6 +80,9 @@ export interface SearchQueryParams {
   // Year Range (for equipment)
   yearMin?: number;
   yearMax?: number;
+
+  // Direct item lookup
+  itemId?: number;
 }
 
 // Related data interfaces

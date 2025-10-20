@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import { searchService } from '@/server/services/search';
 import type { ApiResponse, RelatedItemsResponse } from '@/shared/types/search';
 
@@ -65,8 +66,14 @@ export async function GET(request: NextRequest) {
     // Validate limit
     const validatedLimit = Math.min(Math.max(limit, 1), 50); // Between 1 and 50
 
-    // Execute related items query
-    const relatedResult = await searchService.getRelatedItems(itemId, relationType, validatedLimit);
+    // Execute related items query (cached per params)
+    const cacheKey = ['related', String(itemId), relationType, String(validatedLimit)];
+    const getCachedRelated = unstable_cache(
+      () => searchService.getRelatedItems(itemId, relationType, validatedLimit),
+      cacheKey,
+      { revalidate: 300, tags: ['related'] }
+    );
+    const relatedResult = await getCachedRelated();
 
     const response: ApiResponse<RelatedItemsResponse> = {
       success: true,
@@ -76,7 +83,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=300, stale-while-revalidate=900',
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=900',
         'Content-Type': 'application/json',
       },
     });

@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
-import EquipmentSearchClient from './EquipmentSearchClient';
+import EquipmentSearchClient from '../EquipmentSearchClient';
 
 export const revalidate = 60;
 export const dynamic = 'force-static';
@@ -10,9 +10,9 @@ export const dynamic = 'force-static';
 interface PageProps {
   params: Promise<{
     type: string;
+    query: string;
   }>;
   searchParams: Promise<{
-    q?: string;
     category?: string;
     location?: string;
     priceMin?: string;
@@ -24,18 +24,16 @@ interface PageProps {
 // Valid equipment types
 const validTypes = ['rent', 'buy', 'tools'];
 
-export function generateStaticParams() {
-  return validTypes.map(type => ({ type }));
-}
-
-export default async function EquipmentSearchPage({ params, searchParams }: PageProps) {
-  const { type } = await params;
+export default async function EquipmentSearchQueryPage({ params, searchParams }: PageProps) {
+  const { type, query } = await params;
   const resolvedSearchParams = await searchParams;
 
   // Validate the type parameter
   if (!validTypes.includes(type)) {
     notFound();
   }
+
+  const mergedSearchParams = { ...resolvedSearchParams, q: query };
 
   return (
     <div className='min-h-screen bg-background'>
@@ -58,7 +56,7 @@ export default async function EquipmentSearchPage({ params, searchParams }: Page
             </div>
           }
         >
-          <EquipmentSearchClient type={type} searchParams={resolvedSearchParams} />
+          <EquipmentSearchClient type={type} searchParams={mergedSearchParams} />
         </Suspense>
       </main>
       <Footer />
@@ -68,25 +66,24 @@ export default async function EquipmentSearchPage({ params, searchParams }: Page
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps) {
-  const { type } = await params;
+  const { type, query } = await params;
 
   const titles = {
-    rent: 'Heavy Equipment for Rent - Equipment Finder',
-    buy: 'Heavy Equipment for Sale - Equipment Finder',
-    tools: 'Construction Tools for Rent - Equipment Finder',
-  };
+    rent: `Equipment for Rent: ${query} - Equipment Finder`,
+    buy: `Equipment for Sale: ${query} - Equipment Finder`,
+    tools: `Tools for Rent: ${query} - Equipment Finder`,
+  } as const;
 
   const descriptions = {
-    rent: 'Find heavy equipment for rent in the Middle East. Browse excavators, cranes, loaders and more.',
-    buy: 'Buy heavy equipment in the Middle East. Quality used and new construction equipment for sale.',
-    tools:
-      'Rent construction tools and small equipment. Power tools, hand tools, and specialized equipment.',
-  };
+    rent: `Find heavy equipment for rent matching "${query}" in the Middle East`,
+    buy: `Browse heavy equipment for sale matching "${query}" from verified dealers`,
+    tools: `Rent construction tools matching "${query}" and specialized equipment`,
+  } as const;
 
   return {
-    title: titles[type as keyof typeof titles] || 'Equipment Search',
+    title: titles[type as keyof typeof titles] || `Equipment Search: ${query}`,
     description:
       descriptions[type as keyof typeof descriptions] ||
-      'Search for heavy equipment and construction tools.',
+      `Search for heavy equipment and construction tools: ${query}.`,
   };
 }

@@ -237,6 +237,7 @@ export function useSearchParams() {
         categoryId?: number;
         subCategoryId?: number;
         typeId?: number;
+        type?: string;
         brandId?: number;
         statusId?: number;
         conditionId?: number;
