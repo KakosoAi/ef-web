@@ -242,7 +242,6 @@ export const getInquiries = unstable_cache(
       const { data, error } = await supabase
         .from('inquiry')
         .select('*')
-        .eq('published', true)
         .order('createdat', { ascending: false })
         .limit(100); // Explicitly set limit to 100 records
 
@@ -317,15 +316,14 @@ export const getInquiryByIdCached = (id: string) =>
   })();
 
 /**
- * Debug function to count total published inquiries in database
+ * Debug function to count total inquiries in database
  */
 export async function countPublishedInquiries(): Promise<number> {
   try {
     const supabase = getSupabaseServerClient();
     const { count, error } = await supabase
       .from('inquiry')
-      .select('*', { count: 'exact', head: true })
-      .eq('published', true);
+      .select('*', { count: 'exact', head: true });
 
     if (error) {
       console.error('Supabase count error:', error.message);

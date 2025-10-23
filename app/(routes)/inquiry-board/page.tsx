@@ -157,17 +157,13 @@ export default function InquiryBoard() {
     selectedUrgency,
   ]);
 
-  // Categorize inquiries - must be called before any conditional returns
+  // Categorize inquiries - make first 3 inquiries featured for premium display
   const featuredInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => inquiry.featured);
-  }, [filteredInquiries]);
-
-  const promotedInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => inquiry.promoted && !inquiry.featured);
+    return filteredInquiries.slice(0, 3); // First 3 are featured
   }, [filteredInquiries]);
 
   const regularInquiries = useMemo(() => {
-    return filteredInquiries.filter(inquiry => !inquiry.promoted && !inquiry.featured);
+    return filteredInquiries.slice(3); // Rest are regular
   }, [filteredInquiries]);
 
   // Don't render until mounted on client side
@@ -224,67 +220,53 @@ export default function InquiryBoard() {
   };
 
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='min-h-screen bg-gray-50'>
       <Header />
       <main>
-        {/* Page Header */}
-        <div className='bg-card border-b border-border'>
-          <div className='max-w-7xl mx-auto px-6 lg:px-8 py-4'>
-            <div className='mb-4'>
-              <h1 className='text-xl font-semibold text-foreground mb-1'>Equipment Inquiries</h1>
-            </div>
-
-            <div className='flex flex-col lg:flex-row gap-4 items-center'>
-              <div className='relative flex-1 max-w-2xl'>
-                <Search className='absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5' />
-                <input
-                  type='text'
-                  placeholder='Search equipment inquiries...'
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                  className='w-full pl-12 pr-6 py-3 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent'
-                />
+        {/* Condensed Page Header - One Line */}
+        <div className='bg-white border-b shadow-sm'>
+          <div className='max-w-7xl mx-auto px-6 py-4'>
+            <div className='flex items-center justify-between gap-6'>
+              <div className='flex items-center gap-4'>
+                <h1 className='text-xl font-bold text-gray-900'>Equipment Inquiries</h1>
+                <span className='px-3 py-1 bg-orange-100 text-orange-700 text-sm font-semibold rounded-full'>
+                  {filteredInquiries.length} found
+                </span>
               </div>
 
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-3'>
+                <div className='relative'>
+                  <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
+                  <input
+                    type='text'
+                    placeholder='Search inquiries...'
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className='w-80 pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-gray-50'
+                  />
+                </div>
+
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-all ${
-                    showFilters ? 'bg-orange-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                    showFilters
+                      ? 'bg-orange-500 text-white shadow-md'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                   }`}
                 >
-                  <Filter className='h-3 w-3' />
-                  <span className='hidden sm:inline'>Filter</span>
+                  <Filter className='h-4 w-4' />
+                  Filter
                 </button>
-
-                <div className='flex bg-gray-100 rounded-lg p-0.5'>
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded transition-all ${
-                      viewMode === 'grid' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
-                    }`}
-                  >
-                    <Grid className='h-3 w-3' />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-1.5 rounded transition-all ${
-                      viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
-                    }`}
-                  >
-                    <List className='h-3 w-3' />
-                  </button>
-                </div>
               </div>
             </div>
 
             {showFilters && (
-              <div className='mt-3 p-3 bg-gray-50 rounded-lg'>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
+              <div className='mt-4 p-4 bg-gray-50 rounded-lg border'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                   <select
                     value={selectedCategory}
                     onChange={e => setSelectedCategory(e.target.value)}
-                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
+                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
                   >
                     {categories.map(category => (
                       <option key={category} value={category}>
@@ -295,7 +277,7 @@ export default function InquiryBoard() {
                   <select
                     value={selectedLocation}
                     onChange={e => setSelectedLocation(e.target.value)}
-                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
+                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
                   >
                     {locations.map(location => (
                       <option key={location} value={location}>
@@ -306,7 +288,7 @@ export default function InquiryBoard() {
                   <select
                     value={selectedUrgency}
                     onChange={e => setSelectedUrgency(e.target.value)}
-                    className='px-2 py-1.5 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-orange-500'
+                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
                   >
                     {urgencyLevels.map(urgency => (
                       <option key={urgency} value={urgency}>
@@ -317,45 +299,33 @@ export default function InquiryBoard() {
                 </div>
               </div>
             )}
-
-            <div className='mt-4 text-sm text-gray-600'>
-              {filteredInquiries.length} inquiries found
-            </div>
           </div>
         </div>
 
         {/* Inquiries */}
-        <div className='max-w-7xl mx-auto px-6 lg:px-8 py-8'>
+        <div className='max-w-7xl mx-auto px-6 py-6'>
           {loading ? (
-            viewMode === 'grid' ? (
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-                {/* Show skeleton cards with different types */}
+            <div className='space-y-6'>
+              {/* Featured skeleton */}
+              <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                 <InquiryCardSkeleton featured />
-                <InquiryCardSkeleton promoted />
-                <InquiryCardSkeleton />
-                <InquiryCardSkeleton />
+                <InquiryCardSkeleton featured />
+                <InquiryCardSkeleton featured />
+              </div>
+              {/* Regular skeleton */}
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                 <InquiryCardSkeleton />
                 <InquiryCardSkeleton />
                 <InquiryCardSkeleton />
                 <InquiryCardSkeleton />
               </div>
-            ) : (
-              <div className='space-y-4'>
-                {/* Show skeleton list items */}
-                <InquiryListSkeleton />
-                <InquiryListSkeleton />
-                <InquiryListSkeleton />
-                <InquiryListSkeleton />
-                <InquiryListSkeleton />
-                <InquiryListSkeleton />
-              </div>
-            )
+            </div>
           ) : error ? (
             <div className='text-center py-12'>
               <div className='text-red-600 mb-4'>Error: {error}</div>
               <button
                 onClick={() => window.location.reload()}
-                className='px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90'
+                className='px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600'
               >
                 Retry
               </button>
@@ -370,196 +340,197 @@ export default function InquiryBoard() {
                   setSelectedLocation('All Locations');
                   setSelectedUrgency('All Urgency');
                 }}
-                className='px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90'
+                className='px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600'
               >
                 Clear Filters
               </button>
             </div>
-          ) : viewMode === 'grid' ? (
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-              {filteredInquiries.map(inquiry => (
-                <Link
-                  key={inquiry.id}
-                  href={`/inquiry-board/${inquiry.id}`}
-                  className={`group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 cursor-pointer block overflow-hidden ${
-                    inquiry.featured
-                      ? 'md:col-span-2 lg:col-span-2 border-orange-200 shadow-md'
-                      : inquiry.promoted
-                        ? 'md:col-span-1 lg:col-span-1 border-blue-200 shadow-md'
-                        : ''
-                  }`}
-                >
-                  <div
-                    className={`p-6 ${inquiry.featured ? 'p-8' : inquiry.promoted ? 'p-7' : 'p-6'}`}
-                  >
-                    {/* Header Section - Like Invoice Header */}
-                    <div className='flex items-start justify-between mb-4 pb-3 border-b border-gray-100'>
-                      <div className='flex items-center gap-3'>
-                        <div
-                          className={`relative ${
-                            inquiry.featured
-                              ? 'w-12 h-12'
-                              : inquiry.promoted
-                                ? 'w-10 h-10'
-                                : 'w-8 h-8'
-                          }`}
-                        >
-                          {getCategoryIcon(inquiry.category)}
-                        </div>
-                        <div>
-                          <span
-                            className={`px-3 py-1 rounded-md font-medium bg-orange-50 text-orange-700 border border-orange-200 ${
-                              inquiry.featured
-                                ? 'text-sm'
-                                : inquiry.promoted
-                                  ? 'text-xs'
-                                  : 'text-xs'
-                            }`}
-                          >
-                            {inquiry.category}
-                          </span>
-                        </div>
-                      </div>
-                      <div className='text-right'>
-                        <div className='text-xs text-gray-500 mb-1'>Posted</div>
-                        <div className='text-sm font-medium text-gray-700'>
-                          {new Date(inquiry.postedDate).toLocaleDateString()}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Main Content - Like Invoice Body */}
-                    <div className='mb-4'>
-                      <h3
-                        className={`font-semibold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 leading-tight ${
-                          inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
-                        }`}
-                      >
-                        {inquiry.title}
-                      </h3>
-
-                      <div className='grid grid-cols-2 gap-3 mb-4'>
-                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                          <MapPin className='h-4 w-4 text-orange-500 flex-shrink-0' />
-                          <span className='font-medium truncate'>{inquiry.location}</span>
-                        </div>
-                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                          <Building2 className='h-4 w-4 text-blue-500 flex-shrink-0' />
-                          <span className='font-medium truncate'>{inquiry.company}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Footer Section - Like Invoice Total */}
-                    <div className='pt-3 border-t border-gray-100'>
-                      <div className='flex items-center justify-between'>
-                        <div className='text-xs text-gray-500'>Budget</div>
-                        <div
-                          className={`font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-lg shadow-sm ${
-                            inquiry.featured
-                              ? 'text-base'
-                              : inquiry.promoted
-                                ? 'text-sm'
-                                : 'text-sm'
-                          }`}
-                        >
-                          {inquiry.budget}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
           ) : (
-            <div className='space-y-4'>
-              {filteredInquiries.map(inquiry => (
-                <Link
-                  key={inquiry.id}
-                  href={`/inquiry-board/${inquiry.id}`}
-                  className='block group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 cursor-pointer overflow-hidden'
-                >
-                  <div className='flex items-start gap-4 p-6'>
-                    {/* Left Icon Section */}
-                    <div className='flex-shrink-0'>
-                      <div
-                        className={`relative ${
-                          inquiry.featured
-                            ? 'w-12 h-12'
-                            : inquiry.promoted
-                              ? 'w-10 h-10'
-                              : 'w-8 h-8'
-                        }`}
-                      >
-                        {getCategoryIcon(inquiry.category)}
-                      </div>
-                    </div>
-
-                    {/* Main Content Section */}
-                    <div className='flex-1 min-w-0'>
-                      {/* Header Row */}
-                      <div className='flex items-start justify-between mb-3 pb-2 border-b border-gray-100'>
-                        <div className='flex items-center gap-3'>
-                          <span
-                            className={`px-3 py-1 rounded-md font-medium bg-orange-50 text-orange-700 border border-orange-200 ${
-                              inquiry.featured ? 'text-sm' : 'text-xs'
-                            }`}
-                          >
-                            {inquiry.category}
-                          </span>
-                        </div>
-                        <div className='text-right'>
-                          <div className='text-xs text-gray-500'>Posted</div>
-                          <div className='text-sm font-medium text-gray-700'>
-                            {new Date(inquiry.postedDate).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Title */}
-                      <h3
-                        className={`font-medium text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 ${
-                          inquiry.featured ? 'text-lg' : inquiry.promoted ? 'text-base' : 'text-sm'
-                        }`}
-                      >
-                        {inquiry.title}
-                      </h3>
-
-                      {/* Location and Company Row */}
-                      <div className='flex items-center gap-6 mb-3'>
-                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                          <MapPin className='h-4 w-4 text-orange-500 flex-shrink-0' />
-                          <span className='font-medium'>{inquiry.location}</span>
-                        </div>
-                        <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                          <Building2 className='h-4 w-4 text-blue-500 flex-shrink-0' />
-                          <span className='font-medium'>{inquiry.company}</span>
-                        </div>
-                      </div>
-
-                      {/* Footer - Budget */}
-                      <div className='pt-2 border-t border-gray-100'>
-                        <div className='flex items-center justify-between'>
-                          <div className='text-xs text-gray-500'>Budget</div>
-                          <div className='text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-lg shadow-sm'>
-                            {inquiry.budget}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+            <div className='space-y-8'>
+              {/* Featured Inquiries - Premium Display */}
+              {featuredInquiries.length > 0 && (
+                <div>
+                  <div className='flex items-center gap-2 mb-4'>
+                    <div className='w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full'></div>
+                    <h2 className='text-lg font-semibold text-gray-900'>Featured Inquiries</h2>
+                    <span className='px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full'>
+                      Premium
+                    </span>
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                  <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+                    {featuredInquiries.map(inquiry => (
+                      <Link
+                        key={inquiry.id}
+                        href={`/inquiry-board/${inquiry.id}`}
+                        className='group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 overflow-hidden transform hover:-translate-y-1'
+                      >
+                        <div className='p-4'>
+                          {/* Header with Premium Badge and Urgency */}
+                          <div className='flex items-center justify-between mb-3'>
+                            <span className='px-2 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-md shadow-sm'>
+                              ⭐ FEATURED
+                            </span>
+                            <span
+                              className={`px-2 py-1 rounded-md text-xs font-medium ${getUrgencyColor(inquiry.urgency)}`}
+                            >
+                              {inquiry.urgency}
+                            </span>
+                          </div>
 
-          {filteredInquiries.length === 0 && (
-            <div className='text-center py-12'>
-              <div className='text-gray-400 mb-4'>
-                <Search className='h-12 w-12 mx-auto' />
-              </div>
-              <h3 className='text-lg font-medium text-gray-900 mb-2'>No inquiries found</h3>
-              <p className='text-gray-500'>Try adjusting your search or filters</p>
+                          {/* Main Content - Left Aligned */}
+                          <div className='flex gap-4'>
+                            {/* Large Category Image - Left Side */}
+                            <div className='flex-shrink-0'>
+                              <div className='relative w-32 h-32 bg-gray-50 rounded-xl shadow-sm p-4 border border-gray-100'>
+                                {getCategoryIcon(inquiry.category)}
+                              </div>
+                              <div className='mt-2 text-center'>
+                                <span className='px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-md'>
+                                  {inquiry.category}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Content - Right Side */}
+                            <div className='flex-1 min-w-0'>
+                              {/* Title */}
+                              <h3 className='font-bold text-lg text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2'>
+                                {inquiry.title}
+                              </h3>
+
+                              {/* Description */}
+                              <p className='text-gray-600 text-sm mb-3 line-clamp-2'>
+                                {inquiry.description}
+                              </p>
+
+                              {/* Details */}
+                              <div className='space-y-2 mb-3'>
+                                <div className='flex items-center gap-2'>
+                                  <MapPin className='h-3 w-3 text-orange-500 flex-shrink-0' />
+                                  <span className='text-sm text-gray-700 truncate'>
+                                    {inquiry.location}
+                                  </span>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                  <Building2 className='h-3 w-3 text-blue-500 flex-shrink-0' />
+                                  <span className='text-sm text-gray-700 truncate'>
+                                    {inquiry.company}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Budget & Date */}
+                              <div className='flex items-center justify-between pt-2 border-t border-gray-100'>
+                                <div>
+                                  <div className='text-xs text-gray-500'>Budget</div>
+                                  <div className='font-bold text-orange-600'>{inquiry.budget}</div>
+                                </div>
+                                <div className='text-right'>
+                                  <div className='text-xs text-gray-500'>Posted</div>
+                                  <div className='text-sm text-gray-700'>
+                                    {new Date(inquiry.postedDate).toLocaleDateString()}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Regular Inquiries */}
+              {regularInquiries.length > 0 && (
+                <div>
+                  <div className='flex items-center gap-2 mb-4'>
+                    <div className='w-1 h-6 bg-gray-400 rounded-full'></div>
+                    <h2 className='text-lg font-semibold text-gray-900'>All Inquiries</h2>
+                  </div>
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                    {regularInquiries.map(inquiry => (
+                      <Link
+                        key={inquiry.id}
+                        href={`/inquiry-board/${inquiry.id}`}
+                        className='group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 hover:border-orange-300 overflow-hidden'
+                      >
+                        <div className='p-4'>
+                          {/* Header with Urgency */}
+                          <div className='flex items-center justify-between mb-3'>
+                            <span
+                              className={`px-2 py-1 rounded-md text-xs font-medium ${getUrgencyColor(inquiry.urgency)}`}
+                            >
+                              {inquiry.urgency}
+                            </span>
+                          </div>
+
+                          {/* Main Content - Left Aligned */}
+                          <div className='flex gap-3'>
+                            {/* Large Category Image - Left Side */}
+                            <div className='flex-shrink-0'>
+                              <div className='relative w-20 h-20 bg-gray-50 rounded-lg shadow-sm p-3 border border-gray-100'>
+                                {getCategoryIcon(inquiry.category)}
+                              </div>
+                            </div>
+
+                            {/* Content - Right Side */}
+                            <div className='flex-1 min-w-0'>
+                              {/* Category Badge */}
+                              <div className='mb-2'>
+                                <span className='px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-md'>
+                                  {inquiry.category}
+                                </span>
+                              </div>
+
+                              {/* Title */}
+                              <h3 className='font-semibold text-sm text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2'>
+                                {inquiry.title}
+                              </h3>
+
+                              {/* Location & Company */}
+                              <div className='space-y-1 mb-2'>
+                                <div className='flex items-center gap-1'>
+                                  <MapPin className='h-3 w-3 text-orange-500 flex-shrink-0' />
+                                  <span className='text-xs text-gray-600 truncate'>
+                                    {inquiry.location}
+                                  </span>
+                                </div>
+                                <div className='flex items-center gap-1'>
+                                  <Building2 className='h-3 w-3 text-blue-500 flex-shrink-0' />
+                                  <span className='text-xs text-gray-600 truncate'>
+                                    {inquiry.company}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Budget */}
+                              <div className='pt-2 border-t border-gray-100'>
+                                <div className='text-xs text-gray-500'>Budget</div>
+                                <div className='font-bold text-orange-600 text-sm'>
+                                  {inquiry.budget}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Footer - Removed view/comment counts */}
+                          <div className='mt-3 pt-2 border-t border-gray-100'>
+                            <div className='flex items-center justify-between'>
+                              <div className='text-xs text-gray-500'>
+                                Posted {new Date(inquiry.postedDate).toLocaleDateString()}
+                              </div>
+                              <div className='text-xs font-medium text-orange-600'>
+                                View Details
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
