@@ -94,19 +94,37 @@ export async function getInquiriesUncached(): Promise<InquiryForDisplay[]> {
       // Parse details JSON if it exists
       const details = record.details || {};
 
+      // Helper function to safely get string values from details
+      const getStringValue = (key: string, defaultValue: string = ''): string => {
+        const value = details[key];
+        return typeof value === 'string' ? value : defaultValue;
+      };
+
+      // Helper function to safely get number values from details
+      const getNumberValue = (key: string): number | undefined => {
+        const value = details[key];
+        return typeof value === 'number' ? value : undefined;
+      };
+
+      // Helper function to safely get array values from details
+      const getArrayValue = (key: string): string[] => {
+        const value = details[key];
+        return Array.isArray(value) ? value : [];
+      };
+
       // Map database fields to display format
       return {
         id: record.id.toString(),
         title: record.title ? `${record.title} (ID: ${record.id})` : `Inquiry #${record.id}`,
         description: record.description || 'No description available',
-        category: details.category || 'General Equipment',
-        location: details.location || 'Location not specified',
+        category: getStringValue('category', 'General Equipment'),
+        location: getStringValue('location', 'Location not specified'),
         urgency: mapStatusToUrgency(record.statusid),
-        budget: details.budget || 'Contact for pricing',
+        budget: getStringValue('budget', 'Contact for pricing'),
         postedDate: record.createdat.split('T')[0], // Format date
         views: Math.floor(Math.random() * 500) + 50, // Mock data for now
         responses: Math.floor(Math.random() * 20) + 1, // Mock data for now
-        company: details.company || record.name || 'Anonymous',
+        company: getStringValue('company') || record.name || 'Anonymous',
         rating: 4.0 + Math.random() * 1.0, // Mock rating
         verified: record.consent, // Use consent as verification indicator
         promoted: record.adtypeid !== null, // Has ad type = promoted
@@ -117,16 +135,16 @@ export async function getInquiriesUncached(): Promise<InquiryForDisplay[]> {
           phone: record.phonenumber || '',
         },
         equipmentDetails: {
-          category: details.category || 'General Equipment',
-          subCategory: details.subCategory,
-          purpose: details.purpose,
-          modelsOfInterest: details.modelsOfInterest || [],
-          quantity: details.quantity,
-          duration: details.duration,
-          startDate: details.startDate,
-          workingHours: details.workingHours,
-          siteConditions: details.siteConditions,
-          budgetRange: details.budgetRange || details.budget,
+          category: getStringValue('category', 'General Equipment'),
+          subCategory: getStringValue('subCategory') || undefined,
+          purpose: getStringValue('purpose') || undefined,
+          modelsOfInterest: getArrayValue('modelsOfInterest'),
+          quantity: getNumberValue('quantity'),
+          duration: getStringValue('duration') || undefined,
+          startDate: getStringValue('startDate') || undefined,
+          workingHours: getStringValue('workingHours') || undefined,
+          siteConditions: getStringValue('siteConditions') || undefined,
+          budgetRange: getStringValue('budgetRange') || getStringValue('budget') || undefined,
         },
       };
     });
@@ -161,25 +179,43 @@ export async function getInquiryById(id: string): Promise<InquiryForDisplay | nu
     const record = data[0] as InquiryRecord;
     const details = record.details || {};
 
+    // Helper function to safely get string values from details
+    const getStringValue = (key: string, defaultValue: string = ''): string => {
+      const value = details[key];
+      return typeof value === 'string' ? value : defaultValue;
+    };
+
+    // Helper function to safely get number values from details
+    const getNumberValue = (key: string): number | undefined => {
+      const value = details[key];
+      return typeof value === 'number' ? value : undefined;
+    };
+
+    // Helper function to safely get array values from details
+    const getArrayValue = (key: string): string[] => {
+      const value = details[key];
+      return Array.isArray(value) ? value : [];
+    };
+
     return {
       id: record.id.toString(),
       title: record.title ? `${record.title} (ID: ${record.id})` : `Inquiry #${record.id}`,
       description: record.description || 'No description available',
-      category: details.category || 'General Equipment',
-      location: details.location || 'Location not specified',
+      category: getStringValue('category', 'General Equipment'),
+      location: getStringValue('location', 'Location not specified'),
       urgency: mapStatusToUrgency(record.statusid),
-      budget: details.budget || 'Contact for pricing',
+      budget: getStringValue('budget', 'Contact for pricing'),
       postedDate: record.createdat.split('T')[0],
       views: Math.floor(Math.random() * 500) + 50,
       responses: Math.floor(Math.random() * 20) + 1,
-      company: details.company || record.name || 'Anonymous',
+      company: getStringValue('company') || record.name || 'Anonymous',
       rating: 4.0 + Math.random() * 1.0,
       verified: record.consent,
       promoted: record.adtypeid !== null,
       featured: record.exempt_payment,
       projectDetails: {
-        location: details.location || 'Location not specified',
-        projectType: details.projectType || 'General Project',
+        location: getStringValue('location', 'Location not specified'),
+        projectType: getStringValue('projectType', 'General Project'),
         urgency: mapStatusToUrgency(record.statusid),
         status: 'Active',
       },
@@ -194,16 +230,16 @@ export async function getInquiryById(id: string): Promise<InquiryForDisplay | nu
         phone: record.phonenumber || '',
       },
       equipmentDetails: {
-        category: details.category || 'General Equipment',
-        subCategory: details.subCategory,
-        purpose: details.purpose,
-        modelsOfInterest: details.modelsOfInterest || [],
-        quantity: details.quantity,
-        duration: details.duration,
-        startDate: details.startDate,
-        workingHours: details.workingHours,
-        siteConditions: details.siteConditions,
-        budgetRange: details.budgetRange || details.budget,
+        category: getStringValue('category', 'General Equipment'),
+        subCategory: getStringValue('subCategory') || undefined,
+        purpose: getStringValue('purpose') || undefined,
+        modelsOfInterest: getArrayValue('modelsOfInterest'),
+        quantity: getNumberValue('quantity'),
+        duration: getStringValue('duration') || undefined,
+        startDate: getStringValue('startDate') || undefined,
+        workingHours: getStringValue('workingHours') || undefined,
+        siteConditions: getStringValue('siteConditions') || undefined,
+        budgetRange: getStringValue('budgetRange') || getStringValue('budget') || undefined,
       },
     };
   } catch (e) {
@@ -256,19 +292,37 @@ export const getInquiries = unstable_cache(
         // Parse details JSON if it exists
         const details = record.details || {};
 
+        // Helper function to safely get string values from details
+        const getStringValue = (key: string, defaultValue: string = ''): string => {
+          const value = details[key];
+          return typeof value === 'string' ? value : defaultValue;
+        };
+
+        // Helper function to safely get number values from details
+        const getNumberValue = (key: string): number | undefined => {
+          const value = details[key];
+          return typeof value === 'number' ? value : undefined;
+        };
+
+        // Helper function to safely get array values from details
+        const getArrayValue = (key: string): string[] => {
+          const value = details[key];
+          return Array.isArray(value) ? value : [];
+        };
+
         // Map database fields to display format
         return {
           id: record.id.toString(),
           title: record.title ? `${record.title} (ID: ${record.id})` : `Inquiry #${record.id}`,
           description: record.description || 'No description available',
-          category: details.category || 'General Equipment',
-          location: details.location || 'Location not specified',
+          category: getStringValue('category', 'General Equipment'),
+          location: getStringValue('location', 'Location not specified'),
           urgency: mapStatusToUrgency(record.statusid),
-          budget: details.budget || 'Contact for pricing',
+          budget: getStringValue('budget', 'Contact for pricing'),
           postedDate: record.createdat.split('T')[0], // Format date
           views: 0, // Not available in database
           responses: 0, // Not available in database
-          company: details.company || record.name || 'Anonymous',
+          company: getStringValue('company') || record.name || 'Anonymous',
           rating: 0, // Not available in database
           verified: record.consent, // Use consent as verification indicator
           promoted: record.adtypeid !== null, // Has ad type = promoted
@@ -279,16 +333,16 @@ export const getInquiries = unstable_cache(
             phone: record.phonenumber || '',
           },
           equipmentDetails: {
-            category: details.category || 'General Equipment',
-            subCategory: details.subCategory,
-            purpose: details.purpose,
-            modelsOfInterest: details.modelsOfInterest || [],
-            quantity: details.quantity,
-            duration: details.duration,
-            startDate: details.startDate,
-            workingHours: details.workingHours,
-            siteConditions: details.siteConditions,
-            budgetRange: details.budgetRange || details.budget,
+            category: getStringValue('category', 'General Equipment'),
+            subCategory: getStringValue('subCategory') || undefined,
+            purpose: getStringValue('purpose') || undefined,
+            modelsOfInterest: getArrayValue('modelsOfInterest'),
+            quantity: getNumberValue('quantity'),
+            duration: getStringValue('duration') || undefined,
+            startDate: getStringValue('startDate') || undefined,
+            workingHours: getStringValue('workingHours') || undefined,
+            siteConditions: getStringValue('siteConditions') || undefined,
+            budgetRange: getStringValue('budgetRange') || getStringValue('budget') || undefined,
           },
         };
       });
