@@ -82,14 +82,12 @@ export async function getInquiriesUncached(): Promise<InquiryForDisplay[]> {
       .limit(100); // Explicitly set limit to 100 records
 
     if (error) {
-      console.error('Supabase inquiries error:', error.message);
       return [];
     }
 
     const records = (data ?? []) as InquiryRecord[];
     if (!records.length) return [];
 
-    console.log(`Fetched ${records.length} inquiries from database`);
     return records.map(record => {
       // Parse details JSON if it exists
       const details = record.details || {};
@@ -149,7 +147,6 @@ export async function getInquiriesUncached(): Promise<InquiryForDisplay[]> {
       };
     });
   } catch (e) {
-    console.error('Supabase client unavailable:', e);
     return [];
   }
 }
@@ -167,12 +164,10 @@ export async function getInquiryById(id: string): Promise<InquiryForDisplay | nu
       .limit(1);
 
     if (error) {
-      console.error('Supabase inquiry by ID error:', error?.message);
       return null;
     }
 
     if (!data || data.length === 0) {
-      console.log(`No inquiry found with ID: ${id}`);
       return null;
     }
 
@@ -243,7 +238,6 @@ export async function getInquiryById(id: string): Promise<InquiryForDisplay | nu
       },
     };
   } catch (e) {
-    console.error('Supabase client unavailable:', e);
     return null;
   }
 }
@@ -280,14 +274,12 @@ export const getInquiries = unstable_cache(
         .limit(100); // Explicitly set limit to 100 records
 
       if (error) {
-        console.error('Supabase inquiries error:', error.message);
         return [];
       }
 
       const records = (data ?? []) as InquiryRecord[];
       if (!records.length) return [];
 
-      console.log(`Fetched ${records.length} inquiries from database`);
       return records.map(record => {
         // Parse details JSON if it exists
         const details = record.details || {};
@@ -347,7 +339,6 @@ export const getInquiries = unstable_cache(
         };
       });
     } catch (e) {
-      console.error('Supabase client unavailable:', e);
       return [];
     }
   },
@@ -378,13 +369,11 @@ export async function countPublishedInquiries(): Promise<number> {
       .select('*', { count: 'exact', head: true });
 
     if (error) {
-      console.error('Supabase count error:', error.message);
       return 0;
     }
 
     return count || 0;
   } catch (e) {
-    console.error('Supabase client unavailable:', e);
     return 0;
   }
 }

@@ -6,7 +6,6 @@ export async function GET() {
     const inquiries = await getInquiriesCached();
     return NextResponse.json(inquiries);
   } catch (error) {
-    console.error('Error fetching inquiries:', error);
     return NextResponse.json({ error: 'Failed to fetch inquiries' }, { status: 500 });
   }
 }

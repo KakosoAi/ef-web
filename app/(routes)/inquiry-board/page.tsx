@@ -99,7 +99,6 @@ export default function InquiryBoard() {
 
         setInquiries(data);
       } catch (err) {
-        console.error('Error fetching inquiries:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);

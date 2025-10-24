@@ -12,7 +12,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json(inquiry);
   } catch (error) {
-    console.error('Error fetching inquiry:', error);
     return NextResponse.json({ error: 'Failed to fetch inquiry' }, { status: 500 });
   }
 }

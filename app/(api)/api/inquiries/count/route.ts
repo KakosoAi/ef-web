@@ -6,7 +6,6 @@ export async function GET() {
     const count = await countPublishedInquiries();
     return NextResponse.json({ count });
   } catch (error) {
-    console.error('Error counting inquiries:', error);
     return NextResponse.json({ error: 'Failed to count inquiries' }, { status: 500 });
   }
 }
