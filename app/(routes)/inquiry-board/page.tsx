@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Search,
   Filter,
@@ -17,6 +18,7 @@ import {
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import { InquiryCardSkeleton, InquiryListSkeleton } from '@/shared/ui/inquiry-skeleton';
+import { InquiryCard } from '@/shared/ui/inquiry-card';
 
 interface Inquiry {
   id: string;
@@ -54,6 +56,7 @@ interface Inquiry {
 }
 
 export default function InquiryBoard() {
+  const router = useRouter();
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,6 +69,14 @@ export default function InquiryBoard() {
   const [selectedUrgency, setSelectedUrgency] = useState('All Urgency');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+
+  // Handle AI Map click
+  const handleAiMapClick = (inquiry: Inquiry) => {
+    if (inquiry.location && inquiry.location !== 'N/A') {
+      const url = `/ai-map-search?location=${encodeURIComponent(inquiry.location)}&inquiry=${inquiry.id}&category=${encodeURIComponent(inquiry.category)}`;
+      router.push(url);
+    }
+  };
 
   // Ensure component is mounted on client side
   useEffect(() => {
@@ -359,83 +370,14 @@ export default function InquiryBoard() {
                   </div>
                   <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                     {featuredInquiries.map(inquiry => (
-                      <Link
+                      <InquiryCard
                         key={inquiry.id}
-                        href={`/inquiry-board/${inquiry.id}`}
-                        className='group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-orange-300 overflow-hidden transform hover:-translate-y-1'
-                      >
-                        <div className='p-4'>
-                          {/* Header with Premium Badge and Urgency */}
-                          <div className='flex items-center justify-between mb-3'>
-                            <span className='px-2 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-md shadow-sm'>
-                              ⭐ FEATURED
-                            </span>
-                            <span
-                              className={`px-2 py-1 rounded-md text-xs font-medium ${getUrgencyColor(inquiry.urgency)}`}
-                            >
-                              {inquiry.urgency}
-                            </span>
-                          </div>
-
-                          {/* Main Content - Left Aligned */}
-                          <div className='flex gap-4'>
-                            {/* Large Category Image - Left Side */}
-                            <div className='flex-shrink-0'>
-                              <div className='relative w-32 h-32 bg-gray-50 rounded-xl shadow-sm p-4 border border-gray-100'>
-                                {getCategoryIcon(inquiry.category)}
-                              </div>
-                              <div className='mt-2 text-center'>
-                                <span className='px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-md'>
-                                  {inquiry.category}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Content - Right Side */}
-                            <div className='flex-1 min-w-0'>
-                              {/* Title */}
-                              <h3 className='font-bold text-lg text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2'>
-                                {inquiry.title}
-                              </h3>
-
-                              {/* Description */}
-                              <p className='text-gray-600 text-sm mb-3 line-clamp-2'>
-                                {inquiry.description}
-                              </p>
-
-                              {/* Details */}
-                              <div className='space-y-2 mb-3'>
-                                <div className='flex items-center gap-2'>
-                                  <MapPin className='h-3 w-3 text-orange-500 flex-shrink-0' />
-                                  <span className='text-sm text-gray-700 truncate'>
-                                    {inquiry.location}
-                                  </span>
-                                </div>
-                                <div className='flex items-center gap-2'>
-                                  <Building2 className='h-3 w-3 text-blue-500 flex-shrink-0' />
-                                  <span className='text-sm text-gray-700 truncate'>
-                                    {inquiry.company}
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Budget & Date */}
-                              <div className='flex items-center justify-between pt-2 border-t border-gray-100'>
-                                <div>
-                                  <div className='text-xs text-gray-500'>Budget</div>
-                                  <div className='font-bold text-orange-600'>{inquiry.budget}</div>
-                                </div>
-                                <div className='text-right'>
-                                  <div className='text-xs text-gray-500'>Posted</div>
-                                  <div className='text-sm text-gray-700'>
-                                    {new Date(inquiry.postedDate).toLocaleDateString()}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
+                        inquiry={inquiry}
+                        onAiMapClick={() => handleAiMapClick(inquiry)}
+                        showAiMapButton={true}
+                        className='transform hover:-translate-y-1 transition-all duration-300'
+                        onClick={() => router.push(`/inquiry-board/${inquiry.id}`)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -450,83 +392,13 @@ export default function InquiryBoard() {
                   </div>
                   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                     {regularInquiries.map(inquiry => (
-                      <Link
+                      <InquiryCard
                         key={inquiry.id}
-                        href={`/inquiry-board/${inquiry.id}`}
-                        className='group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 hover:border-orange-300 overflow-hidden'
-                      >
-                        <div className='p-4'>
-                          {/* Header with Urgency */}
-                          <div className='flex items-center justify-between mb-3'>
-                            <span
-                              className={`px-2 py-1 rounded-md text-xs font-medium ${getUrgencyColor(inquiry.urgency)}`}
-                            >
-                              {inquiry.urgency}
-                            </span>
-                          </div>
-
-                          {/* Main Content - Left Aligned */}
-                          <div className='flex gap-3'>
-                            {/* Large Category Image - Left Side */}
-                            <div className='flex-shrink-0'>
-                              <div className='relative w-20 h-20 bg-gray-50 rounded-lg shadow-sm p-3 border border-gray-100'>
-                                {getCategoryIcon(inquiry.category)}
-                              </div>
-                            </div>
-
-                            {/* Content - Right Side */}
-                            <div className='flex-1 min-w-0'>
-                              {/* Category Badge */}
-                              <div className='mb-2'>
-                                <span className='px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-md'>
-                                  {inquiry.category}
-                                </span>
-                              </div>
-
-                              {/* Title */}
-                              <h3 className='font-semibold text-sm text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2'>
-                                {inquiry.title}
-                              </h3>
-
-                              {/* Location & Company */}
-                              <div className='space-y-1 mb-2'>
-                                <div className='flex items-center gap-1'>
-                                  <MapPin className='h-3 w-3 text-orange-500 flex-shrink-0' />
-                                  <span className='text-xs text-gray-600 truncate'>
-                                    {inquiry.location}
-                                  </span>
-                                </div>
-                                <div className='flex items-center gap-1'>
-                                  <Building2 className='h-3 w-3 text-blue-500 flex-shrink-0' />
-                                  <span className='text-xs text-gray-600 truncate'>
-                                    {inquiry.company}
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Budget */}
-                              <div className='pt-2 border-t border-gray-100'>
-                                <div className='text-xs text-gray-500'>Budget</div>
-                                <div className='font-bold text-orange-600 text-sm'>
-                                  {inquiry.budget}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Footer - Removed view/comment counts */}
-                          <div className='mt-3 pt-2 border-t border-gray-100'>
-                            <div className='flex items-center justify-between'>
-                              <div className='text-xs text-gray-500'>
-                                Posted {new Date(inquiry.postedDate).toLocaleDateString()}
-                              </div>
-                              <div className='text-xs font-medium text-orange-600'>
-                                View Details
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
+                        inquiry={inquiry}
+                        onAiMapClick={() => handleAiMapClick(inquiry)}
+                        showAiMapButton={true}
+                        onClick={() => router.push(`/inquiry-board/${inquiry.id}`)}
+                      />
                     ))}
                   </div>
                 </div>

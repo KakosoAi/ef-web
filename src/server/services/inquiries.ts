@@ -11,7 +11,7 @@ export interface InquiryRecord {
   email: string | null;
   phonenumber: string | null;
   title: string | null;
-  details: any | null; // jsonb field
+  details: Record<string, unknown> | null; // jsonb field
   description: string | null;
   createdat: string;
   updatedat: string;
