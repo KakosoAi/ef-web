@@ -1,29 +1,12 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
-import { Checkbox } from '@/shared/ui/checkbox';
-import { Slider } from '@/shared/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
-import {
-  Search,
-  Filter,
-  X,
-  MapPin,
-  Calendar,
-  DollarSign,
-  Settings,
-  Truck,
-  ChevronUp,
-  ChevronDown,
-} from 'lucide-react';
-import { equipmentCategories } from '@/shared/constants';
-import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
+import { ChevronDown, ChevronUp, Filter, Search, X } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
 interface FilterSection {
   id: string;
@@ -293,6 +276,80 @@ export default function EquipmentFilters({
 
         {/* Filter Sections */}
         <div className='space-y-6'>
+          {/* Active Filters */}
+          {hasActiveFilters && (
+            <div className='mt-6 pt-6 border-t border-border'>
+              <h4 className='text-sm font-medium text-foreground mb-3'>Active Filters</h4>
+              <div className='flex flex-wrap gap-2'>
+                {searchQuery && (
+                  <Badge variant='secondary' className='text-xs'>
+                    Search: {searchQuery}
+                    <button
+                      onClick={() => onSearchChange('')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+                {selectedCategory !== 'All Categories' && (
+                  <Badge variant='secondary' className='text-xs'>
+                    {selectedCategory}
+                    <button
+                      onClick={() => onCategoryChange('All Categories')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+                {selectedLocation !== 'All Locations' && (
+                  <Badge variant='secondary' className='text-xs'>
+                    {selectedLocation}
+                    <button
+                      onClick={() => onLocationChange('All Locations')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+                {selectedCondition !== 'All Conditions' && (
+                  <Badge variant='secondary' className='text-xs'>
+                    {selectedCondition}
+                    <button
+                      onClick={() => onConditionChange('All Conditions')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+                {selectedPriceRange !== 'All Prices' && (
+                  <Badge variant='secondary' className='text-xs'>
+                    {selectedPriceRange}
+                    <button
+                      onClick={() => onPriceRangeChange('All Prices')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+                {selectedYear !== 'All Years' && (
+                  <Badge variant='secondary' className='text-xs'>
+                    {selectedYear}
+                    <button
+                      onClick={() => onYearChange('All Years')}
+                      className='ml-1 hover:text-destructive'
+                    >
+                      <X className='h-3 w-3' />
+                    </button>
+                  </Badge>
+                )}
+              </div>
+            </div>
+          )}
           {/* Category Filter */}
           <div>
             <button
@@ -461,81 +518,6 @@ export default function EquipmentFilters({
             )}
           </div>
         </div>
-
-        {/* Active Filters */}
-        {hasActiveFilters && (
-          <div className='mt-6 pt-6 border-t border-border'>
-            <h4 className='text-sm font-medium text-foreground mb-3'>Active Filters</h4>
-            <div className='flex flex-wrap gap-2'>
-              {searchQuery && (
-                <Badge variant='secondary' className='text-xs'>
-                  Search: {searchQuery}
-                  <button
-                    onClick={() => onSearchChange('')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-              {selectedCategory !== 'All Categories' && (
-                <Badge variant='secondary' className='text-xs'>
-                  {selectedCategory}
-                  <button
-                    onClick={() => onCategoryChange('All Categories')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-              {selectedLocation !== 'All Locations' && (
-                <Badge variant='secondary' className='text-xs'>
-                  {selectedLocation}
-                  <button
-                    onClick={() => onLocationChange('All Locations')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-              {selectedCondition !== 'All Conditions' && (
-                <Badge variant='secondary' className='text-xs'>
-                  {selectedCondition}
-                  <button
-                    onClick={() => onConditionChange('All Conditions')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-              {selectedPriceRange !== 'All Prices' && (
-                <Badge variant='secondary' className='text-xs'>
-                  {selectedPriceRange}
-                  <button
-                    onClick={() => onPriceRangeChange('All Prices')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-              {selectedYear !== 'All Years' && (
-                <Badge variant='secondary' className='text-xs'>
-                  {selectedYear}
-                  <button
-                    onClick={() => onYearChange('All Years')}
-                    className='ml-1 hover:text-destructive'
-                  >
-                    <X className='h-3 w-3' />
-                  </button>
-                </Badge>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
