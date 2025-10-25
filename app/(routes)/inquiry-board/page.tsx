@@ -374,7 +374,6 @@ export default function InquiryBoard() {
                         inquiry={inquiry}
                         onAiMapClick={() => handleAiMapClick(inquiry)}
                         showAiMapButton={true}
-                        className='transform hover:-translate-y-1 transition-all duration-300'
                         onClick={() => router.push(`/inquiry-board/${inquiry.id}`)}
                       />
                     ))}

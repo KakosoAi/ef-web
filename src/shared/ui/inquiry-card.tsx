@@ -48,6 +48,7 @@ interface InquiryCardProps extends React.HTMLAttributes<HTMLDivElement> {
   };
   onAiMapClick?: () => void;
   showAiMapButton?: boolean;
+  onClick?: () => void;
 }
 
 // Define stat item component for DRY principle
@@ -115,7 +116,7 @@ const getCategoryIcon = (category: string) => {
 };
 
 const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
-  ({ className, inquiry, onAiMapClick, showAiMapButton = true, ...props }, ref) => {
+  ({ className, inquiry, onAiMapClick, showAiMapButton = true, onClick, ...props }, ref) => {
     const hasLocation = inquiry.location && inquiry.location !== 'Location not specified';
 
     return (
@@ -123,10 +124,12 @@ const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
         ref={ref}
         className={cn(
           'w-full max-w-sm overflow-hidden rounded-2xl bg-card text-card-foreground shadow-lg border border-gray-200',
+          onClick ? 'cursor-pointer' : '',
           className
         )}
         whileHover={{ y: -5, scale: 1.02 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        onClick={onClick}
       >
         {/* Top section with category image background and content */}
         <div className='relative h-60 w-full overflow-hidden'>
