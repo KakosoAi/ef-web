@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -52,7 +52,7 @@ import {
   type NavItemType,
 } from '@/shared/ui/navigation-menu';
 import { Button } from '@/shared/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/shared/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/shared/ui/sheet';
 import { cn } from '@/shared/lib/utils';
 
 // Equipment links for Buy Equipment dropdown
@@ -1228,40 +1228,38 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='w-[675px] p-4'>
-              <div className='grid grid-cols-3 gap-6'>
-                {/* Categories Section */}
+            <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
+              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+                {equipmentLinks.slice(0, 7).map(link => (
+                  <li key={link.href}>
+                    <NavGridCard link={link} />
+                  </li>
+                ))}
+              </ul>
+              <div className='p-6 space-y-6'>
                 <div>
-                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
-                    Categories
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
-                    {equipmentLinks.slice(0, 7).map(link => (
-                      <NavGridCard key={link.title} link={link} />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Locations Section */}
-                <div>
-                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
-                    Locations
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
+                  <div className='space-y-2'>
                     {equipmentLinks.slice(7, 14).map(link => (
-                      <NavGridCard key={link.title} link={link} />
+                      <NavSmallItem
+                        key={link.href}
+                        item={link}
+                        href={link.href}
+                        className='gap-x-2 py-2'
+                      />
                     ))}
                   </div>
                 </div>
-
-                {/* New Machines Section */}
                 <div>
-                  <h3 className='mb-3 text-xs font-semibold text-blue-600 uppercase tracking-wider'>
-                    New Machines
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
-                    {equipmentLinks.slice(14, 21).map(link => (
-                      <NavGridCard key={link.title} link={link} />
+                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>New Machines</h4>
+                  <div className='space-y-2'>
+                    {equipmentLinks.slice(14).map(link => (
+                      <NavSmallItem
+                        key={link.href}
+                        item={link}
+                        href={link.href}
+                        className='gap-x-2 py-2'
+                      />
                     ))}
                   </div>
                 </div>
@@ -1273,40 +1271,38 @@ function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className='w-[675px] p-4'>
-              <div className='grid grid-cols-3 gap-6'>
-                {/* Categories Section */}
+            <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
+              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+                {rentalLinks.slice(0, 7).map(link => (
+                  <li key={link.href}>
+                    <NavGridCard link={link} />
+                  </li>
+                ))}
+              </ul>
+              <div className='p-6 space-y-6'>
                 <div>
-                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
-                    Categories
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
-                    {rentalLinks.slice(0, 7).map(link => (
-                      <NavGridCard key={link.title} link={link} />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Locations Section */}
-                <div>
-                  <h3 className='mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider'>
-                    Locations
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
+                  <div className='space-y-2'>
                     {rentalLinks.slice(7, 14).map(link => (
-                      <NavGridCard key={link.title} link={link} />
+                      <NavSmallItem
+                        key={link.href}
+                        item={link}
+                        href={link.href}
+                        className='gap-x-2 py-2'
+                      />
                     ))}
                   </div>
                 </div>
-
-                {/* Industries Section */}
                 <div>
-                  <h3 className='mb-3 text-xs font-semibold text-green-600 uppercase tracking-wider'>
-                    Industries
-                  </h3>
-                  <div className='grid grid-cols-1 gap-1'>
-                    {rentalLinks.slice(14, 19).map(link => (
-                      <NavGridCard key={link.title} link={link} />
+                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Industries</h4>
+                  <div className='space-y-2'>
+                    {rentalLinks.slice(14).map(link => (
+                      <NavSmallItem
+                        key={link.href}
+                        item={link}
+                        href={link.href}
+                        className='gap-x-2 py-2'
+                      />
                     ))}
                   </div>
                 </div>
@@ -1361,6 +1357,7 @@ function MobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side='left' className='w-[300px] sm:w-[400px]'>
+        <SheetTitle className='sr-only'>Navigation Menu</SheetTitle>
         <div className='flex flex-col gap-4 py-4'>
           <div className='px-2'>
             <h2 className='text-lg font-semibold'>Navigation</h2>
