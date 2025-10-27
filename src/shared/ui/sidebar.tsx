@@ -10,7 +10,7 @@ import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Separator } from '@/shared/ui/separator';
-import { Sheet, SheetContent } from '@/shared/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/shared/ui/sheet';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 
@@ -200,6 +200,7 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <SheetTitle className='sr-only'>Sidebar</SheetTitle>
             <div className='flex h-full w-full flex-col'>{children}</div>
           </SheetContent>
         </Sheet>
