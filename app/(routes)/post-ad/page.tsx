@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/shared/ui/textarea';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Badge } from '@/shared/ui/badge';
+import AIChatInput from '@/shared/ui/ai-chat-input';
 import {
   Search,
   Upload,
@@ -81,9 +82,7 @@ const constructionCategories = [
 const aerialPlatformSubcategories = ['Boom Lifts', 'Manlifts', 'Scissor Lifts', 'Spider Lifts'];
 
 export default function PostAdPage() {
-  const [aiPrompt, setAiPrompt] = useState('');
   const [isAiProcessing, setIsAiProcessing] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
     location: true,
@@ -129,54 +128,48 @@ export default function PostAdPage() {
     acceptTerms: false,
   });
 
-  const handleAiGenerate = async () => {
-    if (!aiPrompt.trim()) return;
+  const handleAiGenerate = async (prompt: string) => {
+    if (!prompt.trim()) return;
 
     setIsAiProcessing(true);
 
-    // Simulate AI processing
-    setTimeout(() => {
-      // Mock AI-generated data based on prompt
-      const mockData = {
-        adType: 'rent' as AdType,
-        industry: 'construction' as Industry,
-        category: 'Excavators',
-        title: 'Heavy Duty Excavator for Construction Projects',
-        brand: 'caterpillar',
-        model: 'CAT 320D',
-        modelYear: '2020',
-        condition: 'used',
-        fuelType: 'diesel',
-        country: 'uae',
-        state: 'dubai',
-        city: 'dubai-city',
-        pricing: 'fixed',
-        pricePerDay: '500',
-        pricePerWeek: '3000',
-        pricePerMonth: '10000',
-        description: `Professional grade excavator perfect for construction and earthmoving projects. This CAT 320D offers excellent performance with low operating hours. Ideal for contractors looking for reliable heavy machinery.
+    try {
+      // Call the AI analysis API
+      const response = await fetch('/api/ai/analyze-equipment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ description: prompt }),
+      });
 
-Key Features:
-- Low operating hours (2,500 hrs)
-- Regular maintenance records available
-- Excellent hydraulic performance
-- Air-conditioned cabin
-- GPS tracking system included
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to analyze equipment description');
+      }
 
-Perfect for:
-- Site preparation
-- Foundation digging
-- Demolition work
-- Road construction
-- Utility installation`,
-        features: ['GPS Tracking', 'Air Conditioning', 'Low Hours', 'Maintenance Records'],
-        specifications:
-          'Engine: CAT C7.1 ACERT\\nOperating Weight: 20,300 kg\\nBucket Capacity: 0.9 m3\\nMax Digging Depth: 6.5 m\\nMax Reach: 9.9 m',
-      };
+      const { formData: aiFormData, extractedInfo } = await response.json();
 
-      setFormData(prev => ({ ...prev, ...mockData }));
+      // Update form data with AI-generated information
+      setFormData(prev => ({
+        ...prev,
+        ...aiFormData,
+        // Preserve any existing data that wasn't extracted by AI
+        images: prev.images,
+        acceptTerms: prev.acceptTerms,
+      }));
+
+      // console.log('AI Analysis Results:', { extractedInfo, aiFormData });
+    } catch (error) {
+      // console.error('Error processing AI request:', error);
+
+      // Show user-friendly error message
+      alert(
+        error instanceof Error ? error.message : 'Failed to process your request. Please try again.'
+      );
+    } finally {
       setIsAiProcessing(false);
-    }, 2000);
+    }
   };
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -193,7 +186,7 @@ Perfect for:
     required = false,
   }: {
     title: string;
-    icon: any;
+    icon: React.ComponentType<{ className?: string; size?: string | number }>;
     section: keyof typeof expandedSections;
     required?: boolean;
   }) => (
@@ -221,61 +214,27 @@ Perfect for:
       <Header />
 
       <div className='container mx-auto px-4 py-8 max-w-6xl'>
-        {/* AI Prompt Section */}
-        <Card className='mb-8 border-2 border-blue-200 shadow-lg'>
-          <CardHeader className='bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg'>
-            <CardTitle className='flex items-center space-x-2 text-xl'>
-              <Sparkles className='h-6 w-6' />
-              <span>AI-Powered Ad Creation</span>
-            </CardTitle>
-            <p className='text-blue-100 mt-2'>
-              Describe what you want to sell or rent, and our AI will fill out the form for you!
-            </p>
-          </CardHeader>
-          <CardContent className='p-6'>
-            <div className='space-y-4'>
-              <div className='space-y-2'>
-                <Label htmlFor='ai-prompt' className='text-base font-medium'>
-                  Tell us about your equipment
-                </Label>
-                <Textarea
-                  id='ai-prompt'
-                  placeholder="Example: I want to rent out my 2020 Caterpillar excavator, it's in excellent condition with low hours, perfect for construction projects in Dubai..."
-                  value={aiPrompt}
-                  onChange={e => setAiPrompt(e.target.value)}
-                  className='min-h-[100px] text-base'
-                />
+        {/* AI Chat Section - Visually Appealing */}
+        <div className='mb-8 flex items-center justify-center w-full'>
+          <div className='flex items-center bg-white rounded-2xl shadow-lg border border-gray-100 p-3 max-w-4xl w-full hover:shadow-xl transition-all duration-300'>
+            <div className='flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 whitespace-nowrap mr-4'>
+              <div className='p-1.5 bg-white/20 rounded-lg backdrop-blur-sm'>
+                <Sparkles className='h-4 w-4 drop-shadow-sm' />
               </div>
-              <div className='flex space-x-3'>
-                <Button
-                  onClick={handleAiGenerate}
-                  disabled={!aiPrompt.trim() || isAiProcessing}
-                  className='bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
-                >
-                  {isAiProcessing ? (
-                    <>
-                      <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2' />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className='h-4 w-4 mr-2' />
-                      Generate Ad
-                    </>
-                  )}
-                </Button>
-                <Button
-                  variant='outline'
-                  onClick={() => setShowPreview(!showPreview)}
-                  className='border-blue-300 text-blue-600 hover:bg-blue-50'
-                >
-                  <Eye className='h-4 w-4 mr-2' />
-                  {showPreview ? 'Hide Preview' : 'Show Preview'}
-                </Button>
-              </div>
+              <span className='text-sm font-semibold'>AI Assistant</span>
             </div>
-          </CardContent>
-        </Card>
+            <div className='flex-1 min-w-0'>
+              <AIChatInput
+                onSubmit={handleAiGenerate}
+                isProcessing={isAiProcessing}
+                placeholder='Tell me about your equipment - brand, model, condition, location...'
+                glowIntensity={0.3}
+                showEffects={true}
+                backgroundOpacity={0.98}
+              />
+            </div>
+          </div>
+        </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           {/* Main Form */}
@@ -815,110 +774,108 @@ Perfect for:
           </div>
 
           {/* Preview Sidebar */}
-          {showPreview && (
-            <div className='lg:col-span-1'>
-              <Card className='sticky top-8 shadow-lg'>
-                <CardHeader className='bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-t-lg'>
-                  <CardTitle className='flex items-center space-x-2'>
-                    <Eye className='h-5 w-5' />
-                    <span>Live Preview</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='p-6 space-y-4'>
-                  <div className='aspect-video bg-gray-200 rounded-lg flex items-center justify-center'>
-                    <ImageIcon className='h-12 w-12 text-gray-400' />
+          <div className='lg:col-span-1'>
+            <Card className='sticky top-8 shadow-lg'>
+              <CardHeader className='bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-t-lg'>
+                <CardTitle className='flex items-center space-x-2'>
+                  <Eye className='h-5 w-5' />
+                  <span>Live Preview</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className='p-6 space-y-4'>
+                <div className='aspect-video bg-gray-200 rounded-lg flex items-center justify-center'>
+                  <ImageIcon className='h-12 w-12 text-gray-400' />
+                </div>
+
+                <div className='space-y-3'>
+                  <h3 className='font-bold text-lg text-gray-900'>
+                    {formData.title || 'Equipment Title'}
+                  </h3>
+
+                  <div className='flex items-center space-x-2'>
+                    <Badge variant={formData.adType === 'rent' ? 'default' : 'secondary'}>
+                      {formData.adType === 'rent' ? 'For Rent' : 'For Sale'}
+                    </Badge>
+                    {formData.condition && <Badge variant='outline'>{formData.condition}</Badge>}
                   </div>
 
-                  <div className='space-y-3'>
-                    <h3 className='font-bold text-lg text-gray-900'>
-                      {formData.title || 'Equipment Title'}
-                    </h3>
+                  {formData.brand && formData.model && (
+                    <p className='text-gray-600'>
+                      {formData.brand} {formData.model} {formData.modelYear}
+                    </p>
+                  )}
 
-                    <div className='flex items-center space-x-2'>
-                      <Badge variant={formData.adType === 'rent' ? 'default' : 'secondary'}>
-                        {formData.adType === 'rent' ? 'For Rent' : 'For Sale'}
-                      </Badge>
-                      {formData.condition && <Badge variant='outline'>{formData.condition}</Badge>}
-                    </div>
-
-                    {formData.brand && formData.model && (
-                      <p className='text-gray-600'>
-                        {formData.brand} {formData.model} {formData.modelYear}
-                      </p>
-                    )}
-
-                    {formData.pricing === 'fixed' && (
-                      <div className='space-y-1'>
-                        {formData.adType === 'rent' ? (
-                          <>
-                            {formData.pricePerDay && (
-                              <p className='text-green-600 font-semibold'>
-                                AED {formData.pricePerDay}/day
-                              </p>
-                            )}
-                            {formData.pricePerWeek && (
-                              <p className='text-green-600'>AED {formData.pricePerWeek}/week</p>
-                            )}
-                            {formData.pricePerMonth && (
-                              <p className='text-green-600'>AED {formData.pricePerMonth}/month</p>
-                            )}
-                          </>
-                        ) : (
-                          formData.salePrice && (
-                            <p className='text-green-600 font-semibold text-xl'>
-                              AED {formData.salePrice}
+                  {formData.pricing === 'fixed' && (
+                    <div className='space-y-1'>
+                      {formData.adType === 'rent' ? (
+                        <>
+                          {formData.pricePerDay && (
+                            <p className='text-green-600 font-semibold'>
+                              AED {formData.pricePerDay}/day
                             </p>
-                          )
+                          )}
+                          {formData.pricePerWeek && (
+                            <p className='text-green-600'>AED {formData.pricePerWeek}/week</p>
+                          )}
+                          {formData.pricePerMonth && (
+                            <p className='text-green-600'>AED {formData.pricePerMonth}/month</p>
+                          )}
+                        </>
+                      ) : (
+                        formData.salePrice && (
+                          <p className='text-green-600 font-semibold text-xl'>
+                            AED {formData.salePrice}
+                          </p>
+                        )
+                      )}
+                    </div>
+                  )}
+
+                  {formData.pricing === 'negotiable' && (
+                    <p className='text-blue-600 font-semibold'>Price Negotiable</p>
+                  )}
+
+                  {formData.pricing === 'on-call' && (
+                    <p className='text-purple-600 font-semibold'>Price on Call</p>
+                  )}
+
+                  <div className='flex items-center space-x-1 text-gray-500 text-sm'>
+                    <MapPin className='h-4 w-4' />
+                    <span>
+                      {[formData.city, formData.state, formData.country]
+                        .filter(Boolean)
+                        .join(', ') || 'Location not specified'}
+                    </span>
+                  </div>
+
+                  {formData.description && (
+                    <div className='space-y-2'>
+                      <h4 className='font-semibold text-gray-900'>Description</h4>
+                      <p className='text-sm text-gray-600 line-clamp-4'>{formData.description}</p>
+                    </div>
+                  )}
+
+                  {formData.features.length > 0 && (
+                    <div className='space-y-2'>
+                      <h4 className='font-semibold text-gray-900'>Features</h4>
+                      <div className='flex flex-wrap gap-1'>
+                        {formData.features.slice(0, 3).map((feature, index) => (
+                          <Badge key={index} variant='outline' className='text-xs'>
+                            {feature}
+                          </Badge>
+                        ))}
+                        {formData.features.length > 3 && (
+                          <Badge variant='outline' className='text-xs'>
+                            +{formData.features.length - 3} more
+                          </Badge>
                         )}
                       </div>
-                    )}
-
-                    {formData.pricing === 'negotiable' && (
-                      <p className='text-blue-600 font-semibold'>Price Negotiable</p>
-                    )}
-
-                    {formData.pricing === 'on-call' && (
-                      <p className='text-purple-600 font-semibold'>Price on Call</p>
-                    )}
-
-                    <div className='flex items-center space-x-1 text-gray-500 text-sm'>
-                      <MapPin className='h-4 w-4' />
-                      <span>
-                        {[formData.city, formData.state, formData.country]
-                          .filter(Boolean)
-                          .join(', ') || 'Location not specified'}
-                      </span>
                     </div>
-
-                    {formData.description && (
-                      <div className='space-y-2'>
-                        <h4 className='font-semibold text-gray-900'>Description</h4>
-                        <p className='text-sm text-gray-600 line-clamp-4'>{formData.description}</p>
-                      </div>
-                    )}
-
-                    {formData.features.length > 0 && (
-                      <div className='space-y-2'>
-                        <h4 className='font-semibold text-gray-900'>Features</h4>
-                        <div className='flex flex-wrap gap-1'>
-                          {formData.features.slice(0, 3).map((feature, index) => (
-                            <Badge key={index} variant='outline' className='text-xs'>
-                              {feature}
-                            </Badge>
-                          ))}
-                          {formData.features.length > 3 && (
-                            <Badge variant='outline' className='text-xs'>
-                              +{formData.features.length - 3} more
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
