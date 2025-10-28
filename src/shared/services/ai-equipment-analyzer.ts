@@ -197,7 +197,7 @@ export async function analyzeEquipmentDescription(
   userInput: string
 ): Promise<ExtractedEquipmentInfo> {
   try {
-    const systemPrompt = `You are an expert equipment analyst. Analyze the user's equipment description and extract structured information.
+    const systemPrompt = `You are an expert equipment analyst and sales professional. Analyze the user's equipment description and extract structured information. You MUST always provide comprehensive, professional information for ALL fields.
 
 Available options for mapping:
 - Industries: ${EQUIPMENT_OPTIONS.industries.map(i => i.name).join(', ')}
@@ -207,33 +207,57 @@ Available options for mapping:
 - Fuel Types: ${EQUIPMENT_OPTIONS.fuelTypes.join(', ')}
 - Countries: ${EQUIPMENT_OPTIONS.countries.join(', ')}
 
-Extract and return ONLY a JSON object with the following structure. Use null for unknown values:
+CRITICAL REQUIREMENTS:
+1. ALWAYS select an appropriate industry from the available options
+2. ALWAYS select an appropriate brand from the available brands list
+3. ALWAYS select an appropriate condition from the available conditions
+4. ALWAYS select an appropriate fuel type based on the equipment type
+5. ALWAYS generate a detailed, professional description (minimum 100 words)
+6. ALWAYS provide technical specifications relevant to the equipment
+7. ALWAYS suggest a reasonable price range if not mentioned
+8. ALWAYS extract or infer location information when mentioned - pay special attention to location keywords like "in Dubai", "from UAE", "located in", "based in", etc.
+9. ALWAYS provide comprehensive features list
+
+Equipment-specific fuel type mapping:
+- Excavators, Bulldozers, Cranes, Loaders: Diesel
+- Forklifts: Electric, Diesel, or LPG
+- Generators: Diesel or Gas
+- Compressors: Electric or Diesel
+- Small tools: Electric or Battery
+
+Location extraction guidelines:
+- Look for city names, country names, state/emirate names
+- Common location indicators: "in", "from", "located", "based", "Dubai", "Abu Dhabi", "UAE", "Saudi", "Qatar", etc.
+- If location is mentioned, ALWAYS populate country, state, and city fields appropriately
+- Default to UAE if Middle East context is implied but specific location not clear
+
+Extract and return ONLY a JSON object with the following structure:
 
 {
-  "title": "Generated title for the equipment",
-  "adType": "rent" or "sell" (infer from context),
-  "industry": "Best matching industry",
-  "category": "Best matching category",
-  "subcategory": "Best matching subcategory if applicable",
-  "brand": "Equipment brand if mentioned",
-  "model": "Equipment model if mentioned",
-  "modelYear": "Year if mentioned",
-  "condition": "Equipment condition if mentioned",
-  "fuelType": "Fuel type if mentioned",
+  "title": "Professional equipment title with brand, model, and key feature",
+  "adType": "rent" or "sell" (infer from context, default to "sell" if unclear)",
+  "industry": "MUST select from available industries - choose most appropriate",
+  "category": "MUST select from available categories - choose most appropriate",
+  "subcategory": "Select if applicable from available subcategories",
+  "brand": "MUST select from available brands - choose most appropriate if not mentioned",
+  "model": "Equipment model if mentioned, or suggest typical model",
+  "modelYear": "Year if mentioned, or suggest recent year (2018-2024)",
+  "condition": "MUST select from available conditions - choose appropriate",
+  "fuelType": "MUST select appropriate fuel type based on equipment",
   "serialNumber": "Serial number if mentioned",
-  "country": "Country if mentioned",
-  "state": "State/province if mentioned",
+  "country": "Extract country if mentioned, prefer UAE/Middle East if unclear",
+  "state": "State/province/emirate if mentioned",
   "city": "City if mentioned",
-  "pricing": "negotiable", "fixed", or "on-call" (infer from context),
-  "pricePerDay": "Daily price if mentioned",
-  "pricePerWeek": "Weekly price if mentioned", 
-  "pricePerMonth": "Monthly price if mentioned",
-  "salePrice": "Sale price if mentioned",
-  "description": "Clean, professional description",
-  "specifications": "Technical specifications if mentioned",
-  "features": ["Array of key features"],
-  "capacity": "Equipment capacity if mentioned",
-  "hoursOrKilometer": "Operating hours or kilometers if mentioned",
+  "pricing": "negotiable", "fixed", or "on-call" (default to "negotiable")",
+  "pricePerDay": "Suggest daily rental price if for rent",
+  "pricePerWeek": "Suggest weekly rental price if for rent", 
+  "pricePerMonth": "Suggest monthly rental price if for rent",
+  "salePrice": "Suggest sale price if for sale",
+  "description": "DETAILED professional description (minimum 100 words) including: equipment overview, key features, applications, benefits, condition details, and why it's valuable",
+  "specifications": "COMPREHENSIVE technical specifications including: engine details, dimensions, weight, capacity, operating parameters, hydraulic specs, etc.",
+  "features": ["Comprehensive array of key features and capabilities"],
+  "capacity": "Equipment capacity/lifting capacity/bucket size etc.",
+  "hoursOrKilometer": "Operating hours or kilometers if mentioned, or suggest typical range",
   "confidence": {
     "overall": 0.0-1.0,
     "brand": 0.0-1.0,
@@ -244,7 +268,7 @@ Extract and return ONLY a JSON object with the following structure. Use null for
   }
 }
 
-Be conservative with confidence scores. Only use high confidence (>0.8) when information is explicitly stated.`;
+IMPORTANT: Never leave fields empty or null. Always provide professional, realistic values even if you need to make educated assumptions based on the equipment type. Be comprehensive and detailed in descriptions and specifications.`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4.1-nano-2025-04-14',
@@ -299,19 +323,27 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
     },
   };
 
-  // Validate adType
+  // Validate adType - default to 'sell' if not provided
   if (info.adType === 'rent' || info.adType === 'sell') {
     cleaned.adType = info.adType;
+  } else {
+    cleaned.adType = 'sell'; // Default fallback
   }
 
-  // Validate industry
+  // Validate industry - always ensure one is selected
   if (info.industry && EQUIPMENT_OPTIONS.industries.some(i => i.name === info.industry)) {
     cleaned.industry = info.industry;
+  } else {
+    // Default to Construction if not specified
+    cleaned.industry = 'Construction Equipment';
   }
 
-  // Validate category
+  // Validate category - always ensure one is selected
   if (info.category && EQUIPMENT_OPTIONS.categories.construction.includes(info.category)) {
     cleaned.category = info.category;
+  } else {
+    // Default to Other Equipment if not specified
+    cleaned.category = 'Other Equipment';
   }
 
   // Validate subcategory
@@ -325,32 +357,47 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
     cleaned.subcategory = info.subcategory;
   }
 
-  // Validate brand
+  // Validate brand - always ensure one is selected
   if (info.brand && EQUIPMENT_OPTIONS.brands.includes(info.brand)) {
     cleaned.brand = info.brand;
+  } else {
+    // Default to Caterpillar if not specified (most common brand)
+    cleaned.brand = 'Caterpillar';
   }
 
-  // Validate condition
+  // Validate condition - always ensure one is selected
   if (info.condition && EQUIPMENT_OPTIONS.conditions.includes(info.condition)) {
     cleaned.condition = info.condition;
+  } else {
+    // Default to Good if not specified
+    cleaned.condition = 'Good';
   }
 
-  // Validate fuel type
+  // Validate fuel type - always ensure one is selected
   if (info.fuelType && EQUIPMENT_OPTIONS.fuelTypes.includes(info.fuelType)) {
     cleaned.fuelType = info.fuelType;
+  } else {
+    // Default to Diesel for most heavy equipment
+    cleaned.fuelType = 'Diesel';
   }
 
-  // Validate country
+  // Validate country - prefer UAE if not specified
   if (info.country && EQUIPMENT_OPTIONS.countries.includes(info.country)) {
     cleaned.country = info.country;
+  } else {
+    // Default to UAE if not specified
+    cleaned.country = 'United Arab Emirates';
   }
 
-  // Validate pricing type
+  // Validate pricing type - always ensure one is selected
   if (info.pricing && ['negotiable', 'fixed', 'on-call'].includes(info.pricing)) {
     cleaned.pricing = info.pricing;
+  } else {
+    // Default to negotiable
+    cleaned.pricing = 'negotiable';
   }
 
-  // Copy string fields (with basic validation)
+  // Copy string fields (with basic validation and defaults)
   const stringFields = [
     'title',
     'model',
@@ -381,11 +428,29 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
     }
   });
 
-  // Copy features array
-  if (Array.isArray(info.features)) {
+  // Ensure minimum description length
+  if (!cleaned.description || cleaned.description.length < 50) {
+    cleaned.description = `Professional ${cleaned.brand || 'heavy'} equipment available for ${cleaned.adType || 'sale'}. This well-maintained machine offers reliable performance and excellent value for construction, industrial, or commercial applications. Contact us for detailed specifications and pricing information.`;
+  }
+
+  // Ensure specifications are provided
+  if (!cleaned.specifications || cleaned.specifications.length < 20) {
+    cleaned.specifications = `Engine: Diesel powered, Hydraulic system: Advanced hydraulic controls, Operating weight: Professional grade, Dimensions: Standard specifications available upon request, Maintenance: Regular service records available.`;
+  }
+
+  // Copy features array - ensure at least some features
+  if (Array.isArray(info.features) && info.features.length > 0) {
     cleaned.features = info.features
       .filter((f: string) => typeof f === 'string' && f.trim())
       .map((f: string) => f.trim());
+  } else {
+    // Default features
+    cleaned.features = [
+      'Reliable Performance',
+      'Professional Grade',
+      'Well Maintained',
+      'Ready for Operation',
+    ];
   }
 
   // Copy confidence scores
@@ -410,38 +475,58 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
  * Maps extracted information to form data structure
  */
 export function mapExtractedInfoToFormData(extractedInfo: ExtractedEquipmentInfo) {
+  // Generate a stock image URL based on equipment type
+  const generateStockImage = (brand?: string, category?: string) => {
+    const equipmentType = category?.toLowerCase().replace(/\s+/g, '-') || 'heavy-equipment';
+    const brandName = brand?.toLowerCase() || 'generic';
+
+    // Use a placeholder service that provides equipment images
+    return `https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop&crop=center&auto=format&q=80`;
+  };
+
   return {
     // Basic Info
-    adType: extractedInfo.adType || '',
-    industry: extractedInfo.industry || '',
-    category: extractedInfo.category || '',
+    adType: extractedInfo.adType || 'sell',
+    industry: extractedInfo.industry || 'Construction Equipment',
+    category: extractedInfo.category || 'Other Equipment',
     subcategory: extractedInfo.subcategory || '',
-    title: extractedInfo.title || '',
-    brand: extractedInfo.brand || '',
+    title:
+      extractedInfo.title ||
+      `${extractedInfo.brand || 'Professional'} ${extractedInfo.category || 'Equipment'}`,
+    brand: extractedInfo.brand || 'Caterpillar',
     model: extractedInfo.model || '',
     modelYear: extractedInfo.modelYear || '',
-    condition: extractedInfo.condition || '',
-    fuelType: extractedInfo.fuelType || '',
+    condition: extractedInfo.condition || 'Good',
+    fuelType: extractedInfo.fuelType || 'Diesel',
 
     // Location
-    country: extractedInfo.country || '',
+    country: extractedInfo.country || 'United Arab Emirates',
     state: extractedInfo.state || '',
     city: extractedInfo.city || '',
 
-    // Pricing
+    // Pricing - ensure at least one price is set
     pricing: extractedInfo.pricing || 'negotiable',
-    pricePerDay: extractedInfo.pricePerDay || '',
-    pricePerWeek: extractedInfo.pricePerWeek || '',
-    pricePerMonth: extractedInfo.pricePerMonth || '',
-    salePrice: extractedInfo.salePrice || '',
+    pricePerDay: extractedInfo.pricePerDay || (extractedInfo.adType === 'rent' ? '500' : ''),
+    pricePerWeek: extractedInfo.pricePerWeek || (extractedInfo.adType === 'rent' ? '3000' : ''),
+    pricePerMonth: extractedInfo.pricePerMonth || (extractedInfo.adType === 'rent' ? '10000' : ''),
+    salePrice: extractedInfo.salePrice || (extractedInfo.adType === 'sell' ? '150000' : ''),
 
     // Description & Details
-    description: extractedInfo.description || '',
-    features: extractedInfo.features || [],
-    specifications: extractedInfo.specifications || '',
+    description:
+      extractedInfo.description ||
+      `Professional ${extractedInfo.brand || 'heavy'} equipment available for ${extractedInfo.adType || 'sale'}. This well-maintained machine offers reliable performance and excellent value for construction, industrial, or commercial applications. Contact us for detailed specifications and pricing information.`,
+    features: extractedInfo.features || [
+      'Reliable Performance',
+      'Professional Grade',
+      'Well Maintained',
+      'Ready for Operation',
+    ],
+    specifications:
+      extractedInfo.specifications ||
+      'Engine: Diesel powered, Hydraulic system: Advanced hydraulic controls, Operating weight: Professional grade, Dimensions: Standard specifications available upon request, Maintenance: Regular service records available.',
 
-    // Keep existing form fields that aren't AI-populated
-    images: [],
+    // Add stock image
+    images: [generateStockImage(extractedInfo.brand, extractedInfo.category)],
     acceptTerms: false,
   };
 }
