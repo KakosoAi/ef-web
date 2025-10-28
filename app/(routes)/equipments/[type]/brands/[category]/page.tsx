@@ -1,9 +1,10 @@
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
-import EquipmentSearchClient from '../../EquipmentSearchClient';
+import Header from '@/features/layout/components/Header';
+import { CATEGORY_NAMES } from '@/shared/constants/categories';
 import { createSlug } from '@/shared/utils/urlHelpers';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import EquipmentSearchClient from '../../EquipmentSearchClient';
 
 export const revalidate = 60;
 export const dynamic = 'force-static';
@@ -112,17 +113,10 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
 
 // Pre-generate known categories for rent; others will fallback on first request
 export async function generateStaticParams() {
-  const known = [
-    'excavators',
-    'wheel-loaders',
-    'cranes',
-    'bulldozers',
-    'backhoe-loaders',
-    'skid-steers',
-    'compactors',
-    'generators',
-  ];
-  return known.map(category => ({ type: 'rent', category }));
+  // Pre-generate high-priority categories for rent (extendable)
+  const types = ['rent'];
+  const slugs = CATEGORY_NAMES.map(name => createSlug(name));
+  return types.flatMap(type => slugs.map(category => ({ type, category })));
 }
 
 export async function generateMetadata({ params }: PageProps) {
