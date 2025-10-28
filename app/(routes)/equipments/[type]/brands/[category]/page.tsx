@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import EquipmentSearchClient from '../../EquipmentSearchClient';
-import { getSupabaseServerClient } from '@/server/lib/supabase';
 import { createSlug } from '@/shared/utils/urlHelpers';
 
 export const revalidate = 60;
 export const dynamic = 'force-static';
+export const dynamicParams = true; // Allow fallback generation for params not pre-generated
 
 interface PageProps {
   params: Promise<{ type: string; category: string }>;
@@ -31,12 +31,20 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
     notFound();
   }
 
-  // Fetch categories from Supabase and map slug -> { id, name }
-  const supabase = getSupabaseServerClient();
-  const { data: categories, error } = await supabase
-    .from('categories')
-    .select('id, name')
-    .eq('visible', true);
+  // Fetch categories via route handler and map slug -> { id, name }
+  const res = await fetch('/api/categories', { next: { revalidate: 60 } });
+  let cats: Array<{ id: number; name: string }> = [];
+  let fetchError: unknown = undefined;
+  try {
+    if (res.ok) {
+      const body = await res.json();
+      cats = Array.isArray(body) ? body : body?.categories || [];
+    } else {
+      fetchError = new Error(`Failed to fetch categories: ${res.status}`);
+    }
+  } catch (e) {
+    fetchError = e;
+  }
 
   // If categories fetch fails, proceed without preselect but keep the route
   const categorySlug = category.toLowerCase();
@@ -45,14 +53,14 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
   let initialCategoryLabel: string | undefined = undefined;
   let categoriesMap: Record<string, number> | undefined = undefined;
 
-  if (!error && Array.isArray(categories)) {
+  if (!fetchError && Array.isArray(cats)) {
     // Build mapping of name -> id
     categoriesMap = Object.fromEntries(
-      categories.map((c: { id: number; name: string }) => [c.name, c.id])
+      cats.map((c: { id: number; name: string }) => [c.name, c.id])
     );
 
     // Find matching category by slug of name
-    const matched = categories.find(
+    const matched = cats.find(
       (c: { id: number; name: string }) => createSlug(c.name) === categorySlug
     );
 
@@ -100,6 +108,21 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
       <Footer />
     </div>
   );
+}
+
+// Pre-generate known categories for rent; others will fallback on first request
+export async function generateStaticParams() {
+  const known = [
+    'excavators',
+    'wheel-loaders',
+    'cranes',
+    'bulldozers',
+    'backhoe-loaders',
+    'skid-steers',
+    'compactors',
+    'generators',
+  ];
+  return known.map(category => ({ type: 'rent', category }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
