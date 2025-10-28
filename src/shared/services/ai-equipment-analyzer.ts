@@ -56,9 +56,15 @@ export interface ExtractedEquipmentInfo {
 
 // Available options for mapping
 export const EQUIPMENT_OPTIONS = {
+  // Match the form's industry structure exactly
   industries: [
-    { id: 'construction', name: 'Construction Equipment' },
-    { id: 'agriculture', name: 'Agriculture Equipment' },
+    { id: 'construction', name: 'Construction' },
+    { id: 'agriculture', name: 'Agriculture' },
+    { id: 'marine', name: 'Marine And Port Handling' },
+    { id: 'oil-gas', name: 'Oil And Gas' },
+    { id: 'material-handling', name: 'Material Handling Equipment' },
+    { id: 'vehicles', name: 'Vehicles And Buses' },
+    { id: 'trucks', name: 'Trucks And Trailers' },
     { id: 'mining', name: 'Mining And Quarry Equipment' },
     { id: 'forestry', name: 'Forestry Equipment' },
     { id: 'aircraft', name: 'Aircraft Handling Equipment' },
@@ -94,100 +100,23 @@ export const EQUIPMENT_OPTIONS = {
     'Aerial Platforms': ['Boom Lifts', 'Manlifts', 'Scissor Lifts', 'Spider Lifts'],
   },
 
-  brands: [
-    'Volvo',
-    'Caterpillar',
-    'Komatsu',
-    'JCB',
-    'Liebherr',
-    'Hitachi',
-    'Kobelco',
-    'Hyundai',
-    'Doosan',
-    'Case',
-    'New Holland',
-    'Bobcat',
-    'Kubota',
-    'John Deere',
-    'Manitou',
-    'Genie',
-    'JLG',
-    'Skyjack',
-    'Haulotte',
-    'Terex',
-    'Tadano',
-    'Grove',
-    'Manitowoc',
-    'Link-Belt',
-    'Liebherr',
-    'Sany',
-    'XCMG',
-    'Zoomlion',
-    'Liugong',
-    'Lonking',
-    'Shantui',
-    'SDLG',
-    'Yuchai',
-    'Weichai',
-    'Cummins',
-    'Perkins',
-    'Deutz',
-    'Isuzu',
-    'Mitsubishi',
-    'Yanmar',
-    'Kubota',
-    'Kohler',
-    'Generac',
-    'Atlas Copco',
-    'Ingersoll Rand',
-    'Sullair',
-    'Chicago Pneumatic',
-    'Kaeser',
-    'Compair',
-    'Gardner Denver',
-    'Quincy',
-    'Elgi',
-    'Kirloskar',
-  ],
+  // Match the form's brand options exactly
+  brands: ['caterpillar', 'komatsu', 'volvo', 'mercedes', 'jcb', 'hitachi'],
 
-  conditions: ['New', 'Like New', 'Excellent', 'Good', 'Fair', 'Poor', 'For Parts'],
+  // Match the form's condition options exactly
+  conditions: ['new', 'used', 'good', 'fair', 'refurbished'],
 
-  fuelTypes: ['Diesel', 'Gasoline', 'Electric', 'Hybrid', 'Natural Gas', 'Propane', 'Hydrogen'],
+  // Match the form's fuel type options exactly
+  fuelTypes: ['diesel', 'petrol', 'electric', 'hybrid', 'other'],
 
-  countries: [
-    'United Arab Emirates',
-    'Saudi Arabia',
-    'Qatar',
-    'Kuwait',
-    'Bahrain',
-    'Oman',
-    'United States',
-    'Canada',
-    'United Kingdom',
-    'Germany',
-    'France',
-    'Italy',
-    'Spain',
-    'Netherlands',
-    'Belgium',
-    'Sweden',
-    'Norway',
-    'Denmark',
-    'Finland',
-    'Australia',
-    'New Zealand',
-    'Japan',
-    'South Korea',
-    'Singapore',
-    'Malaysia',
-    'Thailand',
-    'Indonesia',
-    'Philippines',
-    'India',
-    'China',
-    'Brazil',
-    'Mexico',
-  ],
+  // Match the form's country options exactly
+  countries: ['uae', 'saudi', 'qatar', 'kuwait'],
+
+  // Add state/emirate options
+  states: ['dubai', 'abudhabi', 'sharjah', 'ajman'],
+
+  // Add city options
+  cities: ['dubai-city', 'sharjah-city', 'abu-dhabi-city'],
 };
 
 /**
@@ -330,12 +259,12 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
     cleaned.adType = 'sell'; // Default fallback
   }
 
-  // Validate industry - always ensure one is selected
-  if (info.industry && EQUIPMENT_OPTIONS.industries.some(i => i.name === info.industry)) {
+  // Validate industry - always ensure one is selected (use ID, not name)
+  if (info.industry && EQUIPMENT_OPTIONS.industries.some(i => i.id === info.industry)) {
     cleaned.industry = info.industry;
   } else {
-    // Default to Construction if not specified
-    cleaned.industry = 'Construction Equipment';
+    // Default to construction if not specified
+    cleaned.industry = 'construction';
   }
 
   // Validate category - always ensure one is selected
@@ -357,36 +286,52 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
     cleaned.subcategory = info.subcategory;
   }
 
-  // Validate brand - always ensure one is selected
-  if (info.brand && EQUIPMENT_OPTIONS.brands.includes(info.brand)) {
-    cleaned.brand = info.brand;
+  // Validate brand - always ensure one is selected (use lowercase)
+  if (info.brand && EQUIPMENT_OPTIONS.brands.includes(info.brand.toLowerCase())) {
+    cleaned.brand = info.brand.toLowerCase();
   } else {
-    // Default to Caterpillar if not specified (most common brand)
-    cleaned.brand = 'Caterpillar';
+    // Default to caterpillar if not specified (most common brand)
+    cleaned.brand = 'caterpillar';
   }
 
-  // Validate condition - always ensure one is selected
-  if (info.condition && EQUIPMENT_OPTIONS.conditions.includes(info.condition)) {
-    cleaned.condition = info.condition;
+  // Validate condition - always ensure one is selected (use lowercase)
+  if (info.condition && EQUIPMENT_OPTIONS.conditions.includes(info.condition.toLowerCase())) {
+    cleaned.condition = info.condition.toLowerCase();
   } else {
-    // Default to Good if not specified
-    cleaned.condition = 'Good';
+    // Default to good if not specified
+    cleaned.condition = 'good';
   }
 
-  // Validate fuel type - always ensure one is selected
-  if (info.fuelType && EQUIPMENT_OPTIONS.fuelTypes.includes(info.fuelType)) {
-    cleaned.fuelType = info.fuelType;
+  // Validate fuel type - always ensure one is selected (use lowercase)
+  if (info.fuelType && EQUIPMENT_OPTIONS.fuelTypes.includes(info.fuelType.toLowerCase())) {
+    cleaned.fuelType = info.fuelType.toLowerCase();
   } else {
-    // Default to Diesel for most heavy equipment
-    cleaned.fuelType = 'Diesel';
+    // Default to diesel for most heavy equipment
+    cleaned.fuelType = 'diesel';
   }
 
-  // Validate country - prefer UAE if not specified
-  if (info.country && EQUIPMENT_OPTIONS.countries.includes(info.country)) {
-    cleaned.country = info.country;
+  // Validate country - prefer UAE if not specified (use lowercase)
+  if (info.country && EQUIPMENT_OPTIONS.countries.includes(info.country.toLowerCase())) {
+    cleaned.country = info.country.toLowerCase();
   } else {
     // Default to UAE if not specified
-    cleaned.country = 'United Arab Emirates';
+    cleaned.country = 'uae';
+  }
+
+  // Validate state - use lowercase
+  if (info.state && EQUIPMENT_OPTIONS.states.includes(info.state.toLowerCase())) {
+    cleaned.state = info.state.toLowerCase();
+  } else {
+    // Default to dubai if not specified
+    cleaned.state = 'dubai';
+  }
+
+  // Validate city - use lowercase
+  if (info.city && EQUIPMENT_OPTIONS.cities.includes(info.city.toLowerCase())) {
+    cleaned.city = info.city.toLowerCase();
+  } else {
+    // Default to dubai-city if not specified
+    cleaned.city = 'dubai-city';
   }
 
   // Validate pricing type - always ensure one is selected
@@ -398,74 +343,47 @@ function validateAndCleanExtractedInfo(info: ExtractedEquipmentInfo): ExtractedE
   }
 
   // Copy string fields (with basic validation and defaults)
-  const stringFields = [
-    'title',
-    'model',
-    'modelYear',
-    'serialNumber',
-    'state',
-    'city',
-    'pricePerDay',
-    'pricePerWeek',
-    'pricePerMonth',
-    'salePrice',
-    'description',
-    'specifications',
-    'capacity',
-    'hoursOrKilometer',
-  ];
+  cleaned.title = info.title || `${cleaned.brand} ${cleaned.category}`;
+  cleaned.model = info.model || 'Standard Model';
+  cleaned.modelYear = info.modelYear || '2020';
 
-  stringFields.forEach(field => {
-    const infoAsRecord = info as unknown as Record<string, string | undefined>;
-    if (
-      infoAsRecord[field] &&
-      typeof infoAsRecord[field] === 'string' &&
-      (infoAsRecord[field] as string).trim()
-    ) {
-      (cleaned as unknown as Record<string, string>)[field] = (
-        infoAsRecord[field] as string
-      ).trim();
-    }
-  });
-
-  // Ensure minimum description length
-  if (!cleaned.description || cleaned.description.length < 50) {
-    cleaned.description = `Professional ${cleaned.brand || 'heavy'} equipment available for ${cleaned.adType || 'sale'}. This well-maintained machine offers reliable performance and excellent value for construction, industrial, or commercial applications. Contact us for detailed specifications and pricing information.`;
-  }
-
-  // Ensure specifications are provided
-  if (!cleaned.specifications || cleaned.specifications.length < 20) {
-    cleaned.specifications = `Engine: Diesel powered, Hydraulic system: Advanced hydraulic controls, Operating weight: Professional grade, Dimensions: Standard specifications available upon request, Maintenance: Regular service records available.`;
-  }
-
-  // Copy features array - ensure at least some features
-  if (Array.isArray(info.features) && info.features.length > 0) {
-    cleaned.features = info.features
-      .filter((f: string) => typeof f === 'string' && f.trim())
-      .map((f: string) => f.trim());
+  // Ensure description is comprehensive (minimum 100 words)
+  if (info.description && info.description.length >= 100) {
+    cleaned.description = info.description;
   } else {
-    // Default features
+    cleaned.description = `Professional ${cleaned.brand} ${cleaned.category} available for ${cleaned.adType}. This well-maintained machine offers reliable performance and excellent value for construction, industrial, or commercial applications. Features advanced hydraulic systems, efficient fuel consumption, and robust build quality. Ideal for contractors, construction companies, and industrial operations requiring dependable heavy equipment. Regular maintenance records available. Contact us for detailed specifications, pricing information, and to schedule an inspection.`;
+  }
+
+  // Ensure features array has content
+  if (info.features && info.features.length > 0) {
+    cleaned.features = info.features;
+  } else {
     cleaned.features = [
       'Reliable Performance',
       'Professional Grade',
       'Well Maintained',
       'Ready for Operation',
+      'Fuel Efficient',
+      'Advanced Hydraulics',
     ];
   }
 
+  // Ensure specifications are detailed
+  if (info.specifications && info.specifications.length >= 50) {
+    cleaned.specifications = info.specifications;
+  } else {
+    cleaned.specifications = `Engine: ${cleaned.fuelType} powered with advanced emission controls, Hydraulic system: High-performance hydraulic controls with precision operation, Operating weight: Professional grade specifications, Dimensions: Standard industry specifications, Maintenance: Complete service records available, Condition: ${cleaned.condition} with regular maintenance history.`;
+  }
+
+  // Copy pricing information
+  cleaned.pricePerDay = info.pricePerDay;
+  cleaned.pricePerWeek = info.pricePerWeek;
+  cleaned.pricePerMonth = info.pricePerMonth;
+  cleaned.salePrice = info.salePrice;
+
   // Copy confidence scores
-  if (info.confidence && typeof info.confidence === 'object') {
-    const confidenceFields = ['overall', 'brand', 'model', 'condition', 'location', 'pricing'];
-    const infoConfidence = info.confidence as Record<string, number>;
-    confidenceFields.forEach(field => {
-      if (
-        typeof infoConfidence[field] === 'number' &&
-        infoConfidence[field] >= 0 &&
-        infoConfidence[field] <= 1
-      ) {
-        (cleaned.confidence as Record<string, number>)[field] = infoConfidence[field];
-      }
-    });
+  if (info.confidence) {
+    cleaned.confidence = { ...info.confidence };
   }
 
   return cleaned;
@@ -485,27 +403,31 @@ export function mapExtractedInfoToFormData(extractedInfo: ExtractedEquipmentInfo
   };
 
   return {
-    // Basic Info
+    // Basic Info - use exact form values
     adType: extractedInfo.adType || 'sell',
-    industry: extractedInfo.industry || 'Construction Equipment',
+    industry: extractedInfo.industry || 'construction',
     category: extractedInfo.category || 'Other Equipment',
     subcategory: extractedInfo.subcategory || '',
-    title:
-      extractedInfo.title ||
-      `${extractedInfo.brand || 'Professional'} ${extractedInfo.category || 'Equipment'}`,
-    brand: extractedInfo.brand || 'Caterpillar',
+    title: extractedInfo.title || `${extractedInfo.brand || 'Heavy'} Equipment`,
+    brand: extractedInfo.brand || 'caterpillar',
     model: extractedInfo.model || '',
     modelYear: extractedInfo.modelYear || '',
-    condition: extractedInfo.condition || 'Good',
-    fuelType: extractedInfo.fuelType || 'Diesel',
+    condition: extractedInfo.condition || 'good',
+    fuelType: extractedInfo.fuelType || 'diesel',
 
-    // Location
-    country: extractedInfo.country || 'United Arab Emirates',
-    state: extractedInfo.state || '',
-    city: extractedInfo.city || '',
+    // Location - use exact form values
+    country: extractedInfo.country || 'uae',
+    state: extractedInfo.state || 'dubai',
+    city: extractedInfo.city || 'dubai-city',
 
-    // Pricing - ensure at least one price is set
-    pricing: extractedInfo.pricing || 'negotiable',
+    // Pricing - ensure at least one price is set and pricing type is set to fixed if prices are provided
+    pricing:
+      extractedInfo.pricePerDay ||
+      extractedInfo.pricePerWeek ||
+      extractedInfo.pricePerMonth ||
+      extractedInfo.salePrice
+        ? 'fixed'
+        : 'negotiable',
     pricePerDay: extractedInfo.pricePerDay || (extractedInfo.adType === 'rent' ? '500' : ''),
     pricePerWeek: extractedInfo.pricePerWeek || (extractedInfo.adType === 'rent' ? '3000' : ''),
     pricePerMonth: extractedInfo.pricePerMonth || (extractedInfo.adType === 'rent' ? '10000' : ''),

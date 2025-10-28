@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
@@ -25,6 +26,8 @@ import {
   Settings,
   Image as ImageIcon,
   FileText,
+  CheckCircle,
+  AlertCircle,
 } from 'lucide-react';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
@@ -81,8 +84,37 @@ const constructionCategories = [
 
 const aerialPlatformSubcategories = ['Boom Lifts', 'Manlifts', 'Scissor Lifts', 'Spider Lifts'];
 
+// Category to image mapping
+const getCategoryImage = (category: string): string => {
+  const categoryImageMap: { [key: string]: string } = {
+    'Aerial Platforms': '/assets/categories/ariel-platforms.png',
+    'Backhoe Loaders': '/assets/categories/backhoe-loaders.png',
+    Compactors: '/assets/categories/compactors.png',
+    Compressors: '/assets/categories/compressors.png',
+    Excavators: '/assets/categories/excavators.png',
+    Dozers: '/assets/categories/dozers.png',
+    Cranes: '/assets/categories/cranes.png',
+    Generators: '/assets/categories/generators.png',
+    'Wheel Loaders': '/assets/categories/wheel-loaders.png',
+    'Motor Graders': '/assets/categories/motor-graders.png',
+    Trucks: '/assets/categories/trucks.png',
+    Trailers: '/assets/categories/trailers.png',
+    'Boom Loaders': '/assets/categories/boom-loader.png',
+    'Skid Steers': '/assets/categories/skid-steers.png',
+    Forklifts: '/assets/categories/forklifts.png',
+    'Container Stackers': '/assets/categories/container-stackers.png',
+    Crushers: '/assets/categories/crushers.png',
+    Attachments: '/assets/categories/attachments.png',
+    'Vehicles And Buses': '/assets/categories/vehicle-buses.png',
+    'Other Equipment': '/assets/categories/other-equipments.png',
+  };
+
+  return categoryImageMap[category] || '/assets/categories/other-equipments.png';
+};
+
 export default function PostAdPage() {
   const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [showAiSuccessMessage, setShowAiSuccessMessage] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
     location: true,
@@ -123,6 +155,7 @@ export default function PostAdPage() {
 
     // Images
     images: [] as File[],
+    thumbnailImage: '',
 
     // Terms
     acceptTerms: false,
@@ -154,10 +187,18 @@ export default function PostAdPage() {
       setFormData(prev => ({
         ...prev,
         ...aiFormData,
+        // Add thumbnail image based on AI-selected category
+        thumbnailImage: aiFormData.category
+          ? getCategoryImage(aiFormData.category)
+          : prev.thumbnailImage,
         // Preserve any existing data that wasn't extracted by AI
         images: prev.images,
         acceptTerms: prev.acceptTerms,
       }));
+
+      // Show success message
+      setShowAiSuccessMessage(true);
+      setTimeout(() => setShowAiSuccessMessage(false), 8000); // Hide after 8 seconds
 
       // console.log('AI Analysis Results:', { extractedInfo, aiFormData });
     } catch (error) {
@@ -210,10 +251,79 @@ export default function PostAdPage() {
   );
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50'>
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative'>
       <Header />
 
+      {/* AI Processing Overlay */}
+      {isAiProcessing && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'>
+          <div className='bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center border border-gray-100'>
+            <div className='mb-6'>
+              <div className='relative mx-auto w-16 h-16 mb-4'>
+                <div className='absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 animate-spin'>
+                  <div className='absolute inset-1 rounded-full bg-white'></div>
+                </div>
+                <div className='absolute inset-0 flex items-center justify-center'>
+                  <Sparkles className='h-6 w-6 text-purple-600' />
+                </div>
+              </div>
+              <h3 className='text-xl font-semibold text-gray-900 mb-2'>
+                AI is analyzing your equipment
+              </h3>
+              <p className='text-gray-600 text-sm leading-relaxed'>
+                Our AI is processing your description and filling out the form with relevant
+                details. This usually takes a few seconds.
+              </p>
+            </div>
+            <div className='flex items-center justify-center space-x-2 text-sm text-gray-500'>
+              <div className='flex space-x-1'>
+                <div className='w-2 h-2 bg-purple-600 rounded-full animate-bounce'></div>
+                <div
+                  className='w-2 h-2 bg-blue-600 rounded-full animate-bounce'
+                  style={{ animationDelay: '0.1s' }}
+                ></div>
+                <div
+                  className='w-2 h-2 bg-indigo-600 rounded-full animate-bounce'
+                  style={{ animationDelay: '0.2s' }}
+                ></div>
+              </div>
+              <span>Processing...</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className='container mx-auto px-4 py-8 max-w-6xl'>
+        {/* AI Success Message */}
+        {showAiSuccessMessage && (
+          <div className='mb-6 flex items-center justify-center w-full'>
+            <div className='bg-green-50 border border-green-200 rounded-xl p-4 max-w-4xl w-full shadow-sm'>
+              <div className='flex items-start space-x-3'>
+                <CheckCircle className='h-5 w-5 text-green-600 mt-0.5 flex-shrink-0' />
+                <div className='flex-1'>
+                  <h4 className='text-sm font-semibold text-green-800 mb-1'>
+                    AI has filled out your form!
+                  </h4>
+                  <p className='text-sm text-green-700 leading-relaxed'>
+                    Please review all the information below and make any necessary edits. The AI
+                    does its best, but you know your equipment better than anyone.
+                    <span className='font-medium'>
+                      {' '}
+                      Double-check the details, pricing, and location before submitting.
+                    </span>
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowAiSuccessMessage(false)}
+                  className='text-green-600 hover:text-green-800 transition-colors'
+                >
+                  <X className='h-4 w-4' />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* AI Chat Section - Visually Appealing */}
         <div className='mb-8 flex items-center justify-center w-full'>
           <div className='flex items-center bg-white rounded-2xl shadow-lg border border-gray-100 p-3 max-w-4xl w-full hover:shadow-xl transition-all duration-300'>
@@ -312,7 +422,13 @@ export default function PostAdPage() {
                         </Label>
                         <Select
                           value={formData.category}
-                          onValueChange={value => setFormData({ ...formData, category: value })}
+                          onValueChange={value =>
+                            setFormData({
+                              ...formData,
+                              category: value,
+                              thumbnailImage: getCategoryImage(value),
+                            })
+                          }
                         >
                           <SelectTrigger className='h-12'>
                             <SelectValue placeholder='Select Category' />
@@ -783,8 +899,18 @@ export default function PostAdPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className='p-6 space-y-4'>
-                <div className='aspect-video bg-gray-200 rounded-lg flex items-center justify-center'>
-                  <ImageIcon className='h-12 w-12 text-gray-400' />
+                <div className='aspect-video bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden'>
+                  {formData.thumbnailImage ? (
+                    <Image
+                      src={formData.thumbnailImage}
+                      alt={formData.title || 'Equipment'}
+                      width={400}
+                      height={225}
+                      className='w-full h-full object-cover'
+                    />
+                  ) : (
+                    <ImageIcon className='h-12 w-12 text-gray-400' />
+                  )}
                 </div>
 
                 <div className='space-y-3'>
