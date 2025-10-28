@@ -20,8 +20,8 @@ import {
   Search,
   Filter,
 } from 'lucide-react';
-import { useSearch } from '@/shared/hooks/use-search';
-import { SearchQueryParams } from '@/shared/types/search';
+import { useSearch, useSearchUtils } from '@/shared/hooks/use-search';
+import { SearchQueryParams, SearchResponse } from '@/shared/types/search';
 import { createSlug } from '@/shared/utils/urlHelpers';
 import EquipmentFilters from '@/features/equipment/components/EquipmentFilters';
 
@@ -37,6 +37,7 @@ interface EquipmentSearchClientProps {
   };
   initialCategoryId?: number;
   categoriesMap?: Record<string, number>;
+  initialResults?: SearchResponse;
 }
 
 export default function EquipmentSearchClient({
@@ -44,6 +45,7 @@ export default function EquipmentSearchClient({
   searchParams,
   initialCategoryId,
   categoriesMap,
+  initialResults,
 }: EquipmentSearchClientProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState(searchParams.q || '');
@@ -137,6 +139,19 @@ export default function EquipmentSearchClient({
 
   // Use the search hook
   const { data: searchResults, isLoading, error } = useSearch(searchFilters);
+
+  // Pre-populate React Query cache with initial server results to avoid refetch flicker
+  const { setSearchData } = useSearchUtils();
+  useEffect(() => {
+    if (initialResults && initialResults.items && initialResults.items.length > 0) {
+      try {
+        setSearchData(searchFilters, initialResults);
+      } catch (e) {
+        void e;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Update URL when filters change
   useEffect(() => {
