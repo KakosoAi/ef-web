@@ -140,7 +140,9 @@ const Header = memo(() => {
                 AI Map Search
               </Link>
             </Button>
-            <RainbowButton>Post Now</RainbowButton>
+            <RainbowButton asChild>
+              <Link href='/post-ad'>Post Now</Link>
+            </RainbowButton>
           </div>
         </div>
       </div>
