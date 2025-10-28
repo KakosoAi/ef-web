@@ -32,44 +32,14 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
     notFound();
   }
 
-  // Fetch categories via route handler and map slug -> { id, name }
-  const res = await fetch('/api/categories', { next: { revalidate: 60 } });
-  let cats: Array<{ id: number; name: string }> = [];
-  let fetchError: unknown = undefined;
-  try {
-    if (res.ok) {
-      const body = await res.json();
-      cats = Array.isArray(body) ? body : body?.categories || [];
-    } else {
-      fetchError = new Error(`Failed to fetch categories: ${res.status}`);
-    }
-  } catch (e) {
-    fetchError = e;
-  }
-
-  // If categories fetch fails, proceed without preselect but keep the route
+  // Derive initial label from static category names to avoid build-time fetch
   const categorySlug = category.toLowerCase();
 
-  let initialCategoryId: number | undefined = undefined;
-  let initialCategoryLabel: string | undefined = undefined;
-  let categoriesMap: Record<string, number> | undefined = undefined;
-
-  if (!fetchError && Array.isArray(cats)) {
-    // Build mapping of name -> id
-    categoriesMap = Object.fromEntries(
-      cats.map((c: { id: number; name: string }) => [c.name, c.id])
-    );
-
-    // Find matching category by slug of name
-    const matched = cats.find(
-      (c: { id: number; name: string }) => createSlug(c.name) === categorySlug
-    );
-
-    if (matched) {
-      initialCategoryId = matched.id;
-      initialCategoryLabel = matched.name;
-    }
-  }
+  const initialCategoryId: number | undefined = undefined;
+  const initialCategoryLabel: string | undefined = CATEGORY_NAMES.find(
+    name => createSlug(name) === categorySlug
+  );
+  const categoriesMap: Record<string, number> | undefined = undefined;
 
   // Merge incoming search params with derived category label (for UI preselect)
   const mergedSearchParams = {
