@@ -11,6 +11,7 @@ import { Textarea } from '@/shared/ui/textarea';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Badge } from '@/shared/ui/badge';
 import AIChatInput from '@/shared/ui/ai-chat-input';
+import AILoader from '@/shared/ui/ai-loader';
 import {
   Search,
   Upload,
@@ -114,6 +115,7 @@ const getCategoryImage = (category: string): string => {
 
 export default function PostAdPage() {
   const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [isAiAnimating, setIsAiAnimating] = useState(false);
   const [showAiSuccessMessage, setShowAiSuccessMessage] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
@@ -164,7 +166,8 @@ export default function PostAdPage() {
   const handleAiGenerate = async (prompt: string) => {
     if (!prompt.trim()) return;
 
-    setIsAiProcessing(true);
+    setIsAiAnimating(true);
+    setTimeout(() => setIsAiProcessing(true), 50); // Small delay for smooth animation
 
     try {
       // Call the AI analysis API
@@ -209,7 +212,9 @@ export default function PostAdPage() {
         error instanceof Error ? error.message : 'Failed to process your request. Please try again.'
       );
     } finally {
+      // Start exit animation
       setIsAiProcessing(false);
+      setTimeout(() => setIsAiAnimating(false), 300); // Wait for exit animation to complete
     }
   };
 
@@ -255,40 +260,20 @@ export default function PostAdPage() {
       <Header />
 
       {/* AI Processing Overlay */}
-      {isAiProcessing && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'>
-          <div className='bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center border border-gray-100'>
-            <div className='mb-6'>
-              <div className='relative mx-auto w-16 h-16 mb-4'>
-                <div className='absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 animate-spin'>
-                  <div className='absolute inset-1 rounded-full bg-white'></div>
-                </div>
-                <div className='absolute inset-0 flex items-center justify-center'>
-                  <Sparkles className='h-6 w-6 text-purple-600' />
-                </div>
-              </div>
-              <h3 className='text-xl font-semibold text-gray-900 mb-2'>
-                AI is analyzing your equipment
-              </h3>
-              <p className='text-gray-600 text-sm leading-relaxed'>
-                Our AI is processing your description and filling out the form with relevant
-                details. This usually takes a few seconds.
-              </p>
-            </div>
-            <div className='flex items-center justify-center space-x-2 text-sm text-gray-500'>
-              <div className='flex space-x-1'>
-                <div className='w-2 h-2 bg-purple-600 rounded-full animate-bounce'></div>
-                <div
-                  className='w-2 h-2 bg-blue-600 rounded-full animate-bounce'
-                  style={{ animationDelay: '0.1s' }}
-                ></div>
-                <div
-                  className='w-2 h-2 bg-indigo-600 rounded-full animate-bounce'
-                  style={{ animationDelay: '0.2s' }}
-                ></div>
-              </div>
-              <span>Processing...</span>
-            </div>
+      {isAiAnimating && (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm transition-all duration-300 ease-in-out ${
+            isAiProcessing ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <div
+            className={`transition-all duration-500 ease-out ${
+              isAiProcessing
+                ? 'scale-100 opacity-100 translate-y-0'
+                : 'scale-95 opacity-0 translate-y-2'
+            }`}
+          >
+            <AILoader text='Analyzing...' size={150} />
           </div>
         </div>
       )}
