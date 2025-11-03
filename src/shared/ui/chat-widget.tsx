@@ -22,17 +22,7 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      content: 'Hello! How can I help you today?',
-      sender: 'ai',
-    },
-    {
-      id: 2,
-      content: 'I have a question about the equipment.',
-      sender: 'user',
-    },
-    {
-      id: 3,
-      content: "Sure! I'd be happy to help. What would you like to know about our equipment?",
+      content: 'Hello! How can I help you with our equipment today?',
       sender: 'ai',
     },
   ]);
@@ -40,33 +30,71 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!input.trim() || isLoading) return;
 
+      // Create a synthetic form event
+      const syntheticEvent = {
+        preventDefault: () => {},
+      } as FormEvent;
+
+      handleSubmit(syntheticEvent);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = input.trim();
     setMessages(prev => [
       ...prev,
       {
         id: prev.length + 1,
-        content: input,
+        content: userMessage,
         sender: 'user',
       },
     ]);
     setInput('');
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/ai/site-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const data = await response.json();
+
       setMessages(prev => [
         ...prev,
         {
           id: prev.length + 1,
-          content:
-            "Thank you for your question! I'm here to help you find the right equipment for your needs.",
+          content: data.reply || "I'm sorry, I couldn't process your request right now.",
           sender: 'ai',
         },
       ]);
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          content: "I'm sorry, I'm having trouble connecting right now. Please try again later.",
+          sender: 'ai',
+        },
+      ]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleAttachFile = () => {
@@ -130,6 +158,7 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
           <ChatInput
             value={input}
             onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder='Type your message...'
             className='min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0'
           />
