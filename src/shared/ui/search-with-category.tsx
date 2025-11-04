@@ -72,8 +72,10 @@ export default function SearchWithCategory({
         setSearchQuery(result.enhancedQuery);
         setIsEnhanced(true);
 
-        // Show the enhanced query to the user without auto-searching
-        // User can then click search or press Enter to proceed
+        // Automatically search with the enhanced query
+        setTimeout(() => {
+          handleSearch(result.enhancedQuery);
+        }, 500);
       } else {
         // If enhancement fails, proceed with original query
         handleSearch();
@@ -287,6 +289,17 @@ export default function SearchWithCategory({
               </>
             )}
           </Button>
+
+          {/* Enhanced query search button */}
+          {isEnhanced && (
+            <Button
+              onClick={() => handleSearch()}
+              className='h-12 rounded-none px-4 text-sm font-semibold border-0 bg-green-600 hover:bg-green-700 text-white shadow-lg transition-all duration-300'
+            >
+              <Search className='h-4 w-4 mr-2' />
+              Search Enhanced
+            </Button>
+          )}
         </div>
       </div>
     </div>

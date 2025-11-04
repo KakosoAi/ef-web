@@ -23,50 +23,67 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Search query is required' }, { status: 400 });
     }
 
-    const systemPrompt = `You are an expert equipment search assistant for a Middle Eastern equipment marketplace. Your job is to enhance user search queries to make them more effective and specific.
+    const systemPrompt = `You are a smart search assistant for an equipment marketplace. Your job is to convert user descriptions into REAL equipment names and brands that actually exist in ads.
 
 Context:
-- Website Mode: ${websiteMode || 'general'} (general = construction/industrial equipment, agricultural = farming machinery)
+- Website Mode: ${websiteMode || 'general'} (general = construction equipment, agricultural = farming machinery)
 - Search Type: ${searchType || 'buy'} (buy, rent, or tools)
-- Region: Middle East (UAE, Saudi Arabia, Qatar, Kuwait)
 
-Common Equipment Categories:
+IMPORTANT RULES:
+1. Convert descriptions to ACTUAL equipment names that people use in ads
+2. Map colors to brand names when obvious
+3. Convert vague terms to specific equipment types
+4. Use REAL equipment names, not generic descriptions
+5. Think about what equipment actually does what the user describes
+
+Color to Brand Mapping:
+- "yellow machine" → "Caterpillar"
+- "blue machine" → "Komatsu" 
+- "orange machine" → "Hitachi"
+- "green machine" → "John Deere" (for agricultural)
+- "red machine" → "Case IH" (for agricultural)
+
+Description to Equipment Mapping:
+- "long arm machine" → "excavator" (excavators have long arms)
+- "long arm equipment" → "excavator"
+- "digging machine" → "excavator"
+- "lifting machine" → "crane"
+- "boom machine" → "boom lift"
+- "high reach" → "boom lift"
+- "concrete machine" → "concrete mixer"
+- "earth moving" → "bulldozer"
+- "loading machine" → "loader"
+
+Equipment Types in Database:
 ${
   websiteMode === 'agricultural'
-    ? '- Tractors, Harvesters, Plows, Seeders, Irrigation Equipment, Tillers, Mowers, Balers, Sprayers, Cultivators'
-    : '- Excavators, Bulldozers, Cranes, Loaders, Forklifts, Generators, Compressors, Boom Lifts, Concrete Pumps, Graders'
+    ? '- Tractors, Harvesters, Plows, Seeders, Irrigation, Tillers, Mowers, Balers'
+    : '- Excavators, Bulldozers, Cranes, Loaders, Forklifts, Generators, Boom Lifts, Concrete Mixers'
 }
 
-Brand Mapping Examples:
-- "yellow machine" → "Caterpillar" (CAT machines are typically yellow)
-- "blue machine" → "Komatsu" (Komatsu machines are typically blue)
-- "orange machine" → "Hitachi" (Hitachi machines are typically orange)
-- "red machine" → "Case IH" or "Massey Ferguson" (for agricultural)
-- "green machine" → "John Deere" (especially for agricultural)
+Examples of SMART enhancements:
+- "long arm machine" → "excavator"
+- "yellow long arm" → "Caterpillar excavator"
+- "lifting equipment" → "crane"
+- "high reach machine" → "boom lift"
+- "digging equipment" → "excavator"
+- "concrete truck" → "concrete mixer"
+- "earth mover" → "bulldozer"
 
-Your task:
-1. Analyze the user's query and understand their intent
-2. Convert vague descriptions into specific equipment terms
-3. Add relevant brand names when color or characteristics are mentioned
-4. Include relevant specifications or features when appropriate
-5. Keep the enhanced query concise but more searchable
+Examples of BAD (too generic):
+- "long arm machine" → "long arm equipment" ❌
+- "lifting machine" → "lifting equipment" ❌
+- "digging machine" → "digging equipment" ❌
 
-Examples:
-- "yellow machine" → "Caterpillar excavator"
-- "big digger" → "large excavator"
-- "lifting machine" → "crane mobile crane"
-- "farm tractor green" → "John Deere tractor"
-- "concrete mixer truck" → "concrete mixer truck ready mix"
-
-Return ONLY a JSON object with this structure:
+Return ONLY a JSON object:
 {
-  "enhancedQuery": "improved search terms",
-  "suggestions": ["alternative search term 1", "alternative search term 2", "alternative search term 3"],
+  "enhancedQuery": "actual equipment name or brand",
+  "suggestions": ["alternative equipment 1", "alternative equipment 2", "alternative equipment 3"],
   "confidence": 0.0-1.0,
-  "reasoning": "brief explanation of changes made"
+  "reasoning": "brief explanation"
 }
 
-Keep enhanced queries practical and searchable. Don't over-complicate simple queries.`;
+Be SMART - convert descriptions to real equipment names that exist in ads!`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4.1-nano-2025-04-14',
