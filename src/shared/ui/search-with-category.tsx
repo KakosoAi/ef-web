@@ -4,7 +4,7 @@ import { useId, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
-import { Search, Sparkles, Zap } from 'lucide-react';
+import { Search, Sparkles, Zap, Loader2 } from 'lucide-react';
 import { createSlug } from '@/shared/utils/urlHelpers';
 
 interface SearchWithCategoryProps {
@@ -21,6 +21,8 @@ export default function SearchWithCategory({
   const [isAiMode, setIsAiMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('buy'); // 'buy', 'rent', or 'tools'
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [isEnhanced, setIsEnhanced] = useState(false);
 
   // Mode-specific styling
   const modeStyles = {
@@ -46,11 +48,51 @@ export default function SearchWithCategory({
 
   const currentMode = modeStyles[websiteMode];
 
-  const handleSearch = () => {
+  const enhanceSearchWithAI = async () => {
+    if (!searchQuery.trim() || isEnhancing) return;
+
+    setIsEnhancing(true);
+    try {
+      const response = await fetch('/api/ai/enhance-search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: searchQuery.trim(),
+          searchType,
+          websiteMode,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.enhancedQuery) {
+        // Update the search query with the enhanced version
+        setSearchQuery(result.enhancedQuery);
+        setIsEnhanced(true);
+
+        // Show the enhanced query to the user without auto-searching
+        // User can then click search or press Enter to proceed
+      } else {
+        // If enhancement fails, proceed with original query
+        handleSearch();
+      }
+    } catch (error) {
+      console.error('Error enhancing search:', error);
+      // If enhancement fails, proceed with original query
+      handleSearch();
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
+
+  const handleSearch = (queryOverride?: string) => {
+    const finalQuery = queryOverride || searchQuery;
     if (onSearch) {
-      onSearch(searchQuery, searchType);
+      onSearch(finalQuery, searchType);
     } else {
-      const slug = searchQuery ? createSlug(searchQuery) : '';
+      const slug = finalQuery ? createSlug(finalQuery) : '';
       const targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
       router.push(targetPath);
     }
@@ -58,7 +100,13 @@ export default function SearchWithCategory({
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      if (isAiMode && searchQuery.trim()) {
+        // In AI mode, enhance first then search
+        enhanceSearchWithAI();
+      } else {
+        // Normal search
+        handleSearch();
+      }
     }
   };
 
@@ -118,14 +166,28 @@ export default function SearchWithCategory({
         >
           {/* AI Toggle Button */}
           <Button
-            onClick={() => setIsAiMode(!isAiMode)}
+            onClick={() => {
+              if (isAiMode && searchQuery.trim()) {
+                // If AI mode is active and there's a query, enhance it
+                enhanceSearchWithAI();
+              } else {
+                // Otherwise, just toggle AI mode
+                setIsAiMode(!isAiMode);
+              }
+            }}
+            disabled={isEnhancing}
             className={`h-12 rounded-none px-4 text-sm font-semibold border-0 transition-all duration-500 ${
               isAiMode
                 ? `${currentMode.aiButton} text-white shadow-lg`
                 : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-r border-gray-300'
             }`}
           >
-            {isAiMode ? (
+            {isEnhancing ? (
+              <>
+                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
+                AI
+              </>
+            ) : isAiMode ? (
               <>
                 <Zap className='h-4 w-4 mr-2 animate-pulse' />
                 AI
@@ -144,7 +206,10 @@ export default function SearchWithCategory({
               id={id}
               type='text'
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={e => {
+                setSearchQuery(e.target.value);
+                setIsEnhanced(false); // Reset enhanced state when user types
+              }}
               onKeyPress={handleKeyPress}
               placeholder={
                 isAiMode
@@ -171,6 +236,13 @@ export default function SearchWithCategory({
                   : 'bg-white placeholder:text-gray-400 text-gray-700'
               }`}
             />
+            {/* Enhanced query indicator */}
+            {isEnhanced && (
+              <div className='absolute top-2 right-2 flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium'>
+                <Sparkles className='h-3 w-3' />
+                AI Enhanced
+              </div>
+            )}
             {isAiMode && (
               <div className='absolute inset-0 pointer-events-none'>
                 <div
@@ -187,15 +259,33 @@ export default function SearchWithCategory({
           {/* Search button */}
           <Button
             type='submit'
-            onClick={handleSearch}
+            onClick={() => {
+              if (isAiMode && searchQuery.trim()) {
+                // In AI mode, enhance first then search
+                enhanceSearchWithAI();
+              } else {
+                // Normal search
+                handleSearch();
+              }
+            }}
+            disabled={isEnhancing}
             className={`h-12 rounded-none px-6 text-sm font-semibold border-0 transition-all duration-500 ${
               isAiMode
                 ? `${currentMode.aiButton} text-white shadow-lg`
                 : 'bg-gray-900 hover:bg-gray-800 text-white'
             }`}
           >
-            <Search className='h-4 w-4 mr-2' />
-            {isAiMode ? 'Ask AI' : 'Search'}
+            {isEnhancing ? (
+              <>
+                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
+                Enhancing...
+              </>
+            ) : (
+              <>
+                <Search className='h-4 w-4 mr-2' />
+                {isAiMode ? 'Ask AI' : 'Search'}
+              </>
+            )}
           </Button>
         </div>
       </div>
