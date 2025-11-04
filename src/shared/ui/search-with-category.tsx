@@ -8,7 +8,7 @@ import { Search, Sparkles, Zap, Loader2 } from 'lucide-react';
 import { createSlug } from '@/shared/utils/urlHelpers';
 
 interface SearchWithCategoryProps {
-  onSearch?: (query: string, searchType: string) => void;
+  onSearch?: (query: string, searchType: string, filters?: any) => void;
   websiteMode?: 'general' | 'agricultural';
 }
 
@@ -49,7 +49,7 @@ export default function SearchWithCategory({
   const currentMode = modeStyles[websiteMode];
 
   const enhanceSearchWithAI = async () => {
-    if (!searchQuery.trim() || isEnhancing) return;
+    if (!searchQuery.trim()) return;
 
     setIsEnhancing(true);
     try {
@@ -72,9 +72,60 @@ export default function SearchWithCategory({
         setSearchQuery(result.enhancedQuery);
         setIsEnhanced(true);
 
-        // Automatically search with the enhanced query
+        // Convert AI filters to search parameters
+        const aiFilters = result.filters || {};
+        const searchFilters: any = {};
+
+        // Map AI filter data to search parameters
+        if (aiFilters.minPrice) searchFilters.priceMin = aiFilters.minPrice;
+        if (aiFilters.maxPrice) searchFilters.priceMax = aiFilters.maxPrice;
+        if (aiFilters.location) {
+          // Map location names to IDs (simplified mapping for now)
+          const locationMap: { [key: string]: number } = {
+            Dubai: 1,
+            'Abu Dhabi': 2,
+            Sharjah: 3,
+            Ajman: 4,
+            'Ras Al Khaimah': 5,
+            Fujairah: 6,
+            'Umm Al Quwain': 7,
+          };
+          if (locationMap[aiFilters.location]) {
+            searchFilters.cityId = locationMap[aiFilters.location];
+          }
+        }
+        if (aiFilters.condition) {
+          // Map condition names to IDs (simplified mapping for now)
+          const conditionMap: { [key: string]: number } = {
+            New: 1,
+            Excellent: 2,
+            Good: 3,
+            Fair: 4,
+          };
+          if (conditionMap[aiFilters.condition]) {
+            searchFilters.conditionId = conditionMap[aiFilters.condition];
+          }
+        }
+        if (aiFilters.category) {
+          // Map category names to IDs (simplified mapping for now)
+          const categoryMap: { [key: string]: number } = {
+            Excavators: 1,
+            'Wheel Loaders': 2,
+            Cranes: 3,
+            Bulldozers: 4,
+            'Backhoe Loaders': 5,
+            'Skid Steers': 6,
+            Compactors: 7,
+            Generators: 8,
+          };
+          if (categoryMap[aiFilters.category]) {
+            searchFilters.categoryId = categoryMap[aiFilters.category];
+          }
+        }
+
+        // Automatically search with the enhanced query and filters
         setTimeout(() => {
-          handleSearch(result.enhancedQuery);
+          handleSearch(result.enhancedQuery, searchFilters);
         }, 500);
       } else {
         // If enhancement fails, proceed with original query
@@ -89,13 +140,29 @@ export default function SearchWithCategory({
     }
   };
 
-  const handleSearch = (queryOverride?: string) => {
+  const handleSearch = (queryOverride?: string, filtersOverride?: any) => {
     const finalQuery = queryOverride || searchQuery;
     if (onSearch) {
-      onSearch(finalQuery, searchType);
+      onSearch(finalQuery, searchType, filtersOverride);
     } else {
       const slug = finalQuery ? createSlug(finalQuery) : '';
-      const targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
+      let targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
+
+      // Add filter parameters to URL if they exist
+      if (filtersOverride && Object.keys(filtersOverride).length > 0) {
+        const params = new URLSearchParams();
+        if (finalQuery) params.set('q', finalQuery);
+
+        // Add filter parameters
+        Object.entries(filtersOverride).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            params.set(key, String(value));
+          }
+        });
+
+        targetPath += `?${params.toString()}`;
+      }
+
       router.push(targetPath);
     }
   };
