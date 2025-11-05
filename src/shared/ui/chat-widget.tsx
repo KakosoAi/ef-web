@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { Send, Bot, Paperclip, Mic, CornerDownLeft } from 'lucide-react';
+import { Send, Bot, Mic, CornerDownLeft } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from '@/shared/ui/chat-bubble';
 import { ChatInput } from '@/shared/ui/chat-input';
@@ -102,7 +102,49 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   };
 
   const handleMicrophoneClick = () => {
-    // Voice input functionality would go here
+    try {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Voice input is not supported in this browser. Please use Chrome.');
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      let finalTranscript = '';
+
+      recognition.onresult = (event: any) => {
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+        // Update input with interim or final transcript
+        setInput(finalTranscript || interimTranscript);
+      };
+
+      recognition.onerror = (e: any) => {
+        console.error('Voice recognition error:', e);
+        alert('Voice recognition error. Please check microphone permissions.');
+      };
+
+      recognition.onend = () => {
+        // Keep final transcript in the input; user can press Send
+      };
+
+      recognition.start();
+    } catch (err) {
+      console.error('Failed to start voice input:', err);
+      alert('Unable to start voice input.');
+    }
   };
 
   return (
@@ -164,10 +206,6 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
           />
           <div className='flex items-center p-3 pt-0 justify-between'>
             <div className='flex'>
-              <Button variant='ghost' size='icon' type='button' onClick={handleAttachFile}>
-                <Paperclip className='size-4' />
-              </Button>
-
               <Button variant='ghost' size='icon' type='button' onClick={handleMicrophoneClick}>
                 <Mic className='size-4' />
               </Button>

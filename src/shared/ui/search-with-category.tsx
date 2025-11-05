@@ -160,6 +160,9 @@ export default function SearchWithCategory({
           }
         });
 
+        // Mark that filters came from AI enhancement
+        params.set('ai', '1');
+
         targetPath += `?${params.toString()}`;
       }
 
@@ -368,6 +371,8 @@ export default function SearchWithCategory({
             </Button>
           )}
         </div>
+
+        {/* Suggestion chips removed per request */}
       </div>
     </div>
   );
