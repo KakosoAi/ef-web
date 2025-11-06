@@ -1183,10 +1183,14 @@ function BrandsDropdown() {
 
       {/* Scrollable brand list */}
       <div className='max-h-[400px] overflow-y-auto'>
-        <div className='grid grid-cols-4 gap-2'>
+        <div className='grid grid-cols-4 gap-0'>
           {activeTab === 'rent'
-            ? rentBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)
-            : buyBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)}
+            ? rentBrandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} className='px-1 py-1' />
+              ))
+            : buyBrandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} className='px-1 py-1' />
+              ))}
         </div>
       </div>
     </div>
@@ -1229,36 +1233,36 @@ function DesktopMenu() {
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
-              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+              <ul className='grid gap-0 p-4 md:grid-cols-2 md:border-r'>
                 {equipmentLinks.slice(0, 7).map(link => (
                   <li key={link.href}>
-                    <NavGridCard link={link} />
+                    <NavGridCard link={link} className='px-1 py-1' />
                   </li>
                 ))}
               </ul>
-              <div className='p-6 space-y-6'>
+              <div className='p-4 space-y-4'>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Locations</h4>
+                  <div className='space-y-0.5'>
                     {equipmentLinks.slice(7, 14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>New Machines</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>New Machines</h4>
+                  <div className='space-y-0.5'>
                     {equipmentLinks.slice(14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
@@ -1272,36 +1276,36 @@ function DesktopMenu() {
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
-              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+              <ul className='grid gap-0 p-4 md:grid-cols-2 md:border-r'>
                 {rentalLinks.slice(0, 7).map(link => (
                   <li key={link.href}>
-                    <NavGridCard link={link} />
+                    <NavGridCard link={link} className='px-1 py-1' />
                   </li>
                 ))}
               </ul>
-              <div className='p-6 space-y-6'>
+              <div className='p-4 space-y-4'>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Locations</h4>
+                  <div className='space-y-0.5'>
                     {rentalLinks.slice(7, 14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Industries</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Industries</h4>
+                  <div className='space-y-0.5'>
                     {rentalLinks.slice(14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
