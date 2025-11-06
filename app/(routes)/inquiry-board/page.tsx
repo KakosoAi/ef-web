@@ -19,6 +19,10 @@ import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import { InquiryCardSkeleton, InquiryListSkeleton } from '@/shared/ui/inquiry-skeleton';
 import { InquiryCard } from '@/shared/ui/inquiry-card';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Input } from '@/shared/ui/input';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/shared/ui/select';
 
 interface Inquiry {
   id: string;
@@ -230,82 +234,84 @@ export default function InquiryBoard() {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-background'>
       <Header />
       <main>
         {/* Condensed Page Header - One Line */}
-        <div className='bg-white border-b shadow-sm'>
-          <div className='max-w-7xl mx-auto px-6 py-4'>
+        <div className='bg-background border-b'>
+          <div className='max-w-7xl mx-auto px-6 py-6'>
             <div className='flex items-center justify-between gap-6'>
               <div className='flex items-center gap-4'>
-                <h1 className='text-xl font-bold text-gray-900'>Equipment Inquiries</h1>
-                <span className='px-3 py-1 bg-orange-100 text-orange-700 text-sm font-semibold rounded-full'>
+                <h1 className='text-xl font-semibold text-foreground'>Equipment Inquiries</h1>
+                <Badge variant='outline' className='text-xs'>
                   {filteredInquiries.length} found
-                </span>
+                </Badge>
               </div>
 
               <div className='flex items-center gap-3'>
                 <div className='relative'>
-                  <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
-                  <input
-                    type='text'
-                    placeholder='Search inquiries...'
+                  <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4' />
+                  <Input
+                    type='search'
+                    placeholder='Search inquiries'
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
-                    className='w-80 pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-gray-50'
+                    className='w-80 pl-10'
                   />
                 </div>
 
-                <button
+                <Button
+                  variant={showFilters ? 'default' : 'outline'}
+                  size='sm'
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                    showFilters
-                      ? 'bg-orange-500 text-white shadow-md'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                  }`}
                 >
-                  <Filter className='h-4 w-4' />
-                  Filter
-                </button>
+                  <Filter className='h-4 w-4 mr-2' />
+                  Filters
+                </Button>
               </div>
             </div>
 
             {showFilters && (
-              <div className='mt-4 p-4 bg-gray-50 rounded-lg border'>
+              <div className='mt-4 p-4 rounded-lg border bg-muted/30'>
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                  <select
-                    value={selectedCategory}
-                    onChange={e => setSelectedCategory(e.target.value)}
-                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
-                  >
-                    {categories.map(category => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={selectedLocation}
-                    onChange={e => setSelectedLocation(e.target.value)}
-                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
-                  >
-                    {locations.map(location => (
-                      <option key={location} value={location}>
-                        {location}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={selectedUrgency}
-                    onChange={e => setSelectedUrgency(e.target.value)}
-                    className='px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 bg-white'
-                  >
-                    {urgencyLevels.map(urgency => (
-                      <option key={urgency} value={urgency}>
-                        {urgency}
-                      </option>
-                    ))}
-                  </select>
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Category' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(category => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Location' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {locations.map(location => (
+                        <SelectItem key={location} value={location}>
+                          {location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={selectedUrgency} onValueChange={setSelectedUrgency}>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Urgency' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {urgencyLevels.map(urgency => (
+                        <SelectItem key={urgency} value={urgency}>
+                          {urgency}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             )}
@@ -333,39 +339,35 @@ export default function InquiryBoard() {
           ) : error ? (
             <div className='text-center py-12'>
               <div className='text-red-600 mb-4'>Error: {error}</div>
-              <button
-                onClick={() => window.location.reload()}
-                className='px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600'
-              >
+              <Button onClick={() => window.location.reload()} className='px-4'>
                 Retry
-              </button>
+              </Button>
             </div>
           ) : filteredInquiries.length === 0 ? (
             <div className='text-center py-12'>
               <div className='text-gray-500 mb-4'>No inquiries found matching your criteria.</div>
-              <button
+              <Button
                 onClick={() => {
                   setSearchTerm('');
                   setSelectedCategory('All Categories');
                   setSelectedLocation('All Locations');
                   setSelectedUrgency('All Urgency');
                 }}
-                className='px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600'
+                className='px-4'
               >
                 Clear Filters
-              </button>
+              </Button>
             </div>
           ) : (
             <div className='space-y-8'>
               {/* Featured Inquiries - Premium Display */}
               {featuredInquiries.length > 0 && (
                 <div>
-                  <div className='flex items-center gap-2 mb-4'>
-                    <div className='w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full'></div>
-                    <h2 className='text-lg font-semibold text-gray-900'>Featured Inquiries</h2>
-                    <span className='px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <h2 className='text-lg font-semibold text-foreground'>Featured Inquiries</h2>
+                    <Badge variant='outline' className='text-xs'>
                       Premium
-                    </span>
+                    </Badge>
                   </div>
                   <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                     {featuredInquiries.map(inquiry => (
@@ -384,9 +386,8 @@ export default function InquiryBoard() {
               {/* Regular Inquiries */}
               {regularInquiries.length > 0 && (
                 <div>
-                  <div className='flex items-center gap-2 mb-4'>
-                    <div className='w-1 h-6 bg-gray-400 rounded-full'></div>
-                    <h2 className='text-lg font-semibold text-gray-900'>All Inquiries</h2>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <h2 className='text-lg font-semibold text-foreground'>All Inquiries</h2>
                   </div>
                   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                     {regularInquiries.map(inquiry => (
