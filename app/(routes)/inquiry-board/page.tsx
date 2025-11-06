@@ -4,17 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  Search,
-  Filter,
-  Grid,
-  List,
-  MapPin,
-  Eye,
-  MessageCircle,
-  Star,
-  Building2,
-} from 'lucide-react';
+import { Search, Filter, Grid, List, MapPin, Eye, MessageCircle, Building2 } from 'lucide-react';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import { InquiryCardSkeleton, InquiryListSkeleton } from '@/shared/ui/inquiry-skeleton';
@@ -183,9 +173,9 @@ export default function InquiryBoard() {
   // Don't render until mounted on client side
   if (!mounted) {
     return (
-      <div className='min-h-screen bg-gray-50'>
+      <div className='min-h-screen bg-white'>
         <Header />
-        <main className='container mx-auto px-4 py-8'>
+        <main className='container mx-auto px-6 py-10'>
           <div className='flex justify-center items-center h-64'>
             <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600'></div>
           </div>
@@ -234,12 +224,12 @@ export default function InquiryBoard() {
   };
 
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='min-h-screen bg-white'>
       <Header />
       <main>
         {/* Condensed Page Header - One Line */}
-        <div className='bg-background border-b'>
-          <div className='max-w-7xl mx-auto px-6 py-6'>
+        <div className='bg-white border-b'>
+          <div className='max-w-7xl mx-auto px-6 py-8'>
             <div className='flex items-center justify-between gap-6'>
               <div className='flex items-center gap-4'>
                 <h1 className='text-xl font-semibold text-foreground'>Equipment Inquiries</h1>
@@ -272,8 +262,8 @@ export default function InquiryBoard() {
             </div>
 
             {showFilters && (
-              <div className='mt-4 p-4 rounded-lg border bg-muted/30'>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+              <div className='mt-4 p-5 rounded-xl border bg-white shadow-sm'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                     <SelectTrigger>
                       <SelectValue placeholder='Category' />
@@ -319,17 +309,17 @@ export default function InquiryBoard() {
         </div>
 
         {/* Inquiries */}
-        <div className='max-w-7xl mx-auto px-6 py-6'>
+        <div className='max-w-7xl mx-auto px-6 py-8'>
           {loading ? (
             <div className='space-y-6'>
               {/* Featured skeleton */}
-              <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+              <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
                 <InquiryCardSkeleton featured />
                 <InquiryCardSkeleton featured />
                 <InquiryCardSkeleton featured />
               </div>
               {/* Regular skeleton */}
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
                 <InquiryCardSkeleton />
                 <InquiryCardSkeleton />
                 <InquiryCardSkeleton />
@@ -359,7 +349,7 @@ export default function InquiryBoard() {
               </Button>
             </div>
           ) : (
-            <div className='space-y-8'>
+            <div className='space-y-10'>
               {/* Featured Inquiries - Premium Display */}
               {featuredInquiries.length > 0 && (
                 <div>
@@ -369,7 +359,7 @@ export default function InquiryBoard() {
                       Premium
                     </Badge>
                   </div>
-                  <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+                  <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
                     {featuredInquiries.map(inquiry => (
                       <InquiryCard
                         key={inquiry.id}
@@ -389,7 +379,7 @@ export default function InquiryBoard() {
                   <div className='flex items-center gap-3 mb-4'>
                     <h2 className='text-lg font-semibold text-foreground'>All Inquiries</h2>
                   </div>
-                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
                     {regularInquiries.map(inquiry => (
                       <InquiryCard
                         key={inquiry.id}

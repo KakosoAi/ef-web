@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, MapPin, Eye, MessageCircle, Building2, Clock, Star } from 'lucide-react';
+import { ArrowRight, MapPin, Eye, MessageCircle, Building2, Clock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -123,12 +123,12 @@ const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
       <motion.div
         ref={ref}
         className={cn(
-          'w-full max-w-sm overflow-hidden rounded-2xl bg-card text-card-foreground shadow-lg border border-gray-200',
+          'w-full max-w-sm overflow-hidden rounded-2xl bg-white text-card-foreground shadow-sm border border-gray-100',
           onClick ? 'cursor-pointer' : '',
           className
         )}
-        whileHover={{ y: -5, scale: 1.02 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        whileHover={{ y: -2, scale: 1.005 }}
+        transition={{ type: 'spring', stiffness: 280, damping: 24 }}
         onClick={onClick}
       >
         {/* Top section with category image background and content */}
@@ -145,30 +145,30 @@ const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
           </div>
 
           {/* Gradient overlay */}
-          <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20' />
+          <div className='absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent' />
 
           {/* Category badge in top right */}
-          <div className='absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1'>
+          <div className='absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-md px-2.5 py-1'>
             <span className='text-xs font-medium text-gray-900'>{inquiry.category}</span>
           </div>
 
           {/* Urgency badge in top left */}
           <div className='absolute top-4 left-4'>
-            <Badge className={`${getUrgencyColor(inquiry.urgency)} border`}>
+            <Badge variant='outline' className='bg-white/80 backdrop-blur-sm text-xs'>
               {inquiry.urgency}
             </Badge>
           </div>
 
           <div className='absolute bottom-0 left-0 flex w-full items-end justify-between p-4'>
             <div className='text-white flex-1'>
-              <h3 className='text-xl font-bold mb-1 line-clamp-2'>{inquiry.title}</h3>
+              <h3 className='text-lg font-semibold mb-1 line-clamp-2'>{inquiry.title}</h3>
               <div className='flex items-center space-x-1 mb-2'>
-                <MapPin className='w-4 h-4' />
-                <p className='text-sm text-white/90'>{inquiry.location}</p>
+                <MapPin className='w-3.5 h-3.5' />
+                <p className='text-xs text-white/90'>{inquiry.location}</p>
               </div>
               <div className='flex items-center space-x-1'>
-                <Building2 className='w-4 h-4' />
-                <p className='text-sm text-white/90'>{inquiry.company}</p>
+                <Building2 className='w-3.5 h-3.5' />
+                <p className='text-xs text-white/90'>{inquiry.company}</p>
               </div>
             </div>
 
@@ -195,7 +195,7 @@ const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
                     }
                   }}
                   aria-label={`View ${inquiry.title} on AI Map`}
-                  className='bg-white/90 hover:bg-white text-gray-900'
+                  className='bg-white/90 hover:bg-white text-gray-900 shadow-sm'
                 >
                   AI Map
                   <ArrowRight className='ml-2 h-4 w-4' />
@@ -206,24 +206,20 @@ const InquiryCard = React.forwardRef<HTMLDivElement, InquiryCardProps>(
         </div>
 
         {/* Bottom section with inquiry details */}
-        <div className='p-5'>
+        <div className='p-6'>
           <div className='flex items-center justify-between mb-4'>
             <div className='flex-1'>
-              <p className='font-bold text-foreground text-lg'>{inquiry.budget}</p>
+              <p className='font-semibold text-foreground text-base'>{inquiry.budget}</p>
               <p className='text-xs text-muted-foreground'>{inquiry.category}</p>
             </div>
 
             {/* Rating and verification */}
             <div className='flex flex-col items-end'>
               {inquiry.verified && (
-                <Badge variant='secondary' className='mb-1 text-xs'>
+                <Badge variant='outline' className='text-xs'>
                   Verified
                 </Badge>
               )}
-              <div className='flex items-center space-x-1'>
-                <Star className='w-3 h-3 text-yellow-500 fill-current' />
-                <span className='text-xs text-muted-foreground'>{inquiry.rating.toFixed(1)}</span>
-              </div>
             </div>
           </div>
 
