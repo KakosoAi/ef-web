@@ -38,58 +38,60 @@ export default function TermsPage() {
           </div>
         </section>
 
-        {/* Content Sections */}
-        <section className='mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <FileText className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>Use of Service</h2>
+        {/* Unified Content */}
+        <section className='mx-auto max-w-5xl'>
+          <article className='rounded-2xl border border-border bg-card shadow-sm overflow-hidden divide-y divide-border'>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <FileText className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>Use of Service</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                Use our services in compliance with applicable laws and regulations. You’re
+                responsible for the content you post or submit.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              Use our services in compliance with applicable laws and regulations. You’re
-              responsible for the content you post or submit.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <UserCheck className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>Accounts</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <UserCheck className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>Accounts</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                Keep your credentials secure. You are responsible for all activities under your
+                account.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              Keep your credentials secure. You are responsible for all activities under your
-              account.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow md:col-span-2'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-destructive/10 text-destructive'>
-                <AlertTriangle className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>Liability</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-destructive/10 text-destructive'>
+                  <AlertTriangle className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>Liability</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                The service is provided “as is” without warranties of any kind. We are not liable
+                for any damages arising from use of the service.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              The service is provided “as is” without warranties of any kind. We are not liable for
-              any damages arising from use of the service.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow md:col-span-2'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <Shield className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>General</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <Shield className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>General</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                This is placeholder content. Replace with your specific terms and any jurisdictional
+                requirements. Keep language readable and precise.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              This is placeholder content. Replace with your specific terms and any jurisdictional
-              requirements. Keep language readable and precise.
-            </p>
           </article>
         </section>
       </main>

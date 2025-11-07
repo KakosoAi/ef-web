@@ -38,58 +38,60 @@ export default function PrivacyPage() {
           </div>
         </section>
 
-        {/* Content Sections */}
-        <section className='mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <Database className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>Information We Collect</h2>
+        {/* Unified Content */}
+        <section className='mx-auto max-w-5xl'>
+          <article className='rounded-2xl border border-border bg-card shadow-sm overflow-hidden divide-y divide-border'>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <Database className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>Information We Collect</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                We collect information you provide directly (like account details) and data
+                generated when you use our services.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              We collect information you provide directly (like account details) and data generated
-              when you use our services.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <Shield className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>How We Use Information</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <Shield className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>How We Use Information</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                We use data to provide and improve services, communicate with you, and maintain
+                security and compliance.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              We use data to provide and improve services, communicate with you, and maintain
-              security and compliance.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow md:col-span-2'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <EyeOff className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>Your Rights</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <EyeOff className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>Your Rights</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                You may request access, correction, or deletion of your data as applicable. Contact
+                us for assistance.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              You may request access, correction, or deletion of your data as applicable. Contact us
-              for assistance.
-            </p>
-          </article>
 
-          <article className='rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow md:col-span-2'>
-            <div className='flex items-center gap-3 mb-2'>
-              <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
-                <Lock className='size-4' />
-              </span>
-              <h2 className='text-xl font-semibold'>General</h2>
+            <div className='p-6'>
+              <div className='flex items-center gap-3 mb-2'>
+                <span className='inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                  <Lock className='size-4' />
+                </span>
+                <h2 className='text-xl font-semibold'>General</h2>
+              </div>
+              <p className='text-muted-foreground'>
+                This is placeholder content. Replace with specific privacy details, retention
+                policies, and contact information.
+              </p>
             </div>
-            <p className='text-muted-foreground'>
-              This is placeholder content. Replace with specific privacy details, retention
-              policies, and contact information.
-            </p>
           </article>
         </section>
       </main>
