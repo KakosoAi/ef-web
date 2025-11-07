@@ -4,7 +4,17 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Filter, Grid, List, MapPin, Eye, MessageCircle, Building2 } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Grid,
+  List,
+  MapPin,
+  Eye,
+  MessageCircle,
+  Building2,
+  Newspaper,
+} from 'lucide-react';
 import Header from '@/features/layout/components/Header';
 import Footer from '@/features/layout/components/Footer';
 import { InquiryCardSkeleton, InquiryListSkeleton } from '@/shared/ui/inquiry-skeleton';
@@ -257,6 +267,12 @@ export default function InquiryBoard() {
                 >
                   <Filter className='h-4 w-4 mr-2' />
                   Filters
+                </Button>
+                <Button asChild variant='secondary' size='sm'>
+                  <Link href='/news'>
+                    <Newspaper className='h-4 w-4 mr-2' />
+                    News
+                  </Link>
                 </Button>
               </div>
             </div>
