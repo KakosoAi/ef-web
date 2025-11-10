@@ -103,8 +103,33 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
 
   const handleMicrophoneClick = () => {
     try {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const speechApi = window as unknown as {
+        SpeechRecognition?: new () => {
+          lang: string;
+          interimResults: boolean;
+          continuous: boolean;
+          onresult: (event: {
+            resultIndex: number;
+            results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+          }) => void;
+          onerror: (e: unknown) => void;
+          onend: () => void;
+          start: () => void;
+        };
+        webkitSpeechRecognition?: new () => {
+          lang: string;
+          interimResults: boolean;
+          continuous: boolean;
+          onresult: (event: {
+            resultIndex: number;
+            results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+          }) => void;
+          onerror: (e: unknown) => void;
+          onend: () => void;
+          start: () => void;
+        };
+      };
+      const SpeechRecognition = speechApi.SpeechRecognition || speechApi.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         alert('Voice input is not supported in this browser. Please use Chrome.');
         return;
@@ -117,7 +142,10 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
 
       let finalTranscript = '';
 
-      recognition.onresult = (event: any) => {
+      recognition.onresult = (event: {
+        resultIndex: number;
+        results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+      }) => {
         let interimTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           const transcript = event.results[i][0].transcript;
@@ -131,8 +159,7 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
         setInput(finalTranscript || interimTranscript);
       };
 
-      recognition.onerror = (e: any) => {
-        console.error('Voice recognition error:', e);
+      recognition.onerror = (e: unknown) => {
         alert('Voice recognition error. Please check microphone permissions.');
       };
 
@@ -141,8 +168,7 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
       };
 
       recognition.start();
-    } catch (err) {
-      console.error('Failed to start voice input:', err);
+    } catch (err: unknown) {
       alert('Unable to start voice input.');
     }
   };

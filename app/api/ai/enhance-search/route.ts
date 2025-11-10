@@ -131,6 +131,7 @@ Be SMART - convert descriptions to real equipment names AND extract filter crite
       ...enhancedResult,
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error enhancing search query:', error);
 
     // Return a fallback response

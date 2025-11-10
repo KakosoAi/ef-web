@@ -7,8 +7,16 @@ import { Button } from '@/shared/ui/button';
 import { Search, Sparkles, Zap, Loader2 } from 'lucide-react';
 import { createSlug } from '@/shared/utils/urlHelpers';
 
+type SearchFilters = {
+  priceMin?: number;
+  priceMax?: number;
+  cityId?: number;
+  conditionId?: number;
+  categoryId?: number;
+};
+
 interface SearchWithCategoryProps {
-  onSearch?: (query: string, searchType: string, filters?: any) => void;
+  onSearch?: (query: string, searchType: string, filters?: SearchFilters) => void;
   websiteMode?: 'general' | 'agricultural';
 }
 
@@ -73,8 +81,14 @@ export default function SearchWithCategory({
         setIsEnhanced(true);
 
         // Convert AI filters to search parameters
-        const aiFilters = result.filters || {};
-        const searchFilters: any = {};
+        const aiFilters: Partial<{
+          minPrice: number;
+          maxPrice: number;
+          location: string;
+          condition: string;
+          category: string;
+        }> = result.filters || {};
+        const searchFilters: SearchFilters = {};
 
         // Map AI filter data to search parameters
         if (aiFilters.minPrice) searchFilters.priceMin = aiFilters.minPrice;
@@ -131,8 +145,7 @@ export default function SearchWithCategory({
         // If enhancement fails, proceed with original query
         handleSearch();
       }
-    } catch (error) {
-      console.error('Error enhancing search:', error);
+    } catch (error: unknown) {
       // If enhancement fails, proceed with original query
       handleSearch();
     } finally {
@@ -140,7 +153,7 @@ export default function SearchWithCategory({
     }
   };
 
-  const handleSearch = (queryOverride?: string, filtersOverride?: any) => {
+  const handleSearch = (queryOverride?: string, filtersOverride?: SearchFilters) => {
     const finalQuery = queryOverride || searchQuery;
     if (onSearch) {
       onSearch(finalQuery, searchType, filtersOverride);
@@ -154,9 +167,11 @@ export default function SearchWithCategory({
         if (finalQuery) params.set('q', finalQuery);
 
         // Add filter parameters
-        Object.entries(filtersOverride).forEach(([key, value]) => {
+        (
+          Object.entries(filtersOverride) as [keyof SearchFilters, number | string | undefined][]
+        ).forEach(([key, value]) => {
           if (value !== null && value !== undefined) {
-            params.set(key, String(value));
+            params.set(String(key), String(value));
           }
         });
 
