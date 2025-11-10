@@ -7,6 +7,7 @@ import { Tag as TagIcon, Calendar, Clock } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { NEWS_CATEGORIES, NEWS_POSTS } from '../../data';
+import { AspectRatio } from '@/shared/ui/aspect-ratio';
 
 export default async function NewsTagPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -29,10 +30,10 @@ export default async function NewsTagPage({ params }: { params: Promise<{ slug: 
                     <TagIcon className='h-3.5 w-3.5 mr-1.5' /> Category
                   </Badge>
                 </div>
-                <h1 className='text-2xl md:text-3xl font-bold tracking-tight text-foreground'>
+                <h1 className='text-3xl md:text-4xl font-bold tracking-tight text-foreground'>
                   {category.name}
                 </h1>
-                <p className='mt-2 text-sm md:text-base text-muted-foreground'>
+                <p className='mt-3 text-base md:text-lg text-muted-foreground'>
                   Articles tagged with {category.name}
                 </p>
               </div>
@@ -45,24 +46,31 @@ export default async function NewsTagPage({ params }: { params: Promise<{ slug: 
           {posts.length === 0 ? (
             <div className='text-sm text-muted-foreground'>No posts found in this category.</div>
           ) : (
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
               {posts.map(post => (
                 <Card
                   key={post.slug}
-                  className='group rounded-2xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-shadow'
+                  className='group rounded-2xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all'
                 >
-                  <div className='relative h-40 w-full'>
-                    <Image src={post.image} alt={post.title} fill className='object-cover' />
+                  <div className='relative overflow-hidden'>
+                    <AspectRatio ratio={16 / 9}>
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className='object-cover transition-transform duration-300 group-hover:scale-[1.03]'
+                      />
+                    </AspectRatio>
                   </div>
                   <CardHeader className='px-5 pt-5 pb-3'>
-                    <CardTitle className='text-lg leading-tight'>
+                    <CardTitle className='text-xl leading-snug'>
                       <Link href={`/news/equipment-guide/${post.slug}`} className='hover:underline'>
                         {post.title}
                       </Link>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className='px-5 pb-5'>
-                    <p className='text-sm text-muted-foreground line-clamp-3'>{post.excerpt}</p>
+                    <p className='text-base text-muted-foreground line-clamp-3'>{post.excerpt}</p>
                     <div className='mt-4 flex items-center gap-3 text-xs text-muted-foreground'>
                       <span className='inline-flex items-center gap-1'>
                         <Calendar className='h-3.5 w-3.5' /> {post.date}

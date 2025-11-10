@@ -29,7 +29,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'heavy-equipment', name: 'Heavy Equipment' },
     date: 'Jan 2025',
     readTime: '6 min',
-    image: '/placeholder.svg',
+    image: '/assets/categories/forklifts.png',
     body: [
       {
         heading: 'Overview',
@@ -55,7 +55,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'heavy-equipment', name: 'Heavy Equipment' },
     date: 'Jan 2025',
     readTime: '7 min',
-    image: '/placeholder.svg',
+    image: '/assets/equipment/cat-320d-excavator-1.jpg',
     body: [
       {
         heading: 'Sizing and Tasks',
@@ -81,7 +81,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'safety', name: 'Safety' },
     date: 'Jan 2025',
     readTime: '5 min',
-    image: '/placeholder.svg',
+    image: '/assets/equipment/liebherr-crane.jpg',
     body: [
       {
         heading: 'Daily Inspections',
@@ -100,7 +100,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'rentals', name: 'Rentals' },
     date: 'Jan 2025',
     readTime: '4 min',
-    image: '/placeholder.svg',
+    image: '/assets/categories/skid-steers.png',
     body: [
       {
         heading: 'Traction and Terrain',
@@ -118,7 +118,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'attachments', name: 'Attachments' },
     date: 'Jan 2025',
     readTime: '6 min',
-    image: '/placeholder.svg',
+    image: '/assets/categories/attachments.png',
     body: [
       {
         heading: 'Versatility Wins',
@@ -136,7 +136,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'maintenance', name: 'Maintenance' },
     date: 'Jan 2025',
     readTime: '5 min',
-    image: '/placeholder.svg',
+    image: '/assets/equipment/scissor-lift.jpg',
     body: [
       {
         heading: 'Preventative Approach',
@@ -154,7 +154,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'finance', name: 'Finance' },
     date: 'Jan 2025',
     readTime: '8 min',
-    image: '/placeholder.svg',
+    image: '/assets/hero-equipment.jpg',
     body: [
       {
         heading: 'Cost Model',
@@ -172,7 +172,7 @@ export const NEWS_POSTS: NewsPost[] = [
     tag: { slug: 'transport-logistics', name: 'Transport & Logistics' },
     date: 'Jan 2025',
     readTime: '6 min',
-    image: '/placeholder.svg',
+    image: '/assets/equipment/dump-truck.jpg',
     body: [
       {
         heading: 'Planning and Permits',

@@ -192,7 +192,7 @@ export const showLoadingToast = (message: string, options?: Omit<ToastOptions, '
 };
 
 // Promise toast with unified styling
-export const showPromiseToast = <T,>(
+export function showPromiseToast<T>(
   promise: Promise<T>,
   messages: {
     loading: string;
@@ -200,7 +200,7 @@ export const showPromiseToast = <T,>(
     error: string | ((error: Error) => string);
   },
   options?: ToastOptions
-) => {
+) {
   return toast.promise(promise, {
     loading: messages.loading,
     success: messages.success,
@@ -215,7 +215,7 @@ export const showPromiseToast = <T,>(
       ),
     },
   });
-};
+}
 
 // Custom toast with full control
 export const showCustomToast = (
@@ -234,13 +234,12 @@ export const showCustomToast = (
     info: 'border-primary/20 bg-primary/10 text-primary [&>svg]:text-primary',
   };
 
-  return toast.custom((_t) => (
-    <div className={cn(variantClasses[variant], 'backdrop-blur-sm')}>
-      {content}
-    </div>
-  ), {
-    ...restOptions,
-  });
+  return toast.custom(
+    _t => <div className={cn(variantClasses[variant], 'backdrop-blur-sm')}>{content}</div>,
+    {
+      ...restOptions,
+    }
+  );
 };
 
 // Utility to dismiss all toasts
