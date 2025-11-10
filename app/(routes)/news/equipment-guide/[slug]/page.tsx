@@ -47,9 +47,9 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
           </div>
         </div>
 
-        {/* Content */}
-        <div className='max-w-3xl mx-auto px-6 py-12 md:py-16'>
-          <div className='space-y-10 md:space-y-12'>
+        {/* Content - left-aligned reading column within site container */}
+        <div className='max-w-7xl mx-auto px-6 py-12 md:py-16'>
+          <div className='max-w-3xl mx-0 space-y-10 md:space-y-12'>
             {/* Lead */}
             <p className='text-lg md:text-xl text-foreground/80 leading-8 md:leading-9'>
               {post.excerpt}
@@ -80,7 +80,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
             <Separator className='my-10 md:my-12' />
 
             {/* Article */}
-            <article className='space-y-14 md:space-y-16'>
+            <article className='space-y-14 md:space-y-16 text-left'>
               {post.body.map((section, idx) => (
                 <section key={idx} id={`section-${idx}`} className='space-y-6 md:space-y-8'>
                   <h2 className='text-left text-2xl md:text-3xl font-extrabold tracking-tight'>
