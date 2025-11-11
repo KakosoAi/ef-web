@@ -21,6 +21,7 @@ export async function getStores(params?: {
   q?: string;
   storeTypeId?: number;
   limit?: number;
+  page?: number;
 }): Promise<StoreListItem[]> {
   const supabase = getSupabaseServerClient();
   let query = supabase
@@ -37,7 +38,11 @@ export async function getStores(params?: {
   if (params?.q) {
     query = query.ilike('name', `%${params.q}%`);
   }
-  if (params?.limit) {
+  if (params?.limit && params?.page && params.page > 0) {
+    const limit = params.limit;
+    const offset = (params.page - 1) * limit;
+    query = query.range(offset, offset + limit - 1);
+  } else if (params?.limit) {
     query = query.limit(params.limit);
   }
 
@@ -56,6 +61,28 @@ export async function getStores(params?: {
       banner: r.banner ?? undefined,
       visits: r.visits ?? undefined,
     }));
+}
+
+export async function getStoresCount(params?: {
+  q?: string;
+  storeTypeId?: number;
+}): Promise<number> {
+  const supabase = getSupabaseServerClient();
+  let query = supabase
+    .from('stores')
+    .select('id', { count: 'exact', head: true })
+    .eq('isactive', true);
+
+  if (params?.storeTypeId) {
+    query = query.eq('storetypeid', params.storeTypeId);
+  }
+  if (params?.q) {
+    query = query.ilike('name', `%${params.q}%`);
+  }
+
+  const { count, error } = await query;
+  if (error || typeof count !== 'number') return 0;
+  return count;
 }
 
 export async function getStoreById(id: number): Promise<StoreDetail | null> {
