@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/shared/ui/accordion';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import ContactMap from './ContactMap';
 import Link from 'next/link';
 
@@ -22,34 +23,40 @@ export default function ContactPage() {
     <div className='min-h-screen bg-white'>
       <Header />
       <main>
-        <section className='bg-gray-50/60 border-b'>
-          <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12'>
-            <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
+        <section className='bg-gradient-to-b from-gray-50 to-white border-b'>
+          <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14'>
+            <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 items-start'>
               <div className='lg:col-span-7'>
-                <h1 className='text-4xl sm:text-5xl font-semibold tracking-tight'>Contact Us</h1>
-                <p className='mt-4 text-muted-foreground max-w-prose'>
+                <h1 className='text-5xl font-semibold tracking-tight'>Contact Us</h1>
+                <p className='mt-5 text-lg text-muted-foreground max-w-prose'>
                   We&apos;re here to answer your questions and explore opportunities. Contact us
                   today and let&apos;s pave the way to a healthier future together
                 </p>
-                <div className='mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4'>
-                  <div className='rounded-lg bg-white border p-4'>
-                    <div className='text-sm font-medium'>Call us</div>
+                <div className='mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                    <div className='flex items-center gap-2 text-sm font-medium'>
+                      <Phone className='h-4 w-4 text-blue-600' /> Call us
+                    </div>
                     <div className='mt-1 text-sm text-muted-foreground'>+971585839080</div>
                   </div>
-                  <div className='rounded-lg bg-white border p-4'>
-                    <div className='text-sm font-medium'>Email</div>
+                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                    <div className='flex items-center gap-2 text-sm font-medium'>
+                      <Mail className='h-4 w-4 text-blue-600' /> Email
+                    </div>
                     <div className='mt-1 text-sm text-muted-foreground'>
                       info@equipmentsfinder.com
                     </div>
                   </div>
-                  <div className='rounded-lg bg-white border p-4'>
-                    <div className='text-sm font-medium'>Address</div>
+                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                    <div className='flex items-center gap-2 text-sm font-medium'>
+                      <MapPin className='h-4 w-4 text-blue-600' /> Address
+                    </div>
                     <div className='mt-1 text-sm text-muted-foreground'>
                       Capital Golden Tower, Dubai
                     </div>
                   </div>
                 </div>
-                <div className='mt-6 flex flex-wrap gap-6 text-sm'>
+                <div className='mt-8 flex flex-wrap gap-6 text-sm'>
                   <Link href='/support' className='text-blue-600 hover:underline'>
                     Customer Support
                   </Link>
@@ -62,15 +69,20 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className='lg:col-span-5'>
-                <Card className='rounded-2xl shadow-sm'>
+                <Card className='rounded-3xl shadow-xl border bg-white/80 backdrop-blur'>
                   <CardContent className='p-6'>
                     <div className='mb-4'>
-                      <h2 className='text-xl font-semibold'>Get in Touch</h2>
+                      <h2 className='text-2xl font-semibold'>Get in Touch</h2>
                       <p className='text-sm text-muted-foreground'>You can reach us anytime</p>
                     </div>
-                    <form className='space-y-3'>
-                      <Input placeholder='Name' aria-label='Name' />
-                      <Input type='email' placeholder='Email' aria-label='Email' />
+                    <form className='space-y-4'>
+                      <Input placeholder='Name' aria-label='Name' className='bg-gray-50' />
+                      <Input
+                        type='email'
+                        placeholder='Email'
+                        aria-label='Email'
+                        className='bg-gray-50'
+                      />
                       <div className='flex gap-2'>
                         <Select defaultValue='+971'>
                           <SelectTrigger className='w-28'>
@@ -82,13 +94,16 @@ export default function ContactPage() {
                             <SelectItem value='+44'>+44</SelectItem>
                           </SelectContent>
                         </Select>
-                        <Input placeholder='Phone' aria-label='Phone' />
+                        <Input placeholder='Phone' aria-label='Phone' className='bg-gray-50' />
                       </div>
                       <Textarea
                         placeholder='Tell us briefly what this is about!'
                         aria-label='Message'
+                        className='bg-gray-50'
                       />
-                      <Button className='w-full bg-blue-600 hover:bg-blue-700'>Submit</Button>
+                      <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                        Submit
+                      </Button>
                     </form>
                   </CardContent>
                 </Card>
@@ -103,7 +118,7 @@ export default function ContactPage() {
               <ContactMap />
             </div>
             <div className='lg:col-span-6'>
-              <h3 className='text-lg font-semibold'>Our Location</h3>
+              <h3 className='text-xl font-semibold'>Our Location</h3>
               <p className='mt-2 text-muted-foreground max-w-prose'>Connecting Near and Far</p>
               <div className='mt-4 space-y-2 text-sm'>
                 <div className='font-medium'>Headquarters</div>
@@ -123,7 +138,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className='bg-gray-50/60 border-y'>
+        <section className='bg-gradient-to-b from-white to-gray-50 border-y'>
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
               <div className='lg:col-span-4'>
@@ -132,33 +147,49 @@ export default function ContactPage() {
                   If there are questions you want to ask, we will answer all your questions.
                 </p>
                 <form className='mt-4 flex gap-2'>
-                  <Input placeholder='Enter your email' aria-label='Email for FAQ' />
-                  <Button>Submit</Button>
+                  <Input
+                    placeholder='Enter your email'
+                    aria-label='Email for FAQ'
+                    className='bg-gray-50'
+                  />
+                  <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                    Submit
+                  </Button>
                 </form>
               </div>
               <div className='lg:col-span-8'>
-                <Accordion type='single' collapsible className='w-full'>
+                <Accordion
+                  type='single'
+                  collapsible
+                  className='w-full rounded-2xl border bg-white/80 backdrop-blur p-2'
+                >
                   <AccordionItem value='q1'>
-                    <AccordionTrigger>What makes Equipments Finder different?</AccordionTrigger>
+                    <AccordionTrigger className='py-5 text-base'>
+                      What makes Equipments Finder different?
+                    </AccordionTrigger>
                     <AccordionContent>
                       We combine verified sellers, curated listings, and modern search to help you
                       find the right equipment faster.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value='q2'>
-                    <AccordionTrigger>How secure are my communications?</AccordionTrigger>
+                    <AccordionTrigger className='py-5 text-base'>
+                      How secure are my communications?
+                    </AccordionTrigger>
                     <AccordionContent>
                       Your data is protected with industry-standard practices and secure transport.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value='q3'>
-                    <AccordionTrigger>Can I personalize my experience?</AccordionTrigger>
+                    <AccordionTrigger className='py-5 text-base'>
+                      Can I personalize my experience?
+                    </AccordionTrigger>
                     <AccordionContent>
                       Use filters, saved searches, and location preferences to tailor results.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value='q4'>
-                    <AccordionTrigger>
+                    <AccordionTrigger className='py-5 text-base'>
                       Does Equipments Finder offer group features?
                     </AccordionTrigger>
                     <AccordionContent>
@@ -184,14 +215,16 @@ export default function ContactPage() {
             <div className='bg-black/40'>
               <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16'>
                 <div className='text-center text-white'>
-                  <h3 className='text-2xl sm:text-3xl font-semibold'>
+                  <h3 className='text-3xl sm:text-4xl font-semibold'>
                     EMPOWERING IRAQ’S CONSTRUCTION & INFRASTRUCTURE REVOLUTION
                   </h3>
                   <div className='mt-6 flex items-center justify-center gap-3'>
                     <Button className='bg-white text-black hover:bg-gray-200'>
                       Want to list Ads ?
                     </Button>
-                    <Button className='bg-blue-600 hover:bg-blue-700'>One click away</Button>
+                    <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                      One click away
+                    </Button>
                   </div>
                   <div className='mt-4'>
                     <details className='inline-block text-left'>
