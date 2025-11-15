@@ -33,13 +33,13 @@ export default function ContactPage() {
                   today and let&apos;s pave the way to a healthier future together
                 </p>
                 <div className='mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4'>
-                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
                     <div className='flex items-center gap-2 text-sm font-medium'>
                       <Phone className='h-4 w-4 text-blue-600' /> Call us
                     </div>
                     <div className='mt-1 text-sm text-muted-foreground'>+971585839080</div>
                   </div>
-                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
                     <div className='flex items-center gap-2 text-sm font-medium'>
                       <Mail className='h-4 w-4 text-blue-600' /> Email
                     </div>
@@ -47,7 +47,7 @@ export default function ContactPage() {
                       info@equipmentsfinder.com
                     </div>
                   </div>
-                  <div className='rounded-2xl bg-white/80 backdrop-blur border shadow-sm p-4'>
+                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
                     <div className='flex items-center gap-2 text-sm font-medium'>
                       <MapPin className='h-4 w-4 text-blue-600' /> Address
                     </div>
@@ -56,20 +56,9 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <div className='mt-8 flex flex-wrap gap-6 text-sm'>
-                  <Link href='/support' className='text-blue-600 hover:underline'>
-                    Customer Support
-                  </Link>
-                  <Link href='/feedback' className='text-blue-600 hover:underline'>
-                    Feedback and Suggestions
-                  </Link>
-                  <Link href='/media' className='text-blue-600 hover:underline'>
-                    Media Inquiries
-                  </Link>
-                </div>
               </div>
               <div className='lg:col-span-5'>
-                <Card className='rounded-3xl shadow-xl border bg-white/80 backdrop-blur'>
+                <Card className='rounded-3xl shadow-xl border bg-white/80 backdrop-blur ring-1 ring-black/5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5'>
                   <CardContent className='p-6'>
                     <div className='mb-4'>
                       <h2 className='text-2xl font-semibold'>Get in Touch</h2>
@@ -101,7 +90,7 @@ export default function ContactPage() {
                         aria-label='Message'
                         className='bg-gray-50'
                       />
-                      <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                      <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-transform duration-300 hover:-translate-y-0.5'>
                         Submit
                       </Button>
                     </form>
