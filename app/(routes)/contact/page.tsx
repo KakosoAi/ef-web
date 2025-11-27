@@ -35,17 +35,17 @@ export default function ContactPage() {
                   </p>
                   <div className='mt-6 space-y-3'>
                     <div className='flex items-center gap-3 text-sm'>
-                      <Phone className='h-4 w-4 text-blue-600' />
+                      <Phone className='h-4 w-4 text-orange-600' />
                       <span className='font-medium'>Call us</span>
                       <span className='text-muted-foreground'>+971585839080</span>
                     </div>
                     <div className='flex items-center gap-3 text-sm'>
-                      <Mail className='h-4 w-4 text-blue-600' />
+                      <Mail className='h-4 w-4 text-orange-600' />
                       <span className='font-medium'>Email</span>
                       <span className='text-muted-foreground'>info@equipmentsfinder.com</span>
                     </div>
                     <div className='flex items-center gap-3 text-sm'>
-                      <MapPin className='h-4 w-4 text-blue-600' />
+                      <MapPin className='h-4 w-4 text-orange-600' />
                       <span className='font-medium'>Address</span>
                       <span className='text-muted-foreground'>Capital Golden Tower, Dubai</span>
                     </div>
@@ -78,7 +78,7 @@ export default function ContactPage() {
                       aria-label='Message'
                       className='bg-gray-50'
                     />
-                    <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-transform duration-300 hover:-translate-y-0.5'>
+                    <Button className='w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-transform duration-300 hover:-translate-y-0.5'>
                       Submit
                     </Button>
                   </form>
@@ -148,7 +148,7 @@ export default function ContactPage() {
                       <Button className='bg-white text-black hover:bg-gray-200'>Post Now</Button>
                     </Link>
                     <Link href='/equipments/buy'>
-                      <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                      <Button className='bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600'>
                         Browse Ads
                       </Button>
                     </Link>
