@@ -27,75 +27,62 @@ export default function ContactPage() {
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 items-start'>
               <div className='lg:col-span-6'>
-                <h1 className='text-5xl font-semibold tracking-tight'>Contact Us</h1>
-                <p className='mt-5 text-lg text-muted-foreground max-w-prose'>
-                  We&apos;re here to answer your questions and explore opportunities. Contact us
-                  today and let&apos;s pave the way to a healthier future together
-                </p>
-                <div className='mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4'>
-                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
-                    <div className='flex items-center gap-2 text-sm font-medium'>
-                      <Phone className='h-4 w-4 text-blue-600' /> Call us
+                <div className='p-8'>
+                  <h1 className='text-5xl font-semibold tracking-tight'>Contact Us</h1>
+                  <p className='mt-4 text-lg text-muted-foreground max-w-prose'>
+                    We&apos;re here to answer your questions and explore opportunities. Contact us
+                    today and let&apos;s pave the way to a healthier future together
+                  </p>
+                  <div className='mt-6 space-y-3'>
+                    <div className='flex items-center gap-3 text-sm'>
+                      <Phone className='h-4 w-4 text-blue-600' />
+                      <span className='font-medium'>Call us</span>
+                      <span className='text-muted-foreground'>+971585839080</span>
                     </div>
-                    <div className='mt-1 text-sm text-muted-foreground'>+971585839080</div>
-                  </div>
-                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
-                    <div className='flex items-center gap-2 text-sm font-medium'>
-                      <Mail className='h-4 w-4 text-blue-600' /> Email
+                    <div className='flex items-center gap-3 text-sm'>
+                      <Mail className='h-4 w-4 text-blue-600' />
+                      <span className='font-medium'>Email</span>
+                      <span className='text-muted-foreground'>info@equipmentsfinder.com</span>
                     </div>
-                    <div className='mt-1 text-sm text-muted-foreground'>
-                      info@equipmentsfinder.com
-                    </div>
-                  </div>
-                  <div className='rounded-2xl bg-gradient-to-b from-white to-white/80 backdrop-blur border ring-1 ring-black/5 shadow-sm p-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5'>
-                    <div className='flex items-center gap-2 text-sm font-medium'>
-                      <MapPin className='h-4 w-4 text-blue-600' /> Address
-                    </div>
-                    <div className='mt-1 text-sm text-muted-foreground'>
-                      Capital Golden Tower, Dubai
+                    <div className='flex items-center gap-3 text-sm'>
+                      <MapPin className='h-4 w-4 text-blue-600' />
+                      <span className='font-medium'>Address</span>
+                      <span className='text-muted-foreground'>Capital Golden Tower, Dubai</span>
                     </div>
                   </div>
-                </div>
-                <Card className='mt-8 rounded-3xl shadow-xl border bg-white/80 backdrop-blur ring-1 ring-black/5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5'>
-                  <CardContent className='p-6'>
-                    <div className='mb-4'>
-                      <h2 className='text-2xl font-semibold'>Get in Touch</h2>
-                      <p className='text-sm text-muted-foreground'>You can reach us anytime</p>
-                    </div>
-                    <form className='space-y-4'>
-                      <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                        <Input placeholder='Name' aria-label='Name' className='bg-gray-50' />
-                        <Input
-                          type='email'
-                          placeholder='Email'
-                          aria-label='Email'
-                          className='bg-gray-50'
-                        />
-                      </div>
-                      <div className='flex gap-2'>
-                        <Select defaultValue='+971'>
-                          <SelectTrigger className='w-28'>
-                            <SelectValue placeholder='+971' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value='+971'>+971</SelectItem>
-                            <SelectItem value='+1'>+1</SelectItem>
-                            <SelectItem value='+44'>+44</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Input placeholder='Phone' aria-label='Phone' className='bg-gray-50' />
-                      </div>
-                      <Textarea
-                        placeholder='Tell us briefly what this is about!'
-                        aria-label='Message'
+                  <form className='mt-6 space-y-4'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+                      <Input placeholder='Name' aria-label='Name' className='bg-gray-50' />
+                      <Input
+                        type='email'
+                        placeholder='Email'
+                        aria-label='Email'
                         className='bg-gray-50'
                       />
-                      <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-transform duration-300 hover:-translate-y-0.5'>
-                        Submit
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
+                    </div>
+                    <div className='flex gap-2'>
+                      <Select defaultValue='+971'>
+                        <SelectTrigger className='w-36'>
+                          <SelectValue placeholder='+971' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='+971'>+971</SelectItem>
+                          <SelectItem value='+1'>+1</SelectItem>
+                          <SelectItem value='+44'>+44</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Input placeholder='Phone' aria-label='Phone' className='bg-gray-50' />
+                    </div>
+                    <Textarea
+                      placeholder='Tell us briefly what this is about!'
+                      aria-label='Message'
+                      className='bg-gray-50'
+                    />
+                    <Button className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-transform duration-300 hover:-translate-y-0.5'>
+                      Submit
+                    </Button>
+                  </form>
+                </div>
               </div>
               <div className='lg:col-span-6'>
                 <MapClient />
@@ -114,36 +101,26 @@ export default function ContactPage() {
                 </p>
               </div>
               <div className='lg:col-span-8'>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <Card className='rounded-xl border bg-white'>
-                    <CardContent className='p-5'>
-                      <div className='font-medium'>What makes Equipments Finder different?</div>
-                      <div className='mt-1 text-sm text-muted-foreground'>
-                        We combine verified sellers, curated listings, and modern search to help you
-                        find the right equipment faster.
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className='rounded-xl border bg-white'>
-                    <CardContent className='p-5'>
-                      <div className='font-medium'>How secure are my communications?</div>
-                      <div className='mt-1 text-sm text-muted-foreground'>
-                        Your data is protected with industry-standard practices and secure
-                        transport.
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className='rounded-xl border bg-white'>
-                    <CardContent className='p-5'>
-                      <div className='font-medium'>Can I personalize my experience?</div>
-                      <div className='mt-1 text-sm text-muted-foreground'>
-                        Use filters, saved searches, and location preferences to tailor results.
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-                <div className='mt-4'>
-                  <Button variant='outline'>Learn more</Button>
+                <div className='space-y-6 divide-y'>
+                  <div className='pt-0'>
+                    <div className='font-medium'>What makes Equipments Finder different?</div>
+                    <div className='mt-1 text-sm text-muted-foreground'>
+                      We combine verified sellers, curated listings, and modern search to help you
+                      find the right equipment faster.
+                    </div>
+                  </div>
+                  <div className='pt-6'>
+                    <div className='font-medium'>How secure are my communications?</div>
+                    <div className='mt-1 text-sm text-muted-foreground'>
+                      Your data is protected with industry-standard practices and secure transport.
+                    </div>
+                  </div>
+                  <div className='pt-6'>
+                    <div className='font-medium'>Can I personalize my experience?</div>
+                    <div className='mt-1 text-sm text-muted-foreground'>
+                      Use filters, saved searches, and location preferences to tailor results.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -167,26 +144,14 @@ export default function ContactPage() {
                     EMPOWERING IRAQ’S CONSTRUCTION & INFRASTRUCTURE REVOLUTION
                   </h3>
                   <div className='mt-6 flex items-center justify-center gap-3'>
-                    <Button className='bg-white text-black hover:bg-gray-200'>
-                      Want to list Ads ?
-                    </Button>
-                    <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
-                      One click away
-                    </Button>
-                  </div>
-                  <div className='mt-4'>
-                    <details className='inline-block text-left'>
-                      <summary className='cursor-pointer'>show more</summary>
-                      <div className='mt-3 max-w-3xl text-sm text-white/90'>
-                        Project Iraq – Baghdad, the leading construction event in Baghdad is back
-                        for its third edition, presenting unparalleled opportunities for businesses
-                        to engage with Iraq&apos;s burgeoning construction and infrastructure
-                        industries. Taking place from 24 to 26 June 2025 at Baghdad International
-                        Fairground in Iraq, the event serves as a vital hub for connecting industry
-                        leaders, innovators, and decision-makers, all working collaboratively to
-                        shape the nation&apos;s development path.
-                      </div>
-                    </details>
+                    <Link href='/post-ad'>
+                      <Button className='bg-white text-black hover:bg-gray-200'>Post Now</Button>
+                    </Link>
+                    <Link href='/equipments/buy'>
+                      <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
+                        Browse Ads
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>

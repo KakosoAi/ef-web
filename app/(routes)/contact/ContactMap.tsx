@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
 export default function ContactMap() {
   const center: [number, number] = [25.184242, 55.27243];
   return (
-    <div className='w-full h-[560px] rounded-3xl overflow-hidden border shadow-xl bg-blue-50 saturate-150 [filter:hue-rotate(320deg)]'>
+    <div className='w-full h-[820px] overflow-hidden'>
       <MapContainer center={center} zoom={14} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; OpenStreetMap contributors &copy; CARTO'

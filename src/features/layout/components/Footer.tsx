@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
@@ -26,6 +27,8 @@ interface FooterProps {
 
 const Footer = memo(({ websiteMode: propWebsiteMode }: FooterProps) => {
   const { websiteMode: contextWebsiteMode } = useWebsiteMode();
+  const pathname = usePathname();
+  const hideNewsletter = pathname?.startsWith('/contact');
   const websiteMode = propWebsiteMode || contextWebsiteMode;
   const quickLinks = useMemo(() => ['home', 'rent', 'buy', 'stores', 'brands', 'contact us'], []);
 
@@ -37,34 +40,36 @@ const Footer = memo(({ websiteMode: propWebsiteMode }: FooterProps) => {
 
   return (
     <footer className='bg-gray-900 text-white'>
-      {/* Newsletter Section */}
-      <div className='border-b border-gray-800'>
-        <div className='container mx-auto px-4 py-12'>
-          <div className='max-w-4xl mx-auto text-center'>
-            <h3 className='text-3xl font-display font-bold mb-4 text-white'>
-              Let&apos;s get in touch
-            </h3>
-            <p className='text-gray-300 mb-8 max-w-2xl mx-auto'>
-              Have questions or opportunities to discuss? Reach out to our team.
-            </p>
+      {/* Newsletter Section (hidden on contact page) */}
+      {!hideNewsletter && (
+        <div className='border-b border-gray-800'>
+          <div className='container mx-auto px-4 py-12'>
+            <div className='max-w-4xl mx-auto text-center'>
+              <h3 className='text-3xl font-display font-bold mb-4 text-white'>
+                Let&apos;s get in touch
+              </h3>
+              <p className='text-gray-300 mb-8 max-w-2xl mx-auto'>
+                Have questions or opportunities to discuss? Reach out to our team.
+              </p>
 
-            <div className='flex justify-center'>
-              <Link href='/contact'>
-                <Button
-                  className={`font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                    websiteMode === 'agricultural'
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-primary hover:bg-primary-hover text-primary-foreground'
-                  }`}
-                >
-                  Contact Us
-                  <ArrowRight className='h-4 w-4 ml-2' />
-                </Button>
-              </Link>
+              <div className='flex justify-center'>
+                <Link href='/contact'>
+                  <Button
+                    className={`font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                      websiteMode === 'agricultural'
+                        ? 'bg-green-600 hover:bg-green-700 text-white'
+                        : 'bg-primary hover:bg-primary-hover text-primary-foreground'
+                    }`}
+                  >
+                    Contact Us
+                    <ArrowRight className='h-4 w-4 ml-2' />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Footer Content */}
       <div className='container mx-auto px-4 py-16'>
