@@ -12,7 +12,7 @@ import {
   AccordionContent,
 } from '@/shared/ui/accordion';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import ContactMap from './ContactMap';
+import MapClient from './MapClient';
 import Link from 'next/link';
 
 export const dynamic = 'force-static';
@@ -104,22 +104,61 @@ export default function ContactPage() {
         <section className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12'>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
             <div className='lg:col-span-6'>
-              <ContactMap />
+              <MapClient />
             </div>
             <div className='lg:col-span-6'>
               <h3 className='text-xl font-semibold'>Our Location</h3>
               <p className='mt-2 text-muted-foreground max-w-prose'>Connecting Near and Far</p>
-              <div className='mt-4 space-y-2 text-sm'>
-                <div className='font-medium'>Headquarters</div>
-                <div>Equipments Finder</div>
-                <div>Capital Golden Tower, Dubai</div>
-                <div className='mt-2'>
+              <div className='mt-5 rounded-2xl border bg-white/80 backdrop-blur p-5 ring-1 ring-black/5 shadow-sm'>
+                <div className='text-sm font-medium'>Headquarters</div>
+                <div className='mt-1 text-sm'>Equipments Finder</div>
+                <div className='text-sm'>Capital Golden Tower, Dubai</div>
+                <div className='mt-4 space-y-2'>
+                  <div className='flex items-center gap-2 text-sm'>
+                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
+                      📍
+                    </span>
+                    <Link
+                      href={'https://www.google.com/maps?q=Capital+Golden+Tower,+Dubai'}
+                      target='_blank'
+                      className='text-blue-600 hover:underline'
+                    >
+                      Open Google Maps
+                    </Link>
+                  </div>
+                  <div className='flex items-center gap-2 text-sm'>
+                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
+                      📞
+                    </span>
+                    <Link href={'tel:+971585839080'} className='text-blue-600 hover:underline'>
+                      +971585839080
+                    </Link>
+                  </div>
+                  <div className='flex items-center gap-2 text-sm'>
+                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
+                      ✉️
+                    </span>
+                    <Link
+                      href={'mailto:info@equipmentsfinder.com'}
+                      className='text-blue-600 hover:underline'
+                    >
+                      info@equipmentsfinder.com
+                    </Link>
+                  </div>
+                </div>
+                <div className='mt-5 flex gap-2'>
                   <Link
                     href={'https://www.google.com/maps?q=Capital+Golden+Tower,+Dubai'}
                     target='_blank'
-                    className='text-blue-600 hover:underline'
+                    className='inline-flex h-9 items-center rounded-md border px-3 text-sm hover:bg-gray-50'
                   >
                     Open Google Maps
+                  </Link>
+                  <Link
+                    href={'tel:+971585839080'}
+                    className='inline-flex h-9 items-center rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-3 text-sm text-white hover:from-blue-700 hover:to-indigo-700'
+                  >
+                    Call Us
                   </Link>
                 </div>
               </div>
@@ -175,14 +214,6 @@ export default function ContactPage() {
                     </AccordionTrigger>
                     <AccordionContent>
                       Use filters, saved searches, and location preferences to tailor results.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value='q4'>
-                    <AccordionTrigger className='py-5 text-base'>
-                      Does Equipments Finder offer group features?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      We support inquiries and collaboration tools for teams and projects.
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
