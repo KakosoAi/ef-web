@@ -2,7 +2,6 @@
 
 import { contactInfo, equipmentCategories, siteConfig } from '@/shared/constants';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
 import {
   ArrowRight,
   Building2,
@@ -18,6 +17,7 @@ import {
 } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
 
 interface FooterProps {
@@ -44,23 +44,23 @@ const Footer = memo(({ websiteMode: propWebsiteMode }: FooterProps) => {
             <h3 className='text-3xl font-display font-bold mb-4 text-white'>
               Let&apos;s get in touch
             </h3>
-            <p className='text-gray-300 mb-8 max-w-2xl mx-auto'>Sign up for our Newsletter</p>
+            <p className='text-gray-300 mb-8 max-w-2xl mx-auto'>
+              Have questions or opportunities to discuss? Reach out to our team.
+            </p>
 
-            <div className='flex flex-col sm:flex-row gap-4 max-w-md mx-auto'>
-              <Input
-                placeholder='Enter your email address'
-                className='flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400'
-              />
-              <Button
-                className={`font-semibold px-6 ${
-                  websiteMode === 'agricultural'
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-primary hover:bg-primary-hover text-primary-foreground'
-                }`}
-              >
-                Subscribe
-                <ArrowRight className='h-4 w-4 ml-2' />
-              </Button>
+            <div className='flex justify-center'>
+              <Link href='/contact'>
+                <Button
+                  className={`font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                    websiteMode === 'agricultural'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-primary hover:bg-primary-hover text-primary-foreground'
+                  }`}
+                >
+                  Contact Us
+                  <ArrowRight className='h-4 w-4 ml-2' />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

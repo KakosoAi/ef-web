@@ -26,7 +26,7 @@ export default function ContactPage() {
         <section className='bg-gradient-to-b from-gray-50 to-white border-b'>
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 items-start'>
-              <div className='lg:col-span-7'>
+              <div className='lg:col-span-6'>
                 <h1 className='text-5xl font-semibold tracking-tight'>Contact Us</h1>
                 <p className='mt-5 text-lg text-muted-foreground max-w-prose'>
                   We&apos;re here to answer your questions and explore opportunities. Contact us
@@ -56,22 +56,22 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className='lg:col-span-5'>
-                <Card className='rounded-3xl shadow-xl border bg-white/80 backdrop-blur ring-1 ring-black/5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5'>
+                <Card className='mt-8 rounded-3xl shadow-xl border bg-white/80 backdrop-blur ring-1 ring-black/5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5'>
                   <CardContent className='p-6'>
                     <div className='mb-4'>
                       <h2 className='text-2xl font-semibold'>Get in Touch</h2>
                       <p className='text-sm text-muted-foreground'>You can reach us anytime</p>
                     </div>
                     <form className='space-y-4'>
-                      <Input placeholder='Name' aria-label='Name' className='bg-gray-50' />
-                      <Input
-                        type='email'
-                        placeholder='Email'
-                        aria-label='Email'
-                        className='bg-gray-50'
-                      />
+                      <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+                        <Input placeholder='Name' aria-label='Name' className='bg-gray-50' />
+                        <Input
+                          type='email'
+                          placeholder='Email'
+                          aria-label='Email'
+                          className='bg-gray-50'
+                        />
+                      </div>
                       <div className='flex gap-2'>
                         <Select defaultValue='+971'>
                           <SelectTrigger className='w-28'>
@@ -97,70 +97,8 @@ export default function ContactPage() {
                   </CardContent>
                 </Card>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12'>
-          <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
-            <div className='lg:col-span-6'>
-              <MapClient />
-            </div>
-            <div className='lg:col-span-6'>
-              <h3 className='text-xl font-semibold'>Our Location</h3>
-              <p className='mt-2 text-muted-foreground max-w-prose'>Connecting Near and Far</p>
-              <div className='mt-5 rounded-2xl border bg-white/80 backdrop-blur p-5 ring-1 ring-black/5 shadow-sm'>
-                <div className='text-sm font-medium'>Headquarters</div>
-                <div className='mt-1 text-sm'>Equipments Finder</div>
-                <div className='text-sm'>Capital Golden Tower, Dubai</div>
-                <div className='mt-4 space-y-2'>
-                  <div className='flex items-center gap-2 text-sm'>
-                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
-                      📍
-                    </span>
-                    <Link
-                      href={'https://www.google.com/maps?q=Capital+Golden+Tower,+Dubai'}
-                      target='_blank'
-                      className='text-blue-600 hover:underline'
-                    >
-                      Open Google Maps
-                    </Link>
-                  </div>
-                  <div className='flex items-center gap-2 text-sm'>
-                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
-                      📞
-                    </span>
-                    <Link href={'tel:+971585839080'} className='text-blue-600 hover:underline'>
-                      +971585839080
-                    </Link>
-                  </div>
-                  <div className='flex items-center gap-2 text-sm'>
-                    <span className='inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600'>
-                      ✉️
-                    </span>
-                    <Link
-                      href={'mailto:info@equipmentsfinder.com'}
-                      className='text-blue-600 hover:underline'
-                    >
-                      info@equipmentsfinder.com
-                    </Link>
-                  </div>
-                </div>
-                <div className='mt-5 flex gap-2'>
-                  <Link
-                    href={'https://www.google.com/maps?q=Capital+Golden+Tower,+Dubai'}
-                    target='_blank'
-                    className='inline-flex h-9 items-center rounded-md border px-3 text-sm hover:bg-gray-50'
-                  >
-                    Open Google Maps
-                  </Link>
-                  <Link
-                    href={'tel:+971585839080'}
-                    className='inline-flex h-9 items-center rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-3 text-sm text-white hover:from-blue-700 hover:to-indigo-700'
-                  >
-                    Call Us
-                  </Link>
-                </div>
+              <div className='lg:col-span-6'>
+                <MapClient />
               </div>
             </div>
           </div>
@@ -170,53 +108,43 @@ export default function ContactPage() {
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
               <div className='lg:col-span-4'>
-                <h4 className='text-xl font-semibold'>FAQ</h4>
+                <h4 className='text-xl font-semibold'>Frequently asked questions</h4>
                 <p className='mt-2 text-sm text-muted-foreground'>
                   If there are questions you want to ask, we will answer all your questions.
                 </p>
-                <form className='mt-4 flex gap-2'>
-                  <Input
-                    placeholder='Enter your email'
-                    aria-label='Email for FAQ'
-                    className='bg-gray-50'
-                  />
-                  <Button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'>
-                    Submit
-                  </Button>
-                </form>
               </div>
               <div className='lg:col-span-8'>
-                <Accordion
-                  type='single'
-                  collapsible
-                  className='w-full rounded-2xl border bg-white/80 backdrop-blur p-2'
-                >
-                  <AccordionItem value='q1'>
-                    <AccordionTrigger className='py-5 text-base'>
-                      What makes Equipments Finder different?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      We combine verified sellers, curated listings, and modern search to help you
-                      find the right equipment faster.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value='q2'>
-                    <AccordionTrigger className='py-5 text-base'>
-                      How secure are my communications?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Your data is protected with industry-standard practices and secure transport.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value='q3'>
-                    <AccordionTrigger className='py-5 text-base'>
-                      Can I personalize my experience?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Use filters, saved searches, and location preferences to tailor results.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                  <Card className='rounded-xl border bg-white'>
+                    <CardContent className='p-5'>
+                      <div className='font-medium'>What makes Equipments Finder different?</div>
+                      <div className='mt-1 text-sm text-muted-foreground'>
+                        We combine verified sellers, curated listings, and modern search to help you
+                        find the right equipment faster.
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className='rounded-xl border bg-white'>
+                    <CardContent className='p-5'>
+                      <div className='font-medium'>How secure are my communications?</div>
+                      <div className='mt-1 text-sm text-muted-foreground'>
+                        Your data is protected with industry-standard practices and secure
+                        transport.
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className='rounded-xl border bg-white'>
+                    <CardContent className='p-5'>
+                      <div className='font-medium'>Can I personalize my experience?</div>
+                      <div className='mt-1 text-sm text-muted-foreground'>
+                        Use filters, saved searches, and location preferences to tailor results.
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+                <div className='mt-4'>
+                  <Button variant='outline'>Learn more</Button>
+                </div>
               </div>
             </div>
           </div>
