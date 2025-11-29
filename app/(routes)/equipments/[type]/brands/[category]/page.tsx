@@ -40,6 +40,9 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
 
   // If categories fetch fails, proceed without preselect but keep the route
   const categorySlug = category.toLowerCase();
+  const slugVariants = Array.from(
+    new Set([categorySlug, categorySlug.replace(/s$/, ''), categorySlug.replace(/-es$/, '')])
+  );
 
   let initialCategoryId: number | undefined = undefined;
   let initialCategoryLabel: string | undefined = undefined;
@@ -52,8 +55,8 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
     );
 
     // Find matching category by slug of name
-    const matched = categories.find(
-      (c: { id: number; name: string }) => createSlug(c.name) === categorySlug
+    const matched = categories.find((c: { id: number; name: string }) =>
+      slugVariants.includes(createSlug(c.name))
     );
 
     if (matched) {
