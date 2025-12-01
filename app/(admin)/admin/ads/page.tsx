@@ -26,20 +26,27 @@ export default async function AdminAdsPage({
   const { data: ads, count } = await getAllAds(page, limit);
 
   return (
-    <div className='space-y-6'>
-      <div className='flex items-center justify-between'>
-        <div>
-          <h1 className='text-3xl font-bold tracking-tight'>Ads Management</h1>
-          <p className='text-muted-foreground'>
-            Manage all equipment listings and advertisements ({count} total)
+    <div className='space-y-8'>
+      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='space-y-1'>
+          <h1 className='text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600'>
+            Ads Management
+          </h1>
+          <p className='text-muted-foreground text-sm font-medium'>
+            Manage all equipment listings and advertisements{' '}
+            <Badge variant='outline' className='ml-2'>
+              {count} Total
+            </Badge>
           </p>
         </div>
-        <Button>Create New Ad</Button>
+        <Button className='shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-purple-600 border-0'>
+          Create New Ad
+        </Button>
       </div>
 
-      <div className='rounded-md border bg-card'>
+      <div className='rounded-xl border bg-card/50 backdrop-blur-sm shadow-sm overflow-hidden'>
         <Table>
-          <TableHeader>
+          <TableHeader className='bg-muted/50'>
             <TableRow>
               <TableHead className='w-[80px]'>Image</TableHead>
               <TableHead>Title</TableHead>
@@ -54,37 +61,43 @@ export default async function AdminAdsPage({
           <TableBody>
             {ads.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className='h-24 text-center'>
-                  No ads found.
+                <TableCell colSpan={8} className='h-32 text-center'>
+                  <div className='flex flex-col items-center justify-center text-muted-foreground'>
+                    <p>No ads found</p>
+                    <p className='text-xs'>Create a new ad to get started</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
               ads.map(ad => (
-                <TableRow key={ad.id}>
+                <TableRow key={ad.id} className='hover:bg-muted/50 transition-colors'>
                   <TableCell>
-                    <div className='relative h-10 w-10 overflow-hidden rounded-md bg-muted'>
+                    <div className='relative h-12 w-12 overflow-hidden rounded-lg border bg-muted shadow-sm'>
                       {ad.file_name ? (
                         <Image
                           src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/ads/${ad.file_name}`}
                           alt={ad.title}
                           fill
-                          className='object-cover'
+                          className='object-cover transition-transform hover:scale-110 duration-300'
                         />
                       ) : (
-                        <div className='flex h-full w-full items-center justify-center text-xs text-muted-foreground'>
+                        <div className='flex h-full w-full items-center justify-center text-[10px] text-muted-foreground font-medium'>
                           No Img
                         </div>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className='font-medium max-w-[200px] truncate' title={ad.title}>
+                  <TableCell
+                    className='font-semibold max-w-[200px] truncate text-foreground'
+                    title={ad.title}
+                  >
                     {ad.title}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className='font-mono text-sm font-medium text-primary'>
                     {ad.price
-                      ? new Intl.NumberFormat('en-US', {
+                      ? new Intl.NumberFormat('en-AE', {
                           style: 'currency',
-                          currency: 'USD',
+                          currency: 'AED',
                         }).format(ad.price)
                       : 'N/A'}
                   </TableCell>

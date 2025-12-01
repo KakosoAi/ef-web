@@ -5,8 +5,10 @@ export default function AdminDashboardPage() {
   return (
     <div className='space-y-8'>
       <div className='flex flex-col gap-2'>
-        <h1 className='text-4xl font-bold tracking-tight text-foreground/90'>Dashboard Overview</h1>
-        <p className='text-lg text-muted-foreground/80'>
+        <h1 className='text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600'>
+          Dashboard Overview
+        </h1>
+        <p className='text-lg text-muted-foreground/80 font-medium'>
           Welcome back! Here&apos;s what&apos;s happening today.
         </p>
       </div>

@@ -19,20 +19,27 @@ export default async function AdminBlogsPage() {
   const { data: blogs, count } = await getAllBlogs(1, 100);
 
   return (
-    <div className='space-y-6'>
-      <div className='flex items-center justify-between'>
-        <div>
-          <h1 className='text-3xl font-bold tracking-tight'>Blogs & News</h1>
-          <p className='text-muted-foreground'>
-            Manage blog posts and news articles ({count} total)
+    <div className='space-y-8'>
+      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='space-y-1'>
+          <h1 className='text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600'>
+            Blogs & News
+          </h1>
+          <p className='text-muted-foreground text-sm font-medium'>
+            Manage blog posts and news articles{' '}
+            <Badge variant='outline' className='ml-2'>
+              {count} Total
+            </Badge>
           </p>
         </div>
-        <Button>Create Post</Button>
+        <Button className='shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-purple-600 border-0'>
+          Create Post
+        </Button>
       </div>
 
-      <div className='rounded-md border bg-card'>
+      <div className='rounded-xl border bg-card/50 backdrop-blur-sm shadow-sm overflow-hidden'>
         <Table>
-          <TableHeader>
+          <TableHeader className='bg-muted/50'>
             <TableRow>
               <TableHead className='w-[80px]'>Image</TableHead>
               <TableHead>Title</TableHead>
@@ -45,28 +52,34 @@ export default async function AdminBlogsPage() {
           <TableBody>
             {blogs.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className='h-24 text-center'>
-                  No blog posts found.
+                <TableCell colSpan={6} className='h-32 text-center'>
+                  <div className='flex flex-col items-center justify-center text-muted-foreground'>
+                    <p>No blog posts found</p>
+                    <p className='text-xs'>Create a new post to get started</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
               blogs.map(blog => (
-                <TableRow key={blog.id}>
+                <TableRow key={blog.id} className='hover:bg-muted/50 transition-colors'>
                   <TableCell>
-                    <div className='relative h-10 w-10 overflow-hidden rounded-md bg-muted flex items-center justify-center'>
+                    <div className='relative h-12 w-12 overflow-hidden rounded-lg border bg-muted shadow-sm flex items-center justify-center'>
                       {blog.image_url || blog.imageurl ? (
                         <Image
                           src={blog.image_url || blog.imageurl || ''}
                           alt={blog.title}
                           fill
-                          className='object-cover'
+                          className='object-cover transition-transform hover:scale-110 duration-300'
                         />
                       ) : (
                         <FileText className='text-muted-foreground' size={20} />
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className='font-medium max-w-[300px] truncate' title={blog.title}>
+                  <TableCell
+                    className='font-semibold max-w-[300px] truncate text-foreground'
+                    title={blog.title}
+                  >
                     {blog.title}
                   </TableCell>
                   <TableCell className='text-muted-foreground max-w-[200px] truncate'>

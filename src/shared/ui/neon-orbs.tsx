@@ -140,7 +140,12 @@ export function NeonOrbs() {
         }
 
         .orb-light {
-          background: radial-gradient(circle at 50% 50%, #f0f4ff 0%, #f0f4ff 90%, transparent 100%);
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(224, 231, 255, 0.6) 0%,
+            rgba(224, 231, 255, 0.3) 60%,
+            transparent 100%
+          );
           box-shadow:
             0 0 60px 2px rgba(99, 102, 241, 0.3),
             0 0 100px 5px rgba(99, 102, 241, 0.15),
@@ -149,7 +154,12 @@ export function NeonOrbs() {
         }
 
         .dark .orb-light {
-          background: radial-gradient(circle at 50% 50%, #050a18 0%, #050a18 90%, transparent 100%);
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(5, 10, 24, 0.8) 0%,
+            rgba(5, 10, 24, 0.4) 90%,
+            transparent 100%
+          );
           box-shadow:
             0 0 60px 2px rgba(59, 130, 246, 0.4),
             0 0 100px 5px rgba(59, 130, 246, 0.2),

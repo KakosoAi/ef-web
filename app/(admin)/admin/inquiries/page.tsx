@@ -18,19 +18,24 @@ export default async function AdminInquiriesPage() {
   const inquiries = await getInquiriesUncached();
 
   return (
-    <div className='space-y-6'>
-      <div className='flex items-center justify-between'>
-        <div>
-          <h1 className='text-3xl font-bold tracking-tight'>Inquiries</h1>
-          <p className='text-muted-foreground'>
-            View and manage customer inquiries ({inquiries.length} total)
+    <div className='space-y-8'>
+      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='space-y-1'>
+          <h1 className='text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600'>
+            Inquiries
+          </h1>
+          <p className='text-muted-foreground text-sm font-medium'>
+            View and manage customer inquiries{' '}
+            <Badge variant='outline' className='ml-2'>
+              {inquiries.length} Total
+            </Badge>
           </p>
         </div>
       </div>
 
-      <div className='rounded-md border bg-card'>
+      <div className='rounded-xl border bg-card/50 backdrop-blur-sm shadow-sm overflow-hidden'>
         <Table>
-          <TableHeader>
+          <TableHeader className='bg-muted/50'>
             <TableRow>
               <TableHead>Title / Subject</TableHead>
               <TableHead>Contact Info</TableHead>
@@ -44,16 +49,22 @@ export default async function AdminInquiriesPage() {
           <TableBody>
             {inquiries.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className='h-24 text-center'>
-                  No inquiries found.
+                <TableCell colSpan={7} className='h-32 text-center'>
+                  <div className='flex flex-col items-center justify-center text-muted-foreground'>
+                    <p>No inquiries found</p>
+                    <p className='text-xs'>Wait for new customer inquiries</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
               inquiries.map(inquiry => (
-                <TableRow key={inquiry.id}>
+                <TableRow key={inquiry.id} className='hover:bg-muted/50 transition-colors'>
                   <TableCell className='font-medium'>
                     <div className='flex flex-col max-w-[250px]'>
-                      <span className='truncate font-semibold' title={inquiry.title}>
+                      <span
+                        className='truncate font-semibold text-foreground'
+                        title={inquiry.title}
+                      >
                         {inquiry.title || 'No Title'}
                       </span>
                       <span
