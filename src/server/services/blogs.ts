@@ -28,11 +28,13 @@ export async function getAllBlogs(
   const supabase = getSupabaseServerClient();
   const offset = (page - 1) * limit;
 
-  // Try to fetch from 'blogs' table with all columns
-  // Using select('*') allows us to see what we actually get back if schema differs
+  // Try to fetch from 'blogs' table with specific columns for better performance
   const query = supabase
     .from('blogs')
-    .select('*', { count: 'exact' })
+    .select(
+      'id, slug, title, image_url, imageurl, published_at, publishedat, created_at, createdat, is_published, ispublished',
+      { count: 'exact' }
+    )
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1);
 

@@ -15,8 +15,15 @@ import {
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminAdsPage() {
-  const { data: ads, count } = await getAllAds(1, 100); // Fetch first 100 for now
+export default async function AdminAdsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const limit = 20;
+  const { data: ads, count } = await getAllAds(page, limit);
 
   return (
     <div className='space-y-6'>
@@ -131,7 +138,7 @@ export default async function AdminAdsPage() {
                           <Eye className='mr-2 h-4 w-4' /> View details
                         </DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Edit className='mr-2 h-4 w-4' /> Edit ad
+                          <Edit className='mr-2 h-4 w-4' /> Edit
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className='text-red-600'>
@@ -145,6 +152,26 @@ export default async function AdminAdsPage() {
             )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Simple Pagination */}
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <div className='flex-1 text-sm text-muted-foreground'>
+          Showing {(page - 1) * limit + 1} to {Math.min(page * limit, count)} of {count} entries
+        </div>
+        <div className='space-x-2'>
+          <Button variant='outline' size='sm' disabled={page <= 1} asChild={page > 1}>
+            {page > 1 ? <a href={`?page=${page - 1}`}>Previous</a> : <span>Previous</span>}
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            disabled={page * limit >= count}
+            asChild={page * limit < count}
+          >
+            {page * limit < count ? <a href={`?page=${page + 1}`}>Next</a> : <span>Next</span>}
+          </Button>
+        </div>
       </div>
     </div>
   );

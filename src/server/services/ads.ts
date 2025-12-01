@@ -38,7 +38,7 @@ export async function getAllAds(
   const query = supabase
     .from('ads_with_all_joins')
     .select('*', { count: 'exact' })
-    .order('createdat', { ascending: false }) // Note: createdat seems to be the column name in search.ts sort
+    .order('createdat', { ascending: false })
     .range(offset, offset + limit - 1);
 
   const { data, error, count } = await query;

@@ -77,9 +77,9 @@ export async function getInquiriesUncached(): Promise<InquiryForDisplay[]> {
     const supabase = getSupabaseServerClient();
     const { data, error } = await supabase
       .from('inquiry')
-      .select('*')
+      .select('id, title, description, details, createdat, statusid, inquirytypeid')
       .order('createdat', { ascending: false })
-      .limit(100); // Explicitly set limit to 100 records
+      .limit(50); // Reduced limit from 100 to 50 for performance
 
     if (error) {
       return [];
