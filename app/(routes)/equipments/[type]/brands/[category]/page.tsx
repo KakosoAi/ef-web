@@ -36,15 +36,16 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
     notFound();
   }
 
+  const typeForSearch = type;
+
   // Derive initial label from static category names to avoid build-time fetch
   const categorySlug = category.toLowerCase();
-  const slugVariants = Array.from(
-    new Set([categorySlug, categorySlug.replace(/s$/, ''), categorySlug.replace(/-es$/, '')])
-  );
 
   // Resolve category id and build categories map on the server for SSR
   let initialCategoryId: number | undefined = undefined;
+  let initialCategoryLabel: string | undefined = undefined;
   let categoriesMap: Record<string, number> | undefined = undefined;
+
   try {
     const categories = await getCategoriesCached();
     if (categories && categories.length > 0) {
@@ -52,25 +53,31 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
         acc[cat.name] = cat.id;
         return acc;
       }, {});
+
+      // Find matching category by slug
       const matched = categories.find(c => createSlug(c.name) === categorySlug);
-      initialCategoryId = matched?.id;
+
+      if (matched) {
+        initialCategoryId = matched.id;
+        initialCategoryLabel = matched.name;
+      }
     }
   } catch (e) {
     // ignore, fallback to client-side categories fetch
   }
 
-  if (!error && Array.isArray(categories)) {
-    // Build mapping of name -> id
-    categoriesMap = Object.fromEntries(
-      categories.map((c: { id: number; name: string }) => [c.name, c.id])
-    );
-
-    // Find matching category by slug of name
-    const matched = categories.find((c: { id: number; name: string }) =>
-      slugVariants.includes(createSlug(c.name))
-    );
-
   let initialResults: SearchResponse | undefined = undefined;
+
+  // Construct initialSearchParams for the search service
+  const initialSearchParams: SearchQueryParams = {
+    searchText: resolvedSearchParams.q,
+    type: typeForSearch,
+    categoryId: initialCategoryId,
+    priceMin: resolvedSearchParams.priceMin ? Number(resolvedSearchParams.priceMin) : undefined,
+    priceMax: resolvedSearchParams.priceMax ? Number(resolvedSearchParams.priceMax) : undefined,
+    page: resolvedSearchParams.page ? Number(resolvedSearchParams.page) : 1,
+  };
+
   try {
     const searchService = new SearchService();
     initialResults = await searchService.search(initialSearchParams);
