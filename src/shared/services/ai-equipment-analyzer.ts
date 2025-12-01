@@ -1,9 +1,14 @@
 import OpenAI from 'openai';
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI client lazily
+const getOpenAIClient = () => {
+  if (!process.env.OPENAI_API_KEY) {
+    return null;
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+};
 
 // Equipment information interface
 export interface ExtractedEquipmentInfo {
@@ -198,6 +203,23 @@ Extract and return ONLY a JSON object with the following structure:
 }
 
 IMPORTANT: Never leave fields empty or null. Always provide professional, realistic values even if you need to make educated assumptions based on the equipment type. Be comprehensive and detailed in descriptions and specifications.`;
+
+    // Check if OpenAI API key is available
+    const openai = getOpenAIClient();
+    if (!openai) {
+      // Return fallback if no API key
+      return {
+        description: userInput,
+        confidence: {
+          overall: 0.1,
+          brand: 0.0,
+          model: 0.0,
+          condition: 0.0,
+          location: 0.0,
+          pricing: 0.0,
+        },
+      };
+    }
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4.1-nano-2025-04-14',

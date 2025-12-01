@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI client lazily or check for key
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
 
 export async function POST(request: NextRequest) {
   let query = '';
@@ -12,8 +12,20 @@ export async function POST(request: NextRequest) {
   try {
     // Check if OpenAI API key is configured
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
+      // Just return original query if no API key
+      const body = await request.json();
+      return NextResponse.json({
+        enhancedQuery: body.query,
+        suggestions: [],
+        confidence: 0,
+        reasoning: 'OpenAI API key not configured',
+        filters: {},
+      });
     }
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     const body = await request.json();
     const { query: requestQuery, searchType, websiteMode } = body;

@@ -1,9 +1,9 @@
 import OpenAI from 'openai';
 
 // Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
 
 const SYSTEM_PROMPT = `You are a helpful assistant for an equipment rental and sales website. You can only answer questions about:
 - Browsing and searching for equipment ads
