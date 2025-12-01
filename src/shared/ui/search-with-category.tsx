@@ -4,11 +4,19 @@ import { useId, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
-import { Search, Sparkles, Zap } from 'lucide-react';
+import { Search, Sparkles, Zap, Loader2 } from 'lucide-react';
 import { createSlug } from '@/shared/utils/urlHelpers';
 
+type SearchFilters = {
+  priceMin?: number;
+  priceMax?: number;
+  cityId?: number;
+  conditionId?: number;
+  categoryId?: number;
+};
+
 interface SearchWithCategoryProps {
-  onSearch?: (query: string, searchType: string) => void;
+  onSearch?: (query: string, searchType: string, filters?: SearchFilters) => void;
   websiteMode?: 'general' | 'agricultural';
 }
 
@@ -21,6 +29,8 @@ export default function SearchWithCategory({
   const [isAiMode, setIsAiMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState('buy'); // 'buy', 'rent', or 'tools'
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [isEnhanced, setIsEnhanced] = useState(false);
 
   // Mode-specific styling
   const modeStyles = {
@@ -46,19 +56,144 @@ export default function SearchWithCategory({
 
   const currentMode = modeStyles[websiteMode];
 
-  const handleSearch = () => {
+  const enhanceSearchWithAI = async () => {
+    if (!searchQuery.trim()) return;
+
+    setIsEnhancing(true);
+    try {
+      const response = await fetch('/api/ai/enhance-search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: searchQuery.trim(),
+          searchType,
+          websiteMode,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.enhancedQuery) {
+        // Update the search query with the enhanced version
+        setSearchQuery(result.enhancedQuery);
+        setIsEnhanced(true);
+
+        // Convert AI filters to search parameters
+        const aiFilters: Partial<{
+          minPrice: number;
+          maxPrice: number;
+          location: string;
+          condition: string;
+          category: string;
+        }> = result.filters || {};
+        const searchFilters: SearchFilters = {};
+
+        // Map AI filter data to search parameters
+        if (aiFilters.minPrice) searchFilters.priceMin = aiFilters.minPrice;
+        if (aiFilters.maxPrice) searchFilters.priceMax = aiFilters.maxPrice;
+        if (aiFilters.location) {
+          // Map location names to IDs (simplified mapping for now)
+          const locationMap: { [key: string]: number } = {
+            Dubai: 1,
+            'Abu Dhabi': 2,
+            Sharjah: 3,
+            Ajman: 4,
+            'Ras Al Khaimah': 5,
+            Fujairah: 6,
+            'Umm Al Quwain': 7,
+          };
+          if (locationMap[aiFilters.location]) {
+            searchFilters.cityId = locationMap[aiFilters.location];
+          }
+        }
+        if (aiFilters.condition) {
+          // Map condition names to IDs (simplified mapping for now)
+          const conditionMap: { [key: string]: number } = {
+            New: 1,
+            Excellent: 2,
+            Good: 3,
+            Fair: 4,
+          };
+          if (conditionMap[aiFilters.condition]) {
+            searchFilters.conditionId = conditionMap[aiFilters.condition];
+          }
+        }
+        if (aiFilters.category) {
+          // Map category names to IDs (simplified mapping for now)
+          const categoryMap: { [key: string]: number } = {
+            Excavators: 1,
+            'Wheel Loaders': 2,
+            Cranes: 3,
+            Bulldozers: 4,
+            'Backhoe Loaders': 5,
+            'Skid Steers': 6,
+            Compactors: 7,
+            Generators: 8,
+          };
+          if (categoryMap[aiFilters.category]) {
+            searchFilters.categoryId = categoryMap[aiFilters.category];
+          }
+        }
+
+        // Automatically search with the enhanced query and filters
+        setTimeout(() => {
+          handleSearch(result.enhancedQuery, searchFilters);
+        }, 500);
+      } else {
+        // If enhancement fails, proceed with original query
+        handleSearch();
+      }
+    } catch (error: unknown) {
+      // If enhancement fails, proceed with original query
+      handleSearch();
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
+
+  const handleSearch = (queryOverride?: string, filtersOverride?: SearchFilters) => {
+    const finalQuery = queryOverride || searchQuery;
     if (onSearch) {
-      onSearch(searchQuery, searchType);
+      onSearch(finalQuery, searchType, filtersOverride);
     } else {
-      const slug = searchQuery ? createSlug(searchQuery) : '';
-      const targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
+      const slug = finalQuery ? createSlug(finalQuery) : '';
+      let targetPath = `/equipments/${searchType || 'rent'}${slug ? `/${slug}` : ''}`;
+
+      // Add filter parameters to URL if they exist
+      if (filtersOverride && Object.keys(filtersOverride).length > 0) {
+        const params = new URLSearchParams();
+        if (finalQuery) params.set('q', finalQuery);
+
+        // Add filter parameters
+        (
+          Object.entries(filtersOverride) as [keyof SearchFilters, number | string | undefined][]
+        ).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            params.set(String(key), String(value));
+          }
+        });
+
+        // Mark that filters came from AI enhancement
+        params.set('ai', '1');
+
+        targetPath += `?${params.toString()}`;
+      }
+
       router.push(targetPath);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      if (isAiMode && searchQuery.trim()) {
+        // In AI mode, enhance first then search
+        enhanceSearchWithAI();
+      } else {
+        // Normal search
+        handleSearch();
+      }
     }
   };
 
@@ -118,14 +253,28 @@ export default function SearchWithCategory({
         >
           {/* AI Toggle Button */}
           <Button
-            onClick={() => setIsAiMode(!isAiMode)}
+            onClick={() => {
+              if (isAiMode && searchQuery.trim()) {
+                // If AI mode is active and there's a query, enhance it
+                enhanceSearchWithAI();
+              } else {
+                // Otherwise, just toggle AI mode
+                setIsAiMode(!isAiMode);
+              }
+            }}
+            disabled={isEnhancing}
             className={`h-12 rounded-none px-4 text-sm font-semibold border-0 transition-all duration-500 ${
               isAiMode
                 ? `${currentMode.aiButton} text-white shadow-lg`
                 : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-r border-gray-300'
             }`}
           >
-            {isAiMode ? (
+            {isEnhancing ? (
+              <>
+                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
+                AI
+              </>
+            ) : isAiMode ? (
               <>
                 <Zap className='h-4 w-4 mr-2 animate-pulse' />
                 AI
@@ -144,7 +293,10 @@ export default function SearchWithCategory({
               id={id}
               type='text'
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={e => {
+                setSearchQuery(e.target.value);
+                setIsEnhanced(false); // Reset enhanced state when user types
+              }}
               onKeyPress={handleKeyPress}
               placeholder={
                 isAiMode
@@ -171,6 +323,13 @@ export default function SearchWithCategory({
                   : 'bg-white placeholder:text-gray-400 text-gray-700'
               }`}
             />
+            {/* Enhanced query indicator */}
+            {isEnhanced && (
+              <div className='absolute top-2 right-2 flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium'>
+                <Sparkles className='h-3 w-3' />
+                AI Enhanced
+              </div>
+            )}
             {isAiMode && (
               <div className='absolute inset-0 pointer-events-none'>
                 <div
@@ -187,17 +346,48 @@ export default function SearchWithCategory({
           {/* Search button */}
           <Button
             type='submit'
-            onClick={handleSearch}
+            onClick={() => {
+              if (isAiMode && searchQuery.trim()) {
+                // In AI mode, enhance first then search
+                enhanceSearchWithAI();
+              } else {
+                // Normal search
+                handleSearch();
+              }
+            }}
+            disabled={isEnhancing}
             className={`h-12 rounded-none px-6 text-sm font-semibold border-0 transition-all duration-500 ${
               isAiMode
                 ? `${currentMode.aiButton} text-white shadow-lg`
                 : 'bg-gray-900 hover:bg-gray-800 text-white'
             }`}
           >
-            <Search className='h-4 w-4 mr-2' />
-            {isAiMode ? 'Ask AI' : 'Search'}
+            {isEnhancing ? (
+              <>
+                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
+                Enhancing...
+              </>
+            ) : (
+              <>
+                <Search className='h-4 w-4 mr-2' />
+                {isAiMode ? 'Ask AI' : 'Search'}
+              </>
+            )}
           </Button>
+
+          {/* Enhanced query search button */}
+          {isEnhanced && (
+            <Button
+              onClick={() => handleSearch()}
+              className='h-12 rounded-none px-4 text-sm font-semibold border-0 bg-green-600 hover:bg-green-700 text-white shadow-lg transition-all duration-300'
+            >
+              <Search className='h-4 w-4 mr-2' />
+              Search Enhanced
+            </Button>
+          )}
         </div>
+
+        {/* Suggestion chips removed per request */}
       </div>
     </div>
   );

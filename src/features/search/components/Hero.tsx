@@ -48,9 +48,19 @@ const Hero = memo(
     }, []);
 
     const handleSearch = useCallback(
-      (query: string, searchType: string) => {
+      (query: string, searchType: string, filters?: Record<string, string | number | boolean>) => {
         const params = new URLSearchParams();
         if (websiteMode === 'agricultural') params.set('mode', 'agricultural');
+
+        // If AI provided filters, include them and set an ai flag
+        if (filters && Object.keys(filters).length > 0) {
+          Object.entries(filters).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+              params.set(key, String(value));
+            }
+          });
+          params.set('ai', '1');
+        }
 
         const slug = query
           .toLowerCase()
@@ -174,6 +184,18 @@ const Hero = memo(
             <div className='search-hero max-w-5xl mx-auto'>
               {/* Integrated Search Component with Equipment Type Selection */}
               <SearchWithCategory onSearch={handleSearch} websiteMode={websiteMode} />
+
+              {/* AI Map Search CTA */}
+              <div className='mt-4 flex items-center justify-center gap-3'>
+                <Button
+                  variant='secondary'
+                  className='bg-white/80 backdrop-blur-md hover:bg-white text-gray-800 border border-white/30 shadow-sm rounded-full px-4 py-2'
+                  onClick={() => router.push('/ai-map-search')}
+                >
+                  <MapPin className='h-4 w-4 mr-2 text-orange-500' />
+                  Try AI Map Search
+                </Button>
+              </div>
             </div>
           </div>
         </div>

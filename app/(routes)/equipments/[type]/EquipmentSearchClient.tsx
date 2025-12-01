@@ -34,6 +34,10 @@ interface EquipmentSearchClientProps {
     priceMin?: string;
     priceMax?: string;
     page?: string;
+    categoryId?: string;
+    cityId?: string;
+    conditionId?: string;
+    ai?: string;
   };
   initialCategoryId?: number;
   categoriesMap?: Record<string, number>;
@@ -109,10 +113,13 @@ export default function EquipmentSearchClient({
     sort: getSortValue(sortBy),
     priceMin: searchParams.priceMin ? parseFloat(searchParams.priceMin) : undefined,
     priceMax: searchParams.priceMax ? parseFloat(searchParams.priceMax) : undefined,
-    categoryId:
-      selectedCategory !== 'All Categories'
+    categoryId: searchParams.categoryId
+      ? parseInt(searchParams.categoryId)
+      : selectedCategory !== 'All Categories'
         ? (categoryMapState && categoryMapState[selectedCategory]) || initialCategoryId
         : undefined,
+    cityId: searchParams.cityId ? parseInt(searchParams.cityId) : undefined,
+    conditionId: searchParams.conditionId ? parseInt(searchParams.conditionId) : undefined,
     // cityId: selectedLocation !== 'All Locations' ? getCityId(selectedLocation) : undefined,
     // conditionId: selectedCondition !== 'All Conditions' ? getConditionId(selectedCondition) : undefined,
   };
@@ -392,6 +399,71 @@ export default function EquipmentSearchClient({
                 </div>
               </div>
             </div>
+
+            {/* Active Filter Chips */}
+            {(searchFilters.priceMin ||
+              searchFilters.priceMax ||
+              searchFilters.categoryId ||
+              searchFilters.cityId ||
+              searchFilters.conditionId) && (
+              <div className='mb-6 flex flex-wrap items-center gap-2'>
+                {searchFilters.priceMin && (
+                  <Badge
+                    variant='secondary'
+                    className='bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg'
+                  >
+                    Price ≥ {searchFilters.priceMin}
+                    {searchParams.ai === '1' && (
+                      <span className='ml-2 text-[10px] text-orange-600'>AI</span>
+                    )}
+                  </Badge>
+                )}
+                {searchFilters.priceMax && (
+                  <Badge
+                    variant='secondary'
+                    className='bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg'
+                  >
+                    Price ≤ {searchFilters.priceMax}
+                    {searchParams.ai === '1' && (
+                      <span className='ml-2 text-[10px] text-orange-600'>AI</span>
+                    )}
+                  </Badge>
+                )}
+                {searchFilters.categoryId && (
+                  <Badge
+                    variant='secondary'
+                    className='bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg'
+                  >
+                    Category ID: {searchFilters.categoryId}
+                    {searchParams.ai === '1' && (
+                      <span className='ml-2 text-[10px] text-[10px] text-orange-600'>AI</span>
+                    )}
+                  </Badge>
+                )}
+                {searchFilters.cityId && (
+                  <Badge
+                    variant='secondary'
+                    className='bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg'
+                  >
+                    City ID: {searchFilters.cityId}
+                    {searchParams.ai === '1' && (
+                      <span className='ml-2 text-[10px] text-orange-600'>AI</span>
+                    )}
+                  </Badge>
+                )}
+                {searchFilters.conditionId && (
+                  <Badge
+                    variant='secondary'
+                    className='bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg'
+                  >
+                    Condition ID: {searchFilters.conditionId}
+                    {searchParams.ai === '1' && (
+                      <span className='ml-2 text-[10px] text-orange-600'>AI</span>
+                    )}
+                  </Badge>
+                )}
+              </div>
+            )}
 
             {/* Equipment Grid/List */}
             {isLoading ? (

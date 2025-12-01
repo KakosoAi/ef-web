@@ -38,8 +38,8 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
 
   // Derive initial label from static category names to avoid build-time fetch
   const categorySlug = category.toLowerCase();
-  const initialCategoryLabel: string | undefined = CATEGORY_NAMES.find(
-    name => createSlug(name) === categorySlug
+  const slugVariants = Array.from(
+    new Set([categorySlug, categorySlug.replace(/s$/, ''), categorySlug.replace(/-es$/, '')])
   );
 
   // Resolve category id and build categories map on the server for SSR
@@ -59,18 +59,16 @@ export default async function EquipmentBrandsCategoryPage({ params, searchParams
     // ignore, fallback to client-side categories fetch
   }
 
-  // Build initial search params for server-side fetching of results
-  const typeForSearch = type === 'tools' ? 'rent' : type;
-  const initialSearchParams: SearchQueryParams = {
-    type: typeForSearch,
-    categoryId: initialCategoryId,
-    page: 1,
-    limit: 20,
-    sort: 'recent',
-    searchText: resolvedSearchParams.q || undefined,
-    priceMin: resolvedSearchParams.priceMin ? parseFloat(resolvedSearchParams.priceMin) : undefined,
-    priceMax: resolvedSearchParams.priceMax ? parseFloat(resolvedSearchParams.priceMax) : undefined,
-  };
+  if (!error && Array.isArray(categories)) {
+    // Build mapping of name -> id
+    categoriesMap = Object.fromEntries(
+      categories.map((c: { id: number; name: string }) => [c.name, c.id])
+    );
+
+    // Find matching category by slug of name
+    const matched = categories.find((c: { id: number; name: string }) =>
+      slugVariants.includes(createSlug(c.name))
+    );
 
   let initialResults: SearchResponse | undefined = undefined;
   try {

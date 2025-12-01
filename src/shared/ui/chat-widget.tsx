@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { Send, Bot, Paperclip, Mic, CornerDownLeft } from 'lucide-react';
+import { Send, Bot, Mic, CornerDownLeft } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from '@/shared/ui/chat-bubble';
 import { ChatInput } from '@/shared/ui/chat-input';
@@ -22,17 +22,7 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      content: 'Hello! How can I help you today?',
-      sender: 'ai',
-    },
-    {
-      id: 2,
-      content: 'I have a question about the equipment.',
-      sender: 'user',
-    },
-    {
-      id: 3,
-      content: "Sure! I'd be happy to help. What would you like to know about our equipment?",
+      content: 'Hello! How can I help you with our equipment today?',
       sender: 'ai',
     },
   ]);
@@ -40,33 +30,71 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!input.trim() || isLoading) return;
 
+      // Create a synthetic form event
+      const syntheticEvent = {
+        preventDefault: () => {},
+      } as FormEvent;
+
+      handleSubmit(syntheticEvent);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = input.trim();
     setMessages(prev => [
       ...prev,
       {
         id: prev.length + 1,
-        content: input,
+        content: userMessage,
         sender: 'user',
       },
     ]);
     setInput('');
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/ai/site-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const data = await response.json();
+
       setMessages(prev => [
         ...prev,
         {
           id: prev.length + 1,
-          content:
-            "Thank you for your question! I'm here to help you find the right equipment for your needs.",
+          content: data.reply || "I'm sorry, I couldn't process your request right now.",
           sender: 'ai',
         },
       ]);
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          content: "I'm sorry, I'm having trouble connecting right now. Please try again later.",
+          sender: 'ai',
+        },
+      ]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleAttachFile = () => {
@@ -74,7 +102,75 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
   };
 
   const handleMicrophoneClick = () => {
-    // Voice input functionality would go here
+    try {
+      const speechApi = window as unknown as {
+        SpeechRecognition?: new () => {
+          lang: string;
+          interimResults: boolean;
+          continuous: boolean;
+          onresult: (event: {
+            resultIndex: number;
+            results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+          }) => void;
+          onerror: (e: unknown) => void;
+          onend: () => void;
+          start: () => void;
+        };
+        webkitSpeechRecognition?: new () => {
+          lang: string;
+          interimResults: boolean;
+          continuous: boolean;
+          onresult: (event: {
+            resultIndex: number;
+            results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+          }) => void;
+          onerror: (e: unknown) => void;
+          onend: () => void;
+          start: () => void;
+        };
+      };
+      const SpeechRecognition = speechApi.SpeechRecognition || speechApi.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Voice input is not supported in this browser. Please use Chrome.');
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      let finalTranscript = '';
+
+      recognition.onresult = (event: {
+        resultIndex: number;
+        results: Array<{ isFinal: boolean; 0: { transcript: string } }>;
+      }) => {
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+        // Update input with interim or final transcript
+        setInput(finalTranscript || interimTranscript);
+      };
+
+      recognition.onerror = (e: unknown) => {
+        alert('Voice recognition error. Please check microphone permissions.');
+      };
+
+      recognition.onend = () => {
+        // Keep final transcript in the input; user can press Send
+      };
+
+      recognition.start();
+    } catch (err: unknown) {
+      alert('Unable to start voice input.');
+    }
   };
 
   return (
@@ -130,15 +226,12 @@ export function ChatWidget({ websiteMode = 'general' }: ChatWidgetProps) {
           <ChatInput
             value={input}
             onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder='Type your message...'
             className='min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0'
           />
           <div className='flex items-center p-3 pt-0 justify-between'>
             <div className='flex'>
-              <Button variant='ghost' size='icon' type='button' onClick={handleAttachFile}>
-                <Paperclip className='size-4' />
-              </Button>
-
               <Button variant='ghost' size='icon' type='button' onClick={handleMicrophoneClick}>
                 <Mic className='size-4' />
               </Button>

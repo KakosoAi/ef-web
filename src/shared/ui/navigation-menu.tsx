@@ -4,6 +4,7 @@ import { ArrowRightIcon, ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '@/shared/lib/utils';
 import { GridCard } from '@/shared/ui/grid-card';
+import Link from 'next/link';
 
 type NavItemType = {
   title: string;
@@ -174,17 +175,19 @@ function NavGridCard({
 }) {
   return (
     <NavigationMenuPrimitive.Link asChild>
-      <GridCard {...props}>
-        {link.icon && <link.icon className='text-foreground/80 relative size-4' />}
-        <div className='relative'>
-          <span className='text-foreground/80 text-xs font-medium'>{link.title}</span>
-          {link.description && (
-            <p className='text-muted-foreground mt-1 text-xs leading-tight line-clamp-2'>
-              {link.description}
-            </p>
-          )}
-        </div>
-      </GridCard>
+      <Link href={link.href} className='block'>
+        <GridCard {...props}>
+          {link.icon && <link.icon className='text-foreground/80 relative size-4' />}
+          <div className='relative'>
+            <span className='text-foreground/80 text-xs font-medium'>{link.title}</span>
+            {link.description && (
+              <p className='text-muted-foreground mt-1 text-xs leading-tight line-clamp-2'>
+                {link.description}
+              </p>
+            )}
+          </div>
+        </GridCard>
+      </Link>
     </NavigationMenuPrimitive.Link>
   );
 }

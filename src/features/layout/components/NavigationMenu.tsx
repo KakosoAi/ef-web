@@ -16,6 +16,7 @@ import {
   Construction,
   Hammer,
   Star,
+  Newspaper,
 } from 'lucide-react';
 import {
   CaterpillarIcon,
@@ -60,43 +61,43 @@ const equipmentLinks: NavItemType[] = [
   // Categories
   {
     title: 'Crane',
-    href: '/equipments/buy?category=crane',
+    href: '/equipments/buy/brands/cranes',
     description: 'Tower cranes, mobile cranes, and lifting equipment',
     icon: Building2,
   },
   {
     title: 'Wheel Loader',
-    href: '/equipments/buy?category=wheel-loader',
+    href: '/equipments/buy/brands/wheel-loader',
     description: 'Heavy-duty wheel loaders for material handling',
     icon: Hammer,
   },
   {
     title: 'JCB Backhoe',
-    href: '/equipments/buy?category=jcb-backhoe',
+    href: '/equipments/buy/brands/jcb-backhoe',
     description: 'JCB backhoe loaders for construction',
     icon: Construction,
   },
   {
     title: 'Forklift',
-    href: '/equipments/buy?category=forklift',
+    href: '/equipments/buy/brands/forklift',
     description: 'Industrial forklifts and material handling equipment',
     icon: Truck,
   },
   {
     title: 'Tipper Truck',
-    href: '/equipments/buy?category=tipper-truck',
+    href: '/equipments/buy/brands/tipper-truck',
     description: 'Heavy-duty tipper trucks for transportation',
     icon: Truck,
   },
   {
     title: 'Boom Loader',
-    href: '/equipments/buy?category=boom-loader',
+    href: '/equipments/buy/brands/boom-loader',
     description: 'Boom loaders for lifting and loading operations',
     icon: Hammer,
   },
   {
     title: 'Motor Grader',
-    href: '/equipments/buy?category=motor-grader',
+    href: '/equipments/buy/brands/motor-grader',
     description: 'Motor graders for road construction and maintenance',
     icon: Construction,
   },
@@ -152,43 +153,43 @@ const equipmentLinks: NavItemType[] = [
   },
   {
     title: 'Attachments',
-    href: '/equipments/buy?category=attachments',
+    href: '/equipments/buy/brands/attachments',
     description: 'Equipment attachments and accessories',
     icon: Wrench,
   },
   {
     title: 'Spare Parts',
-    href: '/equipments/buy?category=spare-parts',
+    href: '/equipments/buy/brands/spare-parts',
     description: 'Genuine spare parts for all equipment',
     icon: Wrench,
   },
   {
     title: 'Lifting Equipment',
-    href: '/equipments/buy?category=lifting-equipment',
+    href: '/equipments/buy/brands/lifting-equipment',
     description: 'Cranes, hoists, and lifting solutions',
     icon: Building2,
   },
   {
     title: 'Excavators',
-    href: '/equipments/buy?category=excavators',
+    href: '/equipments/buy/brands/excavators',
     description: 'Heavy-duty excavators for construction and mining',
     icon: Construction,
   },
   {
     title: 'Generators',
-    href: '/equipments/buy?category=generators',
+    href: '/equipments/buy/brands/generators',
     description: 'Power generators and electrical equipment',
     icon: Construction,
   },
   {
     title: 'Trailers',
-    href: '/equipments/buy?category=trailers',
+    href: '/equipments/buy/brands/trailers',
     description: 'Heavy-duty trailers for transportation',
     icon: Truck,
   },
   {
     title: 'Cranes',
-    href: '/equipments/buy?category=cranes',
+    href: '/equipments/buy/brands/cranes',
     description: 'All types of cranes and lifting equipment',
     icon: Building2,
   },
@@ -1183,10 +1184,14 @@ function BrandsDropdown() {
 
       {/* Scrollable brand list */}
       <div className='max-h-[400px] overflow-y-auto'>
-        <div className='grid grid-cols-4 gap-2'>
+        <div className='grid grid-cols-4 gap-0'>
           {activeTab === 'rent'
-            ? rentBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)
-            : buyBrandLinks.map(link => <NavGridCard key={link.href} link={link} />)}
+            ? rentBrandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} className='px-1 py-1' />
+              ))
+            : buyBrandLinks.map(link => (
+                <NavGridCard key={link.href} link={link} className='px-1 py-1' />
+              ))}
         </div>
       </div>
     </div>
@@ -1229,36 +1234,36 @@ function DesktopMenu() {
           <NavigationMenuTrigger>Buy Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
-              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+              <ul className='grid gap-0 p-4 md:grid-cols-2 md:border-r'>
                 {equipmentLinks.slice(0, 7).map(link => (
                   <li key={link.href}>
-                    <NavGridCard link={link} />
+                    <NavGridCard link={link} className='px-1 py-1' />
                   </li>
                 ))}
               </ul>
-              <div className='p-6 space-y-6'>
+              <div className='p-4 space-y-4'>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Locations</h4>
+                  <div className='space-y-0.5'>
                     {equipmentLinks.slice(7, 14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>New Machines</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>New Machines</h4>
+                  <div className='space-y-0.5'>
                     {equipmentLinks.slice(14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
@@ -1272,36 +1277,36 @@ function DesktopMenu() {
           <NavigationMenuTrigger>Rent Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className='grid w-full md:w-[900px] md:grid-cols-[2fr_1fr]'>
-              <ul className='grid gap-3 p-6 md:grid-cols-2 md:border-r'>
+              <ul className='grid gap-0 p-4 md:grid-cols-2 md:border-r'>
                 {rentalLinks.slice(0, 7).map(link => (
                   <li key={link.href}>
-                    <NavGridCard link={link} />
+                    <NavGridCard link={link} className='px-1 py-1' />
                   </li>
                 ))}
               </ul>
-              <div className='p-6 space-y-6'>
+              <div className='p-4 space-y-4'>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Locations</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Locations</h4>
+                  <div className='space-y-0.5'>
                     {rentalLinks.slice(7, 14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className='text-sm font-semibold text-gray-900 mb-4'>Industries</h4>
-                  <div className='space-y-2'>
+                  <h4 className='text-sm font-semibold text-gray-900 mb-3'>Industries</h4>
+                  <div className='space-y-0.5'>
                     {rentalLinks.slice(14).map(link => (
                       <NavSmallItem
                         key={link.href}
                         item={link}
                         href={link.href}
-                        className='gap-x-2 py-2'
+                        className='gap-x-1 py-0.5'
                       />
                     ))}
                   </div>
@@ -1328,6 +1333,16 @@ function DesktopMenu() {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              href='/news'
+              className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50'
+            >
+              News
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenuPrimitive>
   );
@@ -1342,6 +1357,12 @@ function MobileNav() {
       href: '/inquiry-board',
       icon: Users,
       description: 'Browse equipment inquiries and requests',
+    },
+    {
+      title: 'News',
+      href: '/news',
+      icon: Newspaper,
+      description: 'Latest equipment guides and industry updates',
     },
     ...equipmentLinks,
     ...rentalLinks,

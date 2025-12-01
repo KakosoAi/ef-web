@@ -4,7 +4,7 @@ import { memo, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/shared/ui/button';
 import { RainbowButton } from '@/shared/ui/rainbow-borders-button';
-import { MapPin, Phone, User, Heart, ChevronDown, Bot, Sparkles } from 'lucide-react';
+import { MapPin, Phone, User, Heart, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { siteConfig, contactInfo } from '@/shared/constants';
 import { ToggleTheme } from '@/shared/ui/toggle-theme';
@@ -126,20 +126,6 @@ const Header = memo(() => {
 
           {/* User Actions */}
           <div className='flex items-center space-x-2'>
-            <Button
-              variant='outline'
-              size='sm'
-              className='hidden md:flex border-border text-foreground hover:bg-muted relative ai-glow'
-              asChild
-            >
-              <Link href='/ai-map-search'>
-                <div className='relative'>
-                  <Bot className='h-4 w-4 mr-2' />
-                  <Sparkles className='h-2.5 w-2.5 text-yellow-500 absolute -top-0.5 -right-0.5' />
-                </div>
-                AI Map Search
-              </Link>
-            </Button>
             <RainbowButton asChild>
               <Link href='/post-ad'>Post Now</Link>
             </RainbowButton>
