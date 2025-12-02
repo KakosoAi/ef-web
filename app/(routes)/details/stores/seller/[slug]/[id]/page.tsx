@@ -109,12 +109,12 @@ export default async function StoreDetailPage({ params }: PageProps) {
                   <dl className='mt-3 space-y-2'>
                     <div className='flex justify-between'>
                       <dt className='text-muted-foreground'>Status</dt>
-                      <dd>{store.isActive ? 'Active' : 'Inactive'}</dd>
+                      <dd>{store.isactive ? 'Active' : 'Inactive'}</dd>
                     </div>
-                    <div className='flex justify-between'>
+                    {/* <div className='flex justify-between'>
                       <dt className='text-muted-foreground'>Type</dt>
                       <dd>{store.storeType ?? '—'}</dd>
-                    </div>
+                    </div> */}
                     {typeof store.visits === 'number' ? (
                       <div className='flex justify-between'>
                         <dt className='text-muted-foreground'>Visits</dt>

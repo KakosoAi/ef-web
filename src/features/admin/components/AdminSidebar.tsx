@@ -32,6 +32,7 @@ import {
   Security,
   Notification,
   Integration,
+  Store,
 } from '@carbon/icons-react';
 import { UserRole } from '@/shared/types/roles';
 
@@ -254,6 +255,17 @@ function getSidebarContent(activeSection: string): SidebarContent {
             { icon: <Filter size={16} className='text-foreground' />, label: 'Filter tasks' },
           ],
         },
+        {
+          title: 'Management',
+          items: [
+            {
+              icon: <Store size={16} className='text-foreground' />,
+              label: 'Stores Management',
+              hasDropdown: true,
+              children: [{ label: 'All Stores', path: '/admin/stores' }],
+            },
+          ],
+        },
       ],
     },
     projects: {
@@ -468,7 +480,7 @@ function DetailSidebar({
   return (
     <aside
       className={`bg-background/80 backdrop-blur-md border-r border-border flex flex-col gap-4 items-start p-4 rounded-r-2xl transition-all duration-500 h-full ${
-        isCollapsed ? 'w-16 min-w-16 !px-0 justify-center' : 'w-80'
+        isCollapsed ? 'w-16 min-w-16 !px-0 justify-start pt-[12vh]' : 'w-80'
       }`}
       style={{ transitionTimingFunction: softSpringEasing }}
     >
