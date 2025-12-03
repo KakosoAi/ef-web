@@ -268,9 +268,39 @@ function getSidebarContent(activeSection: string): SidebarContent {
         },
       ],
     },
-    projects: {
-      title: 'Projects',
-      sections: [],
+    catalog: {
+      title: 'Catalog Management',
+      sections: [
+        {
+          title: 'Inventory',
+          items: [
+            {
+              icon: <Folder size={16} className='text-foreground' />,
+              label: 'Categories',
+              hasDropdown: true,
+              children: [
+                { label: 'All Categories', path: '/admin/catalog/categories' },
+                { label: 'Sub Categories', path: '/admin/catalog/sub-categories' },
+              ],
+            },
+            {
+              icon: <StarFilled size={16} className='text-foreground' />,
+              label: 'Brands & Models',
+              hasDropdown: true,
+              children: [
+                { label: 'Brands', path: '/admin/catalog/brands' },
+                { label: 'Models', path: '/admin/catalog/models' },
+              ],
+            },
+            {
+              icon: <SettingsIcon size={16} className='text-foreground' />,
+              label: 'Technical',
+              hasDropdown: true,
+              children: [{ label: 'Engines', path: '/admin/catalog/engines' }],
+            },
+          ],
+        },
+      ],
     },
     calendar: {
       title: 'Calendar',
@@ -343,7 +373,7 @@ function IconNavigation({
   const navItems = [
     { id: 'dashboard', icon: <Dashboard size={16} />, label: 'Dashboard' },
     { id: 'tasks', icon: <Task size={16} />, label: 'Tasks' },
-    { id: 'projects', icon: <Folder size={16} />, label: 'Projects' },
+    { id: 'catalog', icon: <Folder size={16} />, label: 'Catalog' },
     { id: 'calendar', icon: <CalendarIcon size={16} />, label: 'Calendar' },
     { id: 'teams', icon: <UserMultiple size={16} />, label: 'Teams' },
     { id: 'analytics', icon: <Analytics size={16} />, label: 'Analytics' },
