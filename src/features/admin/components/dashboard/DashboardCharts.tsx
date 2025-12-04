@@ -21,7 +21,7 @@ interface DashboardChartsProps {
 
 export function DashboardCharts({ data: initialData }: DashboardChartsProps) {
   const [data, setData] = useState(initialData);
-  const [range, setRange] = useState<DateRange>('1y');
+  const [range, setRange] = useState<DateRange>('5y');
   const [loading, setLoading] = useState(false);
 
   const handleRangeChange = async (newRange: DateRange) => {

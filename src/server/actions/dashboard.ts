@@ -39,7 +39,8 @@ export async function getAdsGrowthStats(
       groupBy = 'month';
       break;
     case '5y':
-      startDate.setFullYear(now.getFullYear() - 5);
+      // User requested fixed start date from Nov 2022
+      startDate.setTime(new Date('2022-11-01').getTime());
       groupBy = 'month';
       break;
     case '30d':
@@ -58,15 +59,33 @@ export async function getAdsGrowthStats(
 
     if (initialCountError) throw initialCountError;
 
-    // 2. Get ads created DURING the period
-    const { data: adsDates, error } = await supabase
-      .from('ads_with_all_joins')
-      .select('createdat')
-      .gte('createdat', startDate.toISOString())
-      .order('createdat', { ascending: true })
-      .limit(20000); // Increased limit for longer ranges and better accuracy
+    // 2. Get ads created DURING the period (with pagination to bypass limits)
+    let adsDates: { createdat: any }[] = [];
+    let page = 0;
+    const pageSize = 1000;
+    let hasMore = true;
 
-    if (error) throw error;
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('ads_with_all_joins')
+        .select('createdat')
+        .gte('createdat', startDate.toISOString())
+        .order('createdat', { ascending: true })
+        .range(page * pageSize, (page + 1) * pageSize - 1);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        adsDates = [...adsDates, ...data];
+        if (data.length < pageSize) hasMore = false;
+        page++;
+      } else {
+        hasMore = false;
+      }
+
+      // Safety cap at 100k records to prevent timeout
+      if (page * pageSize >= 100000) hasMore = false;
+    }
 
     const adsMap = new Map<string, number>();
 
@@ -166,9 +185,8 @@ export async function getDashboardStats(): Promise<DashboardStats> {
 
     if (recentAdsError) throw recentAdsError;
 
-    // 6. Get Ads Over Time (Default to 1 Year initially or keep 30d as summary)
-    // Let's keep the initial load as 1 Year to show meaningful data immediately
-    const adsOverTime = await getAdsGrowthStats('1y');
+    // 6. Get Ads Over Time (Default to 5 Year/All Time as per user request)
+    const adsOverTime = await getAdsGrowthStats('5y');
 
     return {
       totalAds: totalAds || 0,
