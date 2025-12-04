@@ -92,6 +92,7 @@ export function BrandDialog({ open, onOpenChange, brand }: BrandDialogProps) {
       }
     } catch (error) {
       toast.error('Something went wrong');
+      // eslint-disable-next-line no-console
       console.error(error);
     } finally {
       setIsPending(false);

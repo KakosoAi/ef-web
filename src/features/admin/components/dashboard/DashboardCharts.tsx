@@ -6,124 +6,100 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
+  TooltipProps,
   XAxis,
   YAxis,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { useState } from 'react';
 import { Button } from '@/shared/ui/button';
-import { Loader2 } from 'lucide-react';
-import { getAdsGrowthStats, DateRange } from '@/server/actions/dashboard';
+import { DateRange } from '@/server/actions/dashboard';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface DashboardChartsProps {
   data: { date: string; count: number }[];
 }
 
-export function DashboardCharts({ data: initialData }: DashboardChartsProps) {
-  const [data, setData] = useState(initialData);
-  const [range, setRange] = useState<DateRange>('5y');
-  const [loading, setLoading] = useState(false);
+export function DashboardCharts({ data }: DashboardChartsProps) {
+  const searchParams = useSearchParams();
+  const range = (searchParams.get('range') as DateRange) || '5y';
 
-  const handleRangeChange = async (newRange: DateRange) => {
-    if (newRange === range) return;
-
-    setRange(newRange);
-    setLoading(true);
-    try {
-      const newData = await getAdsGrowthStats(newRange);
-      setData(newData);
-    } catch (error) {
-      console.error('Failed to fetch chart data', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Determine which ranges to show.
+  // If current range is '30d' (from Header), we might want to show it or just let the buttons be inactive.
+  // We'll stick to the standard ranges in the chart controls.
 
   return (
-    <Card className='col-span-4 bg-card/40 backdrop-blur-md border-primary/10'>
-      <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle>Ads Growth</CardTitle>
-        <div className='flex items-center gap-1 bg-muted/30 p-1 rounded-lg'>
+    <Card className='col-span-4 bg-card/40 backdrop-blur-md border-primary/10 shadow-sm hover:shadow-md transition-shadow duration-300'>
+      <CardHeader className='flex flex-row items-center justify-between pb-2 border-b border-border/40 mb-4'>
+        <div className='space-y-1'>
+          <CardTitle className='text-lg font-medium'>Ads Growth</CardTitle>
+          <p className='text-xs text-muted-foreground'>Cumulative growth over time</p>
+        </div>
+        <div className='flex items-center gap-1 bg-muted/30 p-1 rounded-lg border border-border/40'>
           {(['6m', '1y', '2y', '5y'] as const).map(r => (
-            <Button
-              key={r}
-              variant={range === r ? 'secondary' : 'ghost'}
-              size='sm'
-              className={`h-7 px-3 text-xs ${range === r ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-              onClick={() => handleRangeChange(r)}
-              disabled={loading}
-            >
-              {r.toUpperCase()}
-            </Button>
+            <RangeButton key={r} range={r} currentRange={range} />
           ))}
         </div>
       </CardHeader>
-      <CardContent className='pl-2'>
-        <div className='h-[300px] w-full relative'>
-          {loading && (
-            <div className='absolute inset-0 z-10 flex items-center justify-center bg-background/20 backdrop-blur-[1px]'>
-              <Loader2 className='h-8 w-8 animate-spin text-primary' />
-            </div>
-          )}
+      <CardContent className='pl-0 pr-4 pb-4'>
+        <div className='h-[350px] w-full relative'>
           <ResponsiveContainer width='100%' height='100%'>
-            <AreaChart data={data}>
+            <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id='colorCount' x1='0' y1='0' x2='0' y2='1'>
-                  <stop offset='5%' stopColor='#8884d8' stopOpacity={0.8} />
-                  <stop offset='95%' stopColor='#8884d8' stopOpacity={0} />
+                  <stop offset='5%' stopColor='hsl(var(--primary))' stopOpacity={0.3} />
+                  <stop offset='95%' stopColor='hsl(var(--primary))' stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey='date'
                 stroke='#888888'
-                fontSize={12}
+                fontSize={11}
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={value => {
                   if (!value) return '';
                   const date = new Date(value);
-                  // Show Month Year for longer ranges, Month Day for shorter
                   if (range === '30d') {
                     return `${date.getMonth() + 1}/${date.getDate()}`;
                   }
                   return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
                 }}
-                minTickGap={30}
+                minTickGap={40}
+                dy={10}
               />
               <YAxis
                 stroke='#888888'
-                fontSize={12}
+                fontSize={11}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={value => `${value}`}
-              />
-              <CartesianGrid strokeDasharray='3 3' vertical={false} stroke='#333' opacity={0.2} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'rgba(0,0,0,0.8)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '8px',
-                  color: '#fff',
+                tickFormatter={value => {
+                  if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
+                  return `${value}`;
                 }}
-                labelFormatter={value => {
-                  const date = new Date(value);
-                  if (range === '30d') {
-                    return date.toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    });
-                  }
-                  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                dx={-10}
+              />
+              <CartesianGrid
+                strokeDasharray='3 3'
+                vertical={false}
+                stroke='hsl(var(--border))'
+                opacity={0.4}
+              />
+              <Tooltip
+                content={<CustomTooltip range={range} />}
+                cursor={{
+                  stroke: 'hsl(var(--muted-foreground))',
+                  strokeWidth: 1,
+                  strokeDasharray: '4 4',
                 }}
               />
               <Area
                 type='monotone'
                 dataKey='count'
-                stroke='#8884d8'
+                stroke='hsl(var(--primary))'
+                strokeWidth={2}
                 fillOpacity={1}
                 fill='url(#colorCount)'
-                animationDuration={500}
+                animationDuration={1000}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -131,4 +107,57 @@ export function DashboardCharts({ data: initialData }: DashboardChartsProps) {
       </CardContent>
     </Card>
   );
+}
+
+function RangeButton({ range, currentRange }: { range: DateRange; currentRange: DateRange }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleClick = () => {
+    if (range === currentRange) return;
+    const params = new URLSearchParams(searchParams);
+    params.set('range', range);
+    router.push(`?${params.toString()}`);
+  };
+
+  return (
+    <Button
+      variant={currentRange === range ? 'secondary' : 'ghost'}
+      size='sm'
+      className={`h-7 px-3 text-xs font-medium transition-all ${
+        currentRange === range
+          ? 'bg-background shadow-sm text-primary'
+          : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+      }`}
+      onClick={handleClick}
+    >
+      {range.toUpperCase()}
+    </Button>
+  );
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: any[];
+  label?: string | number;
+  range?: DateRange;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  if (active && payload && payload.length && label) {
+    return (
+      <div className='bg-background/95 backdrop-blur-sm border border-border/50 p-3 rounded-lg shadow-xl'>
+        <p className='text-xs text-muted-foreground mb-1'>
+          {new Date(label).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
+        <p className='text-sm font-bold text-primary'>{payload[0].value} Ads</p>
+      </div>
+    );
+  }
+  return null;
 }

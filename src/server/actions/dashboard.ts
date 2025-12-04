@@ -3,12 +3,23 @@
 import { getSupabaseAdminClient } from '@/server/lib/supabase-admin';
 import { unstable_noStore as noStore } from 'next/cache';
 
+export interface RecentAd {
+  id: number;
+  title: string;
+  price: number;
+  createdat: string;
+  created_at?: string;
+  status: string;
+  category_name: string;
+  [key: string]: unknown;
+}
+
 export interface DashboardStats {
   totalAds: number;
   activeAds: number;
   totalStores: number;
   totalInquiries: number;
-  recentAds: any[];
+  recentAds: RecentAd[];
   adsOverTime: { date: string; count: number }[];
   error?: string;
 }
@@ -60,7 +71,7 @@ export async function getAdsGrowthStats(
     if (initialCountError) throw initialCountError;
 
     // 2. Get ads created DURING the period (with pagination to bypass limits)
-    let adsDates: { createdat: any }[] = [];
+    let adsDates: { createdat: string }[] = [];
     let page = 0;
     const pageSize = 1000;
     let hasMore = true;
@@ -136,12 +147,13 @@ export async function getAdsGrowthStats(
         return { date, count: runningTotal };
       });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching ads growth stats:', error);
     return [];
   }
 }
 
-export async function getDashboardStats(): Promise<DashboardStats> {
+export async function getDashboardStats(range: DateRange = '5y'): Promise<DashboardStats> {
   noStore(); // Ensure we get fresh data
   const supabase = getSupabaseAdminClient();
 
@@ -185,8 +197,8 @@ export async function getDashboardStats(): Promise<DashboardStats> {
 
     if (recentAdsError) throw recentAdsError;
 
-    // 6. Get Ads Over Time (Default to 5 Year/All Time as per user request)
-    const adsOverTime = await getAdsGrowthStats('5y');
+    // 6. Get Ads Over Time (Use provided range or default)
+    const adsOverTime = await getAdsGrowthStats(range);
 
     return {
       totalAds: totalAds || 0,
@@ -197,12 +209,8 @@ export async function getDashboardStats(): Promise<DashboardStats> {
       adsOverTime,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching dashboard stats:', error);
-    if (error instanceof Error) {
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
-    }
-    // Return empty stats on error to prevent page crash
     return {
       totalAds: 0,
       activeAds: 0,
