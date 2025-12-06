@@ -36,11 +36,11 @@ export default function SearchWithCategory({
   const modeStyles = {
     general: {
       aiBackground:
-        'bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 border-2 border-orange-300',
+        'bg-gradient-to-r from-blue-50 via-indigo-50 to-violet-50 border-2 border-blue-300',
       aiButton:
-        'bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 hover:from-orange-700 hover:via-orange-600 hover:to-orange-500',
-      aiText: 'text-orange-700',
-      aiPlaceholder: 'placeholder:text-orange-400',
+        'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 hover:from-blue-700 hover:via-blue-600 hover:to-blue-500',
+      aiText: 'text-blue-700',
+      aiPlaceholder: 'placeholder:text-blue-400',
       aiGlow: 'ai-glow',
     },
     agricultural: {
@@ -198,45 +198,35 @@ export default function SearchWithCategory({
   };
 
   return (
-    <div className='mx-auto max-w-4xl mb-4 transition-all duration-500'>
+    <div className='max-w-4xl mb-4 transition-all duration-500'>
       <div
-        className={`relative transition-all duration-500 ease-in-out ${
+        className={`relative transition-all duration-500 ease-in-out bg-[#f4f4f5]/95 border border-white/30 p-3 rounded-[24px] shadow-xl ${
           isAiMode ? 'transform scale-105' : ''
         }`}
       >
         {/* Equipment Type Tabs */}
-        <div
-          className={`flex rounded-t-lg overflow-hidden transition-all duration-500 ${
-            isAiMode
-              ? `${currentMode.aiBackground}`
-              : 'bg-gray-50 border border-b-0 border-gray-300'
-          }`}
-        >
+        <div className='flex items-center gap-2 mb-3 px-1'>
           {[
             {
               key: 'buy',
-              label: websiteMode === 'agricultural' ? 'Buy Machinery' : 'Buy Equipment',
+              label: 'Buy',
             },
             {
               key: 'rent',
-              label: websiteMode === 'agricultural' ? 'Rent Machinery' : 'Rent Equipment',
+              label: 'Rent',
             },
             {
               key: 'tools',
-              label: websiteMode === 'agricultural' ? 'Rent Farm Tools' : 'Rent Tools',
+              label: 'Tools',
             },
           ].map(tab => (
             <button
               key={tab.key}
               onClick={() => setSearchType(tab.key)}
-              className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-300 ${
+              className={`px-5 py-1.5 text-sm font-medium rounded-full transition-all duration-300 ${
                 searchType === tab.key
-                  ? isAiMode
-                    ? `${currentMode.aiButton} text-white shadow-md`
-                    : 'bg-white text-gray-900 shadow-sm border-b-2 border-blue-500'
-                  : isAiMode
-                    ? `${currentMode.aiText} hover:bg-opacity-50`
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-gray-900 text-white shadow-md'
+                  : 'text-gray-700 hover:text-gray-900 hover:bg-white/20'
               }`}
             >
               {tab.label}
@@ -244,65 +234,49 @@ export default function SearchWithCategory({
           ))}
         </div>
 
-        <div
-          className={`flex rounded-b-lg overflow-hidden transition-all duration-500 ${
-            isAiMode
-              ? `${currentMode.aiGlow} shadow-2xl ${currentMode.aiBackground}`
-              : 'shadow-lg bg-white border border-t-0 border-gray-300'
-          }`}
-        >
-          {/* AI Toggle Button */}
-          <Button
-            onClick={() => {
-              if (isAiMode && searchQuery.trim()) {
-                // If AI mode is active and there's a query, enhance it
-                enhanceSearchWithAI();
-              } else {
-                // Otherwise, just toggle AI mode
-                setIsAiMode(!isAiMode);
-              }
-            }}
-            disabled={isEnhancing}
-            className={`h-12 rounded-none px-4 text-sm font-semibold border-0 transition-all duration-500 ${
-              isAiMode
-                ? `${currentMode.aiButton} text-white shadow-lg`
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-r border-gray-300'
-            }`}
-          >
-            {isEnhancing ? (
-              <>
-                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
-                AI
-              </>
-            ) : isAiMode ? (
-              <>
-                <Zap className='h-4 w-4 mr-2 animate-pulse' />
-                AI
-              </>
-            ) : (
-              <>
-                <Sparkles className='h-4 w-4 mr-2' />
-                AI
-              </>
-            )}
-          </Button>
+        <div className='relative'>
+          {/* AI Toggle Button - Integrated inside Input */}
+          <div className='absolute left-2 top-1/2 -translate-y-1/2 z-10'>
+            <Button
+              variant='ghost'
+              onClick={() => {
+                if (isAiMode && searchQuery.trim()) {
+                  enhanceSearchWithAI();
+                } else {
+                  setIsAiMode(!isAiMode);
+                }
+              }}
+              disabled={isEnhancing}
+              className={`h-10 w-10 rounded-full p-0 hover:bg-gray-100 ${
+                isAiMode ? 'text-blue-500' : 'text-gray-400'
+              }`}
+            >
+              {isEnhancing ? (
+                <Loader2 className='h-5 w-5 animate-spin' />
+              ) : isAiMode ? (
+                <Zap className='h-5 w-5 animate-pulse' />
+              ) : (
+                <Sparkles className='h-5 w-5' />
+              )}
+            </Button>
+          </div>
 
           {/* Search input */}
-          <div className='flex-1 relative'>
+          <div className='relative w-full'>
             <Input
               id={id}
               type='text'
               value={searchQuery}
               onChange={e => {
                 setSearchQuery(e.target.value);
-                setIsEnhanced(false); // Reset enhanced state when user types
+                setIsEnhanced(false);
               }}
               onKeyPress={handleKeyPress}
               placeholder={
                 isAiMode
                   ? websiteMode === 'agricultural'
-                    ? 'Ask AI: "Find tractors under $80k" or "Best harvesters for wheat farming"...'
-                    : 'Ask AI: "Find excavators under $50k" or "Best cranes for construction"...'
+                    ? 'Ask AI: "Find tractors under $80k"...'
+                    : 'Ask AI: "Find excavators under $50k"...'
                   : `Search ${
                       searchType === 'buy'
                         ? websiteMode === 'agricultural'
@@ -317,77 +291,44 @@ export default function SearchWithCategory({
                             : 'tools to rent'
                     }...`
               }
-              className={`h-12 w-full rounded-none text-sm border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 font-normal px-4 transition-all duration-500 ${
+              className={`h-14 w-full rounded-full border-0 shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0 font-normal pl-12 pr-14 transition-all duration-500 text-base ${
                 isAiMode
-                  ? `bg-transparent ${currentMode.aiPlaceholder} text-gray-800`
+                  ? `bg-white ${currentMode.aiPlaceholder} text-gray-800 ring-2 ring-blue-200`
                   : 'bg-white placeholder:text-gray-400 text-gray-700'
               }`}
             />
-            {/* Enhanced query indicator */}
-            {isEnhanced && (
-              <div className='absolute top-2 right-2 flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium'>
-                <Sparkles className='h-3 w-3' />
-                AI Enhanced
-              </div>
-            )}
-            {isAiMode && (
-              <div className='absolute inset-0 pointer-events-none'>
-                <div
-                  className={`absolute top-0 left-0 w-full h-full ${
-                    websiteMode === 'agricultural'
-                      ? 'bg-gradient-to-r from-green-100/20 via-emerald-100/20 to-teal-100/20'
-                      : 'bg-gradient-to-r from-orange-100/20 via-amber-100/20 to-yellow-100/20'
-                  } animate-pulse`}
-                ></div>
-              </div>
-            )}
+
+            {/* Search button */}
+            <div className='absolute right-2 top-1/2 -translate-y-1/2'>
+              <Button
+                type='submit'
+                onClick={() => {
+                  if (isAiMode && searchQuery.trim()) {
+                    enhanceSearchWithAI();
+                  } else {
+                    handleSearch();
+                  }
+                }}
+                disabled={isEnhancing}
+                className={`h-10 w-10 rounded-full p-0 shadow-sm transition-all duration-300 ${
+                  isAiMode
+                    ? `${currentMode.aiButton} text-white shadow-lg`
+                    : 'bg-gray-900 hover:bg-gray-800 text-white'
+                }`}
+              >
+                <Search className='h-5 w-5' />
+              </Button>
+            </div>
           </div>
 
-          {/* Search button */}
-          <Button
-            type='submit'
-            onClick={() => {
-              if (isAiMode && searchQuery.trim()) {
-                // In AI mode, enhance first then search
-                enhanceSearchWithAI();
-              } else {
-                // Normal search
-                handleSearch();
-              }
-            }}
-            disabled={isEnhancing}
-            className={`h-12 rounded-none px-6 text-sm font-semibold border-0 transition-all duration-500 ${
-              isAiMode
-                ? `${currentMode.aiButton} text-white shadow-lg`
-                : 'bg-gray-900 hover:bg-gray-800 text-white'
-            }`}
-          >
-            {isEnhancing ? (
-              <>
-                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
-                Enhancing...
-              </>
-            ) : (
-              <>
-                <Search className='h-4 w-4 mr-2' />
-                {isAiMode ? 'Ask AI' : 'Search'}
-              </>
-            )}
-          </Button>
-
-          {/* Enhanced query search button */}
+          {/* Enhanced query indicator */}
           {isEnhanced && (
-            <Button
-              onClick={() => handleSearch()}
-              className='h-12 rounded-none px-4 text-sm font-semibold border-0 bg-green-600 hover:bg-green-700 text-white shadow-lg transition-all duration-300'
-            >
-              <Search className='h-4 w-4 mr-2' />
-              Search Enhanced
-            </Button>
+            <div className='absolute -bottom-8 left-4 flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium shadow-sm'>
+              <Sparkles className='h-3 w-3' />
+              AI Enhanced Search Active
+            </div>
           )}
         </div>
-
-        {/* Suggestion chips removed per request */}
       </div>
     </div>
   );

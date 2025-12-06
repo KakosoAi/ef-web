@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { Search, MapPin } from 'lucide-react';
+import { Search, MapPin, Plus, Headphones, MessageCircle } from 'lucide-react';
 import { equipmentCategories } from '@/shared/constants';
 import SearchWithCategory from '@/shared/ui/search-with-category';
 import { useWebsiteMode } from '@/shared/contexts/website-mode-context';
@@ -38,11 +38,11 @@ const Hero = memo(
       return {
         general: {
           image: '/assets/hero-equipment.jpg',
-          overlay: 'bg-gradient-to-b from-black/50 via-black/40 to-black/60',
+          overlay: 'bg-gradient-to-r from-[#050814]/90 via-[#101226]/60 to-transparent',
         },
         agricultural: {
           image: '/assets/hero-agriculture.jpg',
-          overlay: 'bg-gradient-to-b from-green-900/20 via-transparent to-green-900/30',
+          overlay: 'bg-gradient-to-r from-[#050814]/90 via-[#101226]/60 to-transparent',
         },
       };
     }, []);
@@ -79,7 +79,7 @@ const Hero = memo(
     const equipmentTypes = useMemo(() => equipmentCategories, []);
 
     return (
-      <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center justify-center overflow-hidden'>
+      <section className='relative min-h-[50vh] md:min-h-[55vh] flex items-center overflow-hidden'>
         {/* Professional Background Transition with Crossfade */}
         <div className='absolute inset-0'>
           {/* General Equipment Background */}
@@ -123,26 +123,27 @@ const Hero = memo(
 
         {/* Content */}
         <div className='relative z-10 container mx-auto px-6 md:px-8 py-8 md:py-12 lg:py-16'>
-          <div className='max-w-3xl mx-auto text-center'>
+          <div className='max-w-4xl mr-auto text-left'>
             {/* Mode Switcher */}
-            <div className='mb-6'>
-              <div className='inline-flex bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20 shadow-lg'>
+            <div className='mb-6 flex justify-start'>
+              <div className='relative inline-grid grid-cols-2 bg-white/20 backdrop-blur-md rounded-full p-1.5 border border-white/30 shadow-xl'>
+                <div
+                  className={`absolute top-1.5 bottom-1.5 rounded-full bg-gray-900 shadow-md transition-all duration-500 ease-in-out w-[calc(50%-0.375rem)] ${
+                    websiteMode === 'general' ? 'left-1.5' : 'left-[50%]'
+                  }`}
+                ></div>
                 <button
                   onClick={() => handleModeChange('general')}
-                  className={`px-4 py-2 text-sm font-medium rounded-full ${
-                    websiteMode === 'general'
-                      ? 'bg-white text-gray-900 shadow-md'
-                      : 'text-white hover:bg-white/15'
+                  className={`relative z-10 px-6 py-2 text-sm font-medium rounded-full text-center transition-colors duration-500 ${
+                    websiteMode === 'general' ? 'text-white' : 'text-white hover:text-white/80'
                   }`}
                 >
                   General Equipment
                 </button>
                 <button
                   onClick={() => handleModeChange('agricultural')}
-                  className={`px-4 py-2 text-sm font-medium rounded-full ${
-                    websiteMode === 'agricultural'
-                      ? 'bg-white text-gray-900 shadow-md'
-                      : 'text-white hover:bg-white/15'
+                  className={`relative z-10 px-6 py-2 text-sm font-medium rounded-full text-center transition-colors duration-500 ${
+                    websiteMode === 'agricultural' ? 'text-white' : 'text-white hover:text-white/80'
                   }`}
                 >
                   Agricultural Machinery
@@ -151,49 +152,58 @@ const Hero = memo(
             </div>
 
             {/* Hero Heading - Fixed Height Container */}
-            <div className='mb-12 md:mb-16'>
-              <div className='min-h-[120px] md:min-h-[140px] lg:min-h-[160px] flex items-center justify-center'>
+            <div className='mb-8'>
+              <div className='min-h-[100px] flex items-center'>
                 <h1
-                  className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight text-white`}
+                  className={`text-3xl md:text-5xl lg:text-6xl font-display font-bold leading-tight text-white`}
                 >
                   <span className='block'>
-                    Middle East&apos;s{' '}
-                    <span
-                      className={
-                        websiteMode === 'agricultural' ? 'text-green-400' : 'text-yellow-400'
-                      }
-                    >
-                      #1
-                    </span>
+                    Middle East&apos;s <span className='text-[#3b82f6]'>#1</span>
                   </span>
-                  <span className='block'>
-                    <span
-                      className={websiteMode === 'agricultural' ? 'text-green-400' : 'text-white'}
-                    >
-                      {websiteMode === 'agricultural'
-                        ? 'Agricultural Machinery'
-                        : 'Heavy Equipment'}
-                    </span>{' '}
-                    Marketplace
-                  </span>
+                  <span className='block'>Heavy Equipment</span>
+                  <span className='block'>Marketplace</span>
                 </h1>
               </div>
             </div>
 
             {/* Search Section */}
-            <div className='search-hero max-w-5xl mx-auto'>
+            <div className='search-hero max-w-3xl'>
               {/* Integrated Search Component with Equipment Type Selection */}
               <SearchWithCategory onSearch={handleSearch} websiteMode={websiteMode} />
 
-              {/* AI Map Search CTA */}
-              <div className='mt-4 flex items-center justify-center gap-3'>
+              {/* Action Buttons */}
+              <div className='mt-6 flex flex-wrap items-center gap-3'>
                 <Button
                   variant='secondary'
-                  className='bg-white/80 backdrop-blur-md hover:bg-white text-gray-800 border border-white/30 shadow-sm rounded-full px-4 py-2'
+                  className='bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 shadow-sm rounded-full px-4 py-2 h-auto'
+                  onClick={() => router.push('/post-ad')}
+                >
+                  <Plus className='h-4 w-4 mr-2' />
+                  Post Equipment
+                </Button>
+                <Button
+                  variant='secondary'
+                  className='bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 shadow-sm rounded-full px-4 py-2 h-auto'
+                  onClick={() => router.push('/contact')}
+                >
+                  <Headphones className='h-4 w-4 mr-2' />
+                  Contact Support
+                </Button>
+                <Button
+                  variant='secondary'
+                  className='bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 shadow-sm rounded-full px-4 py-2 h-auto'
+                  onClick={() => {}}
+                >
+                  <MessageCircle className='h-4 w-4 mr-2 text-white' />
+                  Live Chat
+                </Button>
+                <Button
+                  variant='secondary'
+                  className='bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 shadow-sm rounded-full px-4 py-2 h-auto'
                   onClick={() => router.push('/ai-map-search')}
                 >
-                  <MapPin className='h-4 w-4 mr-2 text-orange-500' />
-                  Try AI Map Search
+                  <MapPin className='h-4 w-4 mr-2 text-white' />
+                  AI Map Search
                 </Button>
               </div>
             </div>
